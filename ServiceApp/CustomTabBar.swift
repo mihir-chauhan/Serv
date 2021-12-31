@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTabBar: View {
-    @State private var selectedIndex: TabBarItem = .plus
+    @State private var selectedIndex: TabBarItem = .home
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
 //            Color.gray
@@ -18,9 +18,9 @@ struct CustomTabBar: View {
                 case .home:
                     HomeView()
                 case .schedule:
-                    HomeView()
+                    Schedule()
                 case .plus:
-                    MapView1()
+                    MapView()
                 case .socials:
                     Socials()
                 case .account:
@@ -31,35 +31,31 @@ struct CustomTabBar: View {
                 ForEach(TabBarItem.allCases, id: \.self) { icon in
                     Spacer()
                     Button(action: {
+                        withAnimation {
                         self.selectedIndex = icon
+                        }
                     }) {
                         if icon == .plus {
                             Image(systemName: "plus")
                                 .font(.system(size: 25))
                                 .foregroundColor(.white)
-
+                                .rotationEffect(Angle(degrees: self.selectedIndex == icon ? 45 : 0))
                                 .frame(width: 55, height: 55)
                                 .background(Color.blue)
                                 .cornerRadius(30)
                         }
                         else {
-                        Image(systemName: icon.icon)
-                            .font(.system(size: 25))
-                            .foregroundColor(self.selectedIndex == icon ? .black : Color(UIColor.lightGray))
+                            Image(systemName: icon.icon)
+                                .font(.system(size: 25))
+                                .foregroundColor(self.selectedIndex == icon ? .blue : Color(UIColor.gray))
+                                
                         }
                     }
                     Spacer()
                 }
-                
-//                .edgesIgnoringSafeArea(.bottom)
-//                .padding(.bottom, UIScreen.main.bounds.minY + 10)
             }
-//            .background(Color.white.opacity(1))
-            
-//    .background(CustomMaterialEffectBlur())
-            
         }
-        
+        .ignoresSafeArea(.keyboard)
     }
 }
 
@@ -70,5 +66,34 @@ struct CustomMaterialEffectBlur: UIViewRepresentable {
     }
     func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
         uiView.effect = UIBlurEffect(style: blurStyle)
+    }
+}
+
+enum TabBarItem: Int, CaseIterable {
+    case home = 0
+    case schedule
+    case plus
+    case socials
+    case account
+    
+    var icon: String {
+        switch self {
+            case .home: return "house"
+            case .schedule: return "calendar"
+            case .plus: return "plus"
+            case .socials: return "globe"
+            case .account: return "person"
+        
+        }
+    }
+    
+    var title: String {
+        switch self {
+            case .home: return "Home"
+            case .schedule: return "Schedule"
+            case .plus: return "Discover"
+            case .socials: return "Social"
+            case .account: return "Account"
+        }
     }
 }

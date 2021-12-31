@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var sheetObserver = SheetObserver()
     var body: some View {
-//        temp()
         CustomTabBar()
 //        EventDetailView()
-//        BottomTabBar()
 //        MapView1()
+            .environmentObject(sheetObserver)
         
     }
 }

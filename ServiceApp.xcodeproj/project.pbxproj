@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D155277EE7550045F06D /* PVSAProgressBar.swift */; };
+		B319D158277EE7880045F06D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D157277EE7880045F06D /* Schedule.swift */; };
+		B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D159277EE7A90045F06D /* SheetObserver.swift */; };
+		B319D15C277EE7C90045F06D /* TemplateCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D15B277EE7C90045F06D /* TemplateCoreData.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */; };
 		B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCBC277C5870004DEE5B /* ContentView.swift */; };
@@ -27,6 +31,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B319D155277EE7550045F06D /* PVSAProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVSAProgressBar.swift; sourceTree = "<group>"; };
+		B319D157277EE7880045F06D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		B319D159277EE7A90045F06D /* SheetObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetObserver.swift; sourceTree = "<group>"; };
+		B319D15B277EE7C90045F06D /* TemplateCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateCoreData.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B3E6FCB7277C5870004DEE5B /* ServiceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAppApp.swift; sourceTree = "<group>"; };
@@ -79,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */,
+				B319D159277EE7A90045F06D /* SheetObserver.swift */,
 				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
 				B3E6FCD0277C5991004DEE5B /* HomeView.swift */,
 				B3E6FCD2277C59B1004DEE5B /* MapHelpers.swift */,
@@ -86,8 +95,11 @@
 				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
 				B3E6FCDA277C5A21004DEE5B /* MapView.swift */,
 				B3E6FCDC277C5A2F004DEE5B /* Persistence.swift */,
+				B319D155277EE7550045F06D /* PVSAProgressBar.swift */,
 				B3E6FCDE277C5A43004DEE5B /* SampleData.swift */,
+				B319D157277EE7880045F06D /* Schedule.swift */,
 				B3E6FCE0277C5A53004DEE5B /* Socials.swift */,
+				B319D15B277EE7C90045F06D /* TemplateCoreData.swift */,
 				B3E6FCBC277C5870004DEE5B /* ContentView.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
 				B3E6FCCA277C5920004DEE5B /* BottomTabBar.swift */,
@@ -178,9 +190,13 @@
 			files = (
 				B3E6FCD5277C59E2004DEE5B /* MapListElements.swift in Sources */,
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,
+				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
+				B319D15C277EE7C90045F06D /* TemplateCoreData.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
+				B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
+				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
 				B3E6FCCD277C594A004DEE5B /* CustomTabBar.swift in Sources */,
 				B3E6FCCF277C5972004DEE5B /* EventDetailView.swift in Sources */,
 				B3E6FCD9277C5A0B004DEE5B /* MapListHalfSheet.swift in Sources */,

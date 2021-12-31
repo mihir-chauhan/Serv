@@ -7,25 +7,20 @@
 
 import SwiftUI
 
-enum SheetMode {
-    case quarter
-    case full
-    case half
-}
-
 struct HalfSheetModalView: View {
-    @Binding var sheetMode: SheetMode
+    @EnvironmentObject var sheetObserver: SheetObserver
     @State private var currentPosition: CGSize = .zero
     @State private var newPosition: CGSize = .zero
+    @State private var eventPresented: EventInformationModel = EventInformationModel()
     var body: some View {
         ZStack {
-            MapListHalfSheet(sheetMode: $sheetMode) {
+            MapListHalfSheet(sheetMode: $sheetObserver.sheetMode) {
                 VStack(alignment: .leading) {
-                    if self.sheetMode == .full {
-                        MapListElements(sheetMode: $sheetMode)
+                    if self.sheetObserver.sheetMode == .full {
+                        MapListElements(sheetMode: self.$sheetObserver.sheetMode, eventPresented: $eventPresented)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
-                    if self.sheetMode == .quarter {
+                    if self.sheetObserver.sheetMode == .quarter {
                         HStack {
                             Text("Events")
                                 .font(.system(size: 25))
@@ -33,23 +28,20 @@ struct HalfSheetModalView: View {
                                 .padding([.top], 10)
                             Spacer()
                             Button(action: {
-                                self.sheetMode = .full
+                                self.sheetObserver.toFullSheet()
                             }) {
                                 Image(systemName: "magnifyingglass")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20, height: 20)
                                     .foregroundColor(.blue)
-                                
-                                    
+  
                             }
                         }.padding()
                         Spacer()
                     }
-                    if self.sheetMode == .half {
-                        EventDetailView(data: EventInformationModel(name: "Lynbrook High School", category: "Environmental", coordinate: .init(latitude: 37.3006, longitude: -122.0047)), sheetMode: $sheetMode)
-                        
-                            
+                    if self.sheetObserver.sheetMode == .half {
+                        EventDetailView(data: self.eventPresented, sheetMode: self.$sheetObserver.sheetMode)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -57,18 +49,17 @@ struct HalfSheetModalView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                 
             }
-//
             .gesture(DragGesture()
                         .onChanged { value in
                             self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
                         }
                         .onEnded { value in
                             self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
-                            if sheetMode == .quarter && value.translation.height < -90 {
-                                sheetMode = .full
+                            if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
+                                self.sheetObserver.toFullSheet()
                             }
-                            if sheetMode == .full && value.translation.height > 100 {
-                                sheetMode = .quarter
+                            if self.sheetObserver.sheetMode == .full && value.translation.height > 100 {
+                                self.sheetObserver.toQuarterSheet()
                             }
                         })
         }
@@ -89,13 +80,12 @@ struct MapListHalfSheet<Content: View>: View {
         case .quarter:
             return UIScreen.main.bounds.height - 175
         case .half:
-            return UIScreen.main.bounds.height / 2
+            return UIScreen.main.bounds.height / 3
         case .full:
             return 50
         }
     }
     var body: some View {
-        
         content()
             .offset(y: calculateOffset())
             .animation(.spring())

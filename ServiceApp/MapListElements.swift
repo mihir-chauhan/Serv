@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct MapListElements: View {
-//    @State var detailView: EventInformationModel
     @Binding var sheetMode: SheetMode
-    @State var text = ""
-    
+    @State var searchTerm = ""
+    @Binding var eventPresented: EventInformationModel
 
     var body: some View {
         ZStack {
@@ -22,13 +21,13 @@ struct MapListElements: View {
                 .padding()
             HStack {
                 HStack {
-                    TextField("Search Events...", text: $text)
-                    if !text.isEmpty {
+                    TextField("Search Events...", text: $searchTerm)
+                    if !searchTerm.isEmpty {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(Color(.systemGray2))
                             .padding(.horizontal, 3)
                             .onTapGesture {
-                                self.text = ""
+                                self.searchTerm = ""
                             }
                     }
                 }.padding(10)
@@ -52,24 +51,50 @@ struct MapListElements: View {
                 }
             }.padding(.top, 10)
             .padding(.horizontal, 20)
-            
-            List(0..<pointsOfInterest.count, id: \.self) { event in
-                #warning("lead to detail view")
-                Button(action: {
-                    withAnimation(.spring()) {
-                        self.sheetMode = .half
-                        pointsOfInterest[event].enterDetailView.toggle()
-                    }
-                }) {
-                    Text(pointsOfInterest[event].name)
+            if self.searchTerm.isEmpty {
+                List(0..<pointsOfInterest.count, id: \.self) { event in
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            self.eventPresented = pointsOfInterest[event]
+                            self.sheetMode = .half
+                        }
+                    }) {
+                        ListCellView(event: pointsOfInterest[event])
                         
+                    }.padding(.vertical)
                 }.padding(.vertical)
-            }.padding(.vertical)
-            
+            }
+            else {
+                List(pointsOfInterest.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            self.eventPresented = event
+                            self.sheetMode = .half
+
+                        }
+                    }) {
+                        ListCellView(event: event)
+                        
+                    }.padding(.vertical)
+                }.padding(.vertical)
+            }
         }
             CloseButton(sheetMode: $sheetMode)
         }
     }
+}
+
+struct ListCellView: View {
+    var event: EventInformationModel
+    var body: some View {
+        HStack {
+            Text(event.name)
+            Spacer(minLength: 10)
+            Text("4.0 miles away")
+                .font(.caption)
+        }
+    }
+    
 }
 
 struct CloseButton: View {

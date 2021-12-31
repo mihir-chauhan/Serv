@@ -35,7 +35,30 @@ struct EventDetailView: View {
                     .foregroundColor(.gray)
                 //            use dateFormatter here
                 Text("\(data.time)")
-            }.padding()
+                ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    
+                        ForEach(0..<5, id: \.self) { img in
+                            RoundedRectangle(cornerRadius: 15)
+                                .frame(width: 135, height: 135)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+            }
+            HStack {
+                Spacer()
+                Button(action: {
+                    
+                }) {
+                Capsule()
+                    .frame(width: 135, height: 45)
+                    .foregroundColor(.blue)
+                    .overlay(Text("Add to Saved").foregroundColor(.white))
+                }
+            }
+            .padding(.vertical, 30)
+            .padding(.horizontal, 15)
             Spacer()
                 
             
@@ -56,3 +79,5 @@ struct EventInformationModel: Identifiable {
     
     var enterDetailView: Bool = false
 }
+
+
