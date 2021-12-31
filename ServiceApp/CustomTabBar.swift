@@ -27,7 +27,7 @@ struct CustomTabBar: View {
                     Account()
                 }
         
-            HStack(spacing: 0) {
+            HStack() {
                 ForEach(TabBarItem.allCases, id: \.self) { icon in
                     Spacer()
                     Button(action: {
@@ -53,7 +53,7 @@ struct CustomTabBar: View {
                     }
                     Spacer()
                 }
-            }
+            }.background(Color.white).padding(.top, 50)
         }
         .ignoresSafeArea(.keyboard)
     }
