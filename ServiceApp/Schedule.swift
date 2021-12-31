@@ -10,8 +10,17 @@ import SwiftUI
 struct Schedule: View {
     var body: some View {
         NavigationView {
-            Text("Schedule")
-                .navigationTitle("Schedule")
+            ScrollView {
+                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 1, 2022")
+                
+                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 3, 2022")
+                
+                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 5, 2022")
+                
+                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 7, 2022")
+
+            }
+            .navigationTitle("Schedule")
         }
     }
 }
