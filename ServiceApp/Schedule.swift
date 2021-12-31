@@ -20,6 +20,7 @@ struct Schedule: View {
                 ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 7, 2022")
 
             }
+            .padding(.bottom, 60)
             .navigationTitle("Schedule")
         }
     }

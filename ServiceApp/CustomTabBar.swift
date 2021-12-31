@@ -53,9 +53,12 @@ struct CustomTabBar: View {
                     }
                     Spacer()
                 }
-            }.background(Color.white).padding(.top, 50)
+            }.padding(.top, 10)
+                .padding(.bottom, 30)
+                .background(CustomMaterialEffectBlur())
         }
         .ignoresSafeArea(.keyboard)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
