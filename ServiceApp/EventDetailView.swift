@@ -11,6 +11,12 @@ import MapKit
 struct EventDetailView: View {
     var data: EventInformationModel = EventInformationModel()
     @Binding var sheetMode: SheetMode
+    var dateToString: String = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyy"
+        let stringDate = dateFormatter.string(from: Date())
+        return stringDate
+    }()
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -34,7 +40,7 @@ struct EventDetailView: View {
                     .font(.system(.headline))
                     .foregroundColor(.gray)
                 //            use dateFormatter here
-                Text("\(data.time)")
+                Text(self.dateToString)
                 ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     
@@ -45,6 +51,8 @@ struct EventDetailView: View {
                         }
                     }
                 }
+                Text(data.description)
+                    .font(.caption)
             }
             HStack {
                 Spacer()
