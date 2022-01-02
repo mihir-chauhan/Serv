@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Schedule: View {
     @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
+    @State private var eventDate = Date()
     var body: some View {
         NavigationView {
             ScrollView {
@@ -36,10 +37,43 @@ struct Schedule: View {
 
             }
             .padding(.bottom, 60)
-            .navigationTitle("Schedule")
+            .navigationTitle("Events Calendar")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ZStack {
+//                        DatePicker("Event Date", selection: $eventDate, in: Date()...)
+//                            .datePickerStyle(GraphicalDatePickerStyle())
+//                            .labelsHidden()
+                        Image(systemName: "calendar.day.timeline.right")
+//                            .resizable()
+//                            .userInteractionDisabled()
+                    }
+                }
+            }
         }
     }
 }
+
+struct Testing: ViewModifier {
+    func body(content: Content) -> some View {
+        SwiftUIWrapper { content }.allowsHitTesting(false)
+    }
+}
+
+extension View {
+    func userInteractionDisabled() -> some View {
+        self.modifier(Testing())
+    }
+}
+
+struct SwiftUIWrapper<T: View>: UIViewControllerRepresentable {
+    let content: () -> T
+    func makeUIViewController(context: Context) -> UIHostingController<T> {
+        UIHostingController(rootView: content())
+    }
+    func updateUIViewController(_ uiViewController: UIHostingController<T>, context: Context) {}
+}
+
 
 struct Schedule_Previews: PreviewProvider {
     static var previews: some View {
