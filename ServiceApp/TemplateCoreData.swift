@@ -12,7 +12,7 @@ struct TemplateCoreData: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \UserEvent.name, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
 
@@ -29,22 +29,24 @@ struct TemplateCoreData: View {
             EditButton()
             #endif
 
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
-            }
+            
+            Button(action: {addUserEvent(name: "", category: "", host: "", date: Date())}, label: {
+                Text("Button")
+            })
         }
     }
 
-    private func addItem() {
+    private func addUserEvent(name: String, category: String, host: String, date: Date) {
         withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            let newEvent = UserEvent(context: viewContext)
+            newEvent.name = name
+            newEvent.category = category
+            newEvent.host = host
+            newEvent.time = date
 
             do {
                 try viewContext.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }

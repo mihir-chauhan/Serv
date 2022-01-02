@@ -12,13 +12,26 @@ struct ScheduleCard: View {
     var category: String
     var title: String
     var host: String
-    
+    var time: Date
+    var dateToString: String = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyy"
+        let stringDate = dateFormatter.string(from: Date())
+        return stringDate
+    }()
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .medium
+        return formatter
+    }()
     var body: some View {
         VStack {
             // image can be removed later on if we dont want to have the host of the event add it
             Image(image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+                
             HStack {
                 VStack(alignment: .leading) {
                     Text(category)
@@ -29,9 +42,10 @@ struct ScheduleCard: View {
                         .fontWeight(.black)
                         .foregroundColor(.primary)
                         //.lineLimit(3) maybe we dont need it...maybe we dooo?
-                    Text(host)
+                    Text(time, formatter: dateFormatter)
                         .font(.caption)
                         .foregroundColor(.secondary)
+                    
                 }
                 .layoutPriority(100)
 
@@ -39,6 +53,13 @@ struct ScheduleCard: View {
             }
             .padding()
         }
+        .contextMenu(ContextMenu(menuItems: {
+            Button(action: { }) { Text("View") }
+            Button(action: { }) {
+                Text("Delete Event")
+                    .foregroundColor(.red)
+            }
+        }))
         .cornerRadius(10)
         .overlay(
             RoundedRectangle(cornerRadius: 10)

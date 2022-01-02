@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397A63D527810CFB002443CF /* CoreDataCRUD.swift */; };
 		B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D155277EE7550045F06D /* PVSAProgressBar.swift */; };
 		B319D158277EE7880045F06D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D157277EE7880045F06D /* Schedule.swift */; };
 		B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D159277EE7A90045F06D /* SheetObserver.swift */; };
-		B319D15C277EE7C90045F06D /* TemplateCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D15B277EE7C90045F06D /* TemplateCoreData.swift */; };
 		B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D15D277EF7030045F06D /* ScheduleCardView.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */; };
@@ -31,10 +31,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		397A63D527810CFB002443CF /* CoreDataCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCRUD.swift; sourceTree = "<group>"; };
 		B319D155277EE7550045F06D /* PVSAProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVSAProgressBar.swift; sourceTree = "<group>"; };
 		B319D157277EE7880045F06D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		B319D159277EE7A90045F06D /* SheetObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetObserver.swift; sourceTree = "<group>"; };
-		B319D15B277EE7C90045F06D /* TemplateCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateCoreData.swift; sourceTree = "<group>"; };
 		B319D15D277EF7030045F06D /* ScheduleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardView.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B3E6FCB7277C5870004DEE5B /* ServiceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,10 +66,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		397A63D727810DBA002443CF /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */,
+				B3E6FCBC277C5870004DEE5B /* ContentView.swift */,
+				B3E6FCCC277C594A004DEE5B /* CustomTabBar.swift */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		397A63D827810DDB002443CF /* HelperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				B319D155277EE7550045F06D /* PVSAProgressBar.swift */,
+				B319D159277EE7A90045F06D /* SheetObserver.swift */,
+				B3E6FCD2277C59B1004DEE5B /* MapHelpers.swift */,
+				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
+				397A63D527810CFB002443CF /* CoreDataCRUD.swift */,
+				B3E6FCDC277C5A2F004DEE5B /* Persistence.swift */,
+				B3E6FCDE277C5A43004DEE5B /* SampleData.swift */,
+			);
+			name = HelperClasses;
+			sourceTree = "<group>";
+		};
+		397A63D927810E24002443CF /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				B3E6FCDA277C5A21004DEE5B /* MapView.swift */,
+				B3E6FCD4277C59E2004DEE5B /* MapListElements.swift */,
+				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
 		B3E6FCAE277C5870004DEE5B = {
 			isa = PBXGroup;
 			children = (
-				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
 				B3E6FCB9277C5870004DEE5B /* ServiceApp */,
 				B3E6FCB8277C5870004DEE5B /* Products */,
 			);
@@ -86,24 +119,15 @@
 		B3E6FCB9277C5870004DEE5B /* ServiceApp */ = {
 			isa = PBXGroup;
 			children = (
-				B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */,
-				B319D159277EE7A90045F06D /* SheetObserver.swift */,
-				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
+				397A63D727810DBA002443CF /* Main */,
+				397A63D827810DDB002443CF /* HelperClasses */,
+				397A63D927810E24002443CF /* Map */,
 				B3E6FCD0277C5991004DEE5B /* HomeView.swift */,
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
-				B3E6FCD2277C59B1004DEE5B /* MapHelpers.swift */,
-				B3E6FCD4277C59E2004DEE5B /* MapListElements.swift */,
-				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
-				B3E6FCDA277C5A21004DEE5B /* MapView.swift */,
-				B3E6FCDC277C5A2F004DEE5B /* Persistence.swift */,
-				B319D155277EE7550045F06D /* PVSAProgressBar.swift */,
-				B3E6FCDE277C5A43004DEE5B /* SampleData.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
 				B3E6FCE0277C5A53004DEE5B /* Socials.swift */,
-				B319D15B277EE7C90045F06D /* TemplateCoreData.swift */,
-				B3E6FCBC277C5870004DEE5B /* ContentView.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
-				B3E6FCCC277C594A004DEE5B /* CustomTabBar.swift */,
+				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
 			);
@@ -190,8 +214,8 @@
 			files = (
 				B3E6FCD5277C59E2004DEE5B /* MapListElements.swift in Sources */,
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,
+				397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */,
 				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
-				B319D15C277EE7C90045F06D /* TemplateCoreData.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
 				B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */,
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
@@ -337,7 +361,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
-				DEVELOPMENT_TEAM = B2278J6LL2;
+				DEVELOPMENT_TEAM = 347C6X6X6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceApp/Info.plist;
@@ -346,7 +370,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -377,7 +401,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

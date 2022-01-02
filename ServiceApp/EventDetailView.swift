@@ -9,7 +9,9 @@ import SwiftUI
 import MapKit
 
 struct EventDetailView: View {
+    @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
     var data: EventInformationModel = EventInformationModel()
+    var coreDataCRUD = CoreDataCRUD()
     @Binding var sheetMode: SheetMode
     var dateToString: String = {
         let dateFormatter = DateFormatter()
@@ -17,6 +19,14 @@ struct EventDetailView: View {
         let stringDate = dateFormatter.string(from: Date())
         return stringDate
     }()
+    func checkForEventAdded(itemName: String) -> Bool {
+        for i in self.fetchedResult {
+            if i.name == itemName {
+                return true
+            }
+        }
+        return false
+    }
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -57,13 +67,15 @@ struct EventDetailView: View {
             HStack {
                 Spacer()
                 Button(action: {
+                    CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: "Host: Fremont Environmental Services Division", time: data.time)
                     
+                    self.sheetMode = .quarter
                 }) {
                 Capsule()
                     .frame(width: 135, height: 45)
-                    .foregroundColor(.blue)
+                    .foregroundColor(checkForEventAdded(itemName: data.name) ? .gray : .blue)
                     .overlay(Text("Add to Saved").foregroundColor(.white))
-                }
+                }.disabled(checkForEventAdded(itemName: data.name) ? true : false)
             }
             .padding(.vertical, 30)
             .padding(.horizontal, 15)
@@ -82,8 +94,8 @@ struct EventInformationModel: Identifiable {
     var name: String = "Event Name"
     var category: String = ""
     var time: Date = Date()
-    var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     
     var enterDetailView: Bool = false
 }
