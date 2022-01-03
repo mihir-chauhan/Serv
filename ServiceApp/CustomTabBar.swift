@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomTabBar: View {
     @State private var selectedIndex: TabBarItem = .home
+    @Namespace var animation
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
 //            Color.gray
@@ -16,7 +17,7 @@ struct CustomTabBar: View {
 //            ZStack {
                 switch selectedIndex {
                 case .home:
-                    HomeView()
+                    HomeView(animation: animation)
                 case .schedule:
                     Schedule()
                 case .plus:

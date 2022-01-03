@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct HomeView: View {
+    var animation: Namespace.ID
+    @State var toggleHeroAnimation: Bool = false
     var body: some View {
-        NavigationView {
+        ZStack {
+            if !toggleHeroAnimation {
             ScrollView {
                 VStack(alignment: .trailing) {
                     PVSAProgressBar()
@@ -18,8 +23,15 @@ struct HomeView: View {
                 }
                 //                Your upcoming events
                 RoundedRectangle(cornerRadius: 20)
+                    .matchedGeometryEffect(id: "hero", in: animation)
                     .frame(width: UIScreen.main.bounds.width - 40, height: 125)
                     .foregroundColor(Color(.systemGray4))
+                    
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            toggleHeroAnimation.toggle()
+                        }
+                    }
                 VStack(alignment: .leading) {
                     Text("Categories")
                         .font(.system(.headline))
@@ -62,16 +74,14 @@ struct HomeView: View {
                 Spacer()
                 
             }.padding(.vertical)
-            
-            
-            .navigationTitle("Home")
         }
+            if toggleHeroAnimation {
+                VStack {
+                HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
+                Spacer()
+                }
+            }
+    }
     }
 }
 
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}

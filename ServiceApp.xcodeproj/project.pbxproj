@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397A63D527810CFB002443CF /* CoreDataCRUD.swift */; };
+		399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */; };
 		B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D155277EE7550045F06D /* PVSAProgressBar.swift */; };
 		B319D158277EE7880045F06D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D157277EE7880045F06D /* Schedule.swift */; };
 		B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D159277EE7A90045F06D /* SheetObserver.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		397A63D527810CFB002443CF /* CoreDataCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCRUD.swift; sourceTree = "<group>"; };
+		399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScheduleDetailView.swift; sourceTree = "<group>"; };
 		B319D155277EE7550045F06D /* PVSAProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVSAProgressBar.swift; sourceTree = "<group>"; };
 		B319D157277EE7880045F06D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		B319D159277EE7A90045F06D /* SheetObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetObserver.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				397A63D927810E24002443CF /* Map */,
 				B3E6FCD0277C5991004DEE5B /* HomeView.swift */,
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
+				399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
 				B333369F27819E19007E9482 /* AddFriendSheet.swift */,
 				B3E6FCE0277C5A53004DEE5B /* Socials.swift */,
@@ -227,6 +230,7 @@
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
 				B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */,
 				B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */,
+				399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */,
 				B333369E27819C59007E9482 /* FriendCardView.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
