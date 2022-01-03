@@ -9,6 +9,7 @@ import SwiftUI
 
 class SheetObserver: ObservableObject {
     @Published var sheetMode: SheetMode = .quarter
+    @Published var eventDetailData: EventInformationModel = EventInformationModel()
 
     func toFullSheet() {
         self.sheetMode = .full

@@ -88,7 +88,11 @@ struct EventDetailView: View {
     }
 }
 
-struct EventInformationModel: Identifiable {
+struct EventInformationModel: Identifiable, Equatable {
+    static func == (lhs: EventInformationModel, rhs: EventInformationModel) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name
+    }
+    
     
     var id = UUID()
     var name: String = "Event Name"

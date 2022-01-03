@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MapListElements: View {
-    @Binding var sheetMode: SheetMode
+    @EnvironmentObject var sheetObserver: SheetObserver
     @State var searchTerm = ""
     @Binding var eventPresented: EventInformationModel
 
@@ -55,8 +55,10 @@ struct MapListElements: View {
                 List(0..<pointsOfInterest.count, id: \.self) { event in
                     Button(action: {
                         withAnimation(.spring()) {
-                            self.eventPresented = pointsOfInterest[event]
-                            self.sheetMode = .half
+//                            self.eventPresented = pointsOfInterest[event]
+//                              self.sheetMode = .half
+                            self.sheetObserver.eventDetailData = pointsOfInterest[event]
+                            self.sheetObserver.sheetMode = .half
                         }
                     }) {
                         ListCellView(event: pointsOfInterest[event])
@@ -68,8 +70,8 @@ struct MapListElements: View {
                 List(pointsOfInterest.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
                     Button(action: {
                         withAnimation(.spring()) {
-                            self.eventPresented = event
-                            self.sheetMode = .half
+                            self.sheetObserver.eventDetailData = event
+                            self.sheetObserver.sheetMode = .half
 
                         }
                     }) {
@@ -79,7 +81,7 @@ struct MapListElements: View {
                 }.padding(.vertical)
             }
         }
-            CloseButton(sheetMode: $sheetMode)
+            CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
     }
 }

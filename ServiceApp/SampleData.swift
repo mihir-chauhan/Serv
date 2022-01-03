@@ -15,7 +15,7 @@ private var pointsOfInterest2 = [
 
 // will use Firebase to host these info
 var pointsOfInterest = [
-    EventInformationModel(name: "Facebook HQ", category: "Environmental", coordinate: .init(latitude: 37.3194, longitude: -122.0091)),
+    EventInformationModel(name: "Cupterino High School", category: "Environmental", coordinate: .init(latitude: 37.3194, longitude: -122.0091)),
     EventInformationModel(name: "Lynbrook High School", category: "Environmental", coordinate: .init(latitude: 37.3006, longitude: -122.0047)),
     EventInformationModel(name: "Valleyfair", category: "Environmental", coordinate: .init(latitude: 37.3253, longitude: -121.9458)),
     EventInformationModel(name: "Ortega Park", category: "Environmental", coordinate: .init(latitude: 37.3422, longitude: -122.0256)),

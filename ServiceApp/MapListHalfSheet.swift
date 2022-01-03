@@ -17,7 +17,7 @@ struct HalfSheetModalView: View {
             MapListHalfSheet(sheetMode: $sheetObserver.sheetMode) {
                 VStack(alignment: .leading) {
                     if self.sheetObserver.sheetMode == .full {
-                        MapListElements(sheetMode: self.$sheetObserver.sheetMode, eventPresented: $eventPresented)
+                        MapListElements(eventPresented: $eventPresented)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     if self.sheetObserver.sheetMode == .quarter {
@@ -41,7 +41,7 @@ struct HalfSheetModalView: View {
                         Spacer()
                     }
                     if self.sheetObserver.sheetMode == .half {
-                        EventDetailView(data: self.eventPresented, sheetMode: self.$sheetObserver.sheetMode)
+                        EventDetailView(data: self.sheetObserver.eventDetailData, sheetMode: self.$sheetObserver.sheetMode)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

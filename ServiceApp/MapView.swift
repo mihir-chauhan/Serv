@@ -10,7 +10,7 @@ import MapKit
 
 struct MapView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
-    @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: (LocationTracker().mapView.userLocation.location?.coordinate.latitude) ?? 0, longitude: (LocationTracker().mapView.userLocation.location?.coordinate.longitude) ?? 0), span: MKCoordinateSpan())
+    @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: (LocationTracker().mapView.userLocation.location?.coordinate.latitude) ?? 37.3, longitude: (LocationTracker().mapView.userLocation.location?.coordinate.longitude) ?? -122), span: MKCoordinateSpan())
     @State var tracking: MapUserTrackingMode = .follow
     var body: some View {
         ZStack {
@@ -19,6 +19,7 @@ struct MapView: View {
                     Button(action: {
                         withAnimation(.spring()) {
                             self.sheetObserver.sheetMode = .half
+                            self.sheetObserver.eventDetailData = pin
                             self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: pin.coordinate.latitude - 0.02, longitude: pin.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
                         }
                     }) {
@@ -36,6 +37,11 @@ struct MapView: View {
             HalfSheetModalView()
         }
         .edgesIgnoringSafeArea(.all)
+        .onChange(of: self.sheetObserver.eventDetailData) { newValue in
+            withAnimation {
+                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: newValue.coordinate.latitude - 0.02, longitude: newValue.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+            }
+        }
     }
 }
 
