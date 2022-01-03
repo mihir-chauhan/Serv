@@ -95,7 +95,9 @@ struct EventInformationModel: Identifiable, Equatable {
     
     
     var id = UUID()
+    var image: String?
     var name: String = "Event Name"
+    var host: String = "Fremont Environmental Services"
     var category: String = ""
     var time: Date = Date()
     var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()

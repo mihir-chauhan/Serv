@@ -16,23 +16,25 @@ struct Schedule: View {
     @State private var host: String = "Host"
     @State private var time: Date = Date()
 
+    #warning("ScheduleModel seems very similar to EventInformationModel, might want to combine it, should be found in EventDetailView, sorry for not putting it in the right file, probably wasn't conspicuous enough")
+    #error("^")
+    
     @EnvironmentObject var cardData: ScheduleModel
     @Namespace var animation
     
+    @State var PoI = pointsOfInterest
     var body: some View {
         NavigationView {
             ScrollView {
                 if !self.fetchedResult.isEmpty {
                     
-                        ForEach(self.fetchedResult) { event in
-                            if (eventDate < event.time!) {
+                    ForEach(0..<PoI.count, id: \.self) { event in
+                            if (eventDate < PoI[event].time) {
                                 // TODO: put code below in here after done testing
                             }
-                            ScheduleCard(image: "community-service", category: event.category!, title: event.name!, host: event.host!, time: event.time!, onTapCallback: self.cardTapped)
+//                            ScheduleCard(image: "community-service", category: PoI[event].category, title: PoI[event].name, host: PoI[event].host, time: PoI[event].time, onTapCallback: self.cardTapped)
+                        ScheduleCard(data: PoI[event], onTapCallback: self.cardTapped)
                         }
-//                        .onDelete(perform: {_ in
-//                         CoreDataCRUD().deleteItems(offsets: T##IndexSet, events: T##FetchedResults<UserEvent>))
-//                        })
                         
                 }
                 else {

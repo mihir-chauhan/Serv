@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ScheduleCard: View {
-    var image: String
-    var category: String
-    var title: String
-    var host: String
-    var time: Date
+    var data: EventInformationModel
     var dateToString: String = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyy"
@@ -30,25 +26,25 @@ struct ScheduleCard: View {
 
     var body: some View {
         Button {
-            self.onTapCallback(image, category, title, host, time)
+            self.onTapCallback(data.image ?? "community-service", data.category, data.name, data.host, data.time)
         } label: {
             VStack {
                 // image can be removed later on if we dont want to have the host of the event add it
-                Image(image)
+                Image(data.image ?? "community-service")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(category)
+                        Text(data.category)
                             .font(.headline)
                             .foregroundColor(.secondary)
-                        Text(title)
+                        Text(data.name)
                             .font(.title)
                             .fontWeight(.black)
                             .foregroundColor(.primary)
                         //.lineLimit(3) maybe we dont need it...maybe we dooo?
-                        Text(time, formatter: dateFormatter)
+                        Text(data.time, formatter: dateFormatter)
                             .font(.caption)
                             .foregroundColor(.secondary)
                         
