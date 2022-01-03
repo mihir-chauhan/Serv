@@ -23,9 +23,13 @@ struct HomeView: View {
                 }
                 //                Your upcoming events
                 RoundedRectangle(cornerRadius: 20)
+                    
                     .matchedGeometryEffect(id: "hero", in: animation)
                     .frame(width: UIScreen.main.bounds.width - 40, height: 125)
                     .foregroundColor(Color(.systemGray4))
+                    .overlay(
+                        Image(systemName: "house")
+                    )
                     
                     .onTapGesture {
                         withAnimation(.spring()) {
@@ -77,9 +81,12 @@ struct HomeView: View {
         }
             if toggleHeroAnimation {
                 VStack {
-                HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
-                Spacer()
+                    HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
+                        
+                
                 }
+                .edgesIgnoringSafeArea(.top)
+                .padding(.bottom, 100)
             }
     }
     }

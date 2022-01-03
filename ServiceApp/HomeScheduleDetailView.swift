@@ -7,25 +7,62 @@
 import SwiftUI
 
 struct HomeScheduleDetailView: View {
+    @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
     var animation: Namespace.ID
     @Binding var toggleHeroAnimation: Bool
     var body: some View {
         if toggleHeroAnimation {
-            ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
-            RoundedRectangle(cornerRadius: 20)
-                .matchedGeometryEffect(id: "hero", in: animation)
-                .frame(width: UIScreen.main.bounds.width, height: 250)
-                .foregroundColor(Color(.systemGray4))
+            ScrollView {
+                VStack {
+                GeometryReader { geo in
+                    ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
+                        if geo.frame(in: .global).minY <= 0 {
+                            RoundedRectangle(cornerRadius: 20)
+                                .matchedGeometryEffect(id: "hero", in: animation)
+                                .frame(width: UIScreen.main.bounds.width, height: 250)
+                                .foregroundColor(Color(.systemGray4))
+                                .offset(y: geo.frame(in: .global).minY/9)
+                                .onTapGesture {
+                                    withAnimation(.spring()) {
+                                        toggleHeroAnimation.toggle()
+                                    }
+                                }
+                                .overlay(
+                                    Image(systemName: "house")
+                                        .offset(y: geo.frame(in: .global).minY/9)
+                                )
+    
+                        } else {
+                            RoundedRectangle(cornerRadius: 20)
+                                .matchedGeometryEffect(id: "hero", in: animation)
+                                .frame(width: UIScreen.main.bounds.width, height: 250 + geo.frame(in: .global).minY)
+                                .foregroundColor(Color(.systemGray4))
+                                .offset(y: -geo.frame(in: .global).minY)
+                                .onTapGesture {
+                                    withAnimation(.spring()) {
+                                        toggleHeroAnimation.toggle()
+                                    }
+                                }
+                                .overlay(
+                                    Text("Your Upcoming Events")
+                                        .offset(y: -geo.frame(in: .global).minY)
+                                )
+                        }
+                    }
+                }.frame(height: 250)
+            
                 
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                    toggleHeroAnimation.toggle()
+                if !self.fetchedResult.isEmpty {
+
+                        ForEach(self.fetchedResult) { event in
+                            ScheduleCard(image: "community-service", category: event.category!, title: event.name!, host: event.host!, time: Date())
+                        }
                     }
                 }
+                
+                
             }
             Spacer()
-                
-                .edgesIgnoringSafeArea(.top)
             
         }
     }
