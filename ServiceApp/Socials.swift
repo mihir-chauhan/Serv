@@ -12,9 +12,9 @@ struct Socials: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                FriendCardView(image: "community-service", lastService: "10", name: "you")
-                FriendCardView(image: "community-service", lastService: "11", name: "me")
-                FriendCardView(image: "community-service", lastService: "12", name: "us")
+                FriendCardView(image: "person", lastService: "10", name: "you")
+                FriendCardView(image: "person", lastService: "11", name: "me")
+                FriendCardView(image: "person", lastService: "12", name: "us")
                 
             }
             .navigationTitle("Socials")

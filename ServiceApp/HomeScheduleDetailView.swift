@@ -55,7 +55,7 @@ struct HomeScheduleDetailView: View {
                 if !self.fetchedResult.isEmpty {
 
                         ForEach(self.fetchedResult) { event in
-                            ScheduleCard(image: "community-service", category: event.category!, title: event.name!, host: event.host!, time: Date())
+                            ScheduleCard(image: "community-service", category: event.category!, title: event.name!, host: event.host!, time: Date(), onTapCallback: self.cardTapped)
                         }
                     }
                 }
@@ -65,5 +65,11 @@ struct HomeScheduleDetailView: View {
             Spacer()
             
         }
+    }
+    
+    
+    
+    func cardTapped(image: String, category: String, title: String, host: String, time: Date) {
+        // do something here -- implement later on...
     }
 }

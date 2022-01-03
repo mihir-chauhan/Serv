@@ -9,11 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var sheetObserver = SheetObserver()
+    @StateObject private var cardData = ScheduleModel()
+
     var body: some View {
         CustomTabBar()
 //        EventDetailView()
 //        MapView1()
             .environmentObject(sheetObserver)
+            .environmentObject(cardData)
         
     }
 }

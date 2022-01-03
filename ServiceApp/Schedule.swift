@@ -10,14 +10,25 @@ import SwiftUI
 struct Schedule: View {
     @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
     @State private var eventDate = Date()
+    @State private var image: String = "coummunity-service"
+    @State private var category: String = "Environmental"
+    @State private var title: String = "Event Name"
+    @State private var host: String = "Host"
+    @State private var time: Date = Date()
+
+    @EnvironmentObject var cardData: ScheduleModel
+    @Namespace var animation
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 if !self.fetchedResult.isEmpty {
                     
                         ForEach(self.fetchedResult) { event in
-                            ScheduleCard(image: "community-service", category: event.category!, title: event.name!, host: event.host!, time: Date())
-                                
+                            if (eventDate < event.time!) {
+                                // TODO: put code below in here after done testing
+                            }
+                            ScheduleCard(image: "community-service", category: event.category!, title: event.name!, host: event.host!, time: event.time!, onTapCallback: self.cardTapped)
                         }
 //                        .onDelete(perform: {_ in
 //                         CoreDataCRUD().deleteItems(offsets: T##IndexSet, events: T##FetchedResults<UserEvent>))
@@ -27,53 +38,37 @@ struct Schedule: View {
                 else {
                     Text("No events signed up!")
                 }
-//                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 1, 2022")
-//
-//                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 3, 2022")
-//
-//                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 5, 2022")
-//
-//                ScheduleCard(image: "community-service", category: "Environmental", title: "My Service", host: "January 7, 2022")
-
             }
             .padding(.bottom, 60)
             .navigationTitle("Events Calendar")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ZStack {
-//                        DatePicker("Event Date", selection: $eventDate, in: Date()...)
-//                            .datePickerStyle(GraphicalDatePickerStyle())
-//                            .labelsHidden()
-                        Image(systemName: "calendar.day.timeline.right")
-//                            .resizable()
-//                            .userInteractionDisabled()
-                    }
+                    DatePicker("Event Date", selection: $eventDate, in: Date()..., displayedComponents: .date)
+                        .labelsHidden()
+                        .frame(width: 75, alignment: .trailing)
                 }
             }
+            .overlay(
+                EventDetailSheet(animation: animation).environmentObject(cardData)
+            )
+            
         }
     }
-}
+    
+    func cardTapped(image: String, category: String, title: String, host: String, time: Date) {
 
-struct Testing: ViewModifier {
-    func body(content: Content) -> some View {
-        SwiftUIWrapper { content }.allowsHitTesting(false)
+        withAnimation(.spring()) {
+            cardData.image = image
+            cardData.category = category
+            cardData.title = title
+            cardData.host = host
+            cardData.time = time
+            cardData.showDetail = true
+        }
+//        showingSheet.toggle()
     }
-}
 
-extension View {
-    func userInteractionDisabled() -> some View {
-        self.modifier(Testing())
-    }
 }
-
-struct SwiftUIWrapper<T: View>: UIViewControllerRepresentable {
-    let content: () -> T
-    func makeUIViewController(context: Context) -> UIHostingController<T> {
-        UIHostingController(rootView: content())
-    }
-    func updateUIViewController(_ uiViewController: UIHostingController<T>, context: Context) {}
-}
-
 
 struct Schedule_Previews: PreviewProvider {
     static var previews: some View {

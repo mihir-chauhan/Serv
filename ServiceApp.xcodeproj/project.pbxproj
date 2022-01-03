@@ -15,6 +15,8 @@
 		B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D15D277EF7030045F06D /* ScheduleCardView.swift */; };
 		B333369E27819C59007E9482 /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369D27819C59007E9482 /* FriendCardView.swift */; };
 		B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369F27819E19007E9482 /* AddFriendSheet.swift */; };
+		B33336A22782CFB7007E9482 /* EventDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A12782CFB7007E9482 /* EventDetailSheet.swift */; };
+		B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A32782E5DD007E9482 /* ScheduleModel.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */; };
 		B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCBC277C5870004DEE5B /* ContentView.swift */; };
@@ -42,6 +44,8 @@
 		B319D15D277EF7030045F06D /* ScheduleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardView.swift; sourceTree = "<group>"; };
 		B333369D27819C59007E9482 /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
 		B333369F27819E19007E9482 /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
+		B33336A12782CFB7007E9482 /* EventDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailSheet.swift; sourceTree = "<group>"; };
+		B33336A32782E5DD007E9482 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B3E6FCB7277C5870004DEE5B /* ServiceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAppApp.swift; sourceTree = "<group>"; };
@@ -130,8 +134,10 @@
 				397A63D927810E24002443CF /* Map */,
 				B3E6FCD0277C5991004DEE5B /* HomeView.swift */,
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
+				B33336A12782CFB7007E9482 /* EventDetailSheet.swift */,
 				399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
+				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B333369F27819E19007E9482 /* AddFriendSheet.swift */,
 				B3E6FCE0277C5A53004DEE5B /* Socials.swift */,
 				B333369D27819C59007E9482 /* FriendCardView.swift */,
@@ -223,6 +229,7 @@
 			files = (
 				B3E6FCD5277C59E2004DEE5B /* MapListElements.swift in Sources */,
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,
+				B33336A22782CFB7007E9482 /* EventDetailSheet.swift in Sources */,
 				397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */,
 				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
@@ -232,6 +239,7 @@
 				B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */,
 				399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */,
 				B333369E27819C59007E9482 /* FriendCardView.swift in Sources */,
+				B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
 				B3E6FCCD277C594A004DEE5B /* CustomTabBar.swift in Sources */,
