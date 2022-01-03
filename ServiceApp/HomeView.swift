@@ -22,15 +22,54 @@ struct HomeView: View {
                         .font(.caption)
                 }
                 //                Your upcoming events
+                LinearGradient(gradient: Gradient(colors: [
+                    Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
+                    Color.pink
+                ]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                .matchedGeometryEffect(id: "hero", in: animation)
+                .frame(width: UIScreen.main.bounds.width - 40, height: 125)
+                
+                .mask(
                 RoundedRectangle(cornerRadius: 20)
                     
                     .matchedGeometryEffect(id: "hero", in: animation)
                     .frame(width: UIScreen.main.bounds.width - 40, height: 125)
                     .foregroundColor(Color(.systemGray4))
-                    .overlay(
-                        Image(systemName: "house")
-                    )
                     
+                    )
+                .overlay(
+                    VStack(alignment: .leading) {
+                        Text("Your Upcoming Events")
+                            .font(.title2)
+                            .bold()
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                withAnimation(.spring()) {
+                                    toggleHeroAnimation.toggle()
+                                }
+                            }) {
+                                ZStack {
+                                    CustomMaterialEffectBlur(blurStyle: .systemMaterial)
+                                        .mask(
+                                            Circle()
+                                        )
+                                        .frame(width: 60, height: 60)
+                                        .overlay(
+                                            Image(systemName: "arrow.right")
+                                                .renderingMode(.original)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 25, height: 25)
+                                        )
+                                        
+                                }
+                                       
+                            }
+                        }
+                    }.padding(15)
+                )
                     .onTapGesture {
                         withAnimation(.spring()) {
                             toggleHeroAnimation.toggle()
