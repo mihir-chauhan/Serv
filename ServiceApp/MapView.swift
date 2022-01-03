@@ -42,6 +42,9 @@ struct MapView: View {
                 self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: newValue.coordinate.latitude - 0.02, longitude: newValue.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
             }
         }
+        .onDisappear {
+            self.sheetObserver.sheetMode = .quarter
+        }
     }
 }
 
