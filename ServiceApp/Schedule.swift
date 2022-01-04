@@ -16,8 +16,6 @@ struct Schedule: View {
     @State private var host: String = "Host"
     @State private var time: Date = Date()
 
-    #warning("ScheduleModel seems very similar to EventInformationModel, might want to combine it, should be found in EventDetailView, sorry for not putting it in the right file, probably wasn't conspicuous enough")
-    #error("^")
     
     @EnvironmentObject var cardData: ScheduleModel
     @Namespace var animation
