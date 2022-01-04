@@ -22,6 +22,7 @@
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
 		B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */; };
 		B3DE1ADB27843C8200E06378 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1ADA27843C8200E06378 /* SwiftUICharts */; };
+		B3DE1ADD278443AE00E06378 /* FriendsCommonEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */; };
 		B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */; };
 		B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCBC277C5870004DEE5B /* ContentView.swift */; };
 		B3E6FCBF277C5871004DEE5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3E6FCBE277C5871004DEE5B /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		B33336A32782E5DD007E9482 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
+		B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCommonEvent.swift; sourceTree = "<group>"; };
 		B3E6FCB7277C5870004DEE5B /* ServiceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAppApp.swift; sourceTree = "<group>"; };
 		B3E6FCBC277C5870004DEE5B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B333369F27819E19007E9482 /* AddFriendSheet.swift */,
 				B3E6FCE0277C5A53004DEE5B /* Socials.swift */,
+				B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */,
 				B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */,
 				B333369D27819C59007E9482 /* FriendCardView.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
@@ -269,6 +272,7 @@
 				B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */,
 				39982F84278421AB002D0F5F /* LeaderboardView.swift in Sources */,
 				B3E6FCCF277C5972004DEE5B /* EventDetailView.swift in Sources */,
+				B3DE1ADD278443AE00E06378 /* FriendsCommonEvent.swift in Sources */,
 				B3E6FCD9277C5A0B004DEE5B /* MapListHalfSheet.swift in Sources */,
 				B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
