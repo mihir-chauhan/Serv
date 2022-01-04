@@ -48,8 +48,8 @@ struct EventDetailSheet: View {
                                 .matchedGeometryEffect(id: "asdfadsdc", in: animation)
                                 .ignoresSafeArea()
                         )
-//                    Map(coordinateRegion: region)
-//                                .frame(width: 400, height: 300)
+                    Map(coordinateRegion: $region)
+                                .frame(width: 400, height: 300)
                     Spacer()
                 }
                 .background(CustomMaterialEffectBlur())

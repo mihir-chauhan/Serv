@@ -5,8 +5,13 @@
 //  Created by mimi on 12/26/21.
 //
 
-import Foundation
+import MapKit
 
+struct AnnotationItem: Identifiable {
+    var id = UUID()
+    var name: String
+    var coordinate: CLLocationCoordinate2D
+}
 private var pointsOfInterest2 = [
     AnnotationItem(name: "Facebook HQ", coordinate: .init(latitude: 37.3194, longitude: -122.0091)),
     AnnotationItem(name: "Lynbrook High School", coordinate: .init(latitude: 37.3006, longitude: -122.0047)),

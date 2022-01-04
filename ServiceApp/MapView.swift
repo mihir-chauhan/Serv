@@ -7,20 +7,23 @@
 
 import SwiftUI
 import MapKit
+import CoreLocation
 
 struct MapView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
-    @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: (LocationTracker().mapView.userLocation.location?.coordinate.latitude) ?? 37.3, longitude: (LocationTracker().mapView.userLocation.location?.coordinate.longitude) ?? -122), span: MKCoordinateSpan())
+    @StateObject var viewModel = LocationTrackerViewModel()
+
     @State var tracking: MapUserTrackingMode = .follow
+    
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: pointsOfInterest) { pin in
+            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: pointsOfInterest) { pin in
                 MapAnnotation(coordinate: pin.coordinate) {
                     Button(action: {
                         withAnimation(.spring()) {
                             self.sheetObserver.sheetMode = .half
                             self.sheetObserver.eventDetailData = pin
-                            self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: pin.coordinate.latitude - 0.02, longitude: pin.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+                            self.viewModel.region = MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
                         }
                     }) {
                         ZStack {
@@ -37,9 +40,12 @@ struct MapView: View {
             HalfSheetModalView()
         }
         .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            viewModel.checkIfLocationServicesIsEnabled()
+        }
         .onChange(of: self.sheetObserver.eventDetailData) { newValue in
             withAnimation {
-                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: newValue.coordinate.latitude - 0.02, longitude: newValue.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+                self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: newValue.coordinate.latitude - 0.02, longitude: newValue.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
             }
         }
         .onDisappear {
@@ -48,23 +54,50 @@ struct MapView: View {
     }
 }
 
-struct LocationTracker: UIViewRepresentable {
-    @ObservedObject private var locationManager = LocationManager()
-    let mapView = MKMapView()
-    func makeUIView(context: Context) -> some MKMapView {
-        mapView.delegate = context.coordinator
-        mapView.showsUserLocation = true
-        mapView.userTrackingMode = .follow
-        self.locationManager
-        
-        return mapView
+final class LocationTrackerViewModel: NSObject, ObservableObject {
+    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+    var locationManager: CLLocationManager?
+    func checkIfLocationServicesIsEnabled() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager?.delegate = self
+            checkLocationAuthorization()
+        } else {
+            
+        }
     }
     
-    func updateUIView(_ view: UIViewType, context: Context) { }
+    private func checkLocationAuthorization() {
+//        if locationManager is not nil, proceed. Otherwise, early exit out of function
+        guard let locationManager = locationManager else { return }
+        
+        switch locationManager.authorizationStatus {
+            
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            print("location restricted cuz of parental controls?")
+        case .denied:
+            print("location denied, enable in phone settings")
+        case .authorizedAlways, .authorizedWhenInUse:
+            self.region = MKCoordinateRegion(center: locationManager.location!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+        @unknown default:
+            break
+        }
+    }
     
-    func makeCoordinator() -> Coordinator { Coordinator() }
-    
-    class Coordinator: NSObject, MKMapViewDelegate, ObservableObject { }
 }
 
+extension LocationTrackerViewModel: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last
+            else { return }
+        DispatchQueue.main.async {
+            self.checkLocationAuthorization()
+            print(location.coordinate)
 
+            
+        }
+    }
+}

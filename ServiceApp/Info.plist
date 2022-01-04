@@ -23,7 +23,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>hey</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>hey</string>
+	<string>Stalker needs ur location </string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
