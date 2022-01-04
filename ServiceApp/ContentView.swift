@@ -13,8 +13,7 @@ struct ContentView: View {
 
     var body: some View {
         CustomTabBar()
-//        EventDetailView()
-//        MapView1()
+//        LeaderboardView()
             .environmentObject(sheetObserver)
             .environmentObject(cardData)
         

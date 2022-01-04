@@ -7,6 +7,9 @@
 
 import MapKit
 
+
+var display: (width: CGFloat, height: CGFloat) = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+
 struct AnnotationItem: Identifiable {
     var id = UUID()
     var name: String

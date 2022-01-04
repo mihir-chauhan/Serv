@@ -81,7 +81,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         case .denied:
             print("location denied, enable in phone settings")
         case .authorizedAlways, .authorizedWhenInUse:
-            self.region = MKCoordinateRegion(center: locationManager.location!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+            self.region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 37.3382, longitude: -121.8863), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
         @unknown default:
             break
         }

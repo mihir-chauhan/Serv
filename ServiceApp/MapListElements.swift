@@ -55,8 +55,6 @@ struct MapListElements: View {
                 List(0..<pointsOfInterest.count, id: \.self) { event in
                     Button(action: {
                         withAnimation(.spring()) {
-//                            self.eventPresented = pointsOfInterest[event]
-//                              self.sheetMode = .half
                             self.sheetObserver.eventDetailData = pointsOfInterest[event]
                             self.sheetObserver.sheetMode = .half
                         }

@@ -22,13 +22,13 @@ struct HomeScheduleDetailView: View {
                                 Color.pink
                             ]), startPoint: .topLeading, endPoint: .bottomTrailing)
                             .matchedGeometryEffect(id: "hero", in: animation)
-                            .frame(width: UIScreen.main.bounds.width, height: 250)
+                            .frame(width: display.width, height: 250)
                             .offset(y: geo.frame(in: .global).minY/9)
                             
                             .mask(
                             RoundedRectangle(cornerRadius: 20)
                                 .matchedGeometryEffect(id: "hero", in: animation)
-                                .frame(width: UIScreen.main.bounds.width, height: 250)
+                                .frame(width: display.width, height: 250)
                                 .offset(y: geo.frame(in: .global).minY/9)
                                 
                                 )
@@ -48,12 +48,12 @@ struct HomeScheduleDetailView: View {
                                 Color.pink
                             ]), startPoint: .topLeading, endPoint: .bottomTrailing)
                             .matchedGeometryEffect(id: "hero", in: animation)
-                            .frame(width: UIScreen.main.bounds.width, height: 250 + geo.frame(in: .global).minY)
+                            .frame(width: display.width, height: 250 + geo.frame(in: .global).minY)
                             .offset(y: -geo.frame(in: .global).minY)
                             .mask(
                             RoundedRectangle(cornerRadius: 20)
                                 .matchedGeometryEffect(id: "hero", in: animation)
-                                .frame(width: UIScreen.main.bounds.width, height: 250 + geo.frame(in: .global).minY)
+                                .frame(width: display.width, height: 250 + geo.frame(in: .global).minY)
                                 .offset(y: -geo.frame(in: .global).minY)
                                 
                                 )

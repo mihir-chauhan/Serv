@@ -26,12 +26,12 @@ struct HomeView: View {
                         Color.pink
                     ]), startPoint: .topLeading, endPoint: .bottomTrailing)
                     .matchedGeometryEffect(id: "hero", in: animation)
-                    .frame(width: UIScreen.main.bounds.width - 40, height: 125)
+                    .frame(width: display.width - 40, height: 125)
                     .mask(
                         RoundedRectangle(cornerRadius: 20)
                             
                             .matchedGeometryEffect(id: "hero", in: animation)
-                            .frame(width: UIScreen.main.bounds.width - 40, height: 125)
+                            .frame(width: display.width - 40, height: 125)
                             .foregroundColor(Color(.systemGray4))
                         
                     )
