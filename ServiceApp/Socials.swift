@@ -12,6 +12,8 @@ struct Socials: View {
     var body: some View {
         NavigationView {
             ScrollView {
+                LeaderboardView()
+
                 FriendCardView(image: "person", lastService: "10", name: "you")
                 FriendCardView(image: "person", lastService: "11", name: "me")
                 FriendCardView(image: "person", lastService: "12", name: "us")
