@@ -22,8 +22,7 @@ struct Account: View {
                         TopBar(topEdge: topEdge, offset: $offset, maxHeight: maxHeight)
                             .padding()
                             .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: getHeaderHeight(), alignment: .bottom)
+                            .frame(width: display.width, height: getHeaderHeight(), alignment: .bottom)
                             .background(Color("accountsbarcolor"), in: CustomCorner(corners: [.bottomRight], radius: getCornerRadius()))
                     } else {
                         // Fallback on earlier versions
@@ -34,15 +33,15 @@ struct Account: View {
                         Image("calvinandhobbes")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 35, height: 35)
+                            .frame(width: 45, height: 45)
                             .clipShape(Circle())
                             .opacity(topBarTitleOpacity())
                         
                         Text("Kelvin and Hobbes")
                             .fontWeight(.bold)
-                            .font(.body)
-                            .foregroundColor(.primary)
+                            .font(.headline)
                             .opacity(topBarTitleOpacity())
+                        Spacer()
 
                     }
                         .padding(.horizontal)
@@ -91,7 +90,7 @@ struct Account: View {
         
         let opacity = 1 - progress
         
-        return opacity
+        return 1 - opacity
     }
     
 }
@@ -112,7 +111,7 @@ struct TopBar: View {
             Text("Kelvin and Hobbes")
                 .font(.largeTitle.bold())
             
-            Text("Look! A decoder ring!; Wow! We can send each other secret messgaes in code!; Ha Ha! Now mom and dad won't be able to understand us at all!...Not That they do anyway...")
+            Text("Look! A decoder ring!; Wow! We can send each other secret messgaes in code!; Ha Ha! Now mom and dad won't be able to understand us at all!...Not that they do anyway...")
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.white.opacity(0.8))
