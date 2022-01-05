@@ -19,6 +19,8 @@ struct Socials: View {
                 FriendCardView(image: "person", lastService: "10", name: "you", onTapCallback: cardTapped)
                 FriendCardView(image: "person", lastService: "11", name: "me", onTapCallback: cardTapped)
                 FriendCardView(image: "person", lastService: "12", name: "us", onTapCallback: cardTapped)
+                
+                FriendsCommonEvent()
             }
             .navigationTitle("Socials")
             .toolbar {
