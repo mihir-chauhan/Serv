@@ -21,7 +21,8 @@ struct LeaderboardView: View {
                 Image("leaderboardPic-1")
                     .resizable()
                     .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                }.animation(.easeIn(duration: 0.1).delay(0.1))
+                }
+//                .animation(.easeIn(duration: 0.1).delay(0.1))
                 Text("Bunny?")
                     .font(.system(.caption))
                     
@@ -62,7 +63,8 @@ struct LeaderboardView: View {
                 Image("leaderboardPic-3")
                     .resizable()
                     .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                }.animation(.easeIn(duration: 0.1).delay(0.2))
+                }
+//                .animation(.easeIn(duration: 0.1).delay(0.2))
                 
                 Text("Day6")
                     .font(.system(.caption))

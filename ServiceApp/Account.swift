@@ -6,18 +6,154 @@
 //
 
 import SwiftUI
+import SwiftUICharts
 
 struct Account: View {
+    let maxHeight = display.height / 2.3
+    var topEdge: CGFloat
+    
+    @State var offset: CGFloat = 0
+    
     var body: some View {
-        NavigationView {
-            Text("Account")
-                .navigationTitle("Account")
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 15) {
+                GeometryReader { proxy in
+                    if #available(iOS 15.0, *) {
+                        TopBar(topEdge: topEdge, offset: $offset, maxHeight: maxHeight)
+                            .padding()
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: getHeaderHeight(), alignment: .bottom)
+                            .background(Color("accountsbarcolor"), in: CustomCorner(corners: [.bottomRight], radius: getCornerRadius()))
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                }
+                .overlay(
+                    HStack {
+                        Image("calvinandhobbes")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 35, height: 35)
+                            .clipShape(Circle())
+                            .opacity(topBarTitleOpacity())
+                        
+                        Text("Kelvin and Hobbes")
+                            .fontWeight(.bold)
+                            .font(.body)
+                            .foregroundColor(.primary)
+                            .opacity(topBarTitleOpacity())
+
+                    }
+                        .padding(.horizontal)
+                        .frame(height: 60)
+                        .foregroundColor(.white)
+                        .padding(.top, topEdge)
+                    , alignment: .top
+                )
+                .frame(height: maxHeight)
+                .offset(y: -offset)
+                .zIndex(1)
+
+                VStack(spacing: 15) {
+                    BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
+
+                    PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false).padding(10)
+                    
+                    BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
+
+                }
+                .padding()
+                .zIndex(0)
+            }
+            .modifier(OffsetModifier(offset: $offset))
         }
+        .coordinateSpace(name: "SCROLL")
+    }
+    
+    func getHeaderHeight() -> CGFloat {
+        let topHeight = maxHeight + offset
+        return topHeight > (80 + topEdge)  ? topHeight : (80 + topEdge)
+    }
+    
+    func getCornerRadius() -> CGFloat {
+        let progress = -offset / (maxHeight - (80 + topEdge))
+        
+        let value = 1 - progress
+        
+        let radius = value * 50
+        
+        return offset < 0 ? radius : 50
+    }
+    
+    func topBarTitleOpacity() -> CGFloat {
+        let progress = -(offset + 70) / (maxHeight - (80 + topEdge))
+        
+        let opacity = 1 - progress
+        
+        return opacity
+    }
+    
+}
+
+struct TopBar: View {
+    var topEdge: CGFloat
+    @Binding var offset: CGFloat
+    var maxHeight: CGFloat
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Image("calvinandhobbes")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 80)
+                .cornerRadius(10)
+            
+            Text("Kelvin and Hobbes")
+                .font(.largeTitle.bold())
+            
+            Text("Look! A decoder ring!; Wow! We can send each other secret messgaes in code!; Ha Ha! Now mom and dad won't be able to understand us at all!...Not That they do anyway...")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundColor(Color.white.opacity(0.8))
+        }
+        .opacity(getOpacity())
+    }
+    
+    func getOpacity() -> CGFloat {
+        let progress = -offset / 70
+        let opacity = 1 - progress
+        return offset < 0 ? opacity : 1
     }
 }
 
-struct Account_Previews: PreviewProvider {
-    static var previews: some View {
-        Account()
+struct CustomCorner: Shape {
+    var corners: UIRectCorner
+    var radius: CGFloat
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+struct OffsetModifier: ViewModifier {
+    @Binding var offset: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+                GeometryReader{proxy -> Color in
+                    
+                    let minY = proxy.frame(in: .named("SCROLL")).minY
+                    
+                    DispatchQueue.main.async {
+                        self.offset = minY
+                    }
+                    
+                    return Color.clear
+                },
+                alignment: .top
+            )
     }
 }

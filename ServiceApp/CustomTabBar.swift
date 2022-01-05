@@ -25,7 +25,12 @@ struct CustomTabBar: View {
                 case .socials:
                     Socials()
                 case .account:
-                    Account()
+                    GeometryReader {proxy in
+                        let topEdge = proxy.safeAreaInsets.top
+                        
+                        Account(topEdge: topEdge)
+                            .ignoresSafeArea(.all, edges: .top)
+                    }
                 }
         
             HStack() {
