@@ -12,8 +12,8 @@ struct ContentView: View {
     @StateObject private var cardData = ScheduleModel()
 
     var body: some View {
-        PhotoPicker()
-//        CustomTabBar()
+//        PhotoPicker()
+        CustomTabBar()
 //        FriendDetailSheet(name: "me")
 //        LeaderboardView()
             .environmentObject(sheetObserver)

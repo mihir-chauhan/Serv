@@ -22,8 +22,7 @@ struct Socials: View {
             }
             .navigationTitle("Socials")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing
-                ) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showingSheet.toggle()
                     }) {
@@ -49,8 +48,3 @@ struct Socials: View {
 
 }
 
-struct Socials_Previews: PreviewProvider {
-    static var previews: some View {
-        Socials()
-    }
-}

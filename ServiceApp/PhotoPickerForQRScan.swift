@@ -8,41 +8,7 @@
 import SwiftUI
 import PhotosUI
 
-struct PhotoPicker: View {
-    @State var showPhotoPicker = false
-    @State var selectedImage: UIImage? = nil
-    var body: some View {
-        Button(action: { showPhotoPicker = true }) {
-            Label("Choose photo", systemImage: "photo.fill")
-                .fullScreenCover(isPresented: $showPhotoPicker) {
-                    // Create the picker. We only want to allow the user to select a single image.
-                    // We ignore the safe area so that the picker takes up the entire screen when open.
-                    PhotoPickerView() { results in
-                        PhotoPickerView.convertToUIImageArray(fromResults: results) { imagesOrNil, errorOrNil in
-                            if let error = errorOrNil {
-                                print(error)
-                            }
-                            if let images = imagesOrNil {
-                                if let first = images.first {
-                                    selectedImage = first
-                                }
-                            }
-                        }
-                    }
-                        .edgesIgnoringSafeArea(.all)
-                }
-            
-            if let image = selectedImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 200, maxHeight: 200)
-            }
-        }
-    }
-}
-
-struct PhotoPickerView: UIViewControllerRepresentable {
+struct PhotoPicker: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
     let filter: PHPickerFilter = .images
     var limit: Int = 1
@@ -65,8 +31,8 @@ struct PhotoPickerView: UIViewControllerRepresentable {
     }
     
     class Coordinator: PHPickerViewControllerDelegate {
-        private let parent: PhotoPickerView
-        init(_ parent: PhotoPickerView) {
+        private let parent: PhotoPicker
+        init(_ parent: PhotoPicker) {
             self.parent = parent
         }
         
