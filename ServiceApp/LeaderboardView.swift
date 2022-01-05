@@ -19,13 +19,7 @@ struct LeaderboardView: View {
                         )
                 Image("leaderboardPic-1")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: display.width / 5)
-                    .scaleEffect(1.05)
-                    .clipShape(Circle())
-                    
-                    .shadow(color: Color.black.opacity(0.2), radius: 10, x: -5, y: -5)
-                    .shadow(color: Color.white.opacity(0.7), radius: 10, x: 5, y: 5)
+                    .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
                 }
                 Text("Bunny?")
                     .font(.system(.caption))
@@ -66,12 +60,7 @@ struct LeaderboardView: View {
                         )
                 Image("leaderboardPic-3")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: display.width / 5)
-                    .scaleEffect(1.35)
-                    .clipShape(Circle())
-                    .shadow(color: Color.black.opacity(0.2), radius: 10, x: -5, y: -5)
-                    .shadow(color: Color.white.opacity(0.7), radius: 10, x: 5, y: 5)
+                    .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
                 }
                 
                 Text("Day6")
@@ -86,5 +75,18 @@ struct LeaderboardView: View {
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
         LeaderboardView()
+    }
+}
+
+struct LeaderboardIconModifier: ViewModifier {
+    var frameDivdedBy: CGFloat
+    func body(content: Content) -> some View {
+        content
+            .aspectRatio(contentMode: .fit)
+            .frame(width: display.width / self.frameDivdedBy)
+            .scaleEffect(1.05)
+            .clipShape(Circle())
+            .shadow(color: Color.black.opacity(0.2), radius: 10, x: -5, y: -5)
+            .shadow(color: Color.white.opacity(0.7), radius: 10, x: 5, y: 5)
     }
 }

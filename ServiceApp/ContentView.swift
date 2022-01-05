@@ -12,7 +12,9 @@ struct ContentView: View {
     @StateObject private var cardData = ScheduleModel()
 
     var body: some View {
-        CustomTabBar()
+        PhotoPicker()
+//        CustomTabBar()
+//        FriendDetailSheet(name: "me")
 //        LeaderboardView()
             .environmentObject(sheetObserver)
             .environmentObject(cardData)

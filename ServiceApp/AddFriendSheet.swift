@@ -13,6 +13,7 @@ import AudioToolbox
 struct AddFriendSheet: View {
     
     var body: some View {
+//        suggest sugmented bar picker over bottom tab bar for this
         TabView {
             Image(uiImage: UIImage(data: generateQRCode(from: UUID().uuidString)!)!)
                 .resizable()
