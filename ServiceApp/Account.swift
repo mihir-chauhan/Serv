@@ -35,12 +35,12 @@ struct Account: View {
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 45, height: 45)
                             .clipShape(Circle())
-                            .opacity(topBarTitleOpacity())
+                            .opacity(Double(topBarTitleOpacity()))
                         
                         Text("Kelvin and Hobbes")
                             .fontWeight(.bold)
                             .font(.headline)
-                            .opacity(topBarTitleOpacity())
+                            .opacity(Double(topBarTitleOpacity()))
                         Spacer()
 
                     }
@@ -116,7 +116,7 @@ struct TopBar: View {
                 .fontWeight(.semibold)
                 .foregroundColor(Color.white.opacity(0.8))
         }
-        .opacity(getOpacity())
+        .opacity(Double(getOpacity()))
     }
     
     func getOpacity() -> CGFloat {
