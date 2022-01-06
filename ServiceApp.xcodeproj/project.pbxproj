@@ -106,6 +106,7 @@
 		397A63D827810DDB002443CF /* HelperClasses+Models */ = {
 			isa = PBXGroup;
 			children = (
+				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
 				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B319D159277EE7A90045F06D /* SheetObserver.swift */,
 				397A63D527810CFB002443CF /* CoreDataCRUD.swift */,
@@ -146,18 +147,9 @@
 				B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */,
 				B333369D27819C59007E9482 /* FriendCardView.swift */,
 				B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */,
-				39B5A9C72786AEC30003E23F /* AddFriend */,
+				B333369F27819E19007E9482 /* AddFriendSheet.swift */,
 			);
 			name = Socials;
-			sourceTree = "<group>";
-		};
-		39B5A9C72786AEC30003E23F /* AddFriend */ = {
-			isa = PBXGroup;
-			children = (
-				B333369F27819E19007E9482 /* AddFriendSheet.swift */,
-				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
-			);
-			name = AddFriend;
 			sourceTree = "<group>";
 		};
 		466796023E30F88FAF7A87CA /* Frameworks */ = {

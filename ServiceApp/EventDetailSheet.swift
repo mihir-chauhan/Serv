@@ -15,7 +15,7 @@ struct EventDetailSheet: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.3194, longitude: -122.0091), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
 
     var body: some View {
-        if let card = cardData.title, cardData.showDetail {
+        if let _ = cardData.title, cardData.showDetail {
             if #available(iOS 15.0, *) {
                 VStack() {
                     Image(cardData.image!)
