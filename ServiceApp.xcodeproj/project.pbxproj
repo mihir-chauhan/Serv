@@ -103,17 +103,18 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
-		397A63D827810DDB002443CF /* HelperClasses */ = {
+		397A63D827810DDB002443CF /* HelperClasses+Models */ = {
 			isa = PBXGroup;
 			children = (
-				B319D155277EE7550045F06D /* PVSAProgressBar.swift */,
+				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B319D159277EE7A90045F06D /* SheetObserver.swift */,
-				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
 				397A63D527810CFB002443CF /* CoreDataCRUD.swift */,
 				B3E6FCDC277C5A2F004DEE5B /* Persistence.swift */,
 				B3E6FCDE277C5A43004DEE5B /* SampleData.swift */,
+				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
+				39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */,
 			);
-			name = HelperClasses;
+			name = "HelperClasses+Models";
 			sourceTree = "<group>";
 		};
 		397A63D927810E24002443CF /* Map */ = {
@@ -122,6 +123,7 @@
 				B3E6FCDA277C5A21004DEE5B /* MapView.swift */,
 				B3E6FCD4277C59E2004DEE5B /* MapListElements.swift */,
 				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
+				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -131,8 +133,31 @@
 			children = (
 				B3E6FCD0277C5991004DEE5B /* HomeView.swift */,
 				399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */,
+				B319D155277EE7550045F06D /* PVSAProgressBar.swift */,
 			);
 			name = Home;
+			sourceTree = "<group>";
+		};
+		39B5A9C62786AE7B0003E23F /* Socials */ = {
+			isa = PBXGroup;
+			children = (
+				B3E6FCE0277C5A53004DEE5B /* Socials.swift */,
+				39982F83278421AB002D0F5F /* LeaderboardView.swift */,
+				B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */,
+				B333369D27819C59007E9482 /* FriendCardView.swift */,
+				B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */,
+				39B5A9C72786AEC30003E23F /* AddFriend */,
+			);
+			name = Socials;
+			sourceTree = "<group>";
+		};
+		39B5A9C72786AEC30003E23F /* AddFriend */ = {
+			isa = PBXGroup;
+			children = (
+				B333369F27819E19007E9482 /* AddFriendSheet.swift */,
+				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
+			);
+			name = AddFriend;
 			sourceTree = "<group>";
 		};
 		466796023E30F88FAF7A87CA /* Frameworks */ = {
@@ -167,23 +192,14 @@
 				397A63D727810DBA002443CF /* Main */,
 				39982F8227842169002D0F5F /* Home */,
 				397A63D927810E24002443CF /* Map */,
-				39982F83278421AB002D0F5F /* LeaderboardView.swift */,
+				39B5A9C62786AE7B0003E23F /* Socials */,
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
 				B33336A12782CFB7007E9482 /* EventDetailSheet.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
-				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
-				B333369F27819E19007E9482 /* AddFriendSheet.swift */,
-				B3E6FCE0277C5A53004DEE5B /* Socials.swift */,
-				B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */,
-				B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */,
-				B333369D27819C59007E9482 /* FriendCardView.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
-				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
-				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
-				39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */,
+				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
-				397A63D827810DDB002443CF /* HelperClasses */,
 			);
 			path = ServiceApp;
 			sourceTree = "<group>";
