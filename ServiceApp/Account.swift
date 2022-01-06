@@ -62,9 +62,9 @@ struct Account: View {
                     BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
 
                 }
-                .padding()
                 .zIndex(0)
             }
+            .padding(.bottom, 100)
             .modifier(OffsetModifier(offset: $offset))
         }
         .coordinateSpace(name: "SCROLL")
