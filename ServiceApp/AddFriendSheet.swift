@@ -13,68 +13,85 @@ import AudioToolbox
 struct AddFriendSheet: View {
     @State var showPhotoPicker = false
     @State var selectedImage: UIImage? = nil
+    
+    @State var showingAlert: Bool = false
     var body: some View {
         NavigationView {
-            TabView {
-                Image(uiImage: UIImage(data: generateQRCode(from: UUID().uuidString)!)!)
-                    .resizable()
-                    .frame(width: 290, height: 290, alignment: .center)
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
-                    .tabItem {
-                        Image(systemName: "qrcode")
-                    }
-                ZStack {
-                    if selectedImage == nil {
-                        ZStack {
-                            CodeScannerView(codeTypes: [.qr], simulatedData: "fakeUUID") { response in
-                                switch response {
-                                case .success(let result):
-                                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-                                    print("Found code: \(result.string)")
-                                // add friend to firebase DB, when implemented.......
-                                case .failure(let error):
-                                    print(error.localizedDescription)
-                                }
-                            }
-                        }.font(.system(size: 30, weight: .bold, design: .rounded))
-                    } else {
-                        if let image = selectedImage {
-                            Image(uiImage: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .padding()
+            if #available(iOS 15.0, *) {
+                TabView {
+                    Image(uiImage: UIImage(data: generateQRCode(from: UIDevice.current.identifierForVendor!.uuidString)!)!)
+                        .resizable()
+                        .frame(width: 290, height: 290, alignment: .center)
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                        .tabItem {
+                            Image(systemName: "qrcode")
                         }
-                    }
-                }.tabItem {
-                    Image(systemName: "qrcode.viewfinder")
-                }
-            }
-            
-            .fullScreenCover(isPresented: $showPhotoPicker) {
-                PhotoPicker() { results in
-                    PhotoPicker.convertToUIImageArray(fromResults: results) { imageOrNil, errorOrNil in
-                        if let error = errorOrNil {
-                            print(error)
-                        }
-                        if let images = imageOrNil {
-                            selectedImage = images.first
-                            if let features = readQRCodeFromImage(images.first) {
-                                for case let row as CIQRCodeFeature in features {
-                                    // add friend to firebase DB, when implemented.......
-                                    print(row.messageString ?? "no result")
+                        .tag(0)
+                    ZStack {
+                        if selectedImage == nil {
+                            ZStack {
+                                CodeScannerView(codeTypes: [.qr], simulatedData: "fakeUUID") { response in
+                                    switch response {
+                                    case .success(let result):
+                                        if UUID(uuidString: result.string) != nil {
+                                            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                                            print("Found code: \(result.string)")
+                                        } else {
+                                            showingAlert.toggle()
+                                            
+                                        }
+                                        // add friend to firebase DB, when implemented.......
+                                    case .failure(let error):
+                                        print(error.localizedDescription)
+                                    }
                                 }
+                            }.font(.system(size: 30, weight: .bold, design: .rounded))
+                        } else {
+                            if let image = selectedImage {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    .padding()
                             }
                         }
+                    }.tabItem {
+                        Image(systemName: "qrcode.viewfinder")
                     }
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showPhotoPicker.toggle() }) {
-                        Text("Choose Photo...")
+                
+                
+                .alert("QR Code is Invalid!", isPresented: $showingAlert) {
+                    Button("OK", role: .cancel) {
                     }
                 }
+                .fullScreenCover(isPresented: $showPhotoPicker) {
+                    PhotoPicker() { results in
+                        PhotoPicker.convertToUIImageArray(fromResults: results) { imageOrNil, errorOrNil in
+                            if let error = errorOrNil {
+                                print(error)
+                            }
+                            if let images = imageOrNil {
+                                selectedImage = images.first
+                                if let features = readQRCodeFromImage(images.first) {
+                                    for case let row as CIQRCodeFeature in features {
+                                        // add friend to firebase DB, when implemented.......
+                                        print(row.messageString ?? "no result")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: { showPhotoPicker.toggle() }) {
+                            Text("Choose Photo...")
+                        }
+                    }
+                }
+            } else {
+                // Fallback on earlier versions
             }
         }
     }
