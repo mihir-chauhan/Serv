@@ -19,6 +19,7 @@
 		B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369F27819E19007E9482 /* AddFriendSheet.swift */; };
 		B33336A22782CFB7007E9482 /* EventDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A12782CFB7007E9482 /* EventDetailSheet.swift */; };
 		B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A32782E5DD007E9482 /* ScheduleModel.swift */; };
+		B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B339FBB5278F53D200545F0E /* CloudKit.framework */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
 		B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */; };
@@ -58,6 +59,8 @@
 		B333369F27819E19007E9482 /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
 		B33336A12782CFB7007E9482 /* EventDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailSheet.swift; sourceTree = "<group>"; };
 		B33336A32782E5DD007E9482 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
+		B339FBB3278F53C200545F0E /* ServiceApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ServiceApp.entitlements; sourceTree = "<group>"; };
+		B339FBB5278F53D200545F0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
 		B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCommonEvent.swift; sourceTree = "<group>"; };
@@ -84,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */,
 				B3DE1AE22786B8E400E06378 /* FirebaseDatabase in Frameworks */,
 				B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */,
 				B3DE1ADB27843C8200E06378 /* SwiftUICharts in Frameworks */,
@@ -155,11 +159,20 @@
 			name = Socials;
 			sourceTree = "<group>";
 		};
+		B339FBB4278F53D200545F0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B339FBB5278F53D200545F0E /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B3E6FCAE277C5870004DEE5B = {
 			isa = PBXGroup;
 			children = (
 				B3E6FCB9277C5870004DEE5B /* ServiceApp */,
 				B3E6FCB8277C5870004DEE5B /* Products */,
+				B339FBB4278F53D200545F0E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -174,6 +187,7 @@
 		B3E6FCB9277C5870004DEE5B /* ServiceApp */ = {
 			isa = PBXGroup;
 			children = (
+				B339FBB3278F53C200545F0E /* ServiceApp.entitlements */,
 				397A63D727810DBA002443CF /* Main */,
 				39982F8227842169002D0F5F /* Home */,
 				397A63D927810E24002443CF /* Map */,
@@ -435,6 +449,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ServiceApp/ServiceApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
@@ -457,7 +472,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.ServiceApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appkm.ServiceApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -470,6 +485,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ServiceApp/ServiceApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
@@ -492,7 +508,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.ServiceApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appkm.ServiceApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
