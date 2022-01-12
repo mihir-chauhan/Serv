@@ -29,11 +29,28 @@ struct FriendsCommonEvent: View {
                 .scaleEffect(1.35)
                 .clipShape(Circle())
             
+            Image("leaderboardPic-1")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: display.width / 8)
+                .scaleEffect(1.35)
+                .clipShape(Circle())
+            Image("leaderboardPic-2")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: display.width / 8)
+                .scaleEffect(1.35)
+                .clipShape(Circle())
+            
+            
             Text("Common Event")
-                .padding(.leading, 25)
-	       .font(.system(.caption))
-
+                .padding(.leading, 50)
+                .font(.system(.caption))
+            
+            Spacer()
+            
         }
+        .padding()
     }
 }
 
