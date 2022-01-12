@@ -34,7 +34,7 @@ struct ScheduleCard: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
-                HStack {
+                
                     VStack(alignment: .leading) {
                         Text(data.category)
                             .font(.headline)
@@ -44,15 +44,17 @@ struct ScheduleCard: View {
                             .fontWeight(.black)
                             .foregroundColor(.primary)
                         //.lineLimit(3) maybe we dont need it...maybe we dooo?
+                        HStack {
                         Text(data.time, formatter: dateFormatter)
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        
+                        Spacer()
+                        FriendsCommonEvent()
+                        }
                     }
-                    .layoutPriority(100)
-                    
-                    Spacer()
-                }
+//                    .layoutPriority(100)
+                        
+                
                 .padding()
             }
             .cornerRadius(10)
@@ -60,7 +62,7 @@ struct ScheduleCard: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
             )
-            .padding([.top, .horizontal])
+//            .padding([.top, .horizontal])
         }
         .buttonStyle(CardButtonStyle())
     }
