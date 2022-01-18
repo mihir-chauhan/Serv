@@ -10,7 +10,7 @@ import MapKit
 
 var display: (width: CGFloat, height: CGFloat) = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
 
-var user_uuid: UUID = UUID(uuidString: UIDevice.current.identifierForVendor!.uuidString)!
+var user_uuid: String = UIDevice.current.identifierForVendor!.uuidString
 
 struct EventInformationModel: Identifiable, Equatable {
     static func == (lhs: EventInformationModel, rhs: EventInformationModel) -> Bool {
