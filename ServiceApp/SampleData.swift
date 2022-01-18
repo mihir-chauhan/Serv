@@ -10,16 +10,36 @@ import MapKit
 
 var display: (width: CGFloat, height: CGFloat) = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
 
-struct AnnotationItem: Identifiable {
+var user_uuid: UUID = UUID(uuidString: UIDevice.current.identifierForVendor!.uuidString)!
+
+struct EventInformationModel: Identifiable, Equatable {
+    static func == (lhs: EventInformationModel, rhs: EventInformationModel) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name
+    }
+    
+    
     var id = UUID()
-    var name: String
-    var coordinate: CLLocationCoordinate2D
+    var image: String?
+    var name: String = "Event Name"
+    var host: String = "Fremont Environmental Services"
+    var category: String = ""
+    var time: Date = Date()
+    var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    
+    var enterDetailView: Bool = false
 }
-private var pointsOfInterest2 = [
-    AnnotationItem(name: "Facebook HQ", coordinate: .init(latitude: 37.3194, longitude: -122.0091)),
-    AnnotationItem(name: "Lynbrook High School", coordinate: .init(latitude: 37.3006, longitude: -122.0047)),
-    AnnotationItem(name: "Valleyfair", coordinate: .init(latitude: 37.3253, longitude: -121.9458))
-]
+
+//struct AnnotationItem: Identifiable {
+//    var id = UUID()
+//    var name: String
+//    var coordinate: CLLocationCoordinate2D
+//}
+//private var pointsOfInterest2 = [
+//    AnnotationItem(name: "Facebook HQ", coordinate: .init(latitude: 37.3194, longitude: -122.0091)),
+//    AnnotationItem(name: "Lynbrook High School", coordinate: .init(latitude: 37.3006, longitude: -122.0047)),
+//    AnnotationItem(name: "Valleyfair", coordinate: .init(latitude: 37.3253, longitude: -121.9458))
+//]
 
 // will use Firebase to host these info
 var pointsOfInterest = [

@@ -87,23 +87,3 @@ struct EventDetailView: View {
 
     }
 }
-
-struct EventInformationModel: Identifiable, Equatable {
-    static func == (lhs: EventInformationModel, rhs: EventInformationModel) -> Bool {
-        return lhs.id == rhs.id && lhs.name == rhs.name
-    }
-    
-    
-    var id = UUID()
-    var image: String?
-    var name: String = "Event Name"
-    var host: String = "Fremont Environmental Services"
-    var category: String = ""
-    var time: Date = Date()
-    var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
-    var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-    
-    var enterDetailView: Bool = false
-}
-
-
