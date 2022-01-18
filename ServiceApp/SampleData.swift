@@ -24,6 +24,7 @@ struct EventInformationModel: Identifiable, Equatable {
     var host: String = "Fremont Environmental Services"
     var category: String = ""
     var time: Date = Date()
+//    change coordinate to GeoPoint for Firestore mapping 
     var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     

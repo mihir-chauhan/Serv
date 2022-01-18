@@ -11,10 +11,11 @@ import MapKit
 
 class FirestoreCRUD: ObservableObject {
     let db = Firestore.firestore()
+    var eventInfo: [EventInformationModel] = [EventInformationModel]()
     
-    func getAllEvents() {
+    func getAllEvents(_ completion: @escaping (EventInformationModel) -> Void) {
         db.collection("Environment")
-            .addSnapshotListener { (snap, err) in
+            .addSnapshotListener { (snap, err)  in
                 if let error = err {
                     print(error.localizedDescription)
                     return
@@ -25,6 +26,8 @@ class FirestoreCRUD: ObservableObject {
                         let name = i.document.get("time") as? Date ?? Date()
                         let location = i.document.get("location") as? GeoPoint
                         print(host, attendees, name, location?.latitude as Any, location?.longitude as Any)
+                        completion(EventInformationModel(id: UUID(), name: "", host: "", category: "", time: Date(), coordinate: CLLocationCoordinate2D(), description: "", enterDetailView: false))
+                        
                     }
                 }
             }
