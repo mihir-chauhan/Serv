@@ -12,26 +12,37 @@ import FirebaseDatabase
 var ref: DatabaseReference! = Database.database().reference()
 
 class FirebaseRealtimeDatabaseCRUD {
-    func readFriends(from uuidString: String) { //}-> NSArray {
+    
+    func readFriends(for uuidString: String, handler: @escaping (Array<String>?) -> ()) {
         ref.child("\(uuidString)/Friends").getData(completion:  { error, snapshot in
             guard error == nil else {
                 print(error!.localizedDescription)
+                handler(nil);
                 return;
             }
-            let friendsArray = snapshot.value as? NSArray
-            let friendUUID = friendsArray?[0] as? String ?? "Unknown";
+            let friendsArray = snapshot.value as? Array<String>
+            handler(friendsArray)
         });
     }
+
     
-    func readEvents(for uuidString: String) {
+    func readEvents(for uuidString: String, handler: @escaping (Array<String>?) -> ()) {
         ref.child("\(uuidString)/Events").getData(completion:  { error, snapshot in
             guard error == nil else {
                 print(error!.localizedDescription)
+                handler(nil);
                 return;
             }
-            let eventsArray = snapshot.value as? NSArray
-            let eventName = eventsArray?[0] as? String ?? "Unknown";
+            let eventsArray = snapshot.value as? Array<String>
+            handler(eventsArray)
         });
+    }
+    
+    func writeFriends(for uuidString: String, friendUUID: String) {
+        readFriends(for: uuidString) { friendsArray in
+            friendsArray?.append(friendUUID)
+            ref.child("\(uuidString)/Friends").setValue(friendsArray)
+        }
     }
 }
 

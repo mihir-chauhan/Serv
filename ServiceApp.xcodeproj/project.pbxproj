@@ -21,6 +21,7 @@
 		B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A32782E5DD007E9482 /* ScheduleModel.swift */; };
 		B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B339FBB5278F53D200545F0E /* CloudKit.framework */; };
 		B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */; };
+		B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
 		B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */; };
@@ -63,6 +64,7 @@
 		B339FBB3278F53C200545F0E /* ServiceApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ServiceApp.entitlements; sourceTree = "<group>"; };
 		B339FBB5278F53D200545F0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseCRUD.swift; sourceTree = "<group>"; };
+		B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreCRUD.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
 		B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCommonEvent.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 		397A63D827810DDB002443CF /* HelperClasses+Models */ = {
 			isa = PBXGroup;
 			children = (
+				B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */,
 				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
 				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B319D159277EE7A90045F06D /* SheetObserver.swift */,
@@ -302,6 +305,7 @@
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,
 				B33336A22782CFB7007E9482 /* EventDetailSheet.swift in Sources */,
 				B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */,
+				B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */,
 				397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */,
 				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
