@@ -26,7 +26,15 @@ class FirestoreCRUD: ObservableObject {
                         let name = i.document.get("time") as? Date ?? Date()
                         let location = i.document.get("location") as? GeoPoint
                         print(host, attendees, name, location?.latitude as Any, location?.longitude as Any)
-                        completion(EventInformationModel(id: UUID(), name: "", host: "", category: "", time: Date(), coordinate: CLLocationCoordinate2D(), description: "", enterDetailView: false))
+                        completion(EventInformationModel(
+                            id: UUID(),
+                            name: "",
+                            host: host,
+                            category: "",
+                            time: Date(),
+                            coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!),
+                            description: "",
+                            enterDetailView: false))
                         
                     }
                 }
