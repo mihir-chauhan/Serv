@@ -14,8 +14,6 @@ struct ContentView: View {
     var body: some View {
 //        PhotoPicker()
         CustomTabBar()
-//        FriendDetailSheet(name: "me")
-//        LeaderboardView()
             .environmentObject(sheetObserver)
             .environmentObject(cardData)
         

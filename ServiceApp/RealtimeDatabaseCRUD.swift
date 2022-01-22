@@ -40,7 +40,8 @@ class FirebaseRealtimeDatabaseCRUD {
     
     func writeFriends(for uuidString: String, friendUUID: String) {
         readFriends(for: uuidString) { friendsArray in
-            friendsArray?.append(friendUUID)
+            #warning("uncommenting code below causes an error")
+//            friendsArray?.append(friendUUID)
             ref.child("\(uuidString)/Friends").setValue(friendsArray)
         }
     }

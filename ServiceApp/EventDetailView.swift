@@ -13,12 +13,14 @@ struct EventDetailView: View {
     var data: EventInformationModel = EventInformationModel()
     var coreDataCRUD = CoreDataCRUD()
     @Binding var sheetMode: SheetMode
-    var dateToString: String = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyy"
-        let stringDate = dateFormatter.string(from: Date())
-        return stringDate
-    }()
+    var dateToString: String {
+        get {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yyy"
+            let stringDate = dateFormatter.string(from: data.time)
+            return stringDate
+        }
+    }
     func checkForEventAdded(itemName: String) -> Bool {
         for i in self.fetchedResult {
             if i.name == itemName {
@@ -46,10 +48,9 @@ struct EventDetailView: View {
             }
             
             VStack(alignment: .leading) {
-                Text("Environmental")
+                Text(data.category)
                     .font(.system(.headline))
                     .foregroundColor(.gray)
-                //            use dateFormatter here
                 Text(self.dateToString)
                 ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -67,8 +68,8 @@ struct EventDetailView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: "Host: Fremont Environmental Services Division", time: data.time)
-                    
+                    CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: data.host, time: data.time)
+                    FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
                     self.sheetMode = .quarter
                 }) {
                 Capsule()
@@ -80,10 +81,7 @@ struct EventDetailView: View {
             .padding(.vertical, 30)
             .padding(.horizontal, 15)
             Spacer()
-                
-            
         }
         .padding()
-
     }
 }
