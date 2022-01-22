@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import CoreLocation
+import MapKit
 
 struct MapListElements: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @State var searchTerm = ""
     @Binding var eventPresented: EventInformationModel
-
+    @ObservedObject var results = FirestoreCRUD()
+    
     var body: some View {
         ZStack {
         VStack(alignment: .leading) {
@@ -31,12 +34,13 @@ struct MapListElements: View {
                             }
                     }
                 }.padding(10)
-                .background(Color.blue.opacity(0.05))
+                .background(Color.white.opacity(0.5))
                 .cornerRadius(12)
                 
                 
-                Button(action: { }) {
-                    
+                Menu {
+                    Button("Date", action: sortByDate)
+                } label: {
                     RoundedRectangle(cornerRadius: 10)
                                 .frame(width: 40, height: 40)
                                 .foregroundColor(.white)
@@ -47,25 +51,27 @@ struct MapListElements: View {
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(Color(#colorLiteral(red: 0.9490196078, green: 0.968627451, blue: 0.9725490196, alpha: 1)))
                         )
-                    
                 }
+
+                    
+                    
             }.padding(.top, 10)
             .padding(.horizontal, 20)
             if self.searchTerm.isEmpty {
-                List(0..<pointsOfInterest.count, id: \.self) { event in
+                List(results.allFIRResults) { event in
                     Button(action: {
                         withAnimation(.spring()) {
-                            self.sheetObserver.eventDetailData = pointsOfInterest[event]
+                            self.sheetObserver.eventDetailData = event
                             self.sheetObserver.sheetMode = .half
                         }
                     }) {
-                        ListCellView(event: pointsOfInterest[event])
+                        ListCellView(event: event)
                         
                     }.padding(.vertical)
                 }.padding(.vertical)
             }
             else {
-                List(pointsOfInterest.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
+                List(results.allFIRResults.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
                     Button(action: {
                         withAnimation(.spring()) {
                             self.sheetObserver.eventDetailData = event
@@ -74,7 +80,7 @@ struct MapListElements: View {
                         }
                     }) {
                         ListCellView(event: event)
-                        
+
                     }.padding(.vertical)
                 }.padding(.vertical)
             }
@@ -82,16 +88,42 @@ struct MapListElements: View {
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
     }
+    
+    func sortByDate() {
+        self.results.allFIRResults.sort {
+            $0.time > $1.time
+        }
+    }
+//    func sortByDistance() {
+//        self.results.allFIRResults.sort {
+//
+//        }
+//    }
 }
 
 struct ListCellView: View {
+    @StateObject var viewModel = LocationTrackerViewModel()
     var event: EventInformationModel
+    
+    var distance: CLLocationDistance {
+        get {
+            let eventCoordinate = CLLocation(latitude: event.coordinate.latitude, longitude: event.coordinate.longitude)
+            let userCoordinate = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude)
+            let distanceBetweenTwoPoints = eventCoordinate.distance(from: userCoordinate)
+            
+            let distanceInMiles = distanceBetweenTwoPoints/1609.344
+            return distanceInMiles
+        }
+    }
     var body: some View {
         HStack {
             Text(event.name)
             Spacer(minLength: 10)
-            Text("4.0 miles away")
+            Text(String(format: "%.2f", distance) + " mi.")
                 .font(.caption)
+        }.onAppear {
+            viewModel.checkIfLocationServicesIsEnabled()
+            print(viewModel.region)
         }
     }
     

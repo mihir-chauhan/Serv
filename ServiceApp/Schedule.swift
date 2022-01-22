@@ -18,20 +18,18 @@ struct Schedule: View {
 
     
     @EnvironmentObject var cardData: ScheduleModel
+    @ObservedObject var results = FirestoreCRUD()
     @Namespace var animation
     
-    @State var PoI = pointsOfInterest
     var body: some View {
         NavigationView {
             ScrollView {
                 if !self.fetchedResult.isEmpty {
                     
-                    ForEach(0..<PoI.count, id: \.self) { event in
-                            if (eventDate < PoI[event].time) {
-                                // TODO: put code below in here after done testing
+                    ForEach(results.allFIRResults, id: \.self) { event in
+                            if (eventDate < event.time) {
+                                ScheduleCard(data: event, onTapCallback: self.cardTapped)
                             }
-//                            ScheduleCard(image: "community-service", category: PoI[event].category, title: PoI[event].name, host: PoI[event].host, time: PoI[event].time, onTapCallback: self.cardTapped)
-                        ScheduleCard(data: PoI[event], onTapCallback: self.cardTapped)
                         }
                         
                 }

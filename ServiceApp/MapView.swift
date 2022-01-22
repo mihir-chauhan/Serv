@@ -12,12 +12,12 @@ import CoreLocation
 struct MapView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @StateObject var viewModel = LocationTrackerViewModel()
-
+    @ObservedObject var results = FirestoreCRUD()
     @State var tracking: MapUserTrackingMode = .follow
     
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: pointsOfInterest) { pin in
+            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: results.allFIRResults) { pin in
                 MapAnnotation(coordinate: pin.coordinate) {
                     Button(action: {
                         withAnimation(.spring()) {
