@@ -74,8 +74,7 @@ struct HomeScheduleDetailView: View {
                 if !self.fetchedResult.isEmpty {
 
                         ForEach(self.fetchedResult) { event in
-//                            ScheduleCard(image: "community-service", category: event.category!, title: event.name!, host: event.host!, time: Date(), onTapCallback: self.cardTapped)
-                            ScheduleCard(data: EventInformationModel(name: event.name!, host: event.host!, category: event.category!, time: Date()), onTapCallback: self.cardTapped)
+                            ScheduleCard(data: EventInformationModel(name: event.name!, host: event.host!, category: event.category!, time: event.time!), onTapCallback: self.cardTapped)
                         }
                     }
                 }

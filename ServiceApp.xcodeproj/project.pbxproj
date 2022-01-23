@@ -45,6 +45,7 @@
 		B3E6FCDD277C5A2F004DEE5B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCDC277C5A2F004DEE5B /* Persistence.swift */; };
 		B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCDE277C5A43004DEE5B /* SampleData.swift */; };
 		B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCE0277C5A53004DEE5B /* Socials.swift */; };
+		BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE196EFA279CDA2800DA0217 /* Settings.swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		B3E6FCDC277C5A2F004DEE5B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		B3E6FCDE277C5A43004DEE5B /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		B3E6FCE0277C5A53004DEE5B /* Socials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socials.swift; sourceTree = "<group>"; };
+		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -202,6 +204,7 @@
 				B33336A12782CFB7007E9482 /* EventDetailSheet.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
+				BE196EFA279CDA2800DA0217 /* Settings.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
@@ -325,6 +328,7 @@
 				B3E6FCCF277C5972004DEE5B /* EventDetailView.swift in Sources */,
 				B3DE1ADD278443AE00E06378 /* FriendsCommonEvent.swift in Sources */,
 				B3E6FCD9277C5A0B004DEE5B /* MapListHalfSheet.swift in Sources */,
+				BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */,
 				B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
 				B3E6FCDD277C5A2F004DEE5B /* Persistence.swift in Sources */,
