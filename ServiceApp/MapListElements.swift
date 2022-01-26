@@ -13,6 +13,7 @@ struct MapListElements: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @State var searchTerm = ""
     @Binding var eventPresented: EventInformationModel
+    @StateObject var viewModel = LocationTrackerViewModel()
     @ObservedObject var results = FirestoreCRUD()
     
     var body: some View {
@@ -94,11 +95,18 @@ struct MapListElements: View {
             $0.time > $1.time
         }
     }
-//    func sortByDistance() {
-//        self.results.allFIRResults.sort {
-//
-//        }
-//    }
+    func sortByDistance() {
+        self.results.allFIRResults.sort {
+            let userCoordinate = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.latitude)
+            let distanceBetweenTwoPoints1 = CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)
+            let distanceBetweenTwoPoints2 = CLLocation(latitude: $1.coordinate.latitude, longitude: $1.coordinate.longitude)
+            
+            self.results.allFIRResults.sort(by: { _,_ in distanceBetweenTwoPoints1.distance(from: userCoordinate) < distanceBetweenTwoPoints2.distance(from: userCoordinate) })
+            
+            return true
+        }
+        
+    }
 }
 
 struct ListCellView: View {
