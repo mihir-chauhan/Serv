@@ -40,9 +40,28 @@ class FirebaseRealtimeDatabaseCRUD {
     
     func writeFriends(for uuidString: String, friendUUID: String) {
         readFriends(for: uuidString) { friendsArray in
-            #warning("uncommenting code below causes an error")
-//            friendsArray?.append(friendUUID)
-            ref.child("\(uuidString)/Friends").setValue(friendsArray)
+            if friendsArray == nil {
+                var newArray = [friendUUID]
+                ref.child("\(uuidString)/Friends").setValue(newArray)
+            } else {
+                var newArray = friendsArray
+                newArray?.append(friendUUID)
+                ref.child("\(uuidString)/Friends").setValue(newArray)
+                
+            }
+        }
+    }
+    
+    func writeEvents(for uuidString: String, eventUUID: String) {
+        readEvents(for: uuidString) { eventsArray in
+            if eventsArray == nil {
+                var newArray = [eventUUID]
+                ref.child("\(uuidString)/Events").setValue(newArray)
+            } else {
+                var newArray = eventsArray
+                newArray?.append(eventUUID)
+                ref.child("\(uuidString)/Events").setValue(newArray)
+            }
         }
     }
 }
