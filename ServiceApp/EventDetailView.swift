@@ -54,7 +54,6 @@ struct EventDetailView: View {
                 Text(self.dateToString)
                 ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    
                         ForEach(0..<5, id: \.self) { img in
                             RoundedRectangle(cornerRadius: 15)
                                 .frame(width: 135, height: 135)
@@ -70,6 +69,7 @@ struct EventDetailView: View {
                 Button(action: {
                     CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: data.host, time: data.time)
                     FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
+                    FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
                     self.sheetMode = .quarter
                 }) {
                 Capsule()

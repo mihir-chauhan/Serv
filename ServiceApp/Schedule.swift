@@ -31,7 +31,6 @@ struct Schedule: View {
                                 ScheduleCard(data: event, onTapCallback: self.cardTapped)
                             }
                         }
-                        
                 }
                 else {
                     Text("No events signed up!")
