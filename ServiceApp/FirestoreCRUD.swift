@@ -55,6 +55,11 @@ class FirestoreCRUD: ObservableObject {
             .document(eventID).updateData(["attendees" : FieldValue.arrayUnion([user_uuid])])
     }
     
+    func RemoveFromAttendeesList(eventID: String, user_uuid: String) {
+        db.collection("Environment")
+            .document(eventID).updateData(["attendees" : FieldValue.arrayRemove([user_uuid])])
+    }
+    
     func fetchUpdates() {
         
     }

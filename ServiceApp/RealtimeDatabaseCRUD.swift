@@ -64,5 +64,26 @@ class FirebaseRealtimeDatabaseCRUD {
             }
         }
     }
+    
+    func removeEvent(for uuidString: String, eventUUID: String) {
+        readEvents(for: uuidString) { eventsArray in
+            if eventsArray == nil {
+                return
+            } else {
+                var newArray = eventsArray
+                var indexOfRemoval = 0
+                
+                while indexOfRemoval < newArray!.count {
+                    if newArray![indexOfRemoval] == uuidString {
+                        return
+                    }
+                    indexOfRemoval += 1
+                }
+                
+                newArray?.remove(at: indexOfRemoval)
+                ref.child("\(uuidString)/Events").setValue(newArray)
+            }
+        }
+    }
 }
 

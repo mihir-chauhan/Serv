@@ -53,7 +53,7 @@ struct EventDetailView: View {
                     .foregroundColor(.gray)
                 Text(self.dateToString)
                 ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
+                    HStack {
                         ForEach(0..<5, id: \.self) { img in
                             RoundedRectangle(cornerRadius: 15)
                                 .frame(width: 135, height: 135)
@@ -67,16 +67,24 @@ struct EventDetailView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: data.host, time: data.time)
-                    FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
-                    FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
+                    if checkForEventAdded(itemName: data.name) {
+                        CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: data.host, time: data.time)
+                        FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
+                        FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
+                    } else {
+                        // TODO: remove user event from core data
+//                        CoreDataCRUD().removeUserEvent()
+                        FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
+                        FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                    }
                     self.sheetMode = .quarter
                 }) {
-                Capsule()
-                    .frame(width: 135, height: 45)
-                    .foregroundColor(checkForEventAdded(itemName: data.name) ? .gray : .blue)
-                    .overlay(Text("Add to Saved").foregroundColor(.white))
-                }.disabled(checkForEventAdded(itemName: data.name) ? true : false)
+                    Capsule()
+                        .frame(width: 135, height: 45)
+                        .foregroundColor(.blue)
+                    // TODO: maybe text needs to be variable and just change variable contents for it to change text
+                        .overlay(!checkForEventAdded(itemName: data.name) ? Text("Sign up").foregroundColor(.white) : Text("Remove Event").foregroundColor(.white))
+                }
             }
             .padding(.vertical, 30)
             .padding(.horizontal, 15)
