@@ -63,7 +63,7 @@ struct EventDetailView: View {
                             WebImage(url: self.placeHolderImage[img])
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 135, height: 135)
+                                .frame(width: 150, height: 150)
                         }
                     }
                 }

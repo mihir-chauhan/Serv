@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Schedule: View {
-    @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
     @State private var eventDate = Date()
     @State private var image: String = "coummunity-service"
     @State private var category: String = "Environmental"
@@ -24,18 +23,16 @@ struct Schedule: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                if !self.fetchedResult.isEmpty {
-                    
-                    ForEach(results.allFIRResults, id: \.self) { event in
-                            if (eventDate < event.time) {
-                                ScheduleCard(data: event, onTapCallback: self.cardTapped)
-                            }
-                        }
-                }
-                else {
-                    Text("No events signed up!")
+                
+                
+                ForEach(results.allFIRResults, id: \.self) { event in
+                    if (eventDate < event.time) {
+                        ScheduleCard(data: event, onTapCallback: self.cardTapped)
+                    }
                 }
             }
+            
+        
             .padding(.bottom, 60)
             .navigationTitle("Events Calendar")
             .toolbar {
