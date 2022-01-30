@@ -11,14 +11,13 @@ import Firebase
 class FirestoreBatchTransactions {
     var db = Firestore.firestore()
     init() {
-        
-        // Set the value of 'NYC'
-        db.collection("Humanitarian").getDocuments() { snap, error in
+        db.collection("Environment").getDocuments() { snap, error in
             if let err = error {
                 print(err.localizedDescription)
             } else {
                 for document in snap!.documents {
-                    document.reference.setData(["images" : []], merge: false)
+                    document.reference.updateData(["images" : ["gs://serviceapp22.appspot.com/EventImages/civic.png", "gs://serviceapp22.appspot.com/EventImages/polestar.png"]])
+                    print("updated images")
                 }
             }
         }

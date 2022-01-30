@@ -55,6 +55,7 @@ struct EventDetailView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(0..<5, id: \.self) { img in
+                            // TODO: Retrieve Image URL From Firestore "Images" Field Value
                             RoundedRectangle(cornerRadius: 15)
                                 .frame(width: 135, height: 135)
                                 .foregroundColor(.gray)
@@ -82,8 +83,7 @@ struct EventDetailView: View {
                     Capsule()
                         .frame(width: 135, height: 45)
                         .foregroundColor(.blue)
-                    // TODO: maybe text needs to be variable and just change variable contents for it to change text
-                        .overlay(!checkForEventAdded(itemName: data.name) ? Text("Sign up").foregroundColor(.white) : Text("Remove Event").foregroundColor(.white))
+                        .overlay(Text(!checkForEventAdded(itemName: data.name) ? "Sign up" : "Remove Event").foregroundColor(.white))
                 }
             }
             .padding(.vertical, 30)

@@ -14,9 +14,8 @@ class FIRCloudImages {
     let storage = Storage.storage()
     func getRemoteImages(completion: @escaping (ConnectionResult) -> ()) {
         let storageRef = storage.reference()
-        var imagesRef = storageRef.child("EventImages/civic.png")
+        let imagesRef = storageRef.child("EventImages/civic.png")
         
-//        var imagesRef = storage.reference(forURL: "gs://serviceapp22.appspot.com/civic.png")
         print(imagesRef.fullPath)
         
         imagesRef.downloadURL { url, error in

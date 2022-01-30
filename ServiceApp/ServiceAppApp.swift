@@ -18,8 +18,8 @@ struct ServiceAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            DisplayFIRImages()
-//            ContentView()
+//            DisplayFIRImages()
+            ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
