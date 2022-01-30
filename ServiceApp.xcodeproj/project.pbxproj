@@ -46,6 +46,9 @@
 		B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCDE277C5A43004DEE5B /* SampleData.swift */; };
 		B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCE0277C5A53004DEE5B /* Socials.swift */; };
 		BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE196EFA279CDA2800DA0217 /* Settings.swift */; };
+		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
+		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
+		BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +88,8 @@
 		B3E6FCDE277C5A43004DEE5B /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		B3E6FCE0277C5A53004DEE5B /* Socials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socials.swift; sourceTree = "<group>"; };
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
+		BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOOL_fir_batch_transaction.swift; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +102,7 @@
 				B3DE1AE22786B8E400E06378 /* FirebaseDatabase in Frameworks */,
 				B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */,
 				B3DE1ADB27843C8200E06378 /* SwiftUICharts in Frameworks */,
+				BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */,
 				B3DE1AE62786B8E400E06378 /* FirebaseStorage in Frameworks */,
 				B3DE1AE02786B8E400E06378 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B3DE1AE42786B8E400E06378 /* FirebaseFirestore in Frameworks */,
@@ -129,6 +135,8 @@
 				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
 				39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */,
 				B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */,
+				BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */,
+				BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */,
 			);
 			name = "HelperClasses+Models";
 			sourceTree = "<group>";
@@ -243,6 +251,7 @@
 				B3DE1AE12786B8E400E06378 /* FirebaseDatabase */,
 				B3DE1AE32786B8E400E06378 /* FirebaseFirestore */,
 				B3DE1AE52786B8E400E06378 /* FirebaseStorage */,
+				BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */,
 			);
 			productName = ServiceApp;
 			productReference = B3E6FCB7277C5870004DEE5B /* ServiceApp.app */;
@@ -276,6 +285,7 @@
 				B3DE1AD4278433B000E06378 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				B3DE1AD927843C8200E06378 /* XCRemoteSwiftPackageReference "ChartView" */,
 				B3DE1ADE2786B8E400E06378 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				BED38A7827A61D180080D5B9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = B3E6FCB8277C5870004DEE5B /* Products */;
 			projectDirPath = "";
@@ -310,10 +320,12 @@
 				B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */,
 				B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */,
 				397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */,
+				BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */,
 				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
 				B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */,
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
+				BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */,
 				B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */,
 				B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */,
 				399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */,
@@ -465,7 +477,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
-				DEVELOPMENT_TEAM = B2278J6LL2;
+				DEVELOPMENT_TEAM = 347C6X6X6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceApp/Info.plist;
@@ -501,7 +513,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
-				DEVELOPMENT_TEAM = B2278J6LL2;
+				DEVELOPMENT_TEAM = 347C6X6X6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceApp/Info.plist;
@@ -576,6 +588,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		BED38A7827A61D180080D5B9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -608,6 +628,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B3DE1ADE2786B8E400E06378 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BED38A7827A61D180080D5B9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

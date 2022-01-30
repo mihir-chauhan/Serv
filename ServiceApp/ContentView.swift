@@ -25,7 +25,6 @@ struct ContentView: View {
 //                    newArray?.append(UUID().uuidString)
 //                    ref.child("\("e001392e-9e9c-4672-83d0-099e4b8c455e"))/Events").setValue(newArray)
 //                }
-                
             }
         
     }

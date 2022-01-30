@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import SDWebImageSwiftUI
 
 @main
 struct ServiceAppApp: App {
@@ -17,7 +18,8 @@ struct ServiceAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DisplayFIRImages()
+//            ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
