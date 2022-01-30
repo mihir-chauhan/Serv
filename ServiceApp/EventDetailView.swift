@@ -57,7 +57,7 @@ struct EventDetailView: View {
                 Text(self.dateToString)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(0..<1, id: \.self) { img in
+                        ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
                             // TODO: Retrieve Image URL From Firestore "Images" Field Value
 
                             WebImage(url: self.placeHolderImage[img])
@@ -101,7 +101,8 @@ struct EventDetailView: View {
                 switch connectionResult {
                 case .success(let url):
                     self.placeHolderImage.removeAll()
-                    self.placeHolderImage.append(url)
+                    self.placeHolderImage = url
+                    
                     
                 case .failure(let error):
                     print(error)

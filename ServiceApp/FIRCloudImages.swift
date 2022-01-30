@@ -13,24 +13,31 @@ import SwiftUI
 class FIRCloudImages {
     let storage = Storage.storage()
     func getRemoteImages(completion: @escaping (ConnectionResult) -> ()) {
-        let storageRef = storage.reference()
-        let imagesRef = storageRef.child("EventImages/civic.png")
+        let storageRef = storage.reference().child("EventImages")
+        var tempURLArray = [URL]()
         
-        print(imagesRef.fullPath)
+        var counter = 0
         
-        imagesRef.downloadURL { url, error in
-            if let err = error {
-                completion(.failure(err.localizedDescription))
-            } else {
-                completion(.success(url!))
+        storageRef.listAll { (result, error) in
+            for item in result.items {
+                item.downloadURL { url, error in
+                    if let err = error {
+                        completion(.failure(err.localizedDescription))
+                    } else {
+                        tempURLArray.append(url!)
+                        counter += 1
+                        if counter == result.items.count {
+                            completion(.success(tempURLArray))
+                        }
+                    }
+                }
             }
         }
-        
     }
 }
 
 enum ConnectionResult {
-    case success(URL)
+    case success([URL])
     case failure(String)
 }
 
@@ -48,7 +55,7 @@ struct DisplayFIRImages: View {
                 FIRCloudImages().getRemoteImages { connectionResult in
                     switch connectionResult {
                     case .success(let url):
-                        self.placeHolderImage = url
+                        self.placeHolderImage = url[0]
                     case .failure(let error):
                         print(error)
                     }

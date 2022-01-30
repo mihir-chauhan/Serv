@@ -49,6 +49,7 @@
 		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
 		BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */; };
+		BED38A7E27A65F8C0080D5B9 /* Experimental .swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7D27A65F8C0080D5B9 /* Experimental .swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
 		BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOOL_fir_batch_transaction.swift; sourceTree = "<group>"; };
+		BED38A7D27A65F8C0080D5B9 /* Experimental .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Experimental .swift"; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +138,7 @@
 				39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */,
 				B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */,
 				BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */,
+				BED38A7D27A65F8C0080D5B9 /* Experimental .swift */,
 				BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */,
 			);
 			name = "HelperClasses+Models";
@@ -324,6 +327,7 @@
 				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
 				B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */,
+				BED38A7E27A65F8C0080D5B9 /* Experimental .swift in Sources */,
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
 				BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */,
 				B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */,
