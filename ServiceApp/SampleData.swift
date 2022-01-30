@@ -23,11 +23,11 @@ struct EventInformationModel: Identifiable, Equatable, Hashable {
     
     var id = UUID()
     var FIRDocID: String?
-    var image: String?
     var name: String = "Event Name"
     var host: String = "Fremont Environmental Services"
     var category: String = ""
     var time: Date = Date()
+    var images: [String]? 
     var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     

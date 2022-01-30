@@ -26,11 +26,11 @@ struct ScheduleCard: View {
 
     var body: some View {
         Button {
-            self.onTapCallback(data.image ?? "community-service", data.category, data.name, data.host, data.time)
+            self.onTapCallback(data.images?[0] ?? "community-service", data.category, data.name, data.host, data.time)
         } label: {
             VStack {
                 // image can be removed later on if we dont want to have the host of the event add it
-                Image(data.image ?? "community-service")
+                Image(data.images?[0] ?? "community-service")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 

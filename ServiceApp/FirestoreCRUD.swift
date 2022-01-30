@@ -33,6 +33,7 @@ class FirestoreCRUD: ObservableObject {
                             let name = j.document.get("name") as? String ?? "no name"
                             _ = j.document.get("attendees") as? [String] ?? [String]()
                             let time = j.document.get("time") as? Timestamp
+                            let imageURL = j.document.get("images") as? [String] ?? [String]()
                             let location = j.document.get("location") as? GeoPoint
                             
                             self.allFIRResults.append(EventInformationModel(
@@ -41,6 +42,7 @@ class FirestoreCRUD: ObservableObject {
                                 host: host,
                                 category: i,
                                 time: time?.dateValue() ?? Date(),
+                                images: imageURL,
                                 coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!)
                                 
                             ))

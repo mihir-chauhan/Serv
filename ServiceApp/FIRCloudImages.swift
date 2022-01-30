@@ -39,7 +39,8 @@ struct DisplayFIRImages: View {
     @State var placeHolderImage = URL(string: "https://via.placeholder.com/150x150.jpg")
     var body: some View {
         WebImage(url: self.placeHolderImage)
-            .frame(width: 200, height: 135)
+            .resizable()
+            .padding()
             .aspectRatio(contentMode: .fit)
             
             .padding()

@@ -7,12 +7,15 @@
 
 import SwiftUI
 import MapKit
+import SDWebImageSwiftUI
 
 struct EventDetailView: View {
     @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
     var data: EventInformationModel = EventInformationModel()
     var coreDataCRUD = CoreDataCRUD()
     @Binding var sheetMode: SheetMode
+    var connectionResult = ConnectionResult.failure("OK!")
+    @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
     var dateToString: String {
         get {
             let dateFormatter = DateFormatter()
@@ -21,9 +24,9 @@ struct EventDetailView: View {
             return stringDate
         }
     }
-    func checkForEventAdded(itemName: String) -> Bool {
+    func checkForEventAdded() -> Bool {
         for i in self.fetchedResult {
-            if i.name == itemName {
+            if i.name == data.name {
                 return true
             }
         }
@@ -54,11 +57,13 @@ struct EventDetailView: View {
                 Text(self.dateToString)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(0..<5, id: \.self) { img in
+                        ForEach(0..<1, id: \.self) { img in
                             // TODO: Retrieve Image URL From Firestore "Images" Field Value
-                            RoundedRectangle(cornerRadius: 15)
+
+                            WebImage(url: self.placeHolderImage[img])
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 135, height: 135)
-                                .foregroundColor(.gray)
                         }
                     }
                 }
@@ -68,7 +73,7 @@ struct EventDetailView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    if checkForEventAdded(itemName: data.name) {
+                    if checkForEventAdded() {
                         CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: data.host, time: data.time)
                         FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
                         FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
@@ -82,8 +87,8 @@ struct EventDetailView: View {
                 }) {
                     Capsule()
                         .frame(width: 135, height: 45)
-                        .foregroundColor(.blue)
-                        .overlay(Text(!checkForEventAdded(itemName: data.name) ? "Sign up" : "Remove Event").foregroundColor(.white))
+                        .foregroundColor(!checkForEventAdded() ? .blue : .red)
+                        .overlay(Text(!checkForEventAdded() ? "Sign up" : "Remove Event").foregroundColor(.white))
                 }
             }
             .padding(.vertical, 30)
@@ -91,5 +96,17 @@ struct EventDetailView: View {
             Spacer()
         }
         .padding()
+        .onAppear {
+            FIRCloudImages().getRemoteImages { connectionResult in
+                switch connectionResult {
+                case .success(let url):
+                    self.placeHolderImage.removeAll()
+                    self.placeHolderImage.append(url)
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
 }
