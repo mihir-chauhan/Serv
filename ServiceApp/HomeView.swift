@@ -8,10 +8,12 @@
 import SwiftUI
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct HomeView: View {
     var animation: Namespace.ID
     @State var toggleHeroAnimation: Bool = false
+    @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
     var body: some View {
         ZStack {
             if !toggleHeroAnimation {
@@ -93,14 +95,29 @@ struct HomeView: View {
                         .padding(.leading, 30)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(0..<3, id: \.self) { _ in
+//                            TODO: create a detail view for the cards listed in "recommended"
+                            ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
                                 ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
                                     RoundedRectangle(cornerRadius: 20)
                                         .frame(width: 180, height: 250)
                                         .foregroundColor(Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)))
-                                    RoundedRectangle(cornerRadius: 20)
+                                    WebImage(url: self.placeHolderImage[img])
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
                                         .frame(width: 180, height: 145)
-                                        .foregroundColor(Color(.systemGray4))
+                                        .background(Color(.systemGray4))
+                                        .cornerRadius(20)
+                                        
+                                        .onAppear {
+                                            FIRCloudImages().getRemoteImages { connectionResult in
+                                                switch connectionResult {
+                                                case .success(let url):
+                                                    self.placeHolderImage = url
+                                                case .failure(let error):
+                                                    print(error)
+                                                }
+                                            }
+                                        }
                                 }
                                 
                             }.padding(.leading, 30)
@@ -119,13 +136,13 @@ struct HomeView: View {
             if toggleHeroAnimation {
                 VStack {
                     HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
-                        
-                
+                    
+                    
                 }
                 .edgesIgnoringSafeArea(.top)
                 .padding(.bottom, 100)
             }
-    }
+        }
     }
 }
 

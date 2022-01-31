@@ -12,6 +12,7 @@ struct HalfSheetModalView: View {
     @State private var currentPosition: CGSize = .zero
     @State private var newPosition: CGSize = .zero
     @State private var eventPresented: EventInformationModel = EventInformationModel()
+    @State private var dragOffset: CGFloat = 0
     var body: some View {
         ZStack {
             MapListHalfSheet(sheetMode: $sheetObserver.sheetMode) {
@@ -47,21 +48,29 @@ struct HalfSheetModalView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(CustomMaterialEffectBlur())
                 .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                .offset(y: self.dragOffset)
                 
             }
+            
             .gesture(DragGesture()
                         .onChanged { value in
-                            self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
-                        }
+                if self.sheetObserver.sheetMode != .half {
+                    self.dragOffset = value.translation.height
+                }
+            }
                         .onEnded { value in
-                            self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
-                            if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
-                                self.sheetObserver.toFullSheet()
-                            }
-                            if self.sheetObserver.sheetMode == .full && value.translation.height > 100 {
-                                self.sheetObserver.toQuarterSheet()
-                            }
-                        })
+                self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
+                        if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
+                            self.dragOffset = 0
+                            self.sheetObserver.toFullSheet()
+                    
+                        }
+                if self.sheetObserver.sheetMode == .full && value.translation.height > 100 {
+                    self.dragOffset = 0
+                    self.sheetObserver.toQuarterSheet()
+                    
+                }
+            })
         }
     }
 }

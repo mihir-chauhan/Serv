@@ -16,6 +16,18 @@ struct EventDetailView: View {
     @Binding var sheetMode: SheetMode
     var connectionResult = ConnectionResult.failure("OK!")
     @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
+    @State var dragOffset: CGFloat = 0
+    var drag: some Gesture {
+        DragGesture(minimumDistance: 50)
+                                
+                                .onChanged({ value in
+            self.dragOffset = value.translation.height
+        })
+                                .onEnded({ value in
+            self.sheetMode = .quarter
+            self.dragOffset = 0
+        })
+    }
     var dateToString: String {
         get {
             let dateFormatter = DateFormatter()
@@ -58,8 +70,6 @@ struct EventDetailView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
-                            // TODO: Retrieve Image URL From Firestore "Images" Field Value
-
                             WebImage(url: self.placeHolderImage[img])
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -94,7 +104,9 @@ struct EventDetailView: View {
             .padding(.vertical, 30)
             .padding(.horizontal, 15)
             Spacer()
+                
         }
+        .simultaneousGesture(self.drag)
         .padding()
         .onAppear {
             FIRCloudImages().getRemoteImages { connectionResult in
@@ -102,7 +114,6 @@ struct EventDetailView: View {
                 case .success(let url):
                     self.placeHolderImage.removeAll()
                     self.placeHolderImage = url
-                    
                     
                 case .failure(let error):
                     print(error)
