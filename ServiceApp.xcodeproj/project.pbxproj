@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397A63D527810CFB002443CF /* CoreDataCRUD.swift */; };
 		39982F84278421AB002D0F5F /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39982F83278421AB002D0F5F /* LeaderboardView.swift */; };
 		399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */; };
 		39B5A9C52786ABEA0003E23F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */; };
@@ -54,7 +53,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		397A63D527810CFB002443CF /* CoreDataCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCRUD.swift; sourceTree = "<group>"; };
 		39982F83278421AB002D0F5F /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScheduleDetailView.swift; sourceTree = "<group>"; };
 		39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
 				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B319D159277EE7A90045F06D /* SheetObserver.swift */,
-				397A63D527810CFB002443CF /* CoreDataCRUD.swift */,
 				B3E6FCDC277C5A2F004DEE5B /* Persistence.swift */,
 				B3E6FCDE277C5A43004DEE5B /* SampleData.swift */,
 				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
@@ -322,7 +319,6 @@
 				B33336A22782CFB7007E9482 /* EventDetailSheet.swift in Sources */,
 				B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */,
 				B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */,
-				397A63D627810CFB002443CF /* CoreDataCRUD.swift in Sources */,
 				BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */,
 				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,

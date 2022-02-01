@@ -12,7 +12,6 @@ import SDWebImageSwiftUI
 struct EventDetailView: View {
     @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
     var data: EventInformationModel = EventInformationModel()
-    var coreDataCRUD = CoreDataCRUD()
     @Binding var sheetMode: SheetMode
     var connectionResult = ConnectionResult.failure("OK!")
     @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
@@ -84,12 +83,10 @@ struct EventDetailView: View {
                 Spacer()
                 Button(action: {
                     if checkForEventAdded() {
-                        CoreDataCRUD().addUserEvent(name: data.name, category: data.category, host: data.host, time: data.time)
                         FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
                         FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
                     } else {
                         // TODO: remove user event from core data
-//                        CoreDataCRUD().removeUserEvent()
                         FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
                         FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
                     }
