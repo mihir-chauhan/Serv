@@ -79,8 +79,8 @@ class FirebaseRealtimeDatabaseCRUD {
                     }
                     indexOfRemoval += 1
                 }
-                
-                newArray?.remove(at: indexOfRemoval)
+                print("hfghfghcgncbc      ", indexOfRemoval)
+                newArray?.remove(at: indexOfRemoval - 1)
                 ref.child("\(uuidString)/Events").setValue(newArray)
             }
         }

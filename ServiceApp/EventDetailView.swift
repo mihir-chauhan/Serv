@@ -17,7 +17,6 @@ struct EventDetailView: View {
     @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
     @State var dragOffset: CGFloat = 0
     
-    @State var buttonOverlay = Text("").foregroundColor(.white)
     @State var buttonStateIsSignedUp: Bool = false
     
     var drag: some Gesture {
@@ -39,7 +38,7 @@ struct EventDetailView: View {
             return stringDate
         }
     }
-    func checkForEventAdded(itemName: String, handler: @escaping Bool? -> ()) {
+    func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
         FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid) { eventsArray in
             if eventsArray == nil {
                 buttonStateIsSignedUp = false
@@ -47,6 +46,7 @@ struct EventDetailView: View {
             } else {
                 var i = 0
                 while i < eventsArray!.count {
+                    print("sadaldsfadsfasdlkjfdkfndsflkjsdanf: ", eventsArray![i], itemName)
                     if eventsArray![i] == itemName {
                         buttonStateIsSignedUp = true
                         handler(true)
@@ -99,7 +99,7 @@ struct EventDetailView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    if !checkForEventAdded {
+                    if !buttonStateIsSignedUp {
                         FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
                         FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
                     } else {
@@ -108,14 +108,13 @@ struct EventDetailView: View {
                         FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
                     }
                     
-                    buttonOverlay = Text(!checkForEventAdded ? "Sign up" : "Remove Event").foregroundColor(.white)
-                        
+                    buttonStateIsSignedUp.toggle()
 //                    self.sheetMode = .quarter
                 }) {
                     Capsule()
                         .frame(width: 135, height: 45)
-                        .foregroundColor(buttonStateIsSignedUp ? .blue : .red)
-                        .overlay(buttonOverlay)
+                        .foregroundColor(!buttonStateIsSignedUp ? .blue : .red)
+                        .overlay(Text(!buttonStateIsSignedUp ? "Sign up" : "Remove Event").foregroundColor(.white))
                 }
             }
             .padding(.vertical, 30)
@@ -126,8 +125,11 @@ struct EventDetailView: View {
         .simultaneousGesture(self.drag)
         .padding()
         .onAppear {
-            checkForEventAdded(itemName: data.name) { eventIs in
-                buttonOverlay = Text(!eventIs ? "Sign up" : "Remove Event").foregroundColor(.white)
+            print("11sadaldsfadsfasdlkjfdkfndsflkjsdanf")
+// TODO: variable types do not match up
+            checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
+                buttonStateIsSignedUp = eventIs!
+                
             }
             FIRCloudImages().getRemoteImages { connectionResult in
                 switch connectionResult {
