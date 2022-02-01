@@ -50,6 +50,7 @@
 		BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */; };
 		BED38A7E27A65F8C0080D5B9 /* Experimental .swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7D27A65F8C0080D5B9 /* Experimental .swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
+		F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E233F27A9B263007AF9D4 /* RecommendedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +92,7 @@
 		BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOOL_fir_batch_transaction.swift; sourceTree = "<group>"; };
 		BED38A7D27A65F8C0080D5B9 /* Experimental .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Experimental .swift"; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
+		F45E233F27A9B263007AF9D4 /* RecommendedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 				B3E6FCD0277C5991004DEE5B /* HomeView.swift */,
 				399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */,
 				B319D155277EE7550045F06D /* PVSAProgressBar.swift */,
+				F45E233F27A9B263007AF9D4 /* RecommendedView.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				B3E6FCD9277C5A0B004DEE5B /* MapListHalfSheet.swift in Sources */,
 				BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */,
 				B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */,
+				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
 				B3E6FCDD277C5A2F004DEE5B /* Persistence.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,

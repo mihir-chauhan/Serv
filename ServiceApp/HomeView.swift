@@ -14,110 +14,91 @@ struct HomeView: View {
     var animation: Namespace.ID
     @State var toggleHeroAnimation: Bool = false
     @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
+    @ObservedObject var results = FirestoreCRUD()
     var body: some View {
         ZStack {
             if !toggleHeroAnimation {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Text("Home")
-                        .font(.largeTitle)
-                        .bold()
-                    //                Your upcoming events
-                    LinearGradient(gradient: Gradient(colors: [
-                        Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
-                        Color.pink
-                    ]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .matchedGeometryEffect(id: "hero", in: animation)
-                    .frame(width: display.width - 40, height: 125)
-                    .mask(
-                        RoundedRectangle(cornerRadius: 20)
-                            
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Text("Home")
+                            .font(.largeTitle)
+                            .bold()
+                        //                Your upcoming events
+                        LinearGradient(gradient: Gradient(colors: [
+                            Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
+                            Color.pink
+                        ]), startPoint: .topLeading, endPoint: .bottomTrailing)
                             .matchedGeometryEffect(id: "hero", in: animation)
                             .frame(width: display.width - 40, height: 125)
-                            .foregroundColor(Color(.systemGray4))
-                        
-                    )
-                    .overlay(
-                        VStack(alignment: .leading) {
-                            Text("Your Upcoming Events")
-                                .font(.title2)
-                                .bold()
-                            Spacer()
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    withAnimation(.spring()) {
-                                        toggleHeroAnimation.toggle()
-                                    }
-                                }) {
-                                    ZStack {
-                                        CustomMaterialEffectBlur(blurStyle: .systemMaterial)
-                                            .mask(
-                                                Circle()
-                                            )
-                                            .frame(width: 60, height: 60)
-                                            .overlay(
-                                                Image(systemName: "arrow.right")
-                                                    .renderingMode(.original)
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 25, height: 25)
-                                            )
-                                    }
-                                    
-                                }
-                            }
-                        }.padding(15)
-                    )
-                }
-                VStack(alignment: .trailing) {
-                    PVSAProgressBar()
-                    Text("46 more hours to go...")
-                        .font(.caption)
-                }
-                VStack(alignment: .leading) {
-                    Text("Categories")
-                        .font(.system(.headline))
-                        .padding(.leading, 30)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(0..<5, id: \.self) { _ in
-                                RoundedRectangle(cornerRadius: 50)
-                                    .frame(width: 75, height: 75)
+                            .mask(
+                                RoundedRectangle(cornerRadius: 20)
+                                
+                                    .matchedGeometryEffect(id: "hero", in: animation)
+                                    .frame(width: display.width - 40, height: 125)
                                     .foregroundColor(Color(.systemGray4))
-                                    .overlay(Text("🌲").font(.system(size: 30)))
-                            }.padding(.leading, 30)
-                        }
-                    }
-                    
-                    Text("Recommended")
-                        .font(.system(.headline))
-                        .padding(.leading, 30)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-//                            TODO: create a detail view for the cards listed in "recommended"
-                            ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
-                                ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .frame(width: 180, height: 250)
-                                        .foregroundColor(Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)))
-                                    WebImage(url: self.placeHolderImage[img])
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 180, height: 145)
-                                        .background(Color(.systemGray4))
-                                        .cornerRadius(20)
-                                        
-                                        .onAppear {
-                                            FIRCloudImages().getRemoteImages { connectionResult in
-                                                switch connectionResult {
-                                                case .success(let url):
-                                                    self.placeHolderImage = url
-                                                case .failure(let error):
-                                                    print(error)
-                                                }
+                                
+                            )
+                            .overlay(
+                                VStack(alignment: .leading) {
+                                    Text("Your Upcoming Events")
+                                        .font(.title2)
+                                        .bold()
+                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        Button(action: {
+                                            withAnimation(.spring()) {
+                                                toggleHeroAnimation.toggle()
                                             }
+                                        }) {
+                                            ZStack {
+                                                CustomMaterialEffectBlur(blurStyle: .systemMaterial)
+                                                    .mask(
+                                                        Circle()
+                                                    )
+                                                    .frame(width: 60, height: 60)
+                                                    .overlay(
+                                                        Image(systemName: "arrow.right")
+                                                            .renderingMode(.original)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .frame(width: 25, height: 25)
+                                                    )
+                                            }
+                                            
                                         }
+                                    }
+                                }.padding(15)
+                            )
+                    }
+                    VStack(alignment: .trailing) {
+                        PVSAProgressBar()
+                        Text("46 more hours to go...")
+                            .font(.caption)
+                    }
+                    VStack(alignment: .leading) {
+                        Text("Categories")
+                            .font(.system(.headline))
+                            .padding(.leading, 30)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(0..<5, id: \.self) { _ in
+                                    RoundedRectangle(cornerRadius: 50)
+                                        .frame(width: 75, height: 75)
+                                        .foregroundColor(Color(.systemGray4))
+                                        .overlay(Text("🌲").font(.system(size: 30)))
+                                }.padding(.leading, 30)
+                            }
+                        }
+                        
+                        Text("Recommended")
+                            .font(.system(.headline))
+                            .padding(.leading, 30)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                //                            TODO: create a detail view for the cards listed in "recommended"
+                                ForEach(0..<self.results.allFIRResults.count, id: \.self) { img in
+                                    RecommendedView(data: results.allFIRResults[img])
                                 }
                                 
                             }.padding(.leading, 30)
@@ -131,17 +112,15 @@ struct HomeView: View {
                 
                 Spacer()
                 
-            }.padding(.vertical)
-        }
-            if toggleHeroAnimation {
-                VStack {
-                    HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
-                    
-                    
-                }
-                .edgesIgnoringSafeArea(.top)
-                .padding(.bottom, 100)
             }
+        }.padding(.vertical)
+        if toggleHeroAnimation {
+            VStack {
+                HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
+                
+            }
+            .edgesIgnoringSafeArea(.top)
+            .padding(.bottom, 100)
         }
     }
 }
