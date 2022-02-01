@@ -16,6 +16,10 @@ struct EventDetailView: View {
     var connectionResult = ConnectionResult.failure("OK!")
     @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
     @State var dragOffset: CGFloat = 0
+    
+    @State var buttonOverlay = Text("").foregroundColor(.white)
+    @State var buttonStateIsSignedUp: Bool = false
+    
     var drag: some Gesture {
         DragGesture(minimumDistance: 50)
                                 
@@ -35,13 +39,26 @@ struct EventDetailView: View {
             return stringDate
         }
     }
-    func checkForEventAdded() -> Bool {
-        for i in self.fetchedResult {
-            if i.name == data.name {
-                return true
+    func checkForEventAdded(itemName: String, handler: @escaping Bool? -> ()) {
+        FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid) { eventsArray in
+            if eventsArray == nil {
+                buttonStateIsSignedUp = false
+                handler(false);
+            } else {
+                var i = 0
+                while i < eventsArray!.count {
+                    if eventsArray![i] == itemName {
+                        buttonStateIsSignedUp = true
+                        handler(true)
+                        return
+                    }
+                    i += 1
+                }
+                buttonStateIsSignedUp = false
+                handler(false)
             }
+            
         }
-        return false
     }
     var body: some View {
         VStack(alignment: .leading) {
@@ -82,7 +99,7 @@ struct EventDetailView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    if checkForEventAdded() {
+                    if !checkForEventAdded {
                         FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
                         FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
                     } else {
@@ -90,12 +107,15 @@ struct EventDetailView: View {
                         FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
                         FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
                     }
-                    self.sheetMode = .quarter
+                    
+                    buttonOverlay = Text(!checkForEventAdded ? "Sign up" : "Remove Event").foregroundColor(.white)
+                        
+//                    self.sheetMode = .quarter
                 }) {
                     Capsule()
                         .frame(width: 135, height: 45)
-                        .foregroundColor(!checkForEventAdded() ? .blue : .red)
-                        .overlay(Text(!checkForEventAdded() ? "Sign up" : "Remove Event").foregroundColor(.white))
+                        .foregroundColor(buttonStateIsSignedUp ? .blue : .red)
+                        .overlay(buttonOverlay)
                 }
             }
             .padding(.vertical, 30)
@@ -106,6 +126,9 @@ struct EventDetailView: View {
         .simultaneousGesture(self.drag)
         .padding()
         .onAppear {
+            checkForEventAdded(itemName: data.name) { eventIs in
+                buttonOverlay = Text(!eventIs ? "Sign up" : "Remove Event").foregroundColor(.white)
+            }
             FIRCloudImages().getRemoteImages { connectionResult in
                 switch connectionResult {
                 case .success(let url):
