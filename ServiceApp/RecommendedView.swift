@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct RecommendedView: View {
+    @EnvironmentObject var sheetObserver: SheetObserver
     @State var placeHolderImage = URL(string: "https://via.placeholder.com/150x150.jpg")
     var data: EventInformationModel
     var dateToString: String {
@@ -22,42 +23,33 @@ struct RecommendedView: View {
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
             RoundedRectangle(cornerRadius: 20)
-                .frame(width: 180, height: 250)
+                
                 .foregroundColor(Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)))
-            VStack {
+            VStack(alignment: .leading) {
                 WebImage(url: self.placeHolderImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .frame(width: 180, height: 145)
                     .background(Color(.systemGray4))
                     .cornerRadius(20)
                 Text(data.name)
                     .font(.headline)
+                    .padding(15)
                     
                 Spacer()
                 HStack {
                     Text(data.category)
+                        .font(.caption)
                         .bold()
                         .foregroundColor(Color.gray)
                     Spacer()
                     Text(self.dateToString)
-                        .font(.caption)
+                        .font(.system(size: 10))
+                        .font(.caption2)
                         .foregroundColor(Color.gray)
-                }
-            }.frame(width: 180, height: 145)
-        //
-//        VStack(spacing: 0) {
-//            WebImage(url: self.placeHolderImage)
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 180, height: 145)
-//                .background(Color(.systemGray4))
-//                .cornerRadius(20)
-//            Rectangle()
-//                .frame(width: 180, height: 220)
-//                .cornerRadius(20, corners: [.topLeft, .topRight])
-//                .foregroundColor(Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)))
-//        }
-                .onAppear {
+                }.padding(15)
+            }
+            .onAppear {
                     FIRCloudImages().getRemoteImages { connectionResult in
                         switch connectionResult {
                         case .success(let url):
@@ -68,7 +60,13 @@ struct RecommendedView: View {
                         }
                     }
                 }
-        }   }
+        }.frame(width: 180, height: 250)
+            .onTapGesture {
+                
+                self.sheetObserver.sheetMode = .half
+                EventDetailView(data: self.sheetObserver.eventDetailData, sheetMode: self.$sheetObserver.sheetMode)
+            }
+    }
 }
 
 
