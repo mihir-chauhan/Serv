@@ -10,7 +10,6 @@ import MapKit
 import SDWebImageSwiftUI
 
 struct EventDetailView: View {
-    @FetchRequest(entity: UserEvent.entity(), sortDescriptors: []) public var fetchedResult: FetchedResults<UserEvent>
     var data: EventInformationModel = EventInformationModel()
     @Binding var sheetMode: SheetMode
     var connectionResult = ConnectionResult.failure("OK!")
@@ -104,7 +103,6 @@ struct EventDetailView: View {
                             FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
                             FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
                         } else {
-                            // TODO: remove user event from core data
                             FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
                             FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
                         }

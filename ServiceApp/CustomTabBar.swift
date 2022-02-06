@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTabBar: View {
-    @State private var selectedIndex: TabBarItem = .home
+    @State public var selectedIndex: TabBarItem = .home
     @Namespace var animation
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {

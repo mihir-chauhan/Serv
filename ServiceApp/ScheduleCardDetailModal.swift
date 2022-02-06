@@ -15,36 +15,88 @@ struct ScheduleCardDetailSheet: View {
     var connectionResult = ConnectionResult.failure("OK!")
     @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     
+    @State var buttonStateIsSignedUp: Bool = false
+    
+    func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
+        FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid) { eventsArray in
+            if eventsArray == nil {
+                buttonStateIsSignedUp = false
+                handler(false);
+            } else {
+                var i = 0
+                while i < eventsArray!.count {
+                    if eventsArray![i] == itemName {
+                        buttonStateIsSignedUp = true
+                        handler(true)
+                        return
+                    }
+                    i += 1
+                }
+                buttonStateIsSignedUp = false
+                handler(false)
+            }
+            
+        }
+    }
+    
     var body: some View {
-        ScrollView {
-            
-            WebImage(url: self.placeHolderImage[0])
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-                .clipped()
-            
-            Text(data.name)
-                .font(.system(size: 30))
-                .fontWeight(.bold)
-                .padding()
-            
-            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet arcu eget magna convallis euismod non at quam. Duis vel placerat nisl.").font(.system(.caption)).padding(5)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(showsIndicators: false) {
+            VStack {
+                WebImage(url: self.placeHolderImage[0])
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .padding(.bottom, 10)
+                
+                Text(data.name)
+                    .font(.system(size: 30))
+                    .fontWeight(.bold)
+                
+                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet arcu eget magna convallis euismod non at quam. Duis vel placerat nisl.").font(.system(.caption)).padding(5)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
+                            WebImage(url: self.placeHolderImage[img])
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 150, height: 150)
+                                .clipped()
+                        }
+                    }
+                }.padding()
+                
                 HStack {
-                    ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
-                        WebImage(url: self.placeHolderImage[img])
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 150, height: 150)
-                            .clipped()
+                    Spacer()
+                    Button(action: {
+                        if !buttonStateIsSignedUp {
+                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
+                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
+                        } else {
+                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
+                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                        }
+                        
+                        buttonStateIsSignedUp.toggle()
+                    }) {
+                        Capsule()
+                            .frame(width: 135, height: 45)
+                            .foregroundColor(!buttonStateIsSignedUp ? .blue : .red)
+                            .overlay(Text(!buttonStateIsSignedUp ? "Sign up" : "Remove Event").foregroundColor(.white))
                     }
                 }
-            }.padding()
+                .padding(.vertical, 30)
+                .padding(.horizontal, 15)
+                .padding(.bottom, 20)
+
+            }
         }
         
         .onAppear {
+            checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
+                buttonStateIsSignedUp = eventIs!
+            }
             FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
                 switch connectionResult {
                 case .success(let url):

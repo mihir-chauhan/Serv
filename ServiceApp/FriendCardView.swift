@@ -11,11 +11,11 @@ struct FriendCardView: View {
     var image: String
     var lastService: String
     var name: String
-    var onTapCallback : (String) -> ()
+    var onTapCallback : (String, String) -> ()
 
     var body: some View {
         Button {
-            self.onTapCallback(name)
+            self.onTapCallback(name, image)
         } label: {
             HStack {
                 Image(image)

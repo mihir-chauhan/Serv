@@ -11,6 +11,8 @@ struct Socials: View {
     @State private var showingSheet = false
     @State private var showingFriendDetailSheet = false
     @State private var nameForDetailSheet = ""
+    @State private var imgForDetailSheet = ""
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -37,13 +39,14 @@ struct Socials: View {
                 }
             }
             .sheet(isPresented: $showingFriendDetailSheet) {
-                FriendDetailSheet(name: $nameForDetailSheet)
+                FriendDetailSheet(name: $nameForDetailSheet, image: $imgForDetailSheet)
             }
         }
     }
     
-    func cardTapped(name: String) {
+    func cardTapped(name: String, img: String) {
         nameForDetailSheet = name
+        imgForDetailSheet = img
         showingFriendDetailSheet.toggle()
     }
 

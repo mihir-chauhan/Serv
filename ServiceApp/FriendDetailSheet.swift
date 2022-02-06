@@ -10,11 +10,12 @@ import SwiftUICharts
 
 struct FriendDetailSheet: View {
     @Binding var name: String
+    @Binding var image: String
     var body: some View {
         NavigationView {
             ScrollView {
                 HStack {
-                    Image("leaderboardPic-1")
+                    Image(image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: display.width / 4)

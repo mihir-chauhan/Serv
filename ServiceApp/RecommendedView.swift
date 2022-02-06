@@ -67,7 +67,6 @@ struct RecommendedView: View {
                 }
         }.frame(width: 290, height: 250)
             .onTapGesture {
-                
                 self.sheetObserver.sheetMode = .half
                 EventDetailView(data: self.sheetObserver.eventDetailData, sheetMode: self.$sheetObserver.sheetMode)
             }

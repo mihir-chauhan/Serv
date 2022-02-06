@@ -20,6 +20,8 @@ struct HomeView: View {
     @State var showingSchAlert = false
     @State var showingHeaAlert = false
     @State var showingAniAlert = false
+    
+    @State var eventDatas = [EventInformationModel]()
 
     var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶"]
     
@@ -137,6 +139,23 @@ struct HomeView: View {
         }
         .padding(.vertical)
             
+        
+        .onAppear() {
+            FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid) { eventsArray in
+                if eventsArray != nil {
+                    for i in 0..<eventsArray!.count {
+                        for x in 0..<results.allFIRResults.count {
+                            print("akjdsnflasdjnflasdjnf: ", results.allFIRResults[x].FIRDocID!, eventsArray![i])
+                            if results.allFIRResults[x].FIRDocID! == eventsArray![i] {
+                                self.eventDatas.append(results.allFIRResults[x])
+                                print("akjdsnflasdjnfadfadfkajnsdfjkasndfkajsndfjlasdjnf: ", self.eventDatas.count, self.eventDatas)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         .alert(isPresented: $showingEnvAlert) {
             Alert(title: Text("Environmental"), message: Text("Environmental projects may have volunteers working in an office preparing educational materials, outside creating trails (or recycling, or picking up trash, or planting and tending flora), or in schools or neighborhood centers providing community outreach"), dismissButton: .default(Text("Okay")))
         }
@@ -159,7 +178,7 @@ struct HomeView: View {
         
         if toggleHeroAnimation {
             VStack {
-                HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
+                HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation, eventDatas: eventDatas)
                 
             }
             .edgesIgnoringSafeArea(.top)
