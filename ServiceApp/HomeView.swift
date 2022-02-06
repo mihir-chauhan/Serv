@@ -98,12 +98,13 @@ struct HomeView: View {
                                         .foregroundColor(Color(.systemGray4))
                                         .overlay(Text(categories[index]).font(.system(size: 30)))
                                         .onTapGesture() {
+                                            print("ashjbsdafljbsdlfhjbsdaf ", index)
                                             if index == 0 {
                                                 showingEnvAlert.toggle()
                                             } else if index == 1 {
                                                 showingHumAlert.toggle()
                                             } else if index == 2 {
-                                                showingSchAlert = true
+                                                showingSchAlert.toggle()
                                             } else if index == 3 {
                                                 showingHeaAlert.toggle()
                                             } else if index == 4 {
@@ -161,19 +162,19 @@ struct HomeView: View {
         }
     
         .alert(isPresented: $showingHumAlert) {
-            Alert(title: Text("Environmental"), message: Text("Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places."), dismissButton: .default(Text("Okay")))
+            Alert(title: Text("Humanitarian"), message: Text("Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places."), dismissButton: .default(Text("Okay")))
         }
     
         .alert(isPresented: $showingSchAlert) {
-            Alert(title: Text("Environmental"), message: Text("Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program."), dismissButton: .default(Text("Okay")))
+            Alert(title: Text("Education"), message: Text("Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program."), dismissButton: .default(Text("Okay")))
         }
     
         .alert(isPresented: $showingHeaAlert) {
-            Alert(title: Text("Environmental"), message: Text("While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS."), dismissButton: .default(Text("Okay")))
+            Alert(title: Text("Health"), message: Text("While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS."), dismissButton: .default(Text("Okay")))
         }
     
         .alert(isPresented: $showingAniAlert) {
-            Alert(title: Text("Environmental"), message: Text("Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild."), dismissButton: .default(Text("Okay")))
+            Alert(title: Text("Wildlife"), message: Text("Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild."), dismissButton: .default(Text("Okay")))
         }
         
         if toggleHeroAnimation {

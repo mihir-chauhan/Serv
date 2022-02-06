@@ -485,7 +485,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Fling;
+				INFOPLIST_KEY_CFBundleDisplayName = Serv;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to Scan QR Codes";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = hey;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Stalker needs ur location ";
@@ -501,7 +501,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.ServiceApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.FlingServiceApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -522,7 +522,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Fling;
+				INFOPLIST_KEY_CFBundleDisplayName = Serv;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to Scan QR Codes";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = hey;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Stalker needs ur location ";
@@ -538,7 +538,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.ServiceApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.FlingServiceApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
