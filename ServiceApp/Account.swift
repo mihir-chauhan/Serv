@@ -37,7 +37,7 @@ struct Account: View {
                             .clipShape(Circle())
                             .opacity(Double(topBarTitleOpacity()))
                         
-                        Text("Kelvin and Hobbes")
+                        Text("John Smith")
                             .fontWeight(.bold)
                             .font(.headline)
                             .opacity(Double(topBarTitleOpacity()))
@@ -110,10 +110,10 @@ struct TopBar: View {
                 .frame(width: 80, height: 80)
                 .cornerRadius(10)
             
-            Text("Kelvin and Hobbes")
+            Text("John Smith")
                 .font(.largeTitle.bold())
             
-            Text("Look! A decoder ring!; Wow! We can send each other secret messgaes in code!; Ha Ha! Now mom and dad won't be able to understand us at all!...Not that they do anyway...")
+            Text("My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!")
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.white.opacity(0.8))

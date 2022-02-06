@@ -16,12 +16,13 @@
 		B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D15D277EF7030045F06D /* ScheduleCardView.swift */; };
 		B333369E27819C59007E9482 /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369D27819C59007E9482 /* FriendCardView.swift */; };
 		B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369F27819E19007E9482 /* AddFriendSheet.swift */; };
-		B33336A22782CFB7007E9482 /* EventDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A12782CFB7007E9482 /* EventDetailSheet.swift */; };
 		B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A32782E5DD007E9482 /* ScheduleModel.swift */; };
 		B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B339FBB5278F53D200545F0E /* CloudKit.framework */; };
 		B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */; };
 		B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
+		B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */; };
+		B38FD7D527AF7DDD0059E41F /* ScheduleOverlayDescriptionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38FD7D427AF7DDD0059E41F /* ScheduleOverlayDescriptionCard.swift */; };
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
 		B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */; };
 		B3DE1ADB27843C8200E06378 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1ADA27843C8200E06378 /* SwiftUICharts */; };
@@ -63,13 +64,14 @@
 		B319D15D277EF7030045F06D /* ScheduleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardView.swift; sourceTree = "<group>"; };
 		B333369D27819C59007E9482 /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
 		B333369F27819E19007E9482 /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
-		B33336A12782CFB7007E9482 /* EventDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailSheet.swift; sourceTree = "<group>"; };
 		B33336A32782E5DD007E9482 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		B339FBB3278F53C200545F0E /* ServiceApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ServiceApp.entitlements; sourceTree = "<group>"; };
 		B339FBB5278F53D200545F0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseCRUD.swift; sourceTree = "<group>"; };
 		B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreCRUD.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
+		B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailModal.swift; sourceTree = "<group>"; };
+		B38FD7D427AF7DDD0059E41F /* ScheduleOverlayDescriptionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleOverlayDescriptionCard.swift; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
 		B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCommonEvent.swift; sourceTree = "<group>"; };
 		B3E6FCB7277C5870004DEE5B /* ServiceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,7 +214,8 @@
 				397A63D927810E24002443CF /* Map */,
 				39B5A9C62786AE7B0003E23F /* Socials */,
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
-				B33336A12782CFB7007E9482 /* EventDetailSheet.swift */,
+				B38FD7D427AF7DDD0059E41F /* ScheduleOverlayDescriptionCard.swift */,
+				B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
 				BE196EFA279CDA2800DA0217 /* Settings.swift */,
@@ -319,7 +322,6 @@
 			files = (
 				B3E6FCD5277C59E2004DEE5B /* MapListElements.swift in Sources */,
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,
-				B33336A22782CFB7007E9482 /* EventDetailSheet.swift in Sources */,
 				B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */,
 				B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */,
 				BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */,
@@ -337,6 +339,7 @@
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
+				B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */,
 				B3E6FCCD277C594A004DEE5B /* CustomTabBar.swift in Sources */,
 				B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */,
 				39982F84278421AB002D0F5F /* LeaderboardView.swift in Sources */,
@@ -347,6 +350,7 @@
 				B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */,
 				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
+				B38FD7D527AF7DDD0059E41F /* ScheduleOverlayDescriptionCard.swift in Sources */,
 				B3E6FCDD277C5A2F004DEE5B /* Persistence.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,
 				B3E6FCC9277C58D3004DEE5B /* Account.swift in Sources */,

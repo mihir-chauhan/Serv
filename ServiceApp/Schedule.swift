@@ -14,17 +14,15 @@ struct Schedule: View {
     @State private var title: String = "Event Name"
     @State private var host: String = "Host"
     @State private var time: Date = Date()
-
     
-    @EnvironmentObject var cardData: ScheduleModel
+    @State private var showingDetailSheet = false
+    
     @ObservedObject var results = FirestoreCRUD()
     @Namespace var animation
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                
-                
+            ScrollView(.vertical, showsIndicators: false) {
                 ForEach(results.allFIRResults, id: \.self) { event in
                     if (eventDate < event.time) {
                         ScheduleCard(data: event, onTapCallback: self.cardTapped)
@@ -32,7 +30,8 @@ struct Schedule: View {
                 }
             }
             
-        
+            
+            
             .padding(.bottom, 60)
             .navigationTitle("Events Calendar")
             .toolbar {
@@ -42,30 +41,15 @@ struct Schedule: View {
                         .frame(width: 75, alignment: .trailing)
                 }
             }
-            .overlay(
-                EventDetailSheet(animation: animation).environmentObject(cardData)
-            )
-            
         }
     }
     
     func cardTapped(image: String, category: String, title: String, host: String, time: Date) {
-
+        self.title = title
         withAnimation(.spring()) {
-            cardData.image = image
-            cardData.category = category
-            cardData.title = title
-            cardData.host = host
-            cardData.time = time
-            cardData.showDetail = true
+            print("pnaslfjnasldkjfnl")
+            showingDetailSheet.toggle()
         }
-//        showingSheet.toggle()
     }
-
-}
-
-struct Schedule_Previews: PreviewProvider {
-    static var previews: some View {
-        Schedule()
-    }
+    
 }

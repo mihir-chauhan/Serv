@@ -73,7 +73,7 @@ struct HomeView: View {
                     }
                     VStack(alignment: .trailing) {
                         PVSAProgressBar()
-                        Text("46 more hours to go...")
+                        Text("16 more hours to go...")
                             .font(.caption)
                     }
                     VStack(alignment: .leading) {
@@ -98,10 +98,11 @@ struct HomeView: View {
                             HStack {
                                 //                            TODO: create a detail view for the cards listed in "recommended"
                                 ForEach(0..<self.results.allFIRResults.count, id: \.self) { img in
-                                    RecommendedView(data: results.allFIRResults[img])
+                                    RecommendedView(data: results.allFIRResults[img]).padding(.trailing, 30)
                                 }
-                                
-                            }.padding(.leading, 30)
+
+                            }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
+                            
                         }
                     }
                     Text("Friend Activity")
@@ -111,6 +112,7 @@ struct HomeView: View {
                 
                 
                 Spacer()
+                    .padding(.bottom, 30)
                 
             }
         }.padding(.vertical)

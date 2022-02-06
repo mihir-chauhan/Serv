@@ -28,10 +28,12 @@ struct RecommendedView: View {
             VStack(alignment: .leading) {
                 WebImage(url: self.placeHolderImage)
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .scaledToFill()
                     .frame(width: 180, height: 145)
+                    .clipped()
                     .background(Color(.systemGray4))
                     .cornerRadius(20)
+
                 Text(data.name)
                     .font(.headline)
                     .padding(15)
@@ -50,7 +52,7 @@ struct RecommendedView: View {
                 }.padding(15)
             }
             .onAppear {
-                    FIRCloudImages().getRemoteImages { connectionResult in
+                FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
                         switch connectionResult {
                         case .success(let url):
                             self.placeHolderImage = url[0]

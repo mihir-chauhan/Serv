@@ -125,13 +125,10 @@ struct EventDetailView: View {
         .simultaneousGesture(self.drag)
         .padding()
         .onAppear {
-            print("11sadaldsfadsfasdlkjfdkfndsflkjsdanf")
-// TODO: variable types do not match up
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
-                
             }
-            FIRCloudImages().getRemoteImages { connectionResult in
+            FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
                 switch connectionResult {
                 case .success(let url):
                     self.placeHolderImage.removeAll()
