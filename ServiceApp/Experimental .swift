@@ -29,9 +29,7 @@ class FIRCloudImages2 {
                     if let err = error {
                         completion(.failure(err.localizedDescription))
                     } else {
-                        imageURLArray.append(url!)
-//                        print(url!)
-                        
+                        imageURLArray.append(url!)                        
                     }
                 }
             }

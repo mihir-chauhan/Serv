@@ -60,7 +60,6 @@ struct RecommendedView: View {
                         switch connectionResult {
                         case .success(let url):
                             self.placeHolderImage = url[0]
-                            print(url)
                         case .failure(let error):
                             print(error)
                         }

@@ -15,7 +15,12 @@ struct HomeView: View {
     @State var toggleHeroAnimation: Bool = false
     @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     @ObservedObject var results = FirestoreCRUD()
-    
+    @State var showingEnvAlert = false
+    @State var showingHumAlert = false
+    @State var showingSchAlert = false
+    @State var showingHeaAlert = false
+    @State var showingAniAlert = false
+
     var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶"]
     
     var body: some View {
@@ -90,6 +95,19 @@ struct HomeView: View {
                                         .frame(width: 75, height: 75)
                                         .foregroundColor(Color(.systemGray4))
                                         .overlay(Text(categories[index]).font(.system(size: 30)))
+                                        .onTapGesture() {
+                                            if index == 0 {
+                                                showingEnvAlert.toggle()
+                                            } else if index == 1 {
+                                                showingHumAlert.toggle()
+                                            } else if index == 2 {
+                                                showingSchAlert = true
+                                            } else if index == 3 {
+                                                showingHeaAlert.toggle()
+                                            } else if index == 4 {
+                                                showingAniAlert.toggle()
+                                            }
+                                        }
                                 }.padding(.trailing, 30)
                             }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         }
@@ -103,14 +121,11 @@ struct HomeView: View {
                                 ForEach(0..<self.results.allFIRResults.count, id: \.self) { img in
                                     RecommendedView(data: results.allFIRResults[img]).padding(.trailing, 30)
                                 }
-
+                                
                             }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
                             
                         }
                     }
-//                    Text("Friend Activity")
-//                        .font(.system(.headline))
-//                        .padding(.leading, 30)
                 }
                 
                 
@@ -118,7 +133,30 @@ struct HomeView: View {
                     .padding(.bottom, 30)
                 
             }
-        }.padding(.vertical)
+            
+        }
+        .padding(.vertical)
+            
+        .alert(isPresented: $showingEnvAlert) {
+            Alert(title: Text("Environmental"), message: Text("Environmental projects may have volunteers working in an office preparing educational materials, outside creating trails (or recycling, or picking up trash, or planting and tending flora), or in schools or neighborhood centers providing community outreach"), dismissButton: .default(Text("Okay")))
+        }
+    
+        .alert(isPresented: $showingHumAlert) {
+            Alert(title: Text("Environmental"), message: Text("Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places."), dismissButton: .default(Text("Okay")))
+        }
+    
+        .alert(isPresented: $showingSchAlert) {
+            Alert(title: Text("Environmental"), message: Text("Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program."), dismissButton: .default(Text("Okay")))
+        }
+    
+        .alert(isPresented: $showingHeaAlert) {
+            Alert(title: Text("Environmental"), message: Text("While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS."), dismissButton: .default(Text("Okay")))
+        }
+    
+        .alert(isPresented: $showingAniAlert) {
+            Alert(title: Text("Environmental"), message: Text("Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild."), dismissButton: .default(Text("Okay")))
+        }
+        
         if toggleHeroAnimation {
             VStack {
                 HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation)
@@ -128,5 +166,6 @@ struct HomeView: View {
             .padding(.bottom, 100)
         }
     }
+    
 }
 

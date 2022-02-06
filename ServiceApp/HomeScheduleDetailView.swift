@@ -88,7 +88,7 @@ struct HomeScheduleDetailView: View {
     
     
     
-    func cardTapped(image: String, category: String, title: String, host: String, time: Date) {
+    func cardTapped(data: EventInformationModel) {
         // do something here -- implement later on...
     }
 }

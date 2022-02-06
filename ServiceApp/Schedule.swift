@@ -6,15 +6,12 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct Schedule: View {
+    @State private var data = EventInformationModel()
     @State private var eventDate = Date()
-    @State private var image: String = "coummunity-service"
-    @State private var category: String = "Environmental"
-    @State private var title: String = "Event Name"
-    @State private var host: String = "Host"
-    @State private var time: Date = Date()
-    
+
     @State private var showingDetailSheet = false
     
     @ObservedObject var results = FirestoreCRUD()
@@ -30,8 +27,10 @@ struct Schedule: View {
                 }
             }
             
-            
-            
+            .sheet(isPresented: $showingDetailSheet) {
+                ScheduleCardDetailSheet(data: $data)
+            }
+
             .padding(.bottom, 80)
             .navigationTitle("Events Calendar")
             .toolbar {
@@ -44,10 +43,9 @@ struct Schedule: View {
         }
     }
     
-    func cardTapped(image: String, category: String, title: String, host: String, time: Date) {
-        self.title = title
+    func cardTapped(data: EventInformationModel) {
+        self.data = data
         withAnimation(.spring()) {
-            print("pnaslfjnasldkjfnl")
             showingDetailSheet.toggle()
         }
     }

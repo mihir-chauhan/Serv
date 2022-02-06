@@ -131,7 +131,6 @@ struct ListCellView: View {
                 .font(.caption)
         }.onAppear {
             viewModel.checkIfLocationServicesIsEnabled()
-            print(viewModel.region)
         }
     }
     

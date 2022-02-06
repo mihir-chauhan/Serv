@@ -79,7 +79,6 @@ class FirebaseRealtimeDatabaseCRUD {
                     }
                     indexOfRemoval += 1
                 }
-                print("hfghfghcgncbc      ", indexOfRemoval)
                 newArray?.remove(at: indexOfRemoval - 1)
                 ref.child("\(uuidString)/Events").setValue(newArray)
             }

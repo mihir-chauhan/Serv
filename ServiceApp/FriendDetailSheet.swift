@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUICharts
 
 struct FriendDetailSheet: View {
-    var name: String
+    @Binding var name: String
     var body: some View {
         NavigationView {
             ScrollView {
@@ -32,10 +32,4 @@ struct FriendDetailSheet: View {
         }
     }
 
-}
-
-struct FriendDetailSheet_Previews: PreviewProvider {
-    static var previews: some View {
-        FriendDetailSheet(name: "Test")
-    }
 }

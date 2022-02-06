@@ -26,11 +26,11 @@ struct ScheduleCard: View {
         return formatter
     }()
     
-    var onTapCallback : (String, String, String, String, Date) -> ()
+    var onTapCallback : (EventInformationModel) -> ()
     
     var body: some View {
         Button {
-            self.onTapCallback("community-service", data.category, data.name, data.host, data.time)
+            self.onTapCallback(data)
         } label: {
             VStack {
                 // image can be removed later on if we dont want to have the host of the event add it
@@ -85,7 +85,6 @@ struct ScheduleCard: View {
                     switch connectionResult {
                     case .success(let url):
                         self.placeHolderImage = url[0]
-                        print(url)
                     case .failure(let error):
                         print(error)
                     }

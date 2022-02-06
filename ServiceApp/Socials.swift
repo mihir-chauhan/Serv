@@ -10,7 +10,7 @@ import SwiftUI
 struct Socials: View {
     @State private var showingSheet = false
     @State private var showingFriendDetailSheet = false
-    @State private var nameForDetailSheet = "Tom"
+    @State private var nameForDetailSheet = ""
     var body: some View {
         NavigationView {
             ScrollView {
@@ -37,7 +37,7 @@ struct Socials: View {
                 }
             }
             .sheet(isPresented: $showingFriendDetailSheet) {
-                FriendDetailSheet(name: nameForDetailSheet)
+                FriendDetailSheet(name: $nameForDetailSheet)
             }
         }
     }

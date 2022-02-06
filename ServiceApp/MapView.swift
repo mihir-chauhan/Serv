@@ -94,10 +94,7 @@ extension LocationTrackerViewModel: CLLocationManagerDelegate {
         guard let location = locations.last
             else { return }
         DispatchQueue.main.async {
-            self.checkLocationAuthorization()
-            print(location.coordinate)
-
-            
+            self.checkLocationAuthorization()            
         }
     }
 }

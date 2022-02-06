@@ -19,17 +19,17 @@ struct EventDetailView: View {
     
     @State var buttonStateIsSignedUp: Bool = false
     
-    var drag: some Gesture {
-        DragGesture(minimumDistance: 50)
-                                
-                                .onChanged({ value in
-            self.dragOffset = value.translation.height
-        })
-                                .onEnded({ value in
-            self.sheetMode = .quarter
-            self.dragOffset = 0
-        })
-    }
+//    var drag: some Gesture {
+//        DragGesture(minimumDistance: 50)
+//
+//                                .onChanged({ value in
+//            self.dragOffset = value.translation.height
+//        })
+//                                .onEnded({ value in
+//            self.sheetMode = .quarter
+//            self.dragOffset = 0
+//        })
+//    }
     var dateToString: String {
         get {
             let dateFormatter = DateFormatter()
@@ -46,7 +46,6 @@ struct EventDetailView: View {
             } else {
                 var i = 0
                 while i < eventsArray!.count {
-                    print("sadaldsfadsfasdlkjfdkfndsflkjsdanf: ", eventsArray![i], itemName)
                     if eventsArray![i] == itemName {
                         buttonStateIsSignedUp = true
                         handler(true)
@@ -61,69 +60,73 @@ struct EventDetailView: View {
         }
     }
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(data.name)
-                    .font(.system(size: 30))
-                    .fontWeight(.bold)
-                Spacer()
-                Button(action: {
-                    self.sheetMode = .quarter
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(Color(.systemGray2))
-                        .padding(12)
-                }
-            }
-            
+        ScrollView {
             VStack(alignment: .leading) {
-                Text(data.category)
-                    .font(.system(.headline))
-                    .foregroundColor(.gray)
-                Text(self.dateToString)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
-                            WebImage(url: self.placeHolderImage[img])
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 150, height: 150)
+                HStack {
+                    Text(data.name)
+                        .font(.system(size: 30))
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(action: {
+                        self.sheetMode = .quarter
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(Color(.systemGray2))
+                            .padding(12)
+                    }
+                }
+                
+                VStack(alignment: .leading) {
+                    Text(data.category)
+                        .font(.system(.headline))
+                        .foregroundColor(.gray)
+                    Text(self.dateToString)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
+                                WebImage(url: self.placeHolderImage[img])
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 150, height: 150)
+                                    .clipped()
+                            }
                         }
                     }
+                    Text(data.description)
+                        .font(.caption)
                 }
-                Text(data.description)
-                    .font(.caption)
-            }
-            HStack {
-                Spacer()
-                Button(action: {
-                    if !buttonStateIsSignedUp {
-                        FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
-                        FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
-                    } else {
-                        // TODO: remove user event from core data
-                        FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
-                        FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        if !buttonStateIsSignedUp {
+                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
+                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
+                        } else {
+                            // TODO: remove user event from core data
+                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
+                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                        }
+                        
+                        buttonStateIsSignedUp.toggle()
+    //                    self.sheetMode = .quarter
+                    }) {
+                        Capsule()
+                            .frame(width: 135, height: 45)
+                            .foregroundColor(!buttonStateIsSignedUp ? .blue : .red)
+                            .overlay(Text(!buttonStateIsSignedUp ? "Sign up" : "Remove Event").foregroundColor(.white))
                     }
-                    
-                    buttonStateIsSignedUp.toggle()
-//                    self.sheetMode = .quarter
-                }) {
-                    Capsule()
-                        .frame(width: 135, height: 45)
-                        .foregroundColor(!buttonStateIsSignedUp ? .blue : .red)
-                        .overlay(Text(!buttonStateIsSignedUp ? "Sign up" : "Remove Event").foregroundColor(.white))
                 }
+                .padding(.vertical, 30)
+                .padding(.horizontal, 15)
+                .padding(.bottom, 200)
             }
-            .padding(.vertical, 30)
-            .padding(.horizontal, 15)
-            Spacer()
-                
+            .padding([.top, .trailing, .leading])
+            .padding(.bottom, 200)
+
         }
-        .simultaneousGesture(self.drag)
-        .padding()
+//        .simultaneousGesture(self.drag)
         .onAppear {
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
