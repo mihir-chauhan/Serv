@@ -46,6 +46,7 @@ class FirestoreCRUD: ObservableObject {
                                 coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!)
                                 
                             ))
+                            print("asfnadlfanlfanldfnalsdj: ", self.allFIRResults.count, self.allFIRResults)
                         }
                     }
                 }

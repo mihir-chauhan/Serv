@@ -54,7 +54,7 @@ class FIRCloudImages2 {
 
 struct DisplayFIRImages2: View {
     var connectionResult = ConnectionResult.failure("OK!")
-    @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
+    @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     var body: some View {
         WebImage(url: self.placeHolderImage[0])
             .resizable()

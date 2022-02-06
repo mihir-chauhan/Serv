@@ -13,7 +13,7 @@ struct ScheduleCardDetailSheet: View {
     var name: String
     
     var connectionResult = ConnectionResult.failure("OK!")
-    @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
+    @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
 
     var body: some View {
         NavigationView {

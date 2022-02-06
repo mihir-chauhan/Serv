@@ -13,8 +13,11 @@ import SDWebImageSwiftUI
 struct HomeView: View {
     var animation: Namespace.ID
     @State var toggleHeroAnimation: Bool = false
-    @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
+    @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     @ObservedObject var results = FirestoreCRUD()
+    
+    var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶"]
+    
     var body: some View {
         ZStack {
             if !toggleHeroAnimation {
@@ -82,13 +85,13 @@ struct HomeView: View {
                             .padding(.leading, 30)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ForEach(0..<5, id: \.self) { _ in
+                                ForEach(0..<5, id: \.self) { index in
                                     RoundedRectangle(cornerRadius: 50)
                                         .frame(width: 75, height: 75)
                                         .foregroundColor(Color(.systemGray4))
-                                        .overlay(Text("🌲").font(.system(size: 30)))
-                                }.padding(.leading, 30)
-                            }
+                                        .overlay(Text(categories[index]).font(.system(size: 30)))
+                                }.padding(.trailing, 30)
+                            }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         }
                         
                         Text("Recommended")
@@ -105,9 +108,9 @@ struct HomeView: View {
                             
                         }
                     }
-                    Text("Friend Activity")
-                        .font(.system(.headline))
-                        .padding(.leading, 30)
+//                    Text("Friend Activity")
+//                        .font(.system(.headline))
+//                        .padding(.leading, 30)
                 }
                 
                 

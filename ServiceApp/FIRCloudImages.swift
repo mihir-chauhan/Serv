@@ -19,16 +19,18 @@ class FIRCloudImages {
         var counter = 0
         
         storageRef.listAll { (result, error) in
-            for item in result.items {
-                print("kajsdnflanflad:    ", item.fullPath)
-                item.downloadURL { url, error in
-                    if let err = error {
-                        completion(.failure(err.localizedDescription))
-                    } else {
-                        tempURLArray.append(url!)
-                        counter += 1
-                        if counter == result.items.count {
-                            completion(.success(tempURLArray))
+            for i in 0...(gsURL.count-1) {
+                for item in result.items {
+                    print("FULL PATH: ", item.fullPath, ", and URL", gsURL[i])
+                    item.downloadURL { url, error in
+                        if let err = error {
+                            completion(.failure(err.localizedDescription))
+                        } else if gsURL[i].contains(item.fullPath) {
+                            tempURLArray.append(url!)
+                            counter += 1
+                            if counter == gsURL.count-1 {
+                                completion(.success(tempURLArray))
+                            }
                         }
                     }
                 }

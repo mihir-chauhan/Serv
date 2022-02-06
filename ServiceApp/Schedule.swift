@@ -32,7 +32,7 @@ struct Schedule: View {
             
             
             
-            .padding(.bottom, 60)
+            .padding(.bottom, 80)
             .navigationTitle("Events Calendar")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

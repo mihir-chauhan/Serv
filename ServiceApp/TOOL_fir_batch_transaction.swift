@@ -17,9 +17,7 @@ class FirestoreBatchTransactions {
             } else {
                 for document in snap!.documents {
                     document.reference.updateData(["images" : [
-                        "gs://serviceapp22.appspot.com/EventImages/civic.png",
-                        "gs://serviceapp22.appspot.com/EventImages/polestar.png",
-                        "gs://serviceapp22.appspot.com/EventImages/bronco.png"
+                        "gs://serviceapp22.appspot.com/EventImages/env-1.png"
                     ] ])
                     print("updated images")
                 }

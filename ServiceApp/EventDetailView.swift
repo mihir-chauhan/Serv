@@ -14,7 +14,7 @@ struct EventDetailView: View {
     var data: EventInformationModel = EventInformationModel()
     @Binding var sheetMode: SheetMode
     var connectionResult = ConnectionResult.failure("OK!")
-    @State var placeHolderImage = [URL(string: "https://via.placeholder.com/150x150.jpg")]
+    @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     @State var dragOffset: CGFloat = 0
     
     @State var buttonStateIsSignedUp: Bool = false

@@ -8,13 +8,34 @@
 import SwiftUI
 
 struct FriendsCommonEvent: View {
+    var imgArray = ["leaderboardPic-1", "leaderboardPic-2", "leaderboardPic-3", "img", "img4", "img2", "person", "community-service"]
+    var img1Name = ""
+    var img2Name = ""
+    var img3Name = ""
+
+    init() {
+        var firstChoice = Int.random(in: 0..<imgArray.count)
+        img1Name = imgArray[firstChoice]
+        imgArray.remove(at: firstChoice)
+        
+        
+        var secondChoice = Int.random(in: 0..<imgArray.count)
+        img2Name = imgArray[secondChoice]
+        imgArray.remove(at: secondChoice)
+        
+        
+        var thirdChoice = Int.random(in: 0..<imgArray.count)
+        img3Name = imgArray[thirdChoice]
+        imgArray.remove(at: thirdChoice)
+    }
+    
     var body: some View {
             HStack(spacing: -15) {
-                Image("leaderboardPic-1")
+                Image(img1Name)
                     .pfpIconModifier()
-                Image("leaderboardPic-2")
+                Image(img2Name)
                     .pfpIconModifier()
-                Image("leaderboardPic-3")
+                Image(img3Name)
                     .pfpIconModifier()
 //                Image("leaderboardPic-1")
 //                    .pfpIconModifier()

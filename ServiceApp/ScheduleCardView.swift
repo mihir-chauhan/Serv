@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ScheduleCard: View {
     var data: EventInformationModel
+    
+    @State var placeHolderImage = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")
+
     var dateToString: String = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyy"
@@ -30,25 +34,20 @@ struct ScheduleCard: View {
         } label: {
             VStack {
                 // image can be removed later on if we dont want to have the host of the event add it
-                ZStack {
-                    Image("community-service")
+                ZStack(alignment: .top) {
+                    WebImage(url: self.placeHolderImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                    VStack(alignment: .leading) {
+                    HStack {
+                        Spacer()
                         HStack {
-                            Spacer()
-                            Button(action: {
-                                //ADD EVENT
-                            }) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .resizable()
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color(.systemGray2))
-                                    .padding(12)
-                            }
+                            RoundedRectangle(cornerRadius: 50)
+                                .frame(width: 65, height: 65)
+                                .foregroundColor(Color(.systemGray4))
+                                .overlay(Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 40))).padding([.top, .trailing], 5)
+
                         }
                     }
-                    
                 }
                 
                 VStack(alignment: .leading) {
@@ -81,6 +80,17 @@ struct ScheduleCard: View {
             .padding([.top, .horizontal])
         }
         .buttonStyle(CardButtonStyle())
+        .onAppear {
+            FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
+                    switch connectionResult {
+                    case .success(let url):
+                        self.placeHolderImage = url[0]
+                        print(url)
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
     }
 }
 

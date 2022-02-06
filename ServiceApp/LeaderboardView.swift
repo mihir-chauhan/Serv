@@ -23,7 +23,7 @@ struct LeaderboardView: View {
                     .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
                 }
 //                .animation(.easeIn(duration: 0.1).delay(0.1))
-                Text("Bunny?")
+                Text("Astrobunny")
                     .font(.system(.caption))
                     
             }
@@ -47,9 +47,9 @@ struct LeaderboardView: View {
                     .shadow(color: Color.black.opacity(0.2), radius: 10, x: -5, y: -5)
                     .shadow(color: Color.white.opacity(0.7), radius: 10, x: 5, y: 5)
                 }
-                Text("Kelvin and Hobbes")
+                Text("Robert")
                     .font(.system(.caption))
-                    .padding(.top, 10)
+                    .padding(.top, 20)
             }
             
             
@@ -66,7 +66,7 @@ struct LeaderboardView: View {
                 }
 //                .animation(.easeIn(duration: 0.1).delay(0.2))
                 
-                Text("Day6")
+                Text("Jack")
                     .font(.system(.caption))
                     
             }

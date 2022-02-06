@@ -10,17 +10,16 @@ import SwiftUI
 struct Socials: View {
     @State private var showingSheet = false
     @State private var showingFriendDetailSheet = false
-    @State private var nameForDetailSheet = "you"
+    @State private var nameForDetailSheet = "Tom"
     var body: some View {
         NavigationView {
             ScrollView {
-                LeaderboardView()
+                LeaderboardView().padding(.bottom, 50)
 
-                FriendCardView(image: "person", lastService: "10", name: "you", onTapCallback: cardTapped)
-                FriendCardView(image: "person", lastService: "11", name: "me", onTapCallback: cardTapped)
-                FriendCardView(image: "person", lastService: "12", name: "us", onTapCallback: cardTapped)
-                
-                FriendsCommonEvent()
+                FriendCardView(image: "person", lastService: "5", name: "Tom", onTapCallback: cardTapped)
+                FriendCardView(image: "img", lastService: "9", name: "Jill", onTapCallback: cardTapped)
+                FriendCardView(image: "img4", lastService: "10", name: "Mary", onTapCallback: cardTapped)
+                FriendCardView(image: "leaderboardPic-2", lastService: "46", name: "Robert", onTapCallback: cardTapped).padding(.bottom, 50)
             }
             .navigationTitle("Socials")
             .toolbar {
