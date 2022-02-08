@@ -29,59 +29,67 @@ struct ScheduleCard: View {
     var onTapCallback : (EventInformationModel) -> ()
     
     var body: some View {
-        Button {
-            self.onTapCallback(data)
-        } label: {
-            VStack {
-                // image can be removed later on if we dont want to have the host of the event add it
-                ZStack(alignment: .top) {
-                    WebImage(url: self.placeHolderImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    HStack {
-                        Spacer()
+        if #available(iOS 15.0, *) {
+            Button {
+                self.onTapCallback(data)
+            } label: {
+                VStack {
+                    // image can be removed later on if we dont want to have the host of the event add it
+                    ZStack(alignment: .top) {
+                        WebImage(url: self.placeHolderImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                         HStack {
-                            RoundedRectangle(cornerRadius: 50)
-                                .frame(width: 65, height: 65)
-                                .foregroundColor(Color(.systemGray4))
-                                .overlay(Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 40))).padding([.top, .trailing], 5)
-
+                            Spacer()
+                            HStack {
+                                RoundedRectangle(cornerRadius: 50)
+                                    .frame(width: 65, height: 65)
+                                    .foregroundColor(Color(.systemGray4))
+                                    .overlay(Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 40))).padding([.top, .trailing], 5)
+                                
+                            }
                         }
                     }
-                }
-                
-                VStack(alignment: .leading) {
-                    Text(data.category)
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                    Text(data.name)
-                        .font(.title)
-                        .fontWeight(.black)
-                        .foregroundColor(.primary)
-                    //.lineLimit(3) maybe we dont need it...maybe we dooo?
-                    HStack {
-                        Text(data.time, formatter: dateFormatter)
-                            .font(.caption)
+                    
+                    VStack(alignment: .leading) {
+                        Text(data.category)
+                            .font(.headline)
                             .foregroundColor(.secondary)
-                        Spacer()
-                        FriendsCommonEvent()
+                        Text(data.name)
+                            .font(.title)
+                            .fontWeight(.black)
+                            .foregroundColor(.primary)
+                        //.lineLimit(3) maybe we dont need it...maybe we dooo?
+                        HStack {
+                            Text(data.time, formatter: dateFormatter)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            FriendsCommonEvent()
+                        }
                     }
+                    //                    .layoutPriority(100)
+                    
+                    
+                    .padding()
                 }
-                //                    .layoutPriority(100)
-                
-                
-                .padding()
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+                )
+                .padding([.top, .horizontal])
             }
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-            )
-            .padding([.top, .horizontal])
-        }
-        .buttonStyle(CardButtonStyle())
-        .onAppear {
-            FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
+            .buttonStyle(CardButtonStyle())
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(action: {
+                    
+                }) {
+                    Image(systemName: "trash")
+                }
+            }
+            .onAppear {
+                FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
                     switch connectionResult {
                     case .success(let url):
                         self.placeHolderImage = url[0]
@@ -90,6 +98,7 @@ struct ScheduleCard: View {
                     }
                 }
             }
+        }
     }
 }
 
