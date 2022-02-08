@@ -21,6 +21,8 @@ struct HomeView: View {
     @State var showingHeaAlert = false
     @State var showingAniAlert = false
     
+    @State var selectedIndexOfServiceType = 0
+    
     @State var eventDatas = [EventInformationModel]()
 
     var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶"]
@@ -95,10 +97,9 @@ struct HomeView: View {
                                 ForEach(0..<5, id: \.self) { index in
                                     RoundedRectangle(cornerRadius: 50)
                                         .frame(width: 75, height: 75)
-                                        .foregroundColor(Color(.systemGray4))
+                                        .foregroundColor(Color(selectedIndexOfServiceType == index ? .systemGray6 : .systemGray4))
                                         .overlay(Text(categories[index]).font(.system(size: 30)))
                                         .onTapGesture() {
-                                            print("ashjbsdafljbsdlfhjbsdaf ", index)
                                             if index == 0 {
                                                 showingEnvAlert.toggle()
                                             } else if index == 1 {

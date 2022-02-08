@@ -12,7 +12,7 @@ struct ScheduleCard: View {
     var data: EventInformationModel
     
     @State var placeHolderImage = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")
-
+    
     var dateToString: String = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyy"
@@ -51,22 +51,35 @@ struct ScheduleCard: View {
                         }
                     }
                     
-                    VStack(alignment: .leading) {
-                        Text(data.category)
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        Text(data.name)
-                            .font(.title)
-                            .fontWeight(.black)
-                            .foregroundColor(.primary)
-                        //.lineLimit(3) maybe we dont need it...maybe we dooo?
-                        HStack {
-                            Text(data.time, formatter: dateFormatter)
-                                .font(.caption)
+                    ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
+                        VStack(alignment: .leading) {
+                            Text(data.category)
+                                .font(.headline)
                                 .foregroundColor(.secondary)
-                            Spacer()
-                            FriendsCommonEvent()
+                            Text(data.name)
+                                .font(.title)
+                                .fontWeight(.black)
+                                .foregroundColor(.primary)
+                            //.lineLimit(3) maybe we dont need it...maybe we dooo?
+                            HStack {
+                                Text(data.time, formatter: dateFormatter)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                                FriendsCommonEvent()
+                            }
+                            HStack () {
+                                Spacer()
+                                Image(systemName: "location.north.circle.fill")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                
+                            }
+                            
                         }
+                        
                     }
                     //                    .layoutPriority(100)
                     
