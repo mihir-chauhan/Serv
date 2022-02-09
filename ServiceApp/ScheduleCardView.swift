@@ -93,7 +93,7 @@ struct ScheduleCard: View {
                 )
                 .padding([.top, .horizontal])
             }
-            .buttonStyle(CardButtonStyle())
+//            .buttonStyle(CardButtonStyle())
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(action: {
                     
@@ -116,10 +116,10 @@ struct ScheduleCard: View {
 }
 
 
-struct CardButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        return configuration.label
-            .scaleEffect(configuration.isPressed ? 0.96 : 1)
-            .animation(.easeIn, value: configuration.isPressed)
-    }
-}
+//struct CardButtonStyle: ButtonStyle {
+//    func makeBody(configuration: Configuration) -> some View {
+//        return configuration.label
+//            .scaleEffect(configuration.isPressed ? 0.96 : 1)
+//            .animation(.easeIn, value: configuration.isPressed)
+//    }
+//}
