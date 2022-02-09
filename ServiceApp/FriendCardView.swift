@@ -49,6 +49,6 @@ struct FriendCardView: View {
             )
             .padding([.top, .horizontal], 5)
         }
-        .buttonStyle(CardButtonStyle())
+//        .buttonStyle(CardButtonStyle())
     }
 }

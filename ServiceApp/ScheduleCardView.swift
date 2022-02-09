@@ -61,9 +61,25 @@ struct ScheduleCard: View {
                     
                     ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
                         VStack(alignment: .leading) {
-                            Text(data.category)
-                                .font(.headline)
-                                .foregroundColor(.secondary)
+                            HStack {
+                                
+                                Text(data.category)
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                                Spacer(minLength: 20)
+                                Image(systemName: "location.north.circle.fill")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .onTapGesture {
+                                        let url = URL(string: "maps://?saddr=&daddr=\(data.coordinate.latitude),\(data.coordinate.longitude)")
+                                        if UIApplication.shared.canOpenURL(url!) {
+                                              UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+                                        }
+
+                                    }
+                            }
                             Text(data.name)
                                 .font(.title)
                                 .fontWeight(.black)
@@ -75,15 +91,6 @@ struct ScheduleCard: View {
                                     .foregroundColor(.secondary)
                                 Spacer()
                                 FriendsCommonEvent()
-                            }
-                            HStack () {
-                                Spacer()
-                                Image(systemName: "location.north.circle.fill")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                
                             }
                             
                         }
@@ -101,7 +108,7 @@ struct ScheduleCard: View {
                 )
                 .padding([.top, .horizontal])
             }
-//            .buttonStyle(CardButtonStyle())
+            .buttonStyle(CardButtonStyle())
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(action: {
                     
@@ -124,10 +131,10 @@ struct ScheduleCard: View {
 }
 
 
-//struct CardButtonStyle: ButtonStyle {
-//    func makeBody(configuration: Configuration) -> some View {
-//        return configuration.label
-//            .scaleEffect(configuration.isPressed ? 0.96 : 1)
-//            .animation(.easeIn, value: configuration.isPressed)
-//    }
-//}
+struct CardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        return configuration.label
+            .scaleEffect(configuration.isPressed ? 0.96 : 1)
+            .animation(.easeIn, value: configuration.isPressed)
+    }
+}
