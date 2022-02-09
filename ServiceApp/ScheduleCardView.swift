@@ -50,6 +50,14 @@ struct ScheduleCard: View {
                             }
                         }
                     }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button(action: {
+                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                        }) {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
+                    }.tint(.clear)
                     
                     ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
                         VStack(alignment: .leading) {

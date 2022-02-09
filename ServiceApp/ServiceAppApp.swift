@@ -20,6 +20,7 @@ struct ServiceAppApp: App {
         WindowGroup {
 //            DisplayFIRImages()
             ContentView()
+//            ConfirmNewFriendView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
