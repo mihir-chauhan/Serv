@@ -15,11 +15,12 @@ struct AddFriendSheet: View {
     @State var selectedImage: UIImage? = nil
     
     @State var showingAlert: Bool = false
+    @State var showingAlreadyFriendAlert: Bool = false
     var body: some View {
         NavigationView {
             if #available(iOS 15.0, *) {
                 TabView {
-                    Image(uiImage: UIImage(data: generateQRCode(from: UIDevice.current.identifierForVendor!.uuidString)!)!)
+                    Image(uiImage: UIImage(data: generateQRCode(from: user_uuid)!)!)
                         .resizable()
                         .frame(width: 290, height: 290, alignment: .center)
                         .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -34,11 +35,23 @@ struct AddFriendSheet: View {
                                     switch response {
                                     case .success(let result):
                                         if UUID(uuidString: result.string) != nil {
-                                            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-                                            print("Found code: \(result.string)")
+                                            FirebaseRealtimeDatabaseCRUD().readFriends(for: user_uuid) { friendsArray in
+                                                if friendsArray == nil {
+                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: user_uuid, friendUUID: result.string)
+                                                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                                                } else {
+                                                    for i in 0..<friendsArray!.count {
+                                                        if friendsArray![i] == result.string {
+                                                            showingAlreadyFriendAlert.toggle()
+                                                            return;
+                                                        }
+                                                    }
+                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: user_uuid, friendUUID: result.string)
+                                                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                                                }
+                                            }
                                         } else {
                                             showingAlert.toggle()
-                                            
                                         }
                                         // add friend to firebase DB, when implemented.......
                                     case .failure(let error):
@@ -60,6 +73,10 @@ struct AddFriendSheet: View {
                     }
                 }
                 
+                .alert("Friend Already Exists!", isPresented: $showingAlreadyFriendAlert) {
+                    Button("OK", role: .cancel) {
+                    }
+                }
                 
                 .alert("QR Code is Invalid!", isPresented: $showingAlert) {
                     Button("OK", role: .cancel) {
