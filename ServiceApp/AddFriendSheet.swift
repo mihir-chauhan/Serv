@@ -16,6 +16,7 @@ struct AddFriendSheet: View {
     
     @State var showingAlert: Bool = false
     @State var showingAlreadyFriendAlert: Bool = false
+    @State var showSuccess: Bool = false
     var body: some View {
         NavigationView {
             if #available(iOS 15.0, *) {
@@ -38,6 +39,7 @@ struct AddFriendSheet: View {
                                             FirebaseRealtimeDatabaseCRUD().readFriends(for: user_uuid) { friendsArray in
                                                 if friendsArray == nil {
                                                     FirebaseRealtimeDatabaseCRUD().writeFriends(for: user_uuid, friendUUID: result.string)
+                                                        showSuccess = true
                                                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                                                 } else {
                                                     for i in 0..<friendsArray!.count {
@@ -67,6 +69,9 @@ struct AddFriendSheet: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
                                     .padding()
                             }
+                        }
+                        if showSuccess {
+                            ConfirmNewFriendView(show: $showSuccess)
                         }
                     }.tabItem {
                         Image(systemName: "qrcode.viewfinder")
