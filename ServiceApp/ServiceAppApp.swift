@@ -19,11 +19,8 @@ struct ServiceAppApp: App {
     var body: some Scene {
         WindowGroup {
 //            DisplayFIRImages()
-//            ContentView()
-//            ConfirmNewFriendView()
-            AddFriendSheet()
-//            CheckMarkAnimation()
-//            ButtonAnimationView()
+            ContentView()
+
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

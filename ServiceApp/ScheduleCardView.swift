@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct ScheduleCard: View {
     var data: EventInformationModel
-    
+    @State var showingAlert = false
     @State var placeHolderImage = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")
     
     var dateToString: String = {
@@ -77,7 +77,21 @@ struct ScheduleCard: View {
                                         if UIApplication.shared.canOpenURL(url!) {
                                               UIApplication.shared.open(url!, options: [:], completionHandler: nil)
                                         }
-
+                                    }
+                                Image(systemName: "trash.circle.fill")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(Color(.red))
+                                    .frame(width: 25, height: 25)
+                                    .onTapGesture {
+                                        showingAlert = true
+                                    }
+                                    .alert("Are you sure you want to delete the event?", isPresented: $showingAlert) {
+                                        Button("cancel", role: .cancel) { }
+                                        Button("delete", role: .destructive) {
+                                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                                        }
                                     }
                             }
                             Text(data.name)
