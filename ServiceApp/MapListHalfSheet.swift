@@ -55,20 +55,28 @@ struct HalfSheetModalView: View {
             .gesture(DragGesture()
                         .onChanged { value in
                 if self.sheetObserver.sheetMode != .half {
-                    self.dragOffset = value.translation.height
+                    
+                    
+                    if (self.sheetObserver.sheetMode == .full && self.dragOffset < -10) || (self.sheetObserver.sheetMode == .quarter && value.translation.height > 0) {
+                    } else {
+                        self.dragOffset = value.translation.height
+                    }
                 }
             }
                         .onEnded { value in
                 self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
-                        if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
-                            self.dragOffset = 0
-                            self.sheetObserver.toFullSheet()
-                    
-                        }
+                
+                if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
+                    self.dragOffset = 0
+                    self.sheetObserver.toFullSheet()
+                }
                 if self.sheetObserver.sheetMode == .full && value.translation.height > 100 {
                     self.dragOffset = 0
                     self.sheetObserver.toQuarterSheet()
-                    
+                }
+                if self.sheetObserver.sheetMode == .full && self.dragOffset < -10 {
+                    self.dragOffset = 0
+                    self.sheetObserver.toFullSheet()
                 }
             })
         }
