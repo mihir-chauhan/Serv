@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct CustomTabBar: View {
     @State public var selectedIndex: TabBarItem = .home
