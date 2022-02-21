@@ -25,23 +25,31 @@ struct SignInView: View {
         Button(action: {
             viewModel.signIn()
         }) {
-            Text("Sign in with Google")
+            HStack {
+                Image("google")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 35, height: 35)
+                Text("Sign in with Google")
+            }
         }
     }
 }
 
 struct SignedInView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    private let user = GIDSignIn.sharedInstance.currentUser
+    private let user1 = GIDSignIn.sharedInstance.currentUser
+    private let user = Auth.auth().currentUser
     var body: some View {
-        Text("Signed in as \((user?.profile?.name ?? "") as String)")
-        
+        Text("Signed in as \((user?.displayName ?? "") as String)")
+        Text("\(user?.uid ?? "")")
         Button(action: {
             viewModel.signOut()
         }) {
             Text("Sign out")
         }
-        if let url = user?.profile?.imageURL(withDimension: 200) {
+        if let url = user1?.profile?.imageURL(withDimension: 200) {
+            let _ = print("55", user!.uid)
             WebImage(url: url)
                 .cornerRadius(15)
             
@@ -99,11 +107,22 @@ class AuthViewModel: ObservableObject {
         
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: auth.accessToken)
         
-        Auth.auth().signIn(with: credential) { _, err in
+        Auth.auth().signIn(with: credential) { user, err in
             if let err = err {
                 print(err.localizedDescription)
             } else {
                 self.state = .signedIn
+                
+                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
+                    if exists == true {
+                        print("Welcome back \(user!.user.displayName ?? "no name")")
+                    }
+                    else {
+                        
+                        FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: "")
+                    }
+                }
+
             }
         }
     }

@@ -46,7 +46,6 @@
 		BEB551CE27C1A820008ED810 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CD27C1A820008ED810 /* FirebaseFirestore */; };
 		BEB551D027C1A820008ED810 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CF27C1A820008ED810 /* FirebaseStorage */; };
 		BEB551D327C1AEB4008ED810 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551D227C1AEB4008ED810 /* GoogleSignIn */; };
-		BEB551D527C1B403008ED810 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB551D427C1B403008ED810 /* SignIn.swift */; };
 		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
 		BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */; };
@@ -91,7 +90,6 @@
 		B3E6FCE0277C5A53004DEE5B /* Socials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socials.swift; sourceTree = "<group>"; };
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignIn.swift; sourceTree = "<group>"; };
-		BEB551D427C1B403008ED810 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
 		BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOOL_fir_batch_transaction.swift; sourceTree = "<group>"; };
 		BED38A7D27A65F8C0080D5B9 /* Experimental .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Experimental .swift"; sourceTree = "<group>"; };
@@ -223,7 +221,6 @@
 				B319D157277EE7880045F06D /* Schedule.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
 				BE196EFA279CDA2800DA0217 /* Settings.swift */,
-				BEB551D427C1B403008ED810 /* SignIn.swift */,
 				BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
@@ -347,7 +344,6 @@
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
-				BEB551D527C1B403008ED810 /* SignIn.swift in Sources */,
 				B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */,
 				B3E6FCCD277C594A004DEE5B /* CustomTabBar.swift in Sources */,
 				B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */,

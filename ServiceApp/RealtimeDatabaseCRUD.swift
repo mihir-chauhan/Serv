@@ -84,5 +84,19 @@ class FirebaseRealtimeDatabaseCRUD {
             }
         }
     }
+    
+    func checkIfUserExists(uuidString: String, completion: @escaping (Bool) -> ()) {
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.hasChild(uuidString) {
+                completion(true)
+            }
+            completion(false)
+        }
+    }
+    
+    //TODO: create new element for new user for GAuth
+    func registerNewUser(uid: String) {
+//        ref.child().setValue()
+    }
 }
 
