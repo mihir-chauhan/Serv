@@ -118,8 +118,8 @@ class AuthViewModel: ObservableObject {
                         print("Welcome back \(user!.user.displayName ?? "no name")")
                     }
                     else {
-                        
-                        FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: "")
+                        FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: user!.user.uid)
+                        print("Tell us about yourself")
                     }
                 }
 

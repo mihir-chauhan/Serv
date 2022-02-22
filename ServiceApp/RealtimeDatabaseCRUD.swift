@@ -94,9 +94,11 @@ class FirebaseRealtimeDatabaseCRUD {
         }
     }
     
-    //TODO: create new element for new user for GAuth
     func registerNewUser(uid: String) {
-//        ref.child().setValue()
+        ref.child("\(uid)/Friends").setValue(["F1"])
+        ref.child("\(uid)/Events").setValue(["E1"])
+        
+        //TODO: Have users enter basic information about themselves via a form if they're new.
     }
 }
 
