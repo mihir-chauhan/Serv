@@ -11,7 +11,7 @@ import Firebase
 import SDWebImageSwiftUI
 import SwiftUI
 
-class FIRCloudImages2 {
+class FIRCloudImages2: SDImageCache {
 //    @Published
     let storage = Storage.storage()
     func getRemoteImages(completion: @escaping (ConnectionResult) -> ()) {
@@ -34,7 +34,7 @@ class FIRCloudImages2 {
                 }
             }
 //            completion(.success(items))
-            
+//            SDImageCache().storeImage(toMemory: <#T##UIImage?#>, forKey: <#T##String?#>)
         }
         
 
