@@ -20,6 +20,7 @@
 		B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B339FBB5278F53D200545F0E /* CloudKit.framework */; };
 		B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */; };
 		B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */; };
+		B37762E027C5643300052200 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37762DF27C5643300052200 /* AuthManager.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */; };
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
@@ -72,6 +73,7 @@
 		B339FBB5278F53D200545F0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseCRUD.swift; sourceTree = "<group>"; };
 		B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreCRUD.swift; sourceTree = "<group>"; };
+		B37762DF27C5643300052200 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailModal.swift; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				F4365F5327C6146C00B29ACC /* ImageLoader-for_cache.swift */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
+				B37762DF27C5643300052200 /* AuthManager.swift */,
 			);
 			path = ServiceApp;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				F426FA3827B43E8C00899C4B /* ConfirmNewFriend.swift in Sources */,
 				B3E6FCD9277C5A0B004DEE5B /* MapListHalfSheet.swift in Sources */,
 				BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */,
+				B37762E027C5643300052200 /* AuthManager.swift in Sources */,
 				B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */,
 				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
