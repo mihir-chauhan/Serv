@@ -11,7 +11,8 @@ import SDWebImageSwiftUI
 struct RecommendedView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @Environment(\.colorScheme) var colorScheme
-    @State var placeHolderImage = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")
+    @State var placeHolderURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")
+    @State var placeHolderUIImage = UIImage()
     var data: EventInformationModel
     var dateToString: String {
         get {
@@ -27,13 +28,29 @@ struct RecommendedView: View {
                 
                 .foregroundColor(colorScheme == .light ? Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)) : Color(#colorLiteral(red: 48/255, green: 48/255, blue: 48/255, alpha: 1)))
             VStack(alignment: .leading) {
-                WebImage(url: self.placeHolderImage)
+//                AsyncImage(url: self.placeHolderURL) { phase in
+//                    if let image = phase.image {
+//                        image.resizable()
+//                        .scaledToFill()
+//                        .frame(width: 290, height: 145)
+//                        .clipped()
+//                        .background(Color(.systemGray4))
+//                        .cornerRadius(20, corners: [.topLeft, .topRight])
+//
+//
+//                    }
+//                    else if phase.error != nil {
+//                        ProgressView()
+//                    }
+//                }
+                Image(uiImage: self.placeHolderUIImage)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 290, height: 145)
                     .clipped()
                     .background(Color(.systemGray4))
                     .cornerRadius(20, corners: [.topLeft, .topRight])
+                
 
                 HStack {
                     Text(data.name)
@@ -56,15 +73,27 @@ struct RecommendedView: View {
                 }.padding(15)
             }
             .onAppear {
-                FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
-                        switch connectionResult {
-                        case .success(let url):
-                            self.placeHolderImage = url[0]
-                        case .failure(let error):
-                            print(error)
+//                add parameter for path
+                FIRCloudImages3.listAllImages { result in
+                    switch result {
+                    case .success(let url):
+//                        gets the first picture url of a particular event(it becomes a pfp)
+//                        self.placeHolderURL.removeAll()
+//                        self.placeHolderURL = url[0]
+//                        for i in data.images! {
+//                            print("B", i)
+//                        }
+                        FIRCloudImages3.getRemoteImages(gsURL: data.images![0]) { image in
+
+                            self.placeHolderUIImage = image!
                         }
+                    case .failure(let _):
+                        break
                     }
                 }
+
+                print("cache size", URLCache.shared.memoryCapacity / 1024)
+            }
         }.frame(width: 290, height: 250)
             .onTapGesture {
                 self.sheetObserver.sheetMode = .half

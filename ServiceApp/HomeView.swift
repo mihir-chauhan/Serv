@@ -122,8 +122,13 @@ struct HomeView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 //                            TODO: create a detail view for the cards listed in "recommended"
-                                ForEach(0..<self.results.allFIRResults.count, id: \.self) { img in
-                                    RecommendedView(data: results.allFIRResults[img]).padding(.trailing, 30)
+//                                ForEach(0..<self.results.allFIRResults.count, id: \.self) { img in
+//                                    RecommendedView(data: results.allFIRResults[img]).padding(.trailing, 30)
+                                ForEach(0..<results.allFIRResults.count, id: \.self) { imgURL in
+//                                    FIRCloudImages3().getRemoteImages(gsURL: imgURL) { image in
+//                                        Image(uiImage: image!)
+                                    RecommendedView(data: results.allFIRResults[imgURL])
+                                    
                                 }
                                 
                             }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
@@ -156,6 +161,8 @@ struct HomeView: View {
                     }
                 }
             }
+            
+            
         }
         
         .alert(isPresented: $showingEnvAlert) {

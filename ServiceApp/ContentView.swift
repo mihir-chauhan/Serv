@@ -12,11 +12,14 @@ struct ContentView: View {
     @StateObject private var envVariablesForSettings = EnvironmentVariables()
     @StateObject private var signInState = AuthViewModel()
     var body: some View {
-//        CustomTabBar()
+        CustomTabBar()
 //        SignIn()
-        AuthViewManager()
+//        AuthViewManager()
             .environmentObject(sheetObserver)
             .environmentObject(envVariablesForSettings)
             .environmentObject(signInState)
+            .onAppear {
+                
+            }
     }
 }
