@@ -73,23 +73,8 @@ struct RecommendedView: View {
                 }.padding(15)
             }
             .onAppear {
-//                add parameter for path
-                FIRCloudImages3.listAllImages { result in
-                    switch result {
-                    case .success(let url):
-//                        gets the first picture url of a particular event(it becomes a pfp)
-//                        self.placeHolderURL.removeAll()
-//                        self.placeHolderURL = url[0]
-//                        for i in data.images! {
-//                            print("B", i)
-//                        }
-                        FIRCloudImages3.getRemoteImages(gsURL: data.images![0]) { image in
-
-                            self.placeHolderUIImage = image!
-                        }
-                    case .failure(let _):
-                        break
-                    }
+                FIRCloudImages3.getImage(gsURL: data.images![0]) { image in
+                    self.placeHolderUIImage = image!
                 }
 
                 print("cache size", URLCache.shared.memoryCapacity / 1024)
