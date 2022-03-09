@@ -23,7 +23,7 @@ struct AuthViewManager: View {
         SignInView()
     }
 }
-
+ 
 struct SignInView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State var currentNonce:String?
