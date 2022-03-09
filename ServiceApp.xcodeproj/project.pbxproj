@@ -54,8 +54,6 @@
 		BED38A7E27A65F8C0080D5B9 /* Experimental .swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7D27A65F8C0080D5B9 /* Experimental .swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
 		F426FA3827B43E8C00899C4B /* ConfirmNewFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */; };
-		F4365F5227C5621900B29ACC /* CachingImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4365F5127C5621900B29ACC /* CachingImages.swift */; };
-		F4365F5427C6146D00B29ACC /* ImageLoader-for_cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4365F5327C6146C00B29ACC /* ImageLoader-for_cache.swift */; };
 		F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E233F27A9B263007AF9D4 /* RecommendedView.swift */; };
 /* End PBXBuildFile section */
 
@@ -101,8 +99,6 @@
 		BED38A7D27A65F8C0080D5B9 /* Experimental .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Experimental .swift"; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
 		F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmNewFriend.swift; sourceTree = "<group>"; };
-		F4365F5127C5621900B29ACC /* CachingImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingImages.swift; sourceTree = "<group>"; };
-		F4365F5327C6146C00B29ACC /* ImageLoader-for_cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageLoader-for_cache.swift"; sourceTree = "<group>"; };
 		F45E233F27A9B263007AF9D4 /* RecommendedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -231,8 +227,6 @@
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
 				BE196EFA279CDA2800DA0217 /* Settings.swift */,
 				BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */,
-				F4365F5127C5621900B29ACC /* CachingImages.swift */,
-				F4365F5327C6146C00B29ACC /* ImageLoader-for_cache.swift */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
 				B37762DF27C5643300052200 /* AuthManager.swift */,
@@ -339,7 +333,6 @@
 				B3E6FCD5277C59E2004DEE5B /* MapListElements.swift in Sources */,
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,
 				B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */,
-				F4365F5427C6146D00B29ACC /* ImageLoader-for_cache.swift in Sources */,
 				BEB2934027C1FE7C00D32BDE /* AuthSignIn.swift in Sources */,
 				B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */,
 				BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */,
@@ -357,7 +350,6 @@
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				BEBB061A27D41C1600CF0D23 /* FIRCloudImages3.swift in Sources */,
-				F4365F5227C5621900B29ACC /* CachingImages.swift in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
 				B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */,
 				B3E6FCCD277C594A004DEE5B /* CustomTabBar.swift in Sources */,

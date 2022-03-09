@@ -6,7 +6,7 @@
 //
 import SwiftUI
 import Firebase
-//import GoogleSignIn
+import GoogleSignIn
 import SDWebImageSwiftUI
 import CryptoKit
 import FirebaseAuth
@@ -32,14 +32,18 @@ struct SignInView: View {
 //        Button(action: {
 //            viewModel.signIn()
 //        }) {
+        SignInWithAppleButton(<#T##label: SignInWithAppleButton.Label##SignInWithAppleButton.Label#>) { <#ASAuthorizationAppleIDRequest#> in
+            <#code#>
+        } onCompletion: { <#Result<ASAuthorization, Error>#> in
+            <#code#>
+        }
+
+        
             SignInWithAppleButton(
                 
                 //Request
                 onRequest: { request in
-                    let nonce = viewModel.randomNonceString()
-                    currentNonce = nonce
-                    request.requestedScopes = [.fullName, .email]
-                    request.nonce = viewModel.sha256(nonce)
+                    viewModel.appleOnRequest(request: request)
                 },
                 
                 //Completion
@@ -70,6 +74,7 @@ struct SignInView: View {
                                     return
                                 }
                                 print("signed in")
+                                viewModel.state = .signedIn
                             }
                             
                             print("\(String(describing: Auth.auth().currentUser?.uid))")
@@ -87,102 +92,90 @@ struct SignInView: View {
     }
 }
 
-//struct SignedInView: View {
-//    @EnvironmentObject var viewModel: AuthViewModel
-//    private let user1 = GIDSignIn.sharedInstance.currentUser
-//    private let user = Auth.auth().currentUser
-//    var body: some View {
-//        Text("Signed in as \((user?.displayName ?? "") as String)")
-//        Text("\(user?.uid ?? "")")
-//        Button(action: {
-//            viewModel.signOut()
-//        }) {
-//            Text("Sign out")
-//        }
-//        if let url = user1?.profile?.imageURL(withDimension: 200) {
-//            let _ = print("55", user!.uid)
-//            WebImage(url: url)
-//                .cornerRadius(15)
-//
-//        }
-//    }
-//}
-
 
 class AuthViewModel: ObservableObject {
     
-//    enum SignInState {
-//        case signedIn
-//        case signedOut
-//    }
-//    @Published var state: SignInState = .signedOut
-//
-    // Google Sign In
-//
-//    func signIn() {
-//        if GIDSignIn.sharedInstance.hasPreviousSignIn() {
-//            GIDSignIn.sharedInstance.restorePreviousSignIn { [self] user, err in
-//                authenticateUser(for: user, with: err)
-//            }
-//        } else {
-//            guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-//            let config = GIDConfiguration(clientID: clientID)
-//
-//            guard
-//                let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                let root = screen.windows.first?.rootViewController
-//            else { return }
-//
-//            GIDSignIn.sharedInstance.signIn(with: config, presenting: root) { [self] user, err in
-//                authenticateUser(for: user, with: err)
-//            }
-//        }
-//    }
-//
-//    func signOut() {
-//        GIDSignIn.sharedInstance.signOut()
-//        do {
-//            try Auth.auth().signOut()
-//            self.state = .signedOut
-//        } catch {
-//            print(error.localizedDescription)
-//        }
-//    }
-//
-//    func authenticateUser(for user: GIDGoogleUser?, with err: Error?) {
-//        if let err = err {
-//            print(err.localizedDescription)
-//            return
-//        }
-//
-//        guard
-//            let auth = user?.authentication,
-//            let idToken = auth.idToken
-//        else { return }
-//
-//        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: auth.accessToken)
-//
-//        Auth.auth().signIn(with: credential) { user, err in
-//            if let err = err {
-//                print(err.localizedDescription)
-//            } else {
-//                self.state = .signedIn
-//
-//                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
-//                    if exists == true {
-//                        print("Welcome back \(user!.user.displayName ?? "no name")")
-//                    }
-//                    else {
-//                        FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: user!.user.uid)
-//                        print("Tell us about yourself")
-//                    }
-//                }
-//
-//            }
-//        }
-//    }
+    enum SignInState {
+        case signedIn
+        case signedOut
+    }
+//    make sign in/sign out state an environment object
+    @Published var state: SignInState = .signedOut
+    @Published var currentNonce: String?
+    /* Google Sign In */
+
+    func signIn() {
+        if GIDSignIn.sharedInstance.hasPreviousSignIn() {
+            GIDSignIn.sharedInstance.restorePreviousSignIn { [self] user, err in
+                authenticateUser(for: user, with: err)
+            }
+        } else {
+            guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+            let config = GIDConfiguration(clientID: clientID)
+
+            guard
+                let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                let root = screen.windows.first?.rootViewController
+            else { return }
+
+            GIDSignIn.sharedInstance.signIn(with: config, presenting: root) { [self] user, err in
+                authenticateUser(for: user, with: err)
+            }
+        }
+    }
+
+    func signOut() {
+        GIDSignIn.sharedInstance.signOut()
+        do {
+            try Auth.auth().signOut()
+            self.state = .signedOut
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+    private func authenticateUser(for user: GIDGoogleUser?, with err: Error?) {
+        if let err = err {
+            print(err.localizedDescription)
+            return
+        }
+
+        guard
+            let auth = user?.authentication,
+            let idToken = auth.idToken
+        else { return }
+
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: auth.accessToken)
+
+        Auth.auth().signIn(with: credential) { user, err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                self.state = .signedIn
+
+                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
+                    if exists == true {
+                        print("Welcome back \(user!.user.displayName ?? "no name")")
+                    }
+                    else {
+                        FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: user!.user.uid)
+                        print("Tell us about yourself")
+                    }
+                }
+
+            }
+        }
+    }
     
-    // Apple Sign In
+    /* Apple Sign In */
+    
+    func appleOnRequest(request: @escaping (ASAuthorizationAppleIDRequest) -> ()) {
+        let nonce = self.randomNonceString()
+        currentNonce = nonce
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = self.sha256(nonce)
+        request(
+    }
     
     func sha256(_ input: String) -> String {
             let inputData = Data(input.utf8)
@@ -194,7 +187,7 @@ class AuthViewModel: ObservableObject {
             return hashString
         }
     
-    func randomNonceString(length: Int = 32) -> String {
+    private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         let charset: Array<Character> =
         Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
@@ -229,3 +222,6 @@ class AuthViewModel: ObservableObject {
     
     
 }
+
+
+//TODO: create a class for ALL auth stuff and order them based on the type of auth
