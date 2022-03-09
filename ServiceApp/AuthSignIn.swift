@@ -12,99 +12,18 @@ import CryptoKit
 import FirebaseAuth
 import AuthenticationServices
 
-
-struct AuthViewManager: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    var body: some View {
-//        switch viewModel.state {
-//        case .signedIn: SignedInView()
-//        case .signedOut: SignInView()
-//        }
-        SignInView()
-    }
-}
- 
-struct SignInView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    @State var currentNonce:String?
-
-    var body: some View {
-//        Button(action: {
-//            viewModel.signIn()
-//        }) {
-        SignInWithAppleButton(<#T##label: SignInWithAppleButton.Label##SignInWithAppleButton.Label#>) { <#ASAuthorizationAppleIDRequest#> in
-            <#code#>
-        } onCompletion: { <#Result<ASAuthorization, Error>#> in
-            <#code#>
-        }
-
-        
-            SignInWithAppleButton(
-                
-                //Request
-                onRequest: { request in
-                    viewModel.appleOnRequest(request: request)
-                },
-                
-                //Completion
-                onCompletion: { result in
-                    switch result {
-                    case .success(let authResults):
-                        switch authResults.credential {
-                        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                            
-                            guard let nonce = currentNonce else {
-                                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-                            }
-                            guard let appleIDToken = appleIDCredential.identityToken else {
-                                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-                            }
-                            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                                return
-                            }
-                            
-                            let credential = OAuthProvider.credential(withProviderID: "apple.com",idToken: idTokenString,rawNonce: nonce)
-                            Auth.auth().signIn(with: credential) { (authResult, error) in
-                                if (error != nil) {
-                                    // Error. If error.code == .MissingOrInvalidNonce, make sure
-                                    // you're sending the SHA256-hashed nonce as a hex string with
-                                    // your request to Apple.
-                                    print(error?.localizedDescription as Any)
-                                    return
-                                }
-                                print("signed in")
-                                viewModel.state = .signedIn
-                            }
-                            
-                            print("\(String(describing: Auth.auth().currentUser?.uid))")
-                        default:
-                            break
-                            
-                        }
-                    default:
-                        break
-                    }
-                    
-                }
-            ).frame(width: 280, height: 45, alignment: .center)
-//        }
-    }
-}
-
-
 class AuthViewModel: ObservableObject {
     
     enum SignInState {
         case signedIn
         case signedOut
+        case error
     }
-//    make sign in/sign out state an environment object
     @Published var state: SignInState = .signedOut
-    @Published var currentNonce: String?
+    @State var currentNonce: String?
     /* Google Sign In */
 
-    func signIn() {
+    public func gAuthSignIn() {
         if GIDSignIn.sharedInstance.hasPreviousSignIn() {
             GIDSignIn.sharedInstance.restorePreviousSignIn { [self] user, err in
                 authenticateUser(for: user, with: err)
@@ -124,7 +43,7 @@ class AuthViewModel: ObservableObject {
         }
     }
 
-    func signOut() {
+    public func signOut() {
         GIDSignIn.sharedInstance.signOut()
         do {
             try Auth.auth().signOut()
@@ -169,15 +88,56 @@ class AuthViewModel: ObservableObject {
     
     /* Apple Sign In */
     
-    func appleOnRequest(request: @escaping (ASAuthorizationAppleIDRequest) -> ()) {
+    public func appleOnRequest(request: ASAuthorizationAppleIDRequest) {
         let nonce = self.randomNonceString()
         currentNonce = nonce
         request.requestedScopes = [.fullName, .email]
         request.nonce = self.sha256(nonce)
-        request(
+        
     }
     
-    func sha256(_ input: String) -> String {
+    public func appleOnCompletion(result: Result<ASAuthorization, Error>) {
+        switch result {
+        case .success(let authResults):
+            switch authResults.credential {
+            case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                
+                guard let nonce = currentNonce else {
+                    fatalError("Invalid state: A login callback was received, but no login request was sent.")
+                }
+                guard let appleIDToken = appleIDCredential.identityToken else {
+                    fatalError("Invalid state: A login callback was received, but no login request was sent.")
+                }
+                guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                    print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                    return
+                }
+                
+                let credential = OAuthProvider.credential(withProviderID: "apple.com",idToken: idTokenString,rawNonce: nonce)
+                Auth.auth().signIn(with: credential) { (authResult, error) in
+                    if (error != nil) {
+                        // Error. If error.code == .MissingOrInvalidNonce, make sure
+                        // you're sending the SHA256-hashed nonce as a hex string with
+                        // your request to Apple.
+                        print(error?.localizedDescription as Any)
+                        self.state = .error
+                        return
+                    }
+                    print("signed in")
+                    self.state = .signedIn
+                }
+                
+                print("\(String(describing: Auth.auth().currentUser?.uid))")
+            default:
+                break
+                
+            }
+        default:
+            break
+        }
+    }
+    
+    private func sha256(_ input: String) -> String {
             let inputData = Data(input.utf8)
             let hashedData = SHA256.hash(data: inputData)
             let hashString = hashedData.compactMap {
@@ -218,10 +178,5 @@ class AuthViewModel: ObservableObject {
         
         return result
     }
-    
-    
-    
 }
 
-
-//TODO: create a class for ALL auth stuff and order them based on the type of auth
