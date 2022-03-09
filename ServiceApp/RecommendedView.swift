@@ -11,8 +11,8 @@ import SDWebImageSwiftUI
 struct RecommendedView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @Environment(\.colorScheme) var colorScheme
-    @State var placeHolderURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")
-    @State var placeHolderUIImage = UIImage()
+    @State var viewRendered = false
+    @State var placeHolderUIImage: UIImage?
     var data: EventInformationModel
     var dateToString: String {
         get {
@@ -23,67 +23,62 @@ struct RecommendedView: View {
         }
     }
     var body: some View {
-        ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
-            RoundedRectangle(cornerRadius: 20)
+        if !self.viewRendered {
+            ProgressView().frame(width: 290, height: 250)
+                .onAppear {
+                    FIRCloudImages3.getImage(gsURL: data.images![0]) { image in
+                        self.placeHolderUIImage = image!
+                        self.viewRendered = true
+                    }
+                    
+                    print("cache size", URLCache.shared.memoryCapacity / 1024)
+                }
+        }
+        else {
+            ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
+                RoundedRectangle(cornerRadius: 20)
                 
-                .foregroundColor(colorScheme == .light ? Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)) : Color(#colorLiteral(red: 48/255, green: 48/255, blue: 48/255, alpha: 1)))
-            VStack(alignment: .leading) {
-//                AsyncImage(url: self.placeHolderURL) { phase in
-//                    if let image = phase.image {
-//                        image.resizable()
-//                        .scaledToFill()
-//                        .frame(width: 290, height: 145)
-//                        .clipped()
-//                        .background(Color(.systemGray4))
-//                        .cornerRadius(20, corners: [.topLeft, .topRight])
-//
-//
-//                    }
-//                    else if phase.error != nil {
-//                        ProgressView()
-//                    }
-//                }
-                Image(uiImage: self.placeHolderUIImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 290, height: 145)
-                    .clipped()
-                    .background(Color(.systemGray4))
-                    .cornerRadius(20, corners: [.topLeft, .topRight])
-                
-
-                HStack {
-                    Text(data.name)
-                        .font(.headline)
-                        .padding(15)
+                    .foregroundColor(colorScheme == .light ? Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)) : Color(#colorLiteral(red: 48/255, green: 48/255, blue: 48/255, alpha: 1)))
+                VStack(alignment: .leading) {
+                    if let imageLoaded = self.placeHolderUIImage {
+                        Image(uiImage: imageLoaded)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 290, height: 145)
+                            .clipped()
+                            .background(Color(.systemGray4))
+                            .cornerRadius(20, corners: [.topLeft, .topRight])
+                    }
+                    
+                    
+                    HStack {
+                        Text(data.name)
+                            .font(.headline)
+                            .padding(15)
+                        Spacer()
+                        Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 20)).padding(.trailing, 5)
+                    }
+                    
                     Spacer()
-                    Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 20)).padding(.trailing, 5)
+                    
+                    HStack {
+                        Text(data.category)
+                            .font(.caption)
+                            .bold()
+                        Spacer()
+                        Text(self.dateToString)
+                            .font(.system(size: 10))
+                            .font(.caption2)
+                    }.padding(15)
                 }
                 
-                Spacer()
-                
-                HStack {
-                    Text(data.category)
-                        .font(.caption)
-                        .bold()
-                    Spacer()
-                    Text(self.dateToString)
-                        .font(.system(size: 10))
-                        .font(.caption2)
-                }.padding(15)
             }
-            .onAppear {
-                FIRCloudImages3.getImage(gsURL: data.images![0]) { image in
-                    self.placeHolderUIImage = image!
-                }
-
-                print("cache size", URLCache.shared.memoryCapacity / 1024)
-            }
-        }.frame(width: 290, height: 250)
+            .frame(width: 290, height: 250)
             .onTapGesture {
                 self.sheetObserver.sheetMode = .half
                 EventDetailView(data: self.sheetObserver.eventDetailData, sheetMode: self.$sheetObserver.sheetMode)
             }
+        }
     }
 }
 
