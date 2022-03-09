@@ -10,11 +10,11 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var sheetObserver = SheetObserver()
     @StateObject private var envVariablesForSettings = EnvironmentVariables()
-    @StateObject private var signInState = AuthViewModel()
+    @StateObject private var signInState = EPAuthViewModel()
     var body: some View {
 //        CustomTabBar()
 //        SignIn()
-        AuthViewManager()
+        EPAuthViewManager()
             .environmentObject(sheetObserver)
             .environmentObject(envVariablesForSettings)
             .environmentObject(signInState)
