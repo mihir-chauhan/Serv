@@ -17,6 +17,12 @@ struct Settings: View {
 //            Toggle("Dark Mode", isOn: $environmentVariables.isDarkMode)
             Toggle("Share Activity with Friends", isOn: $shareActivityWithFriends)
             Toggle("See Friend Activity", isOn: $seeFriendActivity)
+            
+            Button(action: {
+                
+            }) {
+                Text("Sign Out").foregroundColor(.red)
+            }
         }
     }
 }
