@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
 //        CustomTabBar()
 //        SignIn()
-        EPAuthViewManager()
+        SignInView()
             .environmentObject(sheetObserver)
             .environmentObject(envVariablesForSettings)
             .environmentObject(signInState)

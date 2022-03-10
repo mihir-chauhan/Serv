@@ -12,23 +12,57 @@ import AuthenticationServices
 struct AuthViewManager: View {
     @EnvironmentObject var viewModel: AuthViewModel
     var body: some View {
-//        switch viewModel.state {
-//        case .signedIn: SignedInView()
-//        case .signedOut: SignInView()
-//        }
+        //        switch viewModel.state {
+        //        case .signedIn: SignedInView()
+        //        case .signedOut: SignInView()
+        //        }
         SignInView()
     }
 }
 
 struct SignInView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var viewModel = AuthViewModel()
+    @StateObject var viewModelForEP = EPAuthViewModel()
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
     
     var body: some View {
-        
-        TextField("", text: $usernameEntered)
-        TextField("", text: $passwordEntered)
+        Group {
+            HStack {
+                TextField("username", text: $usernameEntered).keyboardType(.emailAddress)
+                if !usernameEntered.isEmpty {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(Color(.systemGray2))
+                        .padding(.horizontal, 3)
+                        .onTapGesture {
+                            self.usernameEntered = ""
+                        }
+                }
+            }.padding(10)
+                .background(Color.white.opacity(0.5))
+                .cornerRadius(12)
+            HStack {
+                TextField("password", text: $passwordEntered)
+                if !passwordEntered.isEmpty {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(Color(.systemGray2))
+                        .padding(.horizontal, 3)
+                        .onTapGesture {
+                            self.passwordEntered = ""
+                        }
+                }
+            }
+            .padding(10)
+            .background(Color.white.opacity(0.5))
+            .cornerRadius(12)
+        }
+        if !usernameEntered.isEmpty && !passwordEntered.isEmpty {
+            Button(action: {
+                viewModelForEP.signIn(email: usernameEntered, password: passwordEntered)
+            }) {
+                Text("Log in")
+            }
+        }
         Button(action: {
             viewModel.gAuthSignIn()
         }) {
@@ -37,7 +71,7 @@ struct SignInView: View {
                     .resizable()
                     .frame(width: 20, height: 20)
                     .aspectRatio(contentMode: .fit)
-                    
+                
                 Text("Continue with Google")
                     .foregroundColor(.black)
             }
@@ -55,9 +89,16 @@ struct SignInView: View {
             },
             onCompletion: { result in
                 viewModel.appleOnCompletion(result: result)
-            }
-        )
+            })
             .frame(width: 280, height: 45, alignment: .center)
             .clipShape(Capsule())
+        
+        Button(action: {
+            viewModelForEP.createUser(email: "random@gmail.com", password: "random_modnar")
+        }) {
+            Text("Register with email")
+        }
     }
 }
+
+             

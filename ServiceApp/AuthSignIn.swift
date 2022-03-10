@@ -81,7 +81,6 @@ class AuthViewModel: ObservableObject {
                         print("Tell us about yourself")
                     }
                 }
-
             }
         }
     }
