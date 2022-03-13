@@ -13,9 +13,6 @@ struct CustomTabBar: View {
     @Namespace var animation
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
-//            Color.gray
-//        VStack {
-//            ZStack {
                 switch selectedIndex {
                 case .home:
                     HomeView(animation: animation)

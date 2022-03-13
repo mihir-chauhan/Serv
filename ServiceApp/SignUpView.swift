@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject var viewModelForEP = EPAuthViewModel()
+    @StateObject var viewModel = AuthViewModel()
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
     @State var confirmPasswordEntered: String = ""
@@ -36,7 +36,7 @@ struct SignUpView: View {
                     
                     
                     Button(action: {
-                        viewModelForEP.createUser(email: usernameEntered, password: passwordEntered)
+                        viewModel.createUser(email: usernameEntered, password: passwordEntered)
                     }) {
                         Capsule()
                             .frame(width: 100, height: 35)

@@ -42,7 +42,9 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
-
+    public func emailPwdSignIn(email: String, password: String) {
+        authenticateUserEmail(for: email, password: password)
+    }
     public func signOut() {
         GIDSignIn.sharedInstance.signOut()
         do {
@@ -69,9 +71,8 @@ class AuthViewModel: ObservableObject {
         Auth.auth().signIn(with: credential) { user, err in
             if let err = err {
                 print(err.localizedDescription)
+                self.state = .error
             } else {
-                
-
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
                     if exists == true {
                         print("Welcome back \(user!.user.displayName ?? "no name")")
@@ -159,6 +160,7 @@ class AuthViewModel: ObservableObject {
                 var random: UInt8 = 0
                 let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
                 if errorCode != errSecSuccess {
+                    self.state = .error
                     fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
                 }
                 return random
@@ -175,8 +177,69 @@ class AuthViewModel: ObservableObject {
                 }
             }
         }
-        
         return result
+    }
+    
+    
+    /* Email & Password */
+    private func authenticateUserEmail(for email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            if let error = error as NSError? {
+                switch AuthErrorCode(rawValue: error.code) {
+                case .operationNotAllowed:
+                    break
+                case .userDisabled:
+                    break
+                case .wrongPassword:
+                    self?.state = .error
+                case .invalidEmail:
+                    self?.state = .error
+                default:
+                    print("Error: \(error.localizedDescription)")
+                }
+            } else {
+                let userInfo = Auth.auth().currentUser!
+                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: userInfo.uid) { exists in
+                    if exists == true {
+                        print("Welcome back \(userInfo.displayName ?? "no name")")
+                        print("User signs in successfully")
+                        print(userInfo.email!, userInfo.uid)
+                        self?.state = .signedIn
+                    } else {
+                        self?.state = .error
+                        #warning("the uid matches up with one in database, but it says that it can't find the user in db")
+                        fatalError("\(userInfo.uid)")
+                    }
+                }
+            }
+        }
+    }
+    
+    func createUser(email: String, password: String) {
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error = error as NSError? {
+                switch AuthErrorCode(rawValue: error.code) {
+//                  TODO:  use combine to check email validation, if user doesn't exist, create new user, if exists,
+                case .operationNotAllowed:
+                    print("The given sign-in provider is disabled for this Firebase project. Enable it in the Firebase console, under the sign-in method tab of the Auth section.")
+                case .emailAlreadyInUse:
+                     print("The email address is already in use by another account.")
+                   case .invalidEmail:
+                     print("The email address is badly formatted.")
+                   case .weakPassword:
+                     print("The password must be 6 characters long or more.")
+                   default:
+                       print("Error: \(error.localizedDescription)")
+                }
+            } else {
+                print("User signed up successfully")
+                self.state = .signedIn
+                let newUserInfo = Auth.auth().currentUser
+                let email = newUserInfo?.email
+                let uid = newUserInfo?.uid
+                print(email, uid)
+            }
+        }
     }
 }
 

@@ -9,20 +9,9 @@ import SwiftUI
 import AuthenticationServices
 
 
-struct AuthViewManager: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    var body: some View {
-        //        switch viewModel.state {
-        //        case .signedIn: SignedInView()
-        //        case .signedOut: SignInView()
-        //        }
-        SignInView()
-    }
-}
 
 struct SignInView: View {
     @StateObject var viewModel = AuthViewModel()
-    @StateObject var viewModelForEP = EPAuthViewModel()
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
     @State var goIntoRegistration: Bool = false
@@ -57,7 +46,7 @@ struct SignInView: View {
                     .cornerRadius(12)
                     
                     Button(action: {
-                        viewModelForEP.signIn(email: usernameEntered, password: passwordEntered)
+                        viewModel.emailPwdSignIn(email: usernameEntered, password: passwordEntered)
                     }) {
                     Capsule()
                         .frame(width: 100, height: 35)

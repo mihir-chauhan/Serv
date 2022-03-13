@@ -13,19 +13,19 @@ struct ContentView: View {
     @StateObject private var signInState = EPAuthViewModel()
     @StateObject var viewModel = AuthViewModel()
     var body: some View {
-//        VStack {
-//            switch viewModel.state {
-//            case .signedOut: SignInView()
-//            case .signedIn: CustomTabBar()
-//            case .error: Text("Error")
-//            }
-//        }
-        CustomTabBar()
+        VStack {
+            switch viewModel.state {
+            case .signedOut: SignInView()
+            case .signedIn: CustomTabBar()
+            case .error: Text("Error")
+            }
+        }
+//        EPSignInView()
         .environmentObject(sheetObserver)
         .environmentObject(envVariablesForSettings)
         .environmentObject(signInState)
-        .onAppear {
-            
+        .onChange(of: viewModel.state) { newValue in
+            print(newValue)
         }
     }
 }
