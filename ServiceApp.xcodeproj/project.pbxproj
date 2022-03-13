@@ -49,6 +49,8 @@
 		BEB551D027C1A820008ED810 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CF27C1A820008ED810 /* FirebaseStorage */; };
 		BEB551D327C1AEB4008ED810 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551D227C1AEB4008ED810 /* GoogleSignIn */; };
 		BEBB061A27D41C1600CF0D23 /* FIRCloudImages3.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB061927D41C1600CF0D23 /* FIRCloudImages3.swift */; };
+		BEBB393A27DD5B1500E5AA18 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB393927DD5B1500E5AA18 /* SignUpView.swift */; };
+		BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */; };
 		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
 		BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */; };
@@ -97,6 +99,8 @@
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignIn.swift; sourceTree = "<group>"; };
 		BEBB061927D41C1600CF0D23 /* FIRCloudImages3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages3.swift; sourceTree = "<group>"; };
+		BEBB393927DD5B1500E5AA18 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBezierPaths.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
 		BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOOL_fir_batch_transaction.swift; sourceTree = "<group>"; };
 		BED38A7D27A65F8C0080D5B9 /* Experimental .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Experimental .swift"; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				BEBB061927D41C1600CF0D23 /* FIRCloudImages3.swift */,
 				BED38A7D27A65F8C0080D5B9 /* Experimental .swift */,
 				BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */,
+				BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 			);
 			name = "HelperClasses+Models";
@@ -231,6 +236,7 @@
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
 				BE196EFA279CDA2800DA0217 /* Settings.swift */,
 				F446C5AC27D99B3900F49196 /* SignInView.swift */,
+				BEBB393927DD5B1500E5AA18 /* SignUpView.swift */,
 				BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */,
 				B37FEC2527D929920031B723 /* EmailPasswordSignIn.swift */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
@@ -358,6 +364,7 @@
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				BEBB061A27D41C1600CF0D23 /* FIRCloudImages3.swift in Sources */,
+				BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
 				B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */,
 				B3E6FCCD277C594A004DEE5B /* CustomTabBar.swift in Sources */,
@@ -370,6 +377,7 @@
 				BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */,
 				B37762E027C5643300052200 /* AuthManager.swift in Sources */,
 				B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */,
+				BEBB393A27DD5B1500E5AA18 /* SignUpView.swift in Sources */,
 				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,

@@ -70,11 +70,12 @@ class AuthViewModel: ObservableObject {
             if let err = err {
                 print(err.localizedDescription)
             } else {
-                self.state = .signedIn
+                
 
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
                     if exists == true {
                         print("Welcome back \(user!.user.displayName ?? "no name")")
+                        self.state = .signedIn
                     }
                     else {
                         FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: user!.user.uid)

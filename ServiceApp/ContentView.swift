@@ -11,15 +11,21 @@ struct ContentView: View {
     @StateObject private var sheetObserver = SheetObserver()
     @StateObject private var envVariablesForSettings = EnvironmentVariables()
     @StateObject private var signInState = EPAuthViewModel()
+    @StateObject var viewModel = AuthViewModel()
     var body: some View {
-//        CustomTabBar()
-//        SignIn()
-        SignInView()
-            .environmentObject(sheetObserver)
-            .environmentObject(envVariablesForSettings)
-            .environmentObject(signInState)
-            .onAppear {
-                
-            }
+//        VStack {
+//            switch viewModel.state {
+//            case .signedOut: SignInView()
+//            case .signedIn: CustomTabBar()
+//            case .error: Text("Error")
+//            }
+//        }
+        CustomTabBar()
+        .environmentObject(sheetObserver)
+        .environmentObject(envVariablesForSettings)
+        .environmentObject(signInState)
+        .onAppear {
+            
+        }
     }
 }
