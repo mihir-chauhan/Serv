@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftUICharts
 
 struct Account: View {
+    @EnvironmentObject var viewModel: AuthViewModel
     let maxHeight = display.height / 3.1
     var topEdge: CGFloat
     
@@ -30,14 +31,14 @@ struct Account: View {
                 }
                 .overlay(
                     HStack {
-                        Image("calvinandhobbes")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
+                        AsyncImage(url: viewModel.userInfoFromAuth.photoURL)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fill)
                             .frame(width: 45, height: 45)
                             .clipShape(Circle())
                             .opacity(Double(topBarTitleOpacity()))
                         
-                        Text("John Smith")
+                        Text(viewModel.userInfoFromAuth.displayName ?? "John Smith")
                             .fontWeight(.bold)
                             .font(.headline)
                             .opacity(Double(topBarTitleOpacity()))
@@ -98,19 +99,20 @@ struct Account: View {
 }
 
 struct TopBar: View {
+    @EnvironmentObject var viewModel: AuthViewModel
     var topEdge: CGFloat
     @Binding var offset: CGFloat
     var maxHeight: CGFloat
 
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Image("calvinandhobbes")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+            AsyncImage(url: viewModel.userInfoFromAuth.photoURL)
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
                 .frame(width: 80, height: 80)
                 .cornerRadius(10)
             
-            Text("John Smith")
+            Text(viewModel.userInfoFromAuth.displayName ?? "John Smith")
                 .font(.largeTitle.bold())
             
             Text("My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!")

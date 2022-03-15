@@ -11,7 +11,7 @@ import AuthenticationServices
 
 
 struct SignInView: View {
-    @StateObject var viewModel = AuthViewModel()
+    @EnvironmentObject var viewModel: AuthViewModel
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
     @State var goIntoRegistration: Bool = false
@@ -30,6 +30,13 @@ struct SignInView: View {
 //
     var body: some View {
         NavigationView {
+            ZStack {
+                if viewModel.loading == true {
+                    ProgressView()
+                        .frame(width: 50, height: 50)
+                        .background(CustomMaterialEffectBlur())
+                        .cornerRadius(15)
+                }
             VStack {
             Group {
                 VStack(alignment: .trailing, spacing: 10) {
@@ -65,7 +72,9 @@ struct SignInView: View {
 //                }
                 VStack(spacing: 15) {
                     Button(action: {
+                        
                         viewModel.gAuthSignIn()
+                        
                     }) {
                         HStack {
                             Image("google")
@@ -107,6 +116,7 @@ struct SignInView: View {
                         }
                     }
                 }
+            }
             }
                 .navigationTitle("Welcome")
         }

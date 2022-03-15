@@ -15,17 +15,17 @@ import AuthenticationServices
 
 
  
-struct EPSignInView: View {
-    @StateObject var viewModel = AuthViewModel()
-
-    var body: some View {
-        Button(action: {
-            viewModel.createUser(email: "a@aol.com", password: "password")
-        }) {
-            Text("Sign In").foregroundColor(.red)
-        }
-    }
-}
+//struct EPSignInView: View {
+//    @StateObject var viewModel = AuthViewModel()
+//
+//    var body: some View {
+//        Button(action: {
+//            viewModel.createUser(email: "a@aol.com", password: "password")
+//        }) {
+//            Text("Sign In").foregroundColor(.red)
+//        }
+//    }
+//}
 
 
 class EPAuthViewModel: ObservableObject {

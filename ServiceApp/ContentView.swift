@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var sheetObserver = SheetObserver()
-    @StateObject private var envVariablesForSettings = EnvironmentVariables()
     @StateObject private var signInState = EPAuthViewModel()
     @StateObject var viewModel = AuthViewModel()
     var body: some View {
@@ -20,12 +19,9 @@ struct ContentView: View {
             case .error: Text("Error")
             }
         }
-//        EPSignInView()
         .environmentObject(sheetObserver)
-        .environmentObject(envVariablesForSettings)
         .environmentObject(signInState)
-        .onChange(of: viewModel.state) { newValue in
-            print(newValue)
-        }
+        .environmentObject(viewModel)
+
     }
 }

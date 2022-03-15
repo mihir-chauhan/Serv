@@ -11,8 +11,8 @@ import SDWebImageSwiftUI
 struct ScheduleCard: View {
     var data: EventInformationModel
     @State var showingAlert = false
-    @State var placeHolderImage = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")
-    
+    @State var placeHolderUIImage: UIImage?
+    @State var viewRendered = false
     var dateToString: String = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyy"
@@ -33,12 +33,27 @@ struct ScheduleCard: View {
             Button {
                 self.onTapCallback(data)
             } label: {
+                if !self.viewRendered {
+                    ProgressView().frame(width: 290, height: 250)
+                        .onAppear {
+                            FIRCloudImages3.getImage(gsURL: data.images![0]) { image in
+                                self.placeHolderUIImage = image!
+                                self.viewRendered = true
+                            }
+                            
+                            print("cache size", URLCache.shared.memoryCapacity / 1024)
+                        }
+                } else {
                 VStack {
                     // image can be removed later on if we dont want to have the host of the event add it
                     ZStack(alignment: .top) {
-                        WebImage(url: self.placeHolderImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
+                        if let imageLoaded = self.placeHolderUIImage {
+                            Image(uiImage: imageLoaded)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        }
+//                        WebImage(url: self.placeHolderImage)
+//
                         HStack {
                             Spacer()
                             HStack {
@@ -122,6 +137,7 @@ struct ScheduleCard: View {
                 )
                 .padding([.top, .horizontal])
             }
+            }
             .buttonStyle(CardButtonStyle())
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(action: {
@@ -131,15 +147,16 @@ struct ScheduleCard: View {
                 }
             }
             .onAppear {
-                FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
-                    switch connectionResult {
-                    case .success(let url):
-                        self.placeHolderImage = url[0]
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
+//                FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
+//                    switch connectionResult {
+//                    case .success(let url):
+//                        self.placeHolderImage = url[0]
+//                    case .failure(let error):
+//                        print(error)
+//                    }
+//                }
             }
+            
         }
     }
 }

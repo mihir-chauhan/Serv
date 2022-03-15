@@ -20,6 +20,8 @@ class AuthViewModel: ObservableObject {
         case error
     }
     @Published var state: SignInState = .signedOut
+    @Published var loading: Bool = false
+    @Published var userInfoFromAuth = UserInfoFromAuth()
     @State var currentNonce: String?
     /* Google Sign In */
 
@@ -30,6 +32,7 @@ class AuthViewModel: ObservableObject {
             }
         } else {
             guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+            self.loading = true
             let config = GIDConfiguration(clientID: clientID)
 
             guard
@@ -56,8 +59,11 @@ class AuthViewModel: ObservableObject {
     }
 
     private func authenticateUser(for user: GIDGoogleUser?, with err: Error?) {
+        
+        
         if let err = err {
             print(err.localizedDescription)
+            self.loading = false
             return
         }
 
@@ -71,9 +77,11 @@ class AuthViewModel: ObservableObject {
         Auth.auth().signIn(with: credential) { user, err in
             if let err = err {
                 print(err.localizedDescription)
+                self.loading = false
                 self.state = .error
             } else {
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
+                    self.loading = false
                     if exists == true {
                         print("Welcome back \(user!.user.displayName ?? "no name")")
                         self.state = .signedIn
@@ -83,6 +91,8 @@ class AuthViewModel: ObservableObject {
                         print("Tell us about yourself")
                     }
                 }
+                let user = user?.user
+                self.userInfoFromAuth = UserInfoFromAuth(displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
             }
         }
     }
@@ -129,6 +139,8 @@ class AuthViewModel: ObservableObject {
                 }
                 
                 print("\(String(describing: Auth.auth().currentUser?.uid))")
+                let user = Auth.auth().currentUser
+                self.userInfoFromAuth = UserInfoFromAuth(displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
             default:
                 break
                 
@@ -184,6 +196,7 @@ class AuthViewModel: ObservableObject {
     /* Email & Password */
     private func authenticateUserEmail(for email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            self?.loading = true
             if let error = error as NSError? {
                 switch AuthErrorCode(rawValue: error.code) {
                 case .operationNotAllowed:
@@ -201,6 +214,7 @@ class AuthViewModel: ObservableObject {
                 let userInfo = Auth.auth().currentUser!
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: userInfo.uid) { exists in
                     if exists == true {
+                        self?.loading = false
                         print("Welcome back \(userInfo.displayName ?? "no name")")
                         print("User signs in successfully")
                         print(userInfo.email!, userInfo.uid)
@@ -217,6 +231,7 @@ class AuthViewModel: ObservableObject {
     
     func createUser(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            self.loading = true
             if let error = error as NSError? {
                 switch AuthErrorCode(rawValue: error.code) {
 //                  TODO:  use combine to check email validation, if user doesn't exist, create new user, if exists,
@@ -234,12 +249,16 @@ class AuthViewModel: ObservableObject {
             } else {
                 print("User signed up successfully")
                 self.state = .signedIn
-                let newUserInfo = Auth.auth().currentUser
-                let email = newUserInfo?.email
-                let uid = newUserInfo?.uid
-                print(email, uid)
+                self.loading = false
+                let user = Auth.auth().currentUser
+                self.userInfoFromAuth = UserInfoFromAuth(displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
             }
         }
     }
 }
 
+struct UserInfoFromAuth {
+    var displayName: String?
+    var photoURL: URL?
+    var email: String?
+}
