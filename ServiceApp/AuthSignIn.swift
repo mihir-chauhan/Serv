@@ -56,6 +56,7 @@ class AuthViewModel: ObservableObject {
             try Auth.auth().signOut()
             // calling ContentView because "self.state = .signedOut" is not working
             ContentView().signInState = .signedOut
+            self.state = .signedOut
         } catch {
             print(error.localizedDescription)
         }
