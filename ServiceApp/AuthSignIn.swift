@@ -217,17 +217,17 @@ class AuthViewModel: ObservableObject {
             } else {
                 let userInfo = Auth.auth().currentUser!
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: userInfo.uid) { exists in
-                    if exists == true {
+//                    if exists == true {
                         self?.loading = false
                         print("Welcome back \(userInfo.displayName ?? "no name")")
                         print("User signs in successfully")
                         print(userInfo.email!, userInfo.uid)
                         self?.state = .signedIn
-                    } else {
-                        self?.state = .error
-                        #warning("the uid matches up with one in database, but it says that it can't find the user in db")
-                        fatalError("\(userInfo.uid)")
-                    }
+//                    } else {
+//                        self?.state = .error
+//                        #warning("the uid matches up with one in database, but it says that it can't find the user in db")
+//                        fatalError("\(userInfo.uid)")
+//                    }
                 }
             }
         }
