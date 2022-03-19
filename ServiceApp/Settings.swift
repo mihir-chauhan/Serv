@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Settings: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    
     @State var darkMode = false
     @State private var shareActivityWithFriends = true
     @State private var seeFriendActivity = true

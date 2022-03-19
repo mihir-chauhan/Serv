@@ -14,14 +14,16 @@ import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
     
-    enum SignInState {
+    enum SignInState: Int {
         case signedIn
         case signedOut
         case error
     }
+    
     @Published var state: SignInState = .signedOut
     @Published var loading: Bool = false
-    @Published var userInfoFromAuth = UserInfoFromAuth()
+    @Published var userInfoFromAuth: UserInfoFromAuth?
+//    @Published var uidStoredInfo: String = ContentView().uidStoredInfo
     @State var currentNonce: String?
     /* Google Sign In */
 
@@ -59,8 +61,6 @@ class AuthViewModel: ObservableObject {
     }
 
     private func authenticateUser(for user: GIDGoogleUser?, with err: Error?) {
-        
-        
         if let err = err {
             print(err.localizedDescription)
             self.loading = false
@@ -92,7 +92,9 @@ class AuthViewModel: ObservableObject {
                     }
                 }
                 let user = user?.user
-                self.userInfoFromAuth = UserInfoFromAuth(displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
+//                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+//                self.uidStoredInfo = user!.uid
             }
         }
     }
@@ -140,7 +142,9 @@ class AuthViewModel: ObservableObject {
                 
                 print("\(String(describing: Auth.auth().currentUser?.uid))")
                 let user = Auth.auth().currentUser
-                self.userInfoFromAuth = UserInfoFromAuth(displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
+//                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+//                self.uidStoredInfo = user!.uid
             default:
                 break
                 
@@ -251,13 +255,42 @@ class AuthViewModel: ObservableObject {
                 self.state = .signedIn
                 self.loading = false
                 let user = Auth.auth().currentUser
-                self.userInfoFromAuth = UserInfoFromAuth(displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
+                
+//                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+//                self.uidStoredInfo = user!.uid
             }
         }
     }
+    
+    private func encodeUserInfo(for value: UserInfoFromAuth) {
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(value)
+            UserDefaults.standard.set(data, forKey: "userInfo")
+        } catch {
+            print("cannot encode")
+        }
+    }
+    
+    func decodeUserInfo() -> UserInfoFromAuth? {
+        if let data = UserDefaults.standard.data(forKey: "userInfo") {
+            do {
+                let decoder = JSONDecoder()
+                let data = try decoder.decode(UserInfoFromAuth.self, from: data)
+                return data
+
+            } catch {
+                print("Unable to decode")
+            }
+        }
+        return nil
+    }
 }
 
-struct UserInfoFromAuth {
+struct UserInfoFromAuth: Codable {
+    var uid: String?
+    
     var displayName: String?
     var photoURL: URL?
     var email: String?

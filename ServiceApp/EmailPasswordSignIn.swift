@@ -28,7 +28,7 @@ import AuthenticationServices
 //}
 
 
-class EPAuthViewModel: ObservableObject {
+//class EPAuthViewModel: ObservableObject {
 
 //    @Published var state: AuthViewModel.SignInState = .signedOut
 //
@@ -104,4 +104,4 @@ class EPAuthViewModel: ObservableObject {
 //            }
 //        }
 //    }
-}
+//}

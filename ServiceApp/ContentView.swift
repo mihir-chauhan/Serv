@@ -6,22 +6,26 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 struct ContentView: View {
     @StateObject private var sheetObserver = SheetObserver()
-    @StateObject private var signInState = EPAuthViewModel()
     @StateObject var viewModel = AuthViewModel()
+    @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
+
+
     var body: some View {
         VStack {
-            switch viewModel.state {
+            switch self.signInState {
             case .signedOut: SignInView()
             case .signedIn: CustomTabBar()
             case .error: Text("Error")
             }
         }
         .environmentObject(sheetObserver)
-        .environmentObject(signInState)
         .environmentObject(viewModel)
-
+        .onChange(of: viewModel.state) { newValue in
+            self.signInState = newValue
+        }
     }
 }

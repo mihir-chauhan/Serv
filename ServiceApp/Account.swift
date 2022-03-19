@@ -14,7 +14,11 @@ struct Account: View {
     var topEdge: CGFloat
     
     @State var offset: CGFloat = 0
-    
+//    var uidInfoStored: String {
+//            get {
+//                return ContentView().uidStoredInfo
+//                }
+//        }
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 15) {
@@ -31,14 +35,13 @@ struct Account: View {
                 }
                 .overlay(
                     HStack {
-                        AsyncImage(url: viewModel.userInfoFromAuth.photoURL)
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
+                        AsyncImage(url: viewModel.decodeUserInfo()?.photoURL)
                             .frame(width: 45, height: 45)
+                            .aspectRatio(contentMode: .fit)
                             .clipShape(Circle())
                             .opacity(Double(topBarTitleOpacity()))
                         
-                        Text(viewModel.userInfoFromAuth.displayName ?? "John Smith")
+                        Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
                             .fontWeight(.bold)
                             .font(.headline)
                             .opacity(Double(topBarTitleOpacity()))
@@ -71,6 +74,8 @@ struct Account: View {
             .modifier(OffsetModifier(offset: $offset))
         }
         .coordinateSpace(name: "SCROLL")
+        
+        
     }
     
     func getHeaderHeight() -> CGFloat {
@@ -106,13 +111,11 @@ struct TopBar: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            AsyncImage(url: viewModel.userInfoFromAuth.photoURL)
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
+            AsyncImage(url: viewModel.decodeUserInfo()?.photoURL)
                 .frame(width: 80, height: 80)
+                .aspectRatio(contentMode: .fit)
                 .cornerRadius(10)
-            
-            Text(viewModel.userInfoFromAuth.displayName ?? "John Smith")
+            Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
                 .font(.largeTitle.bold())
             
             Text("My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!")
