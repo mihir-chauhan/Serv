@@ -21,7 +21,6 @@
 		B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */; };
 		B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */; };
 		B37762E027C5643300052200 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37762DF27C5643300052200 /* AuthManager.swift */; };
-		B37FEC2627D929920031B723 /* EmailPasswordSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FEC2527D929920031B723 /* EmailPasswordSignIn.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */; };
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
@@ -77,7 +76,6 @@
 		B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseCRUD.swift; sourceTree = "<group>"; };
 		B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreCRUD.swift; sourceTree = "<group>"; };
 		B37762DF27C5643300052200 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		B37FEC2527D929920031B723 /* EmailPasswordSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailPasswordSignIn.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailModal.swift; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 				F446C5AC27D99B3900F49196 /* SignInView.swift */,
 				BEBB393927DD5B1500E5AA18 /* SignUpView.swift */,
 				BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */,
-				B37FEC2527D929920031B723 /* EmailPasswordSignIn.swift */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
 				B37762DF27C5643300052200 /* AuthManager.swift */,
@@ -357,7 +354,6 @@
 				BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */,
 				B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */,
 				B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */,
-				B37FEC2627D929920031B723 /* EmailPasswordSignIn.swift in Sources */,
 				399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */,
 				B333369E27819C59007E9482 /* FriendCardView.swift in Sources */,
 				B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */,
@@ -513,7 +509,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
-				DEVELOPMENT_TEAM = B2278J6LL2;
+				DEVELOPMENT_TEAM = 347C6X6X6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceApp/Info.plist;
@@ -550,7 +546,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
-				DEVELOPMENT_TEAM = B2278J6LL2;
+				DEVELOPMENT_TEAM = 347C6X6X6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceApp/Info.plist;

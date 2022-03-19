@@ -41,7 +41,7 @@ struct SignInView: View {
             Group {
                 VStack(alignment: .trailing, spacing: 10) {
                     HStack {
-                        TextField("username", text: $usernameEntered).keyboardType(.emailAddress)
+                        TextField("username", text: $usernameEntered).textCase(.lowercase).keyboardType(.emailAddress)
                     }.padding(10)
                         .background(Color.mint.opacity(0.2))
                         .cornerRadius(12)

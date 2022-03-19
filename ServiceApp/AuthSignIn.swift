@@ -54,7 +54,8 @@ class AuthViewModel: ObservableObject {
         GIDSignIn.sharedInstance.signOut()
         do {
             try Auth.auth().signOut()
-            self.state = .signedOut
+            // calling ContentView because "self.state = .signedOut" is not working
+            ContentView().signInState = .signedOut
         } catch {
             print(error.localizedDescription)
         }
