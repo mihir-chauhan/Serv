@@ -97,8 +97,18 @@ class FirebaseRealtimeDatabaseCRUD {
     func registerNewUser(uid: String) {
         ref.child("\(uid)/Friends").setValue(["F1"])
         ref.child("\(uid)/Events").setValue(["E1"])
-        
-        //TODO: Have users enter basic information about themselves via a form if they're new.
+    }
+    
+    func getUserFriends(uid: String) {
+        let friendsRef = ref.child("\(uid)").child("Friends")
+        friendsRef.observeSingleEvent(of: .value) { snapshot in
+            for child in snapshot.children {
+                let snap = child as! DataSnapshot
+                let dict = snap.value
+                print(dict)
+//                completion(dict)
+            }
+        }
     }
 }
 

@@ -27,5 +27,10 @@ struct ContentView: View {
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue
         }
+        .onAppear {
+//            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
+//                print("KEY BVALUE", value.keys, value.values)
+            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!)
+        }
     }
 }
