@@ -257,6 +257,14 @@ class AuthViewModel: ObservableObject {
             } else {
                 let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                 changeRequest?.displayName = displayName
+                changeRequest?.commitChanges { error in
+                    if error == nil {
+                        // Do something
+                    } else {
+                        // Do something
+                    }
+                }
+
                 self.state = .signedIn
                 self.loading = false
                 let user = Auth.auth().currentUser
