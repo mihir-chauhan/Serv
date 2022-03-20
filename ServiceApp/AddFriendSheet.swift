@@ -118,7 +118,7 @@ struct AddFriendSheet: View {
         }
     }
     
-    func generateQRCode(from string: String) -> Data? {
+    private func generateQRCode(from string: String) -> Data? {
         let data = string.data(using: String.Encoding.ascii)
         
         if let filter = CIFilter(name: "CIQRCodeGenerator") {

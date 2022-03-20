@@ -74,7 +74,11 @@ struct Account: View {
                 .zIndex(1)
 
                 VStack(spacing: 15) {
-                    
+                    Image(uiImage: UIImage(data: generateQRCode(from: user_uuid)!)!)
+                        .resizable()
+                        .frame(width: 290, height: 290, alignment: .center)
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
+
                     BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
 
                     PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false).padding(10)
@@ -114,6 +118,22 @@ struct Account: View {
         let opacity = 1 - progress
         
         return 1 - opacity
+    }
+    
+    
+    private func generateQRCode(from string: String) -> Data? {
+        let data = string.data(using: String.Encoding.ascii)
+        
+        if let filter = CIFilter(name: "CIQRCodeGenerator") {
+            filter.setValue(data, forKey: "inputMessage")
+            let transform = CGAffineTransform(scaleX: 10, y: 10)
+            
+            if let output = filter.outputImage?.transformed(by: transform) {
+                return UIImage(ciImage: output).pngData()!
+            }
+        }
+        
+        return nil
     }
     
 }

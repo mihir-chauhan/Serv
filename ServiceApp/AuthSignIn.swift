@@ -2,7 +2,7 @@
 //  AuthSignIn.swift
 //  ServiceApp
 //
-//  Created by Kelvin J on 2/19/22.
+//  Created by Mihir Chauhan on 2/19/22.
 //
 import SwiftUI
 import Firebase
@@ -226,7 +226,6 @@ class AuthViewModel: ObservableObject {
                         print(user.email!, user.uid)
                         self?.state = .signedIn
                         self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email))
-                    
 
 //                    } else {
 //                        self?.state = .error
@@ -238,7 +237,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func createUser(email: String, password: String) {
+    func createUser(displayName: String, email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             self.loading = true
             if let error = error as NSError? {
@@ -256,14 +255,14 @@ class AuthViewModel: ObservableObject {
                        print("Error: \(error.localizedDescription)")
                 }
             } else {
-                print("User signed up successfully")
+                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                changeRequest?.displayName = displayName
                 self.state = .signedIn
                 self.loading = false
                 let user = Auth.auth().currentUser
-                
-//                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
+                print("User signed up successfully: ", user?.displayName)
+
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
-//                self.uidStoredInfo = user!.uid
             }
         }
     }
@@ -295,7 +294,6 @@ class AuthViewModel: ObservableObject {
 
 struct UserInfoFromAuth: Codable {
     var uid: String?
-    
     var displayName: String?
     var photoURL: URL? = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")
     var email: String?

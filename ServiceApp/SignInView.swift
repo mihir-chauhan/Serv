@@ -17,8 +17,7 @@ struct SignInView: View {
     @State var goIntoRegistration: Bool = false
     @State var credentialsAreFilled: Bool = false
     
-    @State var newUsernameEntered: String = ""
-    @State var newPasswordEntered: String = ""
+    @State var displayNameEntered: String = ""
     @State var newConfirmPasswordEntered: String = ""
 //    {
 //        get {
@@ -39,26 +38,28 @@ struct SignInView: View {
                     Group {
                         VStack(alignment: .trailing, spacing: 10) {
                             HStack {
-                                TextField("username", text: $usernameEntered).autocapitalization(.none).keyboardType(.emailAddress)
+                                TextField("Display Name", text: $displayNameEntered).autocapitalization(.none).keyboardType(.emailAddress)
+                            }.padding(10)
+                            .background(Color.mint.opacity(0.2))
+                            .cornerRadius(12)
+                            HStack {
+                                TextField("Email", text: $usernameEntered).autocapitalization(.none).keyboardType(.emailAddress)
                             }.padding(10)
                                 .background(Color.mint.opacity(0.2))
                                 .cornerRadius(12)
                             HStack {
-                                SecureField("password", text: $passwordEntered)
+                                SecureField("Password", text: $passwordEntered)
                             }.padding(10)
                                 .background(Color.mint.opacity(0.2))
                                 .cornerRadius(12)
-                                .padding(.bottom, 20)
-                            
                             HStack {
-                                SecureField("confirm password", text: $newConfirmPasswordEntered)
+                                SecureField("Confirm Password", text: $newConfirmPasswordEntered)
                             }.padding(10)
                                 .background(Color.mint.opacity(0.2))
                                 .cornerRadius(12)
-                            
                             
                             Button(action: {
-                                viewModel.createUser(email: newUsernameEntered, password: newPasswordEntered)
+                                viewModel.createUser(displayName: displayNameEntered, email: usernameEntered, password: passwordEntered)
                             }) {
                                 Capsule()
                                     .frame(width: 100, height: 35)
@@ -84,12 +85,12 @@ struct SignInView: View {
                         Group {
                             VStack(alignment: .trailing, spacing: 10) {
                                 HStack {
-                                    TextField("username", text: $usernameEntered).autocapitalization(.none).keyboardType(.emailAddress)
+                                    TextField("Email", text: $usernameEntered).autocapitalization(.none).keyboardType(.emailAddress)
                                 }.padding(10)
                                     .background(Color.mint.opacity(0.2))
                                     .cornerRadius(12)
                                 HStack {
-                                    SecureField("password", text: $passwordEntered)
+                                    SecureField("Password", text: $passwordEntered)
                                 }
                                 .padding(10)
                                 .background(Color.mint.opacity(0.2))

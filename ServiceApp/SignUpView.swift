@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignUpView: View {
     @StateObject var viewModel = AuthViewModel()
+    @State var displayNameEntered: String = ""
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
     @State var confirmPasswordEntered: String = ""
@@ -17,26 +18,29 @@ struct SignUpView: View {
             Group {
                 VStack(alignment: .trailing, spacing: 10) {
                     HStack {
-                        TextField("username", text: $usernameEntered).autocapitalization(.none).keyboardType(.emailAddress)
+                        TextField("Display Name", text: $displayNameEntered).autocapitalization(.none).keyboardType(.emailAddress)
+                    }.padding(10)
+                    .background(Color.mint.opacity(0.2))
+                    .cornerRadius(12)
+                    HStack {
+                        TextField("Username", text: $usernameEntered).autocapitalization(.none).keyboardType(.emailAddress)
                     }.padding(10)
                         .background(Color.mint.opacity(0.2))
                         .cornerRadius(12)
                     HStack {
-                        SecureField("password", text: $passwordEntered)
+                        SecureField("Password", text: $passwordEntered)
                     }.padding(10)
                         .background(Color.mint.opacity(0.2))
                         .cornerRadius(12)
-                        .padding(.bottom, 20)
-                    
                     HStack {
-                        SecureField("confirm password", text: $confirmPasswordEntered)
+                        SecureField("Confirm Password", text: $confirmPasswordEntered)
                     }.padding(10)
                         .background(Color.mint.opacity(0.2))
                         .cornerRadius(12)
                     
                     
                     Button(action: {
-                        viewModel.createUser(email: usernameEntered, password: passwordEntered)
+                        viewModel.createUser(displayName: displayNameEntered, email: usernameEntered, password: passwordEntered)
                     }) {
                         Capsule()
                             .frame(width: 100, height: 35)
