@@ -11,6 +11,8 @@ import AuthenticationServices
 
 
 struct SignInView: View {
+    @Environment(\.colorScheme) var colorScheme
+
     @EnvironmentObject var viewModel: AuthViewModel
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
@@ -19,18 +21,7 @@ struct SignInView: View {
     
     @State var displayNameEntered: String = ""
     @State var newConfirmPasswordEntered: String = ""
-//    {
-//        get {
-//            if !usernameEntered.isEmpty && !passwordEntered.isEmpty {
-//                return true
-//            }
-//        }
-//        set (v) {
-//
-//        }
-//
-//    }()
-//
+    
     var body: some View {
         NavigationView {
             if goIntoRegistration {
@@ -59,12 +50,13 @@ struct SignInView: View {
                                 .cornerRadius(12)
                             
                             Button(action: {
+                                // TODO: We need to validate email with regex and that passwords match
                                 viewModel.createUser(displayName: displayNameEntered, email: usernameEntered, password: passwordEntered)
                             }) {
                                 Capsule()
                                     .frame(width: 100, height: 35)
                                     .foregroundColor(.mint)
-                                    .overlay(Text("Sign Up"))
+                                    .overlay(Text("Sign Up").foregroundColor(.white))
                             }
                         }.padding(35)
                         Button("I have an account") {
@@ -102,7 +94,7 @@ struct SignInView: View {
                                     Capsule()
                                         .frame(width: 100, height: 35)
                                         .foregroundColor(.mint)
-                                        .overlay(Text("Log in").foregroundColor(credentialsAreFilled ? .white : .gray))
+                                        .overlay(Text("Log in").foregroundColor(.white))
                                 }
                             }.padding(35)
                         }
@@ -119,7 +111,7 @@ struct SignInView: View {
                                         .aspectRatio(contentMode: .fit)
                                     
                                     Text("Continue with Google")
-                                        .foregroundColor(.black)
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
                                 }
                                 .frame(width: 280, height: 45, alignment: .center)
                                 .overlay(
@@ -131,6 +123,7 @@ struct SignInView: View {
                             }
                             
                             SignInWithAppleButton(
+                                .signIn,
                                 onRequest: { request in
                                     viewModel.appleOnRequest(request: request)
                                 },
@@ -138,7 +131,13 @@ struct SignInView: View {
                                     viewModel.appleOnCompletion(result: result)
                                 })
                                 .frame(width: 280, height: 45, alignment: .center)
+                                .overlay(
+                                    Capsule()
+                                        .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+                                        .foregroundColor(Color(.sRGB, red: 241/255, green: 246/255, blue: 247/255))
+                                )
                                 .clipShape(Capsule())
+                                .padding(.bottom, 20)
                             
                             //            Button(action: {
                             //                viewModelForEP.createUser(email: "random@gmail.com", password: "random_modnar")
