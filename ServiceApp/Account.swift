@@ -35,7 +35,22 @@ struct Account: View {
                 }
                 .overlay(
                     HStack {
-                        AsyncImage(url: viewModel.decodeUserInfo()?.photoURL)
+                        AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image.resizable()
+                                    .frame(width: 45, height: 45)
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .opacity(Double(topBarTitleOpacity()))
+                            case .failure:
+                                Image(systemName: "photo")
+                            @unknown default:
+                                ProgressView()
+                            }
+                        }
                             .frame(width: 45, height: 45)
                             .aspectRatio(contentMode: .fit)
                             .clipShape(Circle())
@@ -111,10 +126,23 @@ struct TopBar: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            AsyncImage(url: viewModel.decodeUserInfo()?.photoURL)
-                .frame(width: 80, height: 80)
-                .aspectRatio(contentMode: .fit)
-                .cornerRadius(10)
+            AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image.resizable()
+                        .frame(width: 80, height: 80)
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(10)
+                case .failure:
+                    Image(systemName: "photo")
+                @unknown default:
+                    ProgressView()
+                }
+            }
+            
+                
             Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
                 .font(.largeTitle.bold())
             

@@ -217,14 +217,17 @@ class AuthViewModel: ObservableObject {
                     print("Error: \(error.localizedDescription)")
                 }
             } else {
-                let userInfo = Auth.auth().currentUser!
-                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: userInfo.uid) { exists in
+                let user = Auth.auth().currentUser!
+                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user.uid) { exists in
 //                    if exists == true {
                         self?.loading = false
-                        print("Welcome back \(userInfo.displayName ?? "no name")")
+                        print("Welcome back \(user.displayName ?? "no name")")
                         print("User signs in successfully")
-                        print(userInfo.email!, userInfo.uid)
+                        print(user.email!, user.uid)
                         self?.state = .signedIn
+                        self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email))
+                    
+
 //                    } else {
 //                        self?.state = .error
 //                        #warning("the uid matches up with one in database, but it says that it can't find the user in db")
@@ -294,6 +297,6 @@ struct UserInfoFromAuth: Codable {
     var uid: String?
     
     var displayName: String?
-    var photoURL: URL?
+    var photoURL: URL? = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")
     var email: String?
 }
