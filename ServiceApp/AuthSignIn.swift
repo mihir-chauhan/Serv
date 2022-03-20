@@ -260,6 +260,8 @@ class AuthViewModel: ObservableObject {
                 self.state = .signedIn
                 self.loading = false
                 let user = Auth.auth().currentUser
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: user!.uid)
                 print("User signed up successfully: ", user?.displayName)
 
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))

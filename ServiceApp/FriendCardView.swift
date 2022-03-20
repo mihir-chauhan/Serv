@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FriendCardView: View {
+    
     var image: String
     var lastService: String
     var name: String

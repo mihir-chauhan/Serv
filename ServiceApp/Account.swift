@@ -74,7 +74,7 @@ struct Account: View {
                 .zIndex(1)
 
                 VStack(spacing: 15) {
-                    Image(uiImage: UIImage(data: generateQRCode(from: user_uuid)!)!)
+                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid)!)!)!)
                         .resizable()
                         .frame(width: 290, height: 290, alignment: .center)
                         .font(.system(size: 30, weight: .bold, design: .rounded))

@@ -17,7 +17,7 @@ struct Socials: View {
         NavigationView {
             ScrollView {
                 LeaderboardView().padding(.bottom, 50)
-
+                #warning("for each friend uid under personal realtime db element, list out all friends")
                 FriendCardView(image: "person", lastService: "5", name: "Tom", onTapCallback: cardTapped)
                 FriendCardView(image: "img", lastService: "9", name: "Jill", onTapCallback: cardTapped)
                 FriendCardView(image: "img4", lastService: "10", name: "Mary", onTapCallback: cardTapped)

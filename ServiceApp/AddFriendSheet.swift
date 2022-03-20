@@ -11,6 +11,7 @@ import AudioToolbox
 
 
 struct AddFriendSheet: View {
+    @EnvironmentObject var viewModel: AuthViewModel
     @State var showPhotoPicker = false
     @State var selectedImage: UIImage? = nil
     
@@ -21,7 +22,7 @@ struct AddFriendSheet: View {
         NavigationView {
             if #available(iOS 15.0, *) {
                 TabView {
-                    Image(uiImage: UIImage(data: generateQRCode(from: user_uuid)!)!)
+                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid!)!)!)!)
                         .resizable()
                         .frame(width: 290, height: 290, alignment: .center)
                         .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -36,9 +37,9 @@ struct AddFriendSheet: View {
                                     switch response {
                                     case .success(let result):
                                         if UUID(uuidString: result.string) != nil {
-                                            FirebaseRealtimeDatabaseCRUD().readFriends(for: user_uuid) { friendsArray in
+                                            FirebaseRealtimeDatabaseCRUD().readFriends(for: (viewModel.decodeUserInfo()?.uid)!) { friendsArray in
                                                 if friendsArray == nil {
-                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: user_uuid, friendUUID: result.string)
+                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
                                                         showSuccess = true
                                                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                                                 } else {
@@ -48,7 +49,7 @@ struct AddFriendSheet: View {
                                                             return;
                                                         }
                                                     }
-                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: user_uuid, friendUUID: result.string)
+                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
                                                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                                                 }
                                             }
