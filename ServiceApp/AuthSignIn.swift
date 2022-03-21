@@ -89,7 +89,11 @@ class AuthViewModel: ObservableObject {
                         self.state = .signedIn
                     }
                     else {
-                        FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: user!.user.uid)
+                        FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(
+                            uid: user!.user.uid,
+                            displayName: user?.user.displayName,
+                            photoURL: user?.user.photoURL,
+                            email: user?.user.email))
                         print("Tell us about yourself")
                     }
                 }
@@ -264,12 +268,13 @@ class AuthViewModel: ObservableObject {
                         // Do something
                     }
                 }
-
+                
+                #warning("so it seems like the first time you sign in, it'll load the default of John Smith and nil values for displayName, user email, etc. But everything is normal when you sign out and sign back in. So when the user first creates the account, it goes back to the default values, and realtime db saves the default values (of lines 311-314")
                 self.state = .signedIn
                 self.loading = false
                 let user = Auth.auth().currentUser
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
-                FirebaseRealtimeDatabaseCRUD().registerNewUser(uid: user!.uid)
+//                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
                 print("User signed up successfully: ", user?.displayName)
 
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
@@ -303,8 +308,8 @@ class AuthViewModel: ObservableObject {
 }
 
 struct UserInfoFromAuth: Codable {
-    var uid: String?
-    var displayName: String?
+    var uid: String!
+    var displayName: String? = "No name"
     var photoURL: URL? = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")
-    var email: String?
+    var email: String? = "dude@dude.com"
 }

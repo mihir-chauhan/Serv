@@ -30,7 +30,11 @@ struct ContentView: View {
         .onAppear {
 //            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
 //                print("KEY BVALUE", value.keys, value.values)
-            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!)
+//            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
+//                for i in value {
+//                    print("HERE", i)
+//                }
+//            }
         }
     }
 }

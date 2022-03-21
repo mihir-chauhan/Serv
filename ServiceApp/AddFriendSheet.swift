@@ -36,26 +36,21 @@ struct AddFriendSheet: View {
                                 CodeScannerView(codeTypes: [.qr], simulatedData: "fakeUUID") { response in
                                     switch response {
                                     case .success(let result):
-                                        if UUID(uuidString: result.string) != nil {
-                                            FirebaseRealtimeDatabaseCRUD().readFriends(for: (viewModel.decodeUserInfo()?.uid)!) { friendsArray in
-                                                if friendsArray == nil {
-                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
+                                        FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: result.string) { value in
+//                                            if value == true {
+                                                FirebaseRealtimeDatabaseCRUD().readFriends(for: (viewModel.decodeUserInfo()?.uid)!) { friendsArray in
+//                                                    if friendsArray == nil { // this was causing the problem 
+                                                        FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
                                                         showSuccess = true
-                                                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-                                                } else {
-                                                    for i in 0..<friendsArray!.count {
-                                                        if friendsArray![i] == result.string {
-                                                            showingAlreadyFriendAlert.toggle()
-                                                            return;
-                                                        }
-                                                    }
-                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
-                                                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                                                        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+//                                                    }
                                                 }
                                             }
-                                        } else {
-                                            showingAlert.toggle()
-                                        }
+//                                        else {
+//                                                showingAlert.toggle()
+//                                            }
+//                                        }
+                                        
                                         // add friend to firebase DB, when implemented.......
                                     case .failure(let error):
                                         print(error.localizedDescription)

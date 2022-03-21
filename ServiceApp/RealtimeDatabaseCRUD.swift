@@ -22,7 +22,7 @@ class FirebaseRealtimeDatabaseCRUD {
             }
             let friendsArray = snapshot.value as? Array<String>
             handler(friendsArray)
-        });
+        })
     }
 
     
@@ -86,7 +86,7 @@ class FirebaseRealtimeDatabaseCRUD {
     }
     
     func checkIfUserExists(uuidString: String, completion: @escaping (Bool) -> ()) {
-        ref.observeSingleEvent(of: .value) { (snapshot) in
+        ref.root.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.hasChild(uuidString) {
                 completion(true)
             }
@@ -94,20 +94,48 @@ class FirebaseRealtimeDatabaseCRUD {
         }
     }
     
-    func registerNewUser(uid: String) {
-        ref.child("\(uid)/Friends").setValue(["F1"])
-        ref.child("\(uid)/Events").setValue(["E1"])
+    func registerNewUser(for userInfo: UserInfoFromAuth) {
+        let userInfoAsDict = [
+            "uid" : userInfo.uid!,
+            "name" : userInfo.displayName ?? "No name",
+            "photoURL" : userInfo.photoURL?.absoluteString ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg",
+            "email" : userInfo.email ?? "default@email.com"
+        ] as [String : Any]
+        ref.child("\(userInfo.uid!)/UserInfo").setValue(userInfoAsDict)
+        
+        
+        ref.child("\(userInfo.uid!)/Friends").setValue(["F1"])
+        ref.child("\(userInfo.uid!)/Events").setValue(["E1"])
     }
     
-    func getUserFriends(uid: String) {
+    func getUserFriends(uid: String, completion: @escaping ([String]) -> ()) {
         let friendsRef = ref.child("\(uid)").child("Friends")
+        var tempArray = [String]()
         friendsRef.observeSingleEvent(of: .value) { snapshot in
+            var counter = 0
             for child in snapshot.children {
                 let snap = child as! DataSnapshot
-                let dict = snap.value
-                print(dict)
-//                completion(dict)
+                let dict = snap.value as! String
+                tempArray.append(dict)
+                
+                counter += 1
+                if counter == snapshot.childrenCount {
+                    completion(tempArray)
+                    
+                }
             }
+        }
+    }
+    
+    func getUserFriendInfo(uid: String, completion: @escaping (String) -> ()) {
+        ref.child("\(uid)/UserInfo").observeSingleEvent(of: .value, with: { snap in
+            let value = snap.value as? NSDictionary
+            let displayName = value?["email"] as? String ?? ""
+//            this eventually will have to return a list of elements
+            print(displayName)
+            completion(displayName)
+        }) { error in
+            print(error.localizedDescription)
         }
     }
 }
