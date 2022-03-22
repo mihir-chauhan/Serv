@@ -9,7 +9,7 @@ import Firebase
 import UIKit
 import SwiftUI
 
-class FIRCloudImages3 {
+class FIRCloudImagesWithCache {
     static let storage = Storage.storage()
     static let cache = NSCache<NSString, NSData>()
     
