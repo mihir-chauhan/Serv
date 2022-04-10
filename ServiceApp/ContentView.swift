@@ -15,19 +15,19 @@ struct ContentView: View {
 
 
     var body: some View {
-        VStack {
-            switch self.signInState {
-            case .signedOut: SignInView()
-            case .signedIn: CustomTabBar()
-            case .error: Text("Error")
-            }
-        }
+//        VStack {
+//            switch self.signInState {
+//            case .signedOut: SignInView()
+//            case .signedIn: CustomTabBar()
+//            case .error: Text("Error")
+//            }
+//        }
+        AccountLogin2()
         .environmentObject(sheetObserver)
         .environmentObject(viewModel)
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue
         }
-        .onAppear {
 //            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
 //                print("KEY BVALUE", value.keys, value.values)
 //            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
@@ -35,6 +35,6 @@ struct ContentView: View {
 //                    print("HERE", i)
 //                }
 //            }
-        }
+//        }
     }
 }

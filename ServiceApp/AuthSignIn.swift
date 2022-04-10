@@ -85,7 +85,7 @@ class AuthViewModel: ObservableObject {
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
                     self.loading = false
                     if exists == true {
-                        print("Welcome back \(user!.user.displayName ?? "no name")")
+                        print("Welcome back \(user!.user.displayName ?? "no name"), aka: \(user!.user.uid)")
                         self.state = .signedIn
                     }
                     else {
