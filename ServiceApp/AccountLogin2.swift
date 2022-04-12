@@ -128,7 +128,7 @@ struct AccountLogin2: View {
         .edgesIgnoringSafeArea(.top)
         }
         else {
-            AccountSignUpView()
+            AccountSignUpView(goToRegistration: $goIntoRegistration)
         }
     }
 }

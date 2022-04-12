@@ -51,7 +51,7 @@ struct SignInView: View {
                             
                             Button(action: {
                                 // TODO: We need to validate email with regex and that passwords match
-                                viewModel.createUser(displayName: displayNameEntered, email: usernameEntered, password: passwordEntered)
+//                                viewModel.createUser(displayName: displayNameEntered, email: usernameEntered, password: passwordEntered)
                             }) {
                                 Capsule()
                                     .frame(width: 100, height: 35)

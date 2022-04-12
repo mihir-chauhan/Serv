@@ -223,25 +223,18 @@ class AuthViewModel: ObservableObject {
             } else {
                 let user = Auth.auth().currentUser!
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user.uid) { exists in
-//                    if exists == true {
-                        self?.loading = false
-                        print("Welcome back \(user.displayName ?? "no name")")
-                        print("User signs in successfully")
-                        print(user.email!, user.uid)
-                        self?.state = .signedIn
-                        self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email))
-
-//                    } else {
-//                        self?.state = .error
-//                        #warning("the uid matches up with one in database, but it says that it can't find the user in db")
-//                        fatalError("\(userInfo.uid)")
-//                    }
+                    self?.loading = false
+                    print("Welcome back \(user.displayName ?? "no name")")
+                    print("User signs in successfully")
+                    print(user.email!, user.uid)
+                    self?.state = .signedIn
+                    self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email))
                 }
             }
         }
     }
     
-    func createUser(displayName: String, email: String, password: String) {
+    func createUser(firstName: String, lastName: String, username: String, email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             self.loading = true
             if let error = error as NSError? {
@@ -260,7 +253,7 @@ class AuthViewModel: ObservableObject {
                 }
             } else {
                 let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                changeRequest?.displayName = displayName
+                changeRequest?.displayName = firstName + "" + lastName
                 changeRequest?.commitChanges { error in
                     if error == nil {
                         // Do something
@@ -273,11 +266,11 @@ class AuthViewModel: ObservableObject {
                 self.state = .signedIn
                 self.loading = false
                 let user = Auth.auth().currentUser
-//                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
-                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                #warning("doesn't enter in submitted username yet")
+                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email))
                 print("User signed up successfully: ", user?.displayName)
 
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email))
             }
         }
     }
@@ -310,6 +303,7 @@ class AuthViewModel: ObservableObject {
 struct UserInfoFromAuth: Codable {
     var uid: String!
     var displayName: String? = "No name"
+    var username: String? = "no username"
     var photoURL: URL? = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")
     var email: String? = "dude@dude.com"
 }

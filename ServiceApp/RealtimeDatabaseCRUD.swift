@@ -98,6 +98,7 @@ class FirebaseRealtimeDatabaseCRUD {
         let userInfoAsDict = [
             "uid" : userInfo.uid!,
             "name" : userInfo.displayName ?? "No name",
+            "username" : userInfo.username ?? "No username :///",
             "photoURL" : userInfo.photoURL?.absoluteString ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg",
             "email" : userInfo.email ?? "default@email.com"
         ] as [String : Any]
