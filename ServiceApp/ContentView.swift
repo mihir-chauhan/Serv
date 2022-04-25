@@ -15,14 +15,16 @@ struct ContentView: View {
 
 
     var body: some View {
-//        VStack {
-//            switch self.signInState {
-//            case .signedOut: SignInView()
-//            case .signedIn: CustomTabBar()
-//            case .error: Text("Error")
-//            }
-//        }
-        AccountLogin2()
+        VStack {
+            switch self.signInState {
+            case .signedOut: AccountLogin2()
+            case .signedIn: CustomTabBar()
+            case .error: Text("Error")
+            }
+        }
+//        CustomTabBar()
+//        HostViewAllEvents()
+//        AccountLogin2()
         .environmentObject(sheetObserver)
         .environmentObject(viewModel)
         .onChange(of: viewModel.state) { newValue in

@@ -14,6 +14,7 @@ struct Account: View {
     var topEdge: CGFloat
     
     @State var offset: CGFloat = 0
+    @State var toggleEditInfoSheet: Bool = false
 //    var uidInfoStored: String {
 //            get {
 //                return ContentView().uidStoredInfo
@@ -24,7 +25,7 @@ struct Account: View {
             VStack(spacing: 15) {
                 GeometryReader { proxy in
                     if #available(iOS 15.0, *) {
-                        TopBar(topEdge: topEdge, offset: $offset, maxHeight: maxHeight)
+                        TopBar(topEdge: topEdge, offset: $offset, toggleEditInfoSheet: $toggleEditInfoSheet, maxHeight: maxHeight)
                             .padding()
                             .foregroundColor(.white)
                             .frame(width: display.width, height: getHeaderHeight(), alignment: .bottom)
@@ -91,8 +92,13 @@ struct Account: View {
             }
             .padding(.bottom, 100)
             .modifier(OffsetModifier(offset: $offset))
+            
+            
+            }
+            .coordinateSpace(name: "SCROLL")
+            .sheet(isPresented: $toggleEditInfoSheet) {
+                EditAccountDetails()
         }
-        .coordinateSpace(name: "SCROLL")
         
         
     }
@@ -121,7 +127,7 @@ struct Account: View {
     }
     
     
-    private func generateQRCode(from string: String) -> Data? {
+    func generateQRCode(from string: String) -> Data? {
         let data = string.data(using: String.Encoding.ascii)
         
         if let filter = CIFilter(name: "CIQRCodeGenerator") {
@@ -142,10 +148,12 @@ struct TopBar: View {
     @EnvironmentObject var viewModel: AuthViewModel
     var topEdge: CGFloat
     @Binding var offset: CGFloat
+    @Binding var toggleEditInfoSheet: Bool
     var maxHeight: CGFloat
 
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
+            
             AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
                 switch phase {
                 case .empty:
@@ -162,10 +170,22 @@ struct TopBar: View {
                 }
             }
             
-                
-            Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
-                .font(.largeTitle.bold())
             
+            HStack {
+                Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
+                    .font(.largeTitle.bold())
+                
+                Button(action: {
+                    toggleEditInfoSheet.toggle()
+                }) {
+                    Image(systemName: "pencil")
+                        .resizable()
+                        .foregroundColor(Color.white)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
+                        .padding(.leading, 10)
+                }
+            }
             Text("My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!")
                 .font(.caption)
                 .fontWeight(.semibold)

@@ -12,15 +12,15 @@ struct Socials: View {
     @State private var showingSheet = false
     @State private var showingFriendDetailSheet = false
     @State private var nameForDetailSheet = ""
-    @State private var imgForDetailSheet = ""
+    @State private var imgForDetailSheet = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")!
 
-    @State var listOfFriends = ["No Friends"]
+    @State var listOfFriends = [UserInfoFromAuth]()
     var body: some View {
         NavigationView {
             ScrollView {
                 LeaderboardView().padding(.bottom, 50)
                 ForEach(self.listOfFriends, id: \.self) { friend in
-                    FriendCardView(image: "person", lastService: "5", name: friend, onTapCallback: cardTapped)
+                    FriendCardView(image: friend.photoURL!, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
                 }
 //                FriendCardView(image: "person", lastService: "5", name: "Tom", onTapCallback: cardTapped)
 //                FriendCardView(image: "img", lastService: "9", name: "Jill", onTapCallback: cardTapped)
@@ -59,7 +59,7 @@ struct Socials: View {
         }
     }
     
-    func cardTapped(name: String, img: String) {
+    func cardTapped(name: String, img: URL) {
         nameForDetailSheet = name
         imgForDetailSheet = img
         showingFriendDetailSheet.toggle()

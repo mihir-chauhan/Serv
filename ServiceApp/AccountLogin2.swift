@@ -24,13 +24,13 @@ struct AccountLogin2: View {
         VStack(alignment: .leading) {
                 SegmentedPicker(items: self.items, selection: $selection)
                 HStack (alignment: .center, spacing: 10) {
-                    Image(systemName: "person.fill")
+                    Image(systemName: "envelope.fill")
                         .resizable()
-                        .frame(width: 25, height: 25)
+                        .frame(width: 25, height: 20)
                         .aspectRatio(contentMode: .fit)
-                        .foregroundColor(Color.mint.opacity(0.5))
+                        .foregroundColor(selection == 0 ? Color.mint.opacity(0.5) : Color.purple.opacity(0.3))
                     
-                    TextField ("Username", text: $usernameEntered)
+                    TextField ("Email", text: $usernameEntered)
                 }
                 .padding(10)
                 .background(Color.gray.opacity(0.1))
@@ -39,9 +39,9 @@ struct AccountLogin2: View {
                     Image(systemName: "lock.fill")
                         .resizable()
                     
-                        .frame(width: 25, height: 25)
+                        .frame(width: 23, height: 25)
                         .aspectRatio(contentMode: .fit)
-                        .foregroundColor(Color.mint.opacity(0.5))
+                        .foregroundColor(selection == 0 ? Color.mint.opacity(0.5) : Color.purple.opacity(0.3))
                     
                     SecureField("Password", text: $passwordEntered)
                 }
@@ -53,7 +53,7 @@ struct AccountLogin2: View {
                 HStack {
                     Image(systemName: rememberUser ? "checkmark.square" : "square")
                         .resizable()
-                        .frame(width: 22, height: 22)
+                        .frame(width: 22, height: 20)
                         .foregroundColor(rememberUser ? Color.mint : Color.black)
                         .onTapGesture {
                             withAnimation {

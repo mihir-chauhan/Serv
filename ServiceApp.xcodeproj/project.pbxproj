@@ -40,6 +40,7 @@
 		B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCDE277C5A43004DEE5B /* SampleData.swift */; };
 		B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCE0277C5A53004DEE5B /* Socials.swift */; };
 		BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE196EFA279CDA2800DA0217 /* Settings.swift */; };
+		BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */; };
 		BEB2934027C1FE7C00D32BDE /* AuthSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */; };
 		BEB551CA27C1A820008ED810 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551C927C1A820008ED810 /* FirebaseAuth */; };
 		BEB551CC27C1A820008ED810 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CB27C1A820008ED810 /* FirebaseDatabase */; };
@@ -94,6 +95,7 @@
 		B3E6FCDE277C5A43004DEE5B /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		B3E6FCE0277C5A53004DEE5B /* Socials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socials.swift; sourceTree = "<group>"; };
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountDetails.swift; sourceTree = "<group>"; };
 		BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignIn.swift; sourceTree = "<group>"; };
 		BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImagesWithCache.swift; sourceTree = "<group>"; };
 		BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBezierPaths.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
+				BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */,
 				BE196EFA279CDA2800DA0217 /* Settings.swift */,
 				F446C5AC27D99B3900F49196 /* SignInView.swift */,
 				BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */,
@@ -359,6 +362,7 @@
 				B333369E27819C59007E9482 /* FriendCardView.swift in Sources */,
 				B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */,
 				F4496577280151490068A497 /* AccountLogin2.swift in Sources */,
+				BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */,
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */,

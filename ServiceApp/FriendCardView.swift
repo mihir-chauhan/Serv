@@ -9,23 +9,29 @@ import SwiftUI
 
 struct FriendCardView: View {
     
-    var image: String
+    var image: URL
     var lastService: String
     var name: String
-    var onTapCallback : (String, String) -> ()
+    var onTapCallback : (String, URL) -> ()
 
     var body: some View {
         Button {
             self.onTapCallback(name, image)
         } label: {
             HStack {
-                Image(image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 65, height: 65)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .clipped()
-                    .padding(.leading, 6.5)
+                AsyncImage(url: image) { img in
+                    img
+                        .resizable()
+                        .scaledToFill()
+        
+                } placeholder: {
+                    Color.gray
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .frame(width: 65, height: 65)
+                .clipped()
+                .padding(.leading, 6.5)
+                    
 
                 HStack {
                     VStack(alignment: .leading) {

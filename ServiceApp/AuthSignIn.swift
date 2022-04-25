@@ -300,7 +300,7 @@ class AuthViewModel: ObservableObject {
     }
 }
 
-struct UserInfoFromAuth: Codable {
+struct UserInfoFromAuth: Codable, Hashable {
     var uid: String!
     var displayName: String? = "No name"
     var username: String? = "no username"

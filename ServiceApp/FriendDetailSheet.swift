@@ -10,14 +10,19 @@ import SwiftUICharts
 
 struct FriendDetailSheet: View {
     @Binding var name: String
-    @Binding var image: String
+    @Binding var image: URL
     var body: some View {
         NavigationView {
             ScrollView {
                 HStack {
-                    Image(image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    AsyncImage(url: image) { img in
+                        img
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    } placeholder: {
+                        Color.gray
+                    }
+                        
                         .frame(width: display.width / 4)
                         .scaleEffect(1.1)
                         .clipShape(Circle())

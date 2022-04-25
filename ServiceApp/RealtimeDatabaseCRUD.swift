@@ -128,16 +128,17 @@ class FirebaseRealtimeDatabaseCRUD {
         }
     }
     
-    func getUserFriendInfo(uid: String, completion: @escaping (String) -> ()) {
+    func getUserFriendInfo(uid: String, completion: @escaping (UserInfoFromAuth) -> ()) {
         ref.child("\(uid)/UserInfo").observeSingleEvent(of: .value, with: { snap in
             let value = snap.value as? NSDictionary
-            let displayName = value?["email"] as? String ?? ""
+            let displayName = value?["name"] as? String ?? "no name"
+            let photoURL = value?["photoURL"] as? String ?? "no image"
+            
+            let model = UserInfoFromAuth(displayName: displayName, photoURL: URL(string: photoURL))
 //            this eventually will have to return a list of elements
             print(displayName)
-            completion(displayName)
-        }) { error in
-            print(error.localizedDescription)
-        }
+            completion(model)
+        })
     }
 }
 

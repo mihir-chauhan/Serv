@@ -46,18 +46,6 @@ struct AccountSignUpView: View {
             Text("Use your full name, this is what event hosts will go by")
                 .font(.caption)
                 .padding(.bottom, 40)
-            HStack (alignment: .center, spacing: 10) {
-                Image(systemName: "at.circle.fill")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(Color.mint.opacity(0.5))
-                
-                TextField("Username", text: $usernameEntered)
-            }
-            .padding(10)
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(15)
             
             HStack (alignment: .center, spacing: 10) {
                 Image(systemName: "envelope.fill")
