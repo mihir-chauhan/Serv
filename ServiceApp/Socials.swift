@@ -20,7 +20,7 @@ struct Socials: View {
             ScrollView {
                 LeaderboardView().padding(.bottom, 50)
                 ForEach(self.listOfFriends, id: \.self) { friend in
-                    FriendCardView(image: friend.photoURL!, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
+                    FriendCardView(image: friend.photoURL ?? imgForDetailSheet, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
                 }
 //                FriendCardView(image: "person", lastService: "5", name: "Tom", onTapCallback: cardTapped)
 //                FriendCardView(image: "img", lastService: "9", name: "Jill", onTapCallback: cardTapped)
@@ -64,6 +64,5 @@ struct Socials: View {
         imgForDetailSheet = img
         showingFriendDetailSheet.toggle()
     }
-
 }
 

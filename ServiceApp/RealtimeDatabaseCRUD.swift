@@ -104,9 +104,9 @@ class FirebaseRealtimeDatabaseCRUD {
         ] as [String : Any]
         ref.child("\(userInfo.uid!)/UserInfo").setValue(userInfoAsDict)
         
-        
-        ref.child("\(userInfo.uid!)/Friends").setValue(["F1"])
-        ref.child("\(userInfo.uid!)/Events").setValue(["E1"])
+//        will be set when user creates it 
+//        ref.child("\(userInfo.uid!)/Friends").setValue(["F1"])
+//        ref.child("\(userInfo.uid!)/Events").setValue(["E1"])
     }
     
     func getUserFriends(uid: String, completion: @escaping ([String]) -> ()) {

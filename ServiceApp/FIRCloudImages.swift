@@ -10,7 +10,7 @@ import Firebase
 import SDWebImageSwiftUI
 import SwiftUI
 
-class FIRCloudImages {
+class FIRCloudImagesUSED {
     let storage = Storage.storage()
     func getRemoteImages(gsURL: [String], completion: @escaping (ConnectionResult) -> ()) {
         let storageRef = storage.reference().child("EventImages")

@@ -129,7 +129,7 @@ struct EventDetailView: View {
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
             }
-            FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
+            FIRCloudImagesUSED().getRemoteImages(gsURL: data.images!) { connectionResult in
                 switch connectionResult {
                 case .success(let url):
                     self.placeHolderImage.removeAll()

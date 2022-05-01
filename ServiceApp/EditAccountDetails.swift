@@ -54,12 +54,9 @@ struct EditAccountDetails: View {
                     }
                     if let images = imageOrNil {
                         selectedImage = images.first
-//                        if let features = readQRCodeFromImage(images.first) {
-//                            for case let row as CIQRCodeFeature in features {
-//                                // add friend to firebase DB, when implemented.......
-//                                print(row.messageString ?? "no result")
-//                            }
-//                        }
+                        if let imageData = selectedImage?.jpeg(.lowest) {
+                            FIRCloudImages().uploadPfp(viewModel: viewModel, for: imageData)
+                        }
                     }
                 }
             }

@@ -151,7 +151,6 @@
 				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
 				39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */,
 				B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */,
-				BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */,
 				BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */,
 				F4903AB127E97BE7004FE5B7 /* WebView.swift */,
 				BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */,
@@ -159,6 +158,7 @@
 				F4496576280151490068A497 /* AccountLogin2.swift */,
 				F449657828026E300068A497 /* AccountSignUpView.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
+				BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */,
 			);
 			name = "HelperClasses+Models";
 			sourceTree = "<group>";

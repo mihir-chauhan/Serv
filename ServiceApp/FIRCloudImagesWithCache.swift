@@ -9,7 +9,9 @@ import Firebase
 import UIKit
 import SwiftUI
 
-class FIRCloudImagesWithCache {
+//By declaring properties and methods as Static, Swift allocates them directly into the object's memory, making it available for use without the need of an instance
+
+class FIRCloudImages {
     static let storage = Storage.storage()
     static let cache = NSCache<NSString, NSData>()
     
@@ -47,12 +49,40 @@ class FIRCloudImagesWithCache {
         else {
             getRemoteImages(gsURL: gsURL, completion: completion)
             print("loading new results")
-            
-//            if let all = cache.value(forKey: gsURL) as? NSArray {
-//                for object in all {
-//                    print("object is \(object)")
-//                }
-//            }
         }
+    }
+    
+    func uploadPfp(viewModel: AuthViewModel, for data: Data) {
+        let storageRef = FIRCloudImages.storage.reference().child("ProfilePictures")
+        let profilePicRef = storageRef.child("\(String(describing: viewModel.decodeUserInfo()!.uid!))")
+        profilePicRef.putData(data, metadata: nil) { (metadata, error) in
+            guard let metadata = metadata else {
+                return
+            }
+            let size = metadata.size
+            print("size", size)
+        }
+        profilePicRef.downloadURL { (url, error) in
+            guard let downloadURL = url else {
+                return
+            }
+//            TODO: save download url from here to realtime db --> under UserInfo
+            print(downloadURL)
+        }
+    }
+}
+
+//Compressing image size
+extension UIImage {
+    enum JPEGQuality: CGFloat {
+        case lowest = 0
+        case low = 0.25
+        case medium = 0.5
+        case high = 0.75
+        case highest = 1
+    }
+    
+    func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
+        return jpegData(compressionQuality: jpegQuality.rawValue)
     }
 }
