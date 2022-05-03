@@ -20,7 +20,9 @@ struct AccountLogin2: View {
     @State var goIntoRegistration: Bool = false
     private let items: [String] = ["Attendee", "Host"]
     var body: some View {
+        if selection == 0 {
         if goIntoRegistration == false {
+            
         VStack(alignment: .leading) {
                 SegmentedPicker(items: self.items, selection: $selection)
                 HStack (alignment: .center, spacing: 10) {
@@ -129,6 +131,10 @@ struct AccountLogin2: View {
         }
         else {
             AccountSignUpView(goToRegistration: $goIntoRegistration)
+        }
+        } else {
+            WebView()
+                
         }
     }
 }

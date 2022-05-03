@@ -10,7 +10,8 @@ import WebKit
 
 struct WebView: View {
     var body: some View {
-        WebViewUIConverter(urlString: "https://www.apple.com")
+        WebViewUIConverter(urlString: nil)
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -31,8 +32,12 @@ struct WebViewUIConverter: UIViewRepresentable {
         return WKWebView(frame: .zero, configuration: config)
     }
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        guard let url = URL(string: urlString ?? "https://www.apple.com") else { return }
+        guard let url = URL(string: urlString ?? "https://mihir-chauhan.github.io/serv.github.io/index.html") else { return }
         uiView.load(URLRequest(url: url))
+        
+        uiView.scrollView.contentInset = .zero
         uiView.frame = UIScreen.main.bounds
+        
     }
+    
 }
