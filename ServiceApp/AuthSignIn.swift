@@ -22,6 +22,7 @@ class AuthViewModel: ObservableObject {
     
     @Published var state: SignInState = .signedOut
     @Published var loading: Bool = false
+    
     @Published var userInfoFromAuth: UserInfoFromAuth?
 //    @Published var uidStoredInfo: String = ContentView().uidStoredInfo
     @State var currentNonce: String?
@@ -254,6 +255,7 @@ class AuthViewModel: ObservableObject {
             } else {
                 let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                 changeRequest?.displayName = firstName + "" + lastName
+                
                 changeRequest?.commitChanges { error in
                     if error == nil {
                         // Do something
@@ -269,13 +271,13 @@ class AuthViewModel: ObservableObject {
                 #warning("doesn't enter in submitted username yet")
                 FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email))
                 print("User signed up successfully: ", user?.displayName)
-
+//                If photourl == smth, use if statement
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email))
             }
         }
     }
     
-    private func encodeUserInfo(for value: UserInfoFromAuth) {
+    func encodeUserInfo(for value: UserInfoFromAuth) {
         do {
             let encoder = JSONEncoder()
             let data = try encoder.encode(value)

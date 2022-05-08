@@ -55,7 +55,7 @@ struct EditAccountDetails: View {
                     if let images = imageOrNil {
                         selectedImage = images.first
                         if let imageData = selectedImage?.jpeg(.lowest) {
-                            FIRCloudImages().uploadPfp(viewModel: viewModel, for: imageData)
+                            FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: imageData)
                         }
                     }
                 }

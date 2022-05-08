@@ -37,6 +37,7 @@ struct Account: View {
                 .overlay(
                     HStack {
                         AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
+//                            Because of user defaults, image isn't updating right away
                             switch phase {
                             case .empty:
                                 ProgressView()

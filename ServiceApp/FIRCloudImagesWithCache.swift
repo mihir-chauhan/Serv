@@ -8,6 +8,8 @@
 import Firebase
 import UIKit
 import SwiftUI
+import FirebaseAuth
+import AuthenticationServices
 
 //By declaring properties and methods as Static, Swift allocates them directly into the object's memory, making it available for use without the need of an instance
 
@@ -52,7 +54,7 @@ class FIRCloudImages {
         }
     }
     
-    func uploadPfp(viewModel: AuthViewModel, for data: Data) {
+    func uploadPfp(uid: String, viewModel: AuthViewModel, for data: Data) {
         let storageRef = FIRCloudImages.storage.reference().child("ProfilePictures")
         let profilePicRef = storageRef.child("\(String(describing: viewModel.decodeUserInfo()!.uid!))")
         profilePicRef.putData(data, metadata: nil) { (metadata, error) in
@@ -66,8 +68,25 @@ class FIRCloudImages {
             guard let downloadURL = url else {
                 return
             }
-//            TODO: save download url from here to realtime db --> under UserInfo
-            print(downloadURL)
+            let dbRef = Database.database().reference()
+            dbRef.child("\(uid)/UserInfo")
+                .updateChildValues(["photoURL" : downloadURL.absoluteString])
+//            let changeReq = Auth.auth().currentUser?.createProfileChangeRequest()
+//            changeReq?.photoURL = downloadURL
+//            changeReq?.commitChanges { error in
+//                if error == nil {
+//                    // Do something
+//                } else {
+//                    // Do something
+//                }
+//            }
+            let user = Auth.auth().currentUser
+            viewModel.encodeUserInfo(for: UserInfoFromAuth(
+                uid: user?.uid, displayName: user?.displayName, username: "no username", photoURL: downloadURL, email: user?.email
+            ))
+//            TODO: must update userinfo user defaults
+            print("HERE", downloadURL.absoluteString)
+            
         }
     }
 }
@@ -84,5 +103,23 @@ extension UIImage {
     
     func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
         return jpegData(compressionQuality: jpegQuality.rawValue)
+    }
+}
+
+extension UIImage {
+    func aspectFittedToHeight(_ newHeight: CGFloat) -> UIImage {
+        let scale = newHeight / self.size.height
+        let newWidth = self.size.width * scale
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+
+        return renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+    }
+    func compressImage(image: UIImage) -> UIImage {
+            let resizedImage = image.aspectFittedToHeight(200)
+            resizedImage.jpegData(compressionQuality: 0.2)
+            return resizedImage
     }
 }
