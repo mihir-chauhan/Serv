@@ -13,12 +13,6 @@ struct ScheduleCard: View {
     @State var showingAlert = false
     @State var placeHolderUIImage: UIImage?
     @State var viewRendered = false
-    var dateToString: String = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyy"
-        let stringDate = dateFormatter.string(from: Date())
-        return stringDate
-    }()
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -28,6 +22,8 @@ struct ScheduleCard: View {
     
     var onTapCallback : (EventInformationModel) -> ()
     
+    @State var pulsingAnimationForLiveEvent: Bool = false
+
     var body: some View {
         if #available(iOS 15.0, *) {
             Button {
@@ -115,9 +111,23 @@ struct ScheduleCard: View {
                                 .foregroundColor(.primary)
                             //.lineLimit(3) maybe we dont need it...maybe we dooo?
                             HStack {
+                                VStack(alignment: .leading) {
                                 Text(data.time, formatter: dateFormatter)
                                     .font(.caption)
                                     .foregroundColor(.secondary)
+                                    ZStack {
+                                        Circle().foregroundColor(.red.opacity(0.25)).frame(width: 35, height: 35).scaleEffect(pulsingAnimationForLiveEvent ? 1 : 0)
+                                        Circle().foregroundColor(.red.opacity(0.35)).frame(width: 25, height: 25).scaleEffect(pulsingAnimationForLiveEvent ? 1 : 0)
+                                        Circle().foregroundColor(.red.opacity(0.45)).frame(width: 15, height: 15).scaleEffect(pulsingAnimationForLiveEvent ? 1 : 0)
+                                        Circle().foregroundColor(.red).frame(width: 9, height: 9)
+                                    }
+                                    .onAppear {
+                                        if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
+                                            self.pulsingAnimationForLiveEvent.toggle()
+                                        }
+                                    }
+                                    .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
+                                }
                                 Spacer()
                                 FriendsCommonEvent()
                             }
@@ -146,18 +156,16 @@ struct ScheduleCard: View {
                     Image(systemName: "trash")
                 }
             }
-            .onAppear {
-//                FIRCloudImages().getRemoteImages(gsURL: data.images!) { connectionResult in
-//                    switch connectionResult {
-//                    case .success(let url):
-//                        self.placeHolderImage = url[0]
-//                    case .failure(let error):
-//                        print(error)
-//                    }
-//                }
-            }
+            
             
         }
+    }
+    
+    private func checkForLiveEvents(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let stringDate = dateFormatter.string(from: date)
+        return stringDate
     }
 }
 

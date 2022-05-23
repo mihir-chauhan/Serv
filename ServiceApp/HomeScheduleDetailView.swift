@@ -82,7 +82,9 @@ struct HomeScheduleDetailView: View {
                 
                 
             }
-            Spacer()  
+            Spacer()
+            
+                
         }
     }
     
