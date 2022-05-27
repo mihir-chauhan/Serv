@@ -22,7 +22,7 @@ struct ScheduleCard: View {
     
     var onTapCallback : (EventInformationModel) -> ()
     
-    @State var pulsingAnimationForLiveEvent: Bool = false
+    @State var eventIsLive: Bool = false
 
     var body: some View {
         if #available(iOS 15.0, *) {
@@ -112,21 +112,25 @@ struct ScheduleCard: View {
                             //.lineLimit(3) maybe we dont need it...maybe we dooo?
                             HStack {
                                 VStack(alignment: .leading) {
+                                    HStack {
                                 Text(data.time, formatter: dateFormatter)
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                     ZStack {
-                                        Circle().foregroundColor(.red.opacity(0.25)).frame(width: 35, height: 35).scaleEffect(pulsingAnimationForLiveEvent ? 1 : 0)
-                                        Circle().foregroundColor(.red.opacity(0.35)).frame(width: 25, height: 25).scaleEffect(pulsingAnimationForLiveEvent ? 1 : 0)
-                                        Circle().foregroundColor(.red.opacity(0.45)).frame(width: 15, height: 15).scaleEffect(pulsingAnimationForLiveEvent ? 1 : 0)
-                                        Circle().foregroundColor(.red).frame(width: 9, height: 9)
+                                        Circle().foregroundColor(.red.opacity(0.25)).frame(width: 35, height: 35).scaleEffect(eventIsLive ? 1 : 0)
+                                        Circle().foregroundColor(.red.opacity(0.35)).frame(width: 25, height: 25).scaleEffect(eventIsLive ? 1 : 0)
+                                        Circle().foregroundColor(.red.opacity(0.45)).frame(width: 15, height: 15).scaleEffect(eventIsLive ? 1 : 0)
+                                        Circle().foregroundColor(eventIsLive ? .red : .clear).frame(width: 9, height: 9)
                                     }
                                     .onAppear {
                                         if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
-                                            self.pulsingAnimationForLiveEvent.toggle()
+                                            self.eventIsLive.toggle()
                                         }
                                     }
                                     .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
+                                        
+                                        Text("LIVE").foregroundColor(self.eventIsLive ? .red : .clear).bold().font(.system(.subheadline))
+                                    }
                                 }
                                 Spacer()
                                 FriendsCommonEvent()
@@ -135,9 +139,6 @@ struct ScheduleCard: View {
                         }
                         
                     }
-                    //                    .layoutPriority(100)
-                    
-                    
                     .padding()
                 }
                 .cornerRadius(10)
