@@ -14,17 +14,17 @@ struct FriendsCommonEvent: View {
     var img3Name = ""
 
     init() {
-        var firstChoice = Int.random(in: 0..<imgArray.count)
+        let firstChoice = Int.random(in: 0..<imgArray.count)
         img1Name = imgArray[firstChoice]
         imgArray.remove(at: firstChoice)
         
         
-        var secondChoice = Int.random(in: 0..<imgArray.count)
+        let secondChoice = Int.random(in: 0..<imgArray.count)
         img2Name = imgArray[secondChoice]
         imgArray.remove(at: secondChoice)
         
         
-        var thirdChoice = Int.random(in: 0..<imgArray.count)
+        let thirdChoice = Int.random(in: 0..<imgArray.count)
         img3Name = imgArray[thirdChoice]
         imgArray.remove(at: thirdChoice)
     }

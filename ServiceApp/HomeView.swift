@@ -148,7 +148,7 @@ struct HomeView: View {
             
         
         .onAppear() {
-            FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid) { eventsArray in
+            FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
                 if eventsArray != nil {
                     for i in 0..<eventsArray!.count {
                         for x in 0..<results.allFIRResults.count {

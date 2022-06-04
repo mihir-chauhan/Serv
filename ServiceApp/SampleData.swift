@@ -6,12 +6,14 @@
 //
 
 import MapKit
+import SwiftUI
 
 
 
 var display: (width: CGFloat, height: CGFloat) = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
 
-var user_uuid: String = UIDevice.current.identifierForVendor!.uuidString
+var user_device_uuid: String = UIDevice.current.identifierForVendor!.uuidString
+var user_uuid = UserDefaults.standard.string(forKey: "user_uuid")
 
 struct EventInformationModel: Identifiable, Equatable, Hashable {
     static func == (lhs: EventInformationModel, rhs: EventInformationModel) -> Bool {

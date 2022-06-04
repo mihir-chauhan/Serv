@@ -86,12 +86,33 @@ class FirebaseRealtimeDatabaseCRUD {
     }
     
     func checkIfUserExists(uuidString: String, completion: @escaping (Bool) -> ()) {
-        ref.root.observeSingleEvent(of: .value) { (snapshot) in
-            if snapshot.hasChild(uuidString) {
+        ref.child(uuidString).observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.exists() {
                 completion(true)
             }
             completion(false)
         }
+    }
+    
+    func checkIfEventExistsInUser(uuidString: String, eventToCheck: String, completion: @escaping (Bool) -> ()) {
+        let reference = Database.database().reference()
+        reference.root.child("\(uuidString)").child("Events").observeSingleEvent(of: .value, with: { (snapshot) in
+
+            if snapshot.exists() {
+                for child in snapshot.children {
+                    let child = child as? DataSnapshot
+                    if let _ = child?.key, let name = child?.value as? String {
+                        if name == eventToCheck {
+                            completion(true)
+                        }
+                    }
+                }
+            } else {
+                print("Event doesn't exist")
+                completion(false)
+            }
+
+        }, withCancel: nil)
     }
     
     func registerNewUser(for userInfo: UserInfoFromAuth) {
@@ -105,8 +126,8 @@ class FirebaseRealtimeDatabaseCRUD {
         ref.child("\(userInfo.uid!)/UserInfo").setValue(userInfoAsDict)
         
 //        will be set when user creates it 
-//        ref.child("\(userInfo.uid!)/Friends").setValue(["F1"])
-//        ref.child("\(userInfo.uid!)/Events").setValue(["E1"])
+        ref.child("\(userInfo.uid!)/Friends").setValue([])
+        ref.child("\(userInfo.uid!)/Events").setValue([])
     }
     
     func getUserFriends(uid: String, completion: @escaping ([String]) -> ()) {

@@ -12,7 +12,7 @@ struct ContentView: View {
     @StateObject private var sheetObserver = SheetObserver()
     @StateObject var viewModel = AuthViewModel()
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
-
+//    @AppStorage("currentUser", store: .standard) var currentUser: String?
 
     var body: some View {
         VStack {
@@ -30,6 +30,9 @@ struct ContentView: View {
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue
         }
+//        .onChange(of: AuthViewModel().userInfoFromAuth?.uid) { newValue in
+//            self.currentUser = newValue
+//        }
 //            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
 //                print("KEY BVALUE", value.keys, value.values)
 //            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in

@@ -13,6 +13,7 @@ struct ScheduleCard: View {
     @State var showingAlert = false
     @State var placeHolderUIImage: UIImage?
     @State var viewRendered = false
+    @State var toggleCheckInSheet = false
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -23,6 +24,7 @@ struct ScheduleCard: View {
     var onTapCallback : (EventInformationModel) -> ()
     
     @State var eventIsLive: Bool = false
+    @State var eventExistsInUser: Bool = false
 
     var body: some View {
         if #available(iOS 15.0, *) {
@@ -52,18 +54,40 @@ struct ScheduleCard: View {
 //
                         HStack {
                             Spacer()
-                            HStack {
+                            HStack(alignment: .top, spacing: 15) {
+                            //TODO: check if an event exists in a user's list for realtime db
+                                if ( (eventExistsInUser) && (checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now)) ) {
+                                    Button(action: {
+                                        self.toggleCheckInSheet.toggle()
+                                    }) {
+                                        Capsule()
+                                            .frame(width: 100, height: 32.5)
+                                            .foregroundColor(Color(.systemGray4).opacity(0.95))
+                                            .overlay(Text("Check In").foregroundColor(.white))
+                                            .padding(.top, 5)
+                                    }
+                                }
                                 RoundedRectangle(cornerRadius: 50)
                                     .frame(width: 65, height: 65)
-                                    .foregroundColor(Color(.systemGray4))
+                                    .foregroundColor(Color(.systemGray4).opacity(0.95))
                                     .overlay(Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 40))).padding([.top, .trailing], 5)
                                 
                             }
                         }
                     }
+                    .onAppear {
+                        FirebaseRealtimeDatabaseCRUD().checkIfEventExistsInUser(uuidString: user_uuid!, eventToCheck: data.FIRDocID!) { res in
+                            switch res {
+                            case true:
+                                eventExistsInUser = true
+                            case false:
+                                eventExistsInUser = false
+                            }
+                        }
+                    }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(action: {
-                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid!, eventUUID: data.FIRDocID!)
                         }) {
                             Image(systemName: "trash")
                                 .foregroundColor(.red)
@@ -101,7 +125,7 @@ struct ScheduleCard: View {
                                     .alert("Are you sure you want to delete the event?", isPresented: $showingAlert) {
                                         Button("cancel", role: .cancel) { }
                                         Button("delete", role: .destructive) {
-                                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid!, eventUUID: data.FIRDocID!)
                                         }
                                     }
                             }
@@ -157,12 +181,14 @@ struct ScheduleCard: View {
                     Image(systemName: "trash")
                 }
             }
-            
+            .sheet(isPresented: $toggleCheckInSheet) {
+                Text("Check In")
+            }
             
         }
     }
     
-    private func checkForLiveEvents(date: Date) -> String {
+    func checkForLiveEvents(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         let stringDate = dateFormatter.string(from: date)

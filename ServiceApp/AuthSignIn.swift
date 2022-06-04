@@ -87,7 +87,9 @@ class AuthViewModel: ObservableObject {
                     self.loading = false
                     if exists == true {
                         print("Welcome back \(user!.user.displayName ?? "no name"), aka: \(user!.user.uid)")
+                        user_uuid = user!.user.uid
                         self.state = .signedIn
+                        
                     }
                     else {
                         FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(
@@ -96,11 +98,13 @@ class AuthViewModel: ObservableObject {
                             photoURL: user?.user.photoURL,
                             email: user?.user.email))
                         print("Tell us about yourself")
+                        UserDefaults.standard.set(user?.user.uid, forKey: "user_uuid")
                     }
                 }
                 let user = user?.user
 //                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
 //                self.uidStoredInfo = user!.uid
             }
         }
@@ -151,6 +155,7 @@ class AuthViewModel: ObservableObject {
                 let user = Auth.auth().currentUser
 //                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
 //                self.uidStoredInfo = user!.uid
             default:
                 break
@@ -230,6 +235,7 @@ class AuthViewModel: ObservableObject {
                     print(user.email!, user.uid)
                     self?.state = .signedIn
                     self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email))
+                    UserDefaults.standard.set(user.uid, forKey: "user_uuid")
                 }
             }
         }
@@ -273,6 +279,7 @@ class AuthViewModel: ObservableObject {
                 print("User signed up successfully: ", user?.displayName)
 //                If photourl == smth, use if statement
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email))
+                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
             }
         }
     }

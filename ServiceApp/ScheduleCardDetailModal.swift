@@ -18,7 +18,7 @@ struct ScheduleCardDetailSheet: View {
     @State var buttonStateIsSignedUp: Bool = false
     
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
-        FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid) { eventsArray in
+        FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
             if eventsArray == nil {
                 buttonStateIsSignedUp = false
                 handler(false);
@@ -72,10 +72,10 @@ struct ScheduleCardDetailSheet: View {
                     Button(action: {
                         if !buttonStateIsSignedUp {
                             FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
-                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid, eventUUID: data.FIRDocID!)
+                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid!, eventUUID: data.FIRDocID!)
                         } else {
-                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid)
-                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid, eventUUID: data.FIRDocID!)
+                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid!)
+                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid!, eventUUID: data.FIRDocID!)
                         }
                         
                         buttonStateIsSignedUp.toggle()
