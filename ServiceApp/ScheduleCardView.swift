@@ -182,7 +182,7 @@ struct ScheduleCard: View {
                 }
             }
             .sheet(isPresented: $toggleCheckInSheet) {
-                CheckInView()
+                CheckInView(data: data)
             }
             
         }

@@ -9,19 +9,48 @@ import SwiftUI
 import UIKit
 
 struct CheckInView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State var allowSubmit = false
-    @State var code = 0
+    @State var code = -1
+    @State var correctCode = false
+    @State var showMessage: Image?
+    var data: EventInformationModel
     var body: some View {
         
-        Text("Check In").font(.title)
-        CheckInController(allowSubmit: $allowSubmit, code: $code)
+        HStack(spacing: 10) {
+            Text("Check In").font(.title)
+            self.showMessage?
+                .resizable()
+                .frame(width: 28, height: 28)
+        }
+        CheckInController(allowSubmit: $allowSubmit, code: $code, correctCode: $correctCode, data: data)
             .frame(width: 286, height: 50)
         HStack {
             Text("You will get the 5-digit code from the organizer upon arrival")
             Spacer(minLength: 30)
             Button(action: {
                 print(code)
-//                TODO: if code matches the one in Firebase, validate
+                FirestoreCRUD().validateOneTimeCode(data: data, inputtedValue: self.code) { dbCode in
+                    switch dbCode {
+                    case true:
+                        self.correctCode = true
+                        withAnimation {
+                            self.showMessage = Image(systemName: "checkmark.circle.fill").symbolRenderingMode(.multicolor)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    case false:
+                        self.correctCode = false
+                        withAnimation {
+                            self.showMessage = Image(systemName: "xmark.octagon.fill").symbolRenderingMode(.multicolor)
+                        }
+                    case .none:
+                        break
+                    case .some(_):
+                        break
+                    }
+                }
             }) {
                 Text("Submit")
                     .foregroundColor(allowSubmit ? .blue : .darkGray)
@@ -34,6 +63,8 @@ struct CheckInView: View {
 struct CheckInController: UIViewRepresentable {
     @Binding var allowSubmit: Bool
     @Binding var code: Int
+    @Binding var correctCode: Bool
+    var data: EventInformationModel
     var codeTxt = OneTimeCodeTextField()
     func makeUIView(context: Context) -> UITextField {
         codeTxt.configure(withSlotCount: 5, andSpacing: 9)
@@ -51,18 +82,17 @@ struct CheckInController: UIViewRepresentable {
         codeTxt.didReceiveCode = { code in
             print(code)
             allowSubmit = false
-            if code.count == 5 {
-                self.code = Int(code)!
-                allowSubmit = true
-            }
+            guard code.count == 5 else { return }
+            
+            allowSubmit = true
+            self.code = Int(code)!
+            
         }
         codeTxt.clear()
         return codeTxt
     }
     
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        
-    }
+    func updateUIView(_ uiView: UIViewType, context: Context) { }
 }
 
 public class OneTimeCodeTextField: UITextField {

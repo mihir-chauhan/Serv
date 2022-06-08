@@ -54,7 +54,7 @@ class FirestoreCRUD: ObservableObject {
     
     func AddToAttendeesList(eventID: String) {
         db.collection("Environment")
-            .document(eventID).updateData(["attendees" : FieldValue.arrayUnion([user_uuid])])
+            .document(eventID).updateData(["attendees" : FieldValue.arrayUnion([user_uuid as? String])])
     }
     
     func RemoveFromAttendeesList(eventID: String, user_uuid: String) {
@@ -65,4 +65,25 @@ class FirestoreCRUD: ObservableObject {
     func fetchUpdates() {
         
     }
+    
+    func validateOneTimeCode(data: EventInformationModel, inputtedValue: Int, completion: @escaping (_ dbCode: Bool?) -> ())  {
+        db.collection(data.category)
+            .document(data.FIRDocID!).getDocument() { snap, error in
+                guard error == nil else {
+                    return
+                }
+                let _dbCode = snap?.get("checkInCode") as? Int ?? -1
+                
+                if (_dbCode == inputtedValue) {
+                    print("ENTERED")
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+                
+            }
+        
+    }
+    
+    
 }
