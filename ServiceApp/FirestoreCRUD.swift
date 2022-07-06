@@ -12,7 +12,7 @@ import MapKit
 class FirestoreCRUD: ObservableObject {
     let db = Firestore.firestore()
     
-    var allCategories: [String] = ["Environment", "Humanitarian"]
+    var allCategories: [String] = ["Environmental"]
     @Published var allFIRResults = [EventInformationModel]()
     
     init() {
@@ -21,7 +21,7 @@ class FirestoreCRUD: ObservableObject {
     
     func getAllEvents() {
         for i in allCategories {
-            db.collection("\(i)")
+            db.collection("EventTypes/\(i)/Events")
                 .addSnapshotListener { (snap, err) in
                     if let error = err {
                         print(error.localizedDescription)
@@ -53,12 +53,12 @@ class FirestoreCRUD: ObservableObject {
     }
     
     func AddToAttendeesList(eventID: String) {
-        db.collection("Environment")
+        db.collection("EventTypes/Environmental/Events")
             .document(eventID).updateData(["attendees" : FieldValue.arrayUnion([user_uuid as? String])])
     }
     
     func RemoveFromAttendeesList(eventID: String, user_uuid: String) {
-        db.collection("Environment")
+        db.collection("EventTypes/Environmental/Events")
             .document(eventID).updateData(["attendees" : FieldValue.arrayRemove([user_uuid])])
     }
     
@@ -67,7 +67,7 @@ class FirestoreCRUD: ObservableObject {
     }
     
     func validateOneTimeCode(data: EventInformationModel, inputtedValue: Int, completion: @escaping (_ dbCode: Bool?) -> ())  {
-        db.collection(data.category)
+        db.collection("EventTypes/\(data.category)/Events")
             .document(data.FIRDocID!).getDocument() { snap, error in
                 guard error == nil else {
                     return
