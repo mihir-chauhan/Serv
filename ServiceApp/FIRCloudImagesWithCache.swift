@@ -69,7 +69,7 @@ class FIRCloudImages {
                 return
             }
             let dbRef = Database.database().reference()
-            dbRef.child("\(uid)/UserInfo")
+            dbRef.child(uid).child("UserInfo")
                 .updateChildValues(["photoURL" : downloadURL.absoluteString])
 //            let changeReq = Auth.auth().currentUser?.createProfileChangeRequest()
 //            changeReq?.photoURL = downloadURL
