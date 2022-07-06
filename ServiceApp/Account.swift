@@ -15,6 +15,7 @@ struct Account: View {
     
     @State var offset: CGFloat = 0
     @State var toggleEditInfoSheet: Bool = false
+    @State var toggleFullScreenQR: Bool = false
 //    var uidInfoStored: String {
 //            get {
 //                return ContentView().uidStoredInfo
@@ -76,10 +77,26 @@ struct Account: View {
                 .zIndex(1)
 
                 VStack(spacing: 15) {
-                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid)!)!)!)
-                        .resizable()
-                        .frame(width: 290, height: 290, alignment: .center)
-                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                    Button(action: {
+                        toggleFullScreenQR.toggle()
+                    }) {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundColor(.primary.opacity(0.05))
+                        .frame(height: 75)
+                        .padding()
+                        .overlay(
+                            HStack {
+                            Text("Your QR Code")
+                                    .padding()
+                            Spacer(minLength: 10)
+                                Image(systemName: "qrcode")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .padding()
+                            }.padding()
+                        )
+                    }
+//
 
                     BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
 
@@ -100,9 +117,37 @@ struct Account: View {
             .sheet(isPresented: $toggleEditInfoSheet) {
                 EditAccountDetails()
         }
+            .fullScreenCover(isPresented: $toggleFullScreenQR) {
+                ZStack {
+                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid)!)!)!)
+                        .resizable()
+                        .frame(width: 320, height: 320, alignment: .center)
+                        .aspectRatio(contentMode: .fit)
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                    closeButton
+                }
+            }
         
         
     }
+    
+    var closeButton: some View {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        toggleFullScreenQR.toggle()
+                    }) {
+                        Image(systemName: "xmark.circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .padding(10)
+                    }
+                }
+                .padding(.top, 5)
+                Spacer()
+            }
+        }
     
     func getHeaderHeight() -> CGFloat {
         let topHeight = maxHeight + offset
