@@ -9,25 +9,29 @@ import SwiftUI
 
 struct FriendsCommonEvent: View {
     var imgArray = ["leaderboardPic-1", "leaderboardPic-2", "leaderboardPic-3", "img", "img4", "img2", "person", "community-service"]
-    var img1Name = ""
-    var img2Name = ""
-    var img3Name = ""
+    var img1Name = "leaderboardPic-1"
+    var img2Name = "leaderboardPic-2"
+    var img3Name = "leaderboardPic-3"
+    
+//    @Binding var listOfFriendsWhoSignedUpForEvent: [String]?
+    
+//    var friendsWhoSignedUp: [String]
 
-    init() {
-        let firstChoice = Int.random(in: 0..<imgArray.count)
-        img1Name = imgArray[firstChoice]
-        imgArray.remove(at: firstChoice)
-        
-        
-        let secondChoice = Int.random(in: 0..<imgArray.count)
-        img2Name = imgArray[secondChoice]
-        imgArray.remove(at: secondChoice)
-        
-        
-        let thirdChoice = Int.random(in: 0..<imgArray.count)
-        img3Name = imgArray[thirdChoice]
-        imgArray.remove(at: thirdChoice)
-    }
+//    init() {
+//        let firstChoice = Int.random(in: 0..<imgArray.count)
+//        img1Name = imgArray[firstChoice]
+//        imgArray.remove(at: firstChoice)
+//
+//
+//        let secondChoice = Int.random(in: 0..<imgArray.count)
+//        img2Name = imgArray[secondChoice]
+//        imgArray.remove(at: secondChoice)
+//
+//
+//        let thirdChoice = Int.random(in: 0..<imgArray.count)
+//        img3Name = imgArray[thirdChoice]
+//        imgArray.remove(at: thirdChoice)
+//    }
     
     var body: some View {
             HStack(spacing: -15) {
@@ -48,13 +52,13 @@ struct FriendsCommonEvent: View {
 //                    .font(.system(.caption))
                 
             }.padding([.bottom, .horizontal], 10)
+//            .onAppear {
+//                print("DAY6", listOfFriendsWhoSignedUpForEvent)
+//            }
+//            .onChange(of: listOfFriendsWhoSignedUpForEvent) { newValue in
+//                print("DAY2", newValue)
+//            }
             
-    }
-}
-
-struct FriendsCommonEvent_Previews: PreviewProvider {
-    static var previews: some View {
-        FriendsCommonEvent()
     }
 }
 

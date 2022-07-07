@@ -30,16 +30,8 @@ struct ContentView: View {
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue
         }
-//        .onChange(of: AuthViewModel().userInfoFromAuth?.uid) { newValue in
-//            self.currentUser = newValue
-//        }
-//            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
-//                print("KEY BVALUE", value.keys, value.values)
-//            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { value in
-//                for i in value {
-//                    print("HERE", i)
-//                }
-//            }
-//        }
+        .onAppear {
+//            FriendEventsInCommon().test()
+        }
     }
 }

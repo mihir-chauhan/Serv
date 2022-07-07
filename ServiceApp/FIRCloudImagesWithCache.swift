@@ -28,7 +28,7 @@ class FIRCloudImages {
                         }
                         else if gsURL.contains(item.fullPath) {
                             let downloadedImage = UIImage(data: data!)
-                            
+//                            fatalError(item.fullPath)
                         
                             self.cache.setObject(data! as NSData, forKey: gsURL as NSString)
                             

@@ -25,6 +25,10 @@ struct ScheduleCard: View {
     
     @State var eventIsLive: Bool = false
     @State var eventExistsInUser: Bool = false
+    
+    @State var friendSignedUp: Bool = false
+    
+    @State var listOfFriendsWhoSignedUpForEvent: [String]?
 
     var body: some View {
         if #available(iOS 15.0, *) {
@@ -149,6 +153,20 @@ struct ScheduleCard: View {
                                     .onAppear {
                                         if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
                                             self.eventIsLive.toggle()
+//                                            data.FIRDocID #error() //TODO: AHA
+                                            
+                                        }
+                                        FriendEventsInCommon().test() { result in
+                                            for (friend, events) in result {
+                                                for i in events! {
+                                                    if i == data.FIRDocID {
+                                                        friendSignedUp = true
+                                                        
+                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
+//                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                     .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
@@ -157,7 +175,10 @@ struct ScheduleCard: View {
                                     }
                                 }
                                 Spacer()
-                                FriendsCommonEvent()
+                                
+                                if friendSignedUp == true {
+                                   FriendsCommonEvent()
+                                }
                             }
                             
                         }

@@ -53,6 +53,7 @@
 		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
 		BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */; };
+		BEDEE6F528768122003B6857 /* FriendEventsInCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
 		F426FA3827B43E8C00899C4B /* ConfirmNewFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */; };
 		F446C5AD27D99B3900F49196 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F446C5AC27D99B3900F49196 /* SignInView.swift */; };
@@ -103,6 +104,7 @@
 		BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBezierPaths.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
 		BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOOL_fir_batch_transaction.swift; sourceTree = "<group>"; };
+		BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendEventsInCommon.swift; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
 		F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmNewFriend.swift; sourceTree = "<group>"; };
 		F446C5AC27D99B3900F49196 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				F449657828026E300068A497 /* AccountSignUpView.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 				BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */,
+				BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */,
 			);
 			name = "HelperClasses+Models";
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				B3E6FCD9277C5A0B004DEE5B /* MapListHalfSheet.swift in Sources */,
 				BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */,
 				B3E6FCDF277C5A43004DEE5B /* SampleData.swift in Sources */,
+				BEDEE6F528768122003B6857 /* FriendEventsInCommon.swift in Sources */,
 				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,
