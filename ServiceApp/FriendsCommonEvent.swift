@@ -13,52 +13,68 @@ struct FriendsCommonEvent: View {
     var img2Name = "leaderboardPic-2"
     var img3Name = "leaderboardPic-3"
     
-//    @Binding var listOfFriendsWhoSignedUpForEvent: [String]?
+    @Binding var listOfFriendsWhoSignedUpForEvent: [String]
     
-//    var friendsWhoSignedUp: [String]
-
-//    init() {
-//        let firstChoice = Int.random(in: 0..<imgArray.count)
-//        img1Name = imgArray[firstChoice]
-//        imgArray.remove(at: firstChoice)
-//
-//
-//        let secondChoice = Int.random(in: 0..<imgArray.count)
-//        img2Name = imgArray[secondChoice]
-//        imgArray.remove(at: secondChoice)
-//
-//
-//        let thirdChoice = Int.random(in: 0..<imgArray.count)
-//        img3Name = imgArray[thirdChoice]
-//        imgArray.remove(at: thirdChoice)
-//    }
+    @State var listOfFriendProfilePictures: [URL] = []
     
     var body: some View {
-            HStack(spacing: -15) {
-                Image(img1Name)
-                    .pfpIconModifier()
-                Image(img2Name)
-                    .pfpIconModifier()
-                Image(img3Name)
-                    .pfpIconModifier()
-//                Image("leaderboardPic-1")
-//                    .pfpIconModifier()
-//                Image("leaderboardPic-2")
-//                    .pfpIconModifier()
-                
-                // add to Socials page only, because we're reusing it in another view
-//                Text("Common Event")
-//                    .padding(.leading, 50)
-//                    .font(.system(.caption))
-                
-            }.padding([.bottom, .horizontal], 10)
-//            .onAppear {
-//                print("DAY6", listOfFriendsWhoSignedUpForEvent)
+//        Group {
+//            if listOfFriendsWhoSignedUpForEvent.isEmpty {
+//                Text("No friends")
+//            } else {
+                HStack(spacing: -15) {
+//                    TODO: async image based on given ID, display image based on url given in realtime database
+                    ForEach(listOfFriendProfilePictures, id: \.self) { picture in
+                        AsyncImage(url: picture) { phase in
+                            switch phase {
+                            case .empty:
+                                Color.purple.opacity(0.1)
+                            case .success(let image):
+                                image
+                                    .pfpIconModifier()
+                            case .failure(_):
+                                Image(systemName: "exclamationmark.icloud")
+                                    .pfpIconModifier()
+                            @unknown default:
+                                Image(systemName: "exclamationmark.icloud")
+                                    .pfpIconModifier()
+                            }
+                        }
+                    }
+                    
+                    
+//                    Image(img1Name)
+//                        .pfpIconModifier()
+//                    Image(img2Name)
+//                        .pfpIconModifier()
+//                    Image(img3Name)
+//                        .pfpIconModifier()
+                    //                Image("leaderboardPic-1")
+                    //                    .pfpIconModifier()
+                    //                Image("leaderboardPic-2")
+                    //                    .pfpIconModifier()
+                    
+                    // add to Socials page only, because we're reusing it in another view
+                    //                Text("Common Event")
+                    //                    .padding(.leading, 50)
+                    //                    .font(.system(.caption))
+                    
+                }.padding([.bottom, .horizontal], 10)
+                    .onAppear {
+                        for friend in listOfFriendsWhoSignedUpForEvent {
+                            FirebaseRealtimeDatabaseCRUD().getProfilePictureFromURL(uid: friend) { photoURL in
+                                print("DAY6", photoURL)
+                                listOfFriendProfilePictures.append(photoURL)
+                            }
+                        }
+//                    }
 //            }
-//            .onChange(of: listOfFriendsWhoSignedUpForEvent) { newValue in
-//                print("DAY2", newValue)
-//            }
-            
+        
+        }
+        //            .onChange(of: listOfFriendsWhoSignedUpForEvent) { newValue in
+        //                print("DAY2", newValue)
+        //            }
+        
     }
 }
 

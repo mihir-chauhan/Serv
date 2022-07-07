@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseDatabase
+import SwiftUI
 
 
 var ref: DatabaseReference! = Database.database().reference()
@@ -160,6 +161,16 @@ class FirebaseRealtimeDatabaseCRUD {
             print(displayName)
             completion(model)
         })
+    }
+    
+    func getProfilePictureFromURL(uid: String, completion: @escaping (URL) -> ()) {
+        ref.child("\(uid)/UserInfo").observeSingleEvent(of: .value, with: { snap in
+            let value = snap.value as? NSDictionary
+            let photoURL = value?["photoURL"] as? String ?? "no image"
+//            completion(URL(string: photoURL)))
+            completion(URL(string: photoURL)!)
+        })
+        
     }
 }
 

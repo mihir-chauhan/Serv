@@ -28,7 +28,7 @@ struct ScheduleCard: View {
     
     @State var friendSignedUp: Bool = false
     
-    @State var listOfFriendsWhoSignedUpForEvent: [String]?
+    @State var listOfFriendsWhoSignedUpForEvent: [String] = []
 
     var body: some View {
         if #available(iOS 15.0, *) {
@@ -160,9 +160,10 @@ struct ScheduleCard: View {
                                             for (friend, events) in result {
                                                 for i in events! {
                                                     if i == data.FIRDocID {
+//                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
+                                                        print(friend)
+                                                        listOfFriendsWhoSignedUpForEvent.append(friend)
                                                         friendSignedUp = true
-                                                        
-                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
 //                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
                                                     }
                                                 }
@@ -177,7 +178,7 @@ struct ScheduleCard: View {
                                 Spacer()
                                 
                                 if friendSignedUp == true {
-                                   FriendsCommonEvent()
+                                    FriendsCommonEvent(listOfFriendsWhoSignedUpForEvent: $listOfFriendsWhoSignedUpForEvent)
                                 }
                             }
                             
