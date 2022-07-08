@@ -315,4 +315,5 @@ struct UserInfoFromAuth: Codable, Hashable {
     var username: String? = "no username"
     var photoURL: URL? = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")
     var email: String? = "dude@dude.com"
+    var bio: String? = "Add a personal bio"
 }

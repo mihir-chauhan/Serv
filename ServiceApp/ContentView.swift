@@ -22,16 +22,11 @@ struct ContentView: View {
             case .error: Text("Error")
             }
         }
-//        CustomTabBar()
-//        HostViewAllEvents()
-//        AccountLogin2()
+
         .environmentObject(sheetObserver)
         .environmentObject(viewModel)
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue
-        }
-        .onAppear {
-//            FriendEventsInCommon().test()
         }
     }
 }

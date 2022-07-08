@@ -22,6 +22,9 @@ struct FriendsCommonEvent: View {
 //            if listOfFriendsWhoSignedUpForEvent.isEmpty {
 //                Text("No friends")
 //            } else {
+        Button(action: {
+            
+        }) {
                 HStack(spacing: -15) {
 //                    TODO: async image based on given ID, display image based on url given in realtime database
                     ForEach(listOfFriendProfilePictures, id: \.self) { picture in
@@ -41,6 +44,7 @@ struct FriendsCommonEvent: View {
                             }
                         }
                     }
+                }
                     
                     
 //                    Image(img1Name)
@@ -84,6 +88,7 @@ extension Image {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: display.width / 8, height: display.width / 8)
+            
             .scaleEffect(1.35)
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.white, lineWidth: 2))

@@ -114,7 +114,7 @@ struct Account: View {
             
             }
             .coordinateSpace(name: "SCROLL")
-            .sheet(isPresented: $toggleEditInfoSheet) {
+            .fullScreenCover(isPresented: $toggleEditInfoSheet) {
                 EditAccountDetails()
         }
             .fullScreenCover(isPresented: $toggleFullScreenQR) {
@@ -232,10 +232,15 @@ struct TopBar: View {
                         .padding(.leading, 10)
                 }
             }
-            Text("My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!")
+            HStack {
+            Text(viewModel.decodeUserInfo()?.bio ?? "Add a personal bio")
+//            viewModel.decodeUserInfo()?.bio ?? "Add a personal bio"
+//            My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.white.opacity(0.8))
+                Spacer(minLength: 20)
+            }
         }
         .opacity(Double(getOpacity()))
     }

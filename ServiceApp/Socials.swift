@@ -21,6 +21,9 @@ struct Socials: View {
                 LeaderboardView().padding(.bottom, 50)
                 ForEach(self.listOfFriends, id: \.self) { friend in
                     FriendCardView(image: friend.photoURL ?? imgForDetailSheet, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
+                        .sheet(isPresented: $showingFriendDetailSheet) {
+                            FriendDetailSheet(data: friend)
+                        }
                 }
 //                FriendCardView(image: "person", lastService: "5", name: "Tom", onTapCallback: cardTapped)
 //                FriendCardView(image: "img", lastService: "9", name: "Jill", onTapCallback: cardTapped)
@@ -42,9 +45,7 @@ struct Socials: View {
                     
                 }
             }
-            .sheet(isPresented: $showingFriendDetailSheet) {
-                FriendDetailSheet(name: $nameForDetailSheet, image: $imgForDetailSheet)
-            }
+            
         }
         .onAppear {
             FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { allFriends in

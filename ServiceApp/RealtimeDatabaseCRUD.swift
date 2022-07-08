@@ -122,7 +122,8 @@ class FirebaseRealtimeDatabaseCRUD {
             "name" : userInfo.displayName ?? "No name",
             "username" : userInfo.username ?? "No username :///",
             "photoURL" : userInfo.photoURL?.absoluteString ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg",
-            "email" : userInfo.email ?? "default@email.com"
+            "email" : userInfo.email ?? "default@email.com",
+            "description" : "Add an informative bio!"
         ] as [String : Any]
         ref.child("\(userInfo.uid!)/UserInfo").setValue(userInfoAsDict)
         
@@ -167,10 +168,22 @@ class FirebaseRealtimeDatabaseCRUD {
         ref.child("\(uid)/UserInfo").observeSingleEvent(of: .value, with: { snap in
             let value = snap.value as? NSDictionary
             let photoURL = value?["photoURL"] as? String ?? "no image"
-//            completion(URL(string: photoURL)))
             completion(URL(string: photoURL)!)
         })
+    }
+    
+    func updateUserBio(uid: String, newBio: String) {
+        ref.child("\(uid)/UserInfo").updateChildValues( [ "bio" : newBio ] ) { err, ref in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("\t \(ref) saved successfully")
+            }
+        }
         
+//            .updateChildValues(
+//                ["bio" : newBio]
+//            )
     }
 }
 
