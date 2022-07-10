@@ -27,6 +27,7 @@ struct EventInformationModel: Identifiable, Equatable, Hashable {
     var FIRDocID: String?
     var name: String = "Event Name"
     var host: String = "Fremont Environmental Services"
+    var ein: String = "00-00000000"
     var category: String = ""
     var time: Date = Date()
     var images: [String]? 
@@ -36,7 +37,24 @@ struct EventInformationModel: Identifiable, Equatable, Hashable {
     var enterDetailView: Bool = false
 }
 
+struct UserInfoFromAuth: Codable, Hashable {
+    var uid: String!
+    var displayName: String? = "No name"
+    var username: String? = "no username"
+    var photoURL: URL? = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")
+    var email: String? = "dude@dude.com"
+    var bio: String? = "Add a personal bio"
+}
 
+struct OrganizationInformationModel {
+    var name: String
+    var email: String
+    var website: String
+}
+
+
+
+// MARK: sample data
 // will use Firebase to host these info
 var pointsOfInterest = [
     EventInformationModel(name: "Cupterino High School", category: "Environmental", coordinate: .init(latitude: 37.3194, longitude: -122.0091)),

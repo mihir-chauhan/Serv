@@ -30,6 +30,7 @@ class FirestoreCRUD: ObservableObject {
                         for j in snap!.documentChanges {
                             let id = j.document.documentID
                             let host = j.document.get("host") as? String ?? "Host unavailable"
+                            let ein = j.document.get("ein") as? String ?? "No valid ein"
                             let name = j.document.get("name") as? String ?? "no name"
                             _ = j.document.get("attendees") as? [String] ?? [String]()
                             let time = j.document.get("time") as? Timestamp
@@ -40,6 +41,7 @@ class FirestoreCRUD: ObservableObject {
                                 FIRDocID: id,
                                 name: name,
                                 host: host,
+                                ein: ein,
                                 category: i,
                                 time: time?.dateValue() ?? Date(),
                                 images: imageURL,
@@ -82,7 +84,25 @@ class FirestoreCRUD: ObservableObject {
                 }
                 
             }
+    }
+    
+    func getOrganizationDetail(ein: String, completion: @escaping (_ organizationInformationModel: OrganizationInformationModel?) -> ()) {
+        var _: OrganizationInformationModel?
+        db.collection("Organization Data")
+            .document(ein)
+            .getDocument() { snap, err in
+                if let err = err {
+                    print(err.localizedDescription)
+                    return
+                }
+                let name = snap?.get("name") as? String
+                let email = snap?.get("email") as? String
+                let website = snap?.get("website") as? String
+                completion(OrganizationInformationModel(name: name!, email: email!, website: website!))
+//                model = OrganizationInformationModel(name: name!, email: email!, website: website!)
+            }
         
+//        return model ?? OrganizationInformationModel(name: "No name", email: "No email", website: "no website")
     }
     
     

@@ -53,6 +53,7 @@ struct CustomTabBar: View {
                                 .font(.system(size: 25))
                                 .foregroundColor(self.selectedIndex == icon ? .blue : Color(UIColor.gray))
                                 
+                                
                         }
                     }
                     Spacer()

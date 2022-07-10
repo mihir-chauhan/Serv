@@ -24,7 +24,7 @@ struct Socials: View {
                         .sheet(isPresented: $showingFriendDetailSheet) {
                             FriendDetailSheet(data: friend)
                         }
-                }
+                }.padding(.horizontal)
 //                FriendCardView(image: "person", lastService: "5", name: "Tom", onTapCallback: cardTapped)
 //                FriendCardView(image: "img", lastService: "9", name: "Jill", onTapCallback: cardTapped)
 //                FriendCardView(image: "img4", lastService: "10", name: "Mary", onTapCallback: cardTapped)

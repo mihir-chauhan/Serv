@@ -16,6 +16,7 @@ struct ScheduleCardDetailSheet: View {
     @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     
     @State var buttonStateIsSignedUp: Bool = false
+    @State var viewOrganization = false
     
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
         FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
@@ -38,7 +39,6 @@ struct ScheduleCardDetailSheet: View {
             
         }
     }
-    
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
@@ -47,13 +47,14 @@ struct ScheduleCardDetailSheet: View {
                     .scaledToFill()
                     .frame(maxWidth: .infinity)
                     .clipped()
+                    .cornerRadius(15, corners: [.topLeft, .topRight])
                     .padding(.bottom, 10)
-                
+                VStack(alignment: .leading) {
                 Text(data.name)
                     .font(.system(size: 30))
                     .fontWeight(.bold)
-                
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet arcu eget magna convallis euismod non at quam. Duis vel placerat nisl.").font(.system(.caption)).padding(5)
+
+                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet arcu eget magna convallis euismod non at quam. Duis vel placerat nisl.").font(.system(.caption))
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
@@ -65,7 +66,17 @@ struct ScheduleCardDetailSheet: View {
                                 .clipped()
                         }
                     }
-                }.padding()
+                }
+                
+                HStack {
+                    Text("Proudly hosted by \(data.host)").bold()
+                    Button(action: {
+                        viewOrganization.toggle()
+                    }) {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.orange)
+                    }
+                }
                 
                 HStack {
                     Spacer()
@@ -89,24 +100,27 @@ struct ScheduleCardDetailSheet: View {
                 .padding(.vertical, 30)
                 .padding(.horizontal, 15)
                 .padding(.bottom, 20)
-
+                }.padding(15)
             }
         }
         
-        .onAppear {
-            checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
-                buttonStateIsSignedUp = eventIs!
-            }
-            FIRCloudImagesUSED().getRemoteImages(gsURL: data.images!) { connectionResult in
-                switch connectionResult {
-                case .success(let url):
-                    self.placeHolderImage.removeAll()
-                    self.placeHolderImage = url
-                    
-                case .failure(let error):
-                    print(error)
-                }
-            }
+//        .onAppear {
+//            checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
+//                buttonStateIsSignedUp = eventIs!
+//            }
+//            FIRCloudImagesUSED().getRemoteImages(gsURL: data.images!) { connectionResult in
+//                switch connectionResult {
+//                case .success(let url):
+//                    self.placeHolderImage.removeAll()
+//                    self.placeHolderImage = url
+//
+//                case .failure(let error):
+//                    print(error)
+//                }
+//            }
+//        }
+        .fullScreenCover(isPresented: $viewOrganization) {
+            OrganizationDetailView(ein: data.ein)
         }
     }
 }
