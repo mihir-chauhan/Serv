@@ -15,14 +15,14 @@ struct ContentView: View {
 //    @AppStorage("currentUser", store: .standard) var currentUser: String?
     @State var data = EventInformationModel(id: UUID(), FIRDocID: "", name: "Trash Cleanup", host: "ABC Foundation", ein: "32-1263743", category: "Environmental", time: Date(), enterDetailView: true)
     var body: some View {
-//        VStack {
-//            switch self.signInState {
-//            case .signedOut: AccountLogin2()
-//            case .signedIn: CustomTabBar()
-//            case .error: Text("Error")
-//            }
-//        }
-        ScheduleCardDetailSheet(data: $data)
+        VStack {
+            switch self.signInState {
+            case .signedOut: AccountLogin2()
+            case .signedIn: CustomTabBar()
+            case .error: Text("Error")
+            }
+        }
+//        ScheduleCardDetailSheet(data: $data)
 
         .environmentObject(sheetObserver)
         .environmentObject(viewModel)
