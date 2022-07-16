@@ -156,7 +156,7 @@ struct ScheduleCard: View {
 //                                            data.FIRDocID #error() //TODO: AHA
                                             
                                         }
-                                        FriendEventsInCommon().test() { result in
+                                        FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
                                             for (friend, events) in result {
                                                 for i in events! {
                                                     if i == data.FIRDocID {

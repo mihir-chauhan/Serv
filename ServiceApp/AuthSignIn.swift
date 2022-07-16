@@ -102,8 +102,12 @@ class AuthViewModel: ObservableObject {
                     }
                 }
                 let user = user?.user
+                var bio: String = "no bio [105].unique "
+                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                    bio = value
+                }
 //                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
                 UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
 //                self.uidStoredInfo = user!.uid
             }
@@ -277,8 +281,12 @@ class AuthViewModel: ObservableObject {
                 #warning("doesn't enter in submitted username yet")
                 FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email))
                 print("User signed up successfully: ", user?.displayName)
-//                If photourl == smth, use if statement
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email))
+
+                var bio: String = "no bio [105].unique "
+                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user!.uid) { value in
+                    bio = value
+                }
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
                 UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
             }
         }

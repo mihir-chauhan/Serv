@@ -233,8 +233,7 @@ struct TopBar: View {
                 }
             }
             HStack {
-            Text(viewModel.decodeUserInfo()?.bio ?? "Add a personal bio")
-//            viewModel.decodeUserInfo()?.bio ?? "Add a personal bio"
+            Text(viewModel.decodeUserInfo()?.bio ?? "huhh no bio?")
 //            My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!
                 .font(.caption)
                 .fontWeight(.semibold)

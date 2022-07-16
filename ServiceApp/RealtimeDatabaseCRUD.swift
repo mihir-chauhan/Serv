@@ -123,13 +123,13 @@ class FirebaseRealtimeDatabaseCRUD {
             "username" : userInfo.username ?? "No username :///",
             "photoURL" : userInfo.photoURL?.absoluteString ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg",
             "email" : userInfo.email ?? "default@email.com",
-            "description" : "Add an informative bio!"
+            "bio" : "Add an informative bio!"
         ] as [String : Any]
         ref.child("\(userInfo.uid!)/UserInfo").setValue(userInfoAsDict)
         
 //        will be set when user creates it 
-        ref.child("\(userInfo.uid!)/Friends").setValue([])
-        ref.child("\(userInfo.uid!)/Events").setValue([])
+//        ref.child("\(userInfo.uid!)/Friends").setValue([])
+//        ref.child("\(userInfo.uid!)/Events").setValue([])
     }
     
     func getUserFriends(uid: String, completion: @escaping ([String]) -> ()) {
@@ -184,6 +184,14 @@ class FirebaseRealtimeDatabaseCRUD {
 //            .updateChildValues(
 //                ["bio" : newBio]
 //            )
+    }
+    
+    func retrieveUserBio(uid: String, completion: @escaping (String) ->()) {
+        ref.child("\(uid)/UserInfo").observeSingleEvent(of: .value, with: { snap in
+            let value = snap.value as? NSDictionary
+            let bio = value?["bio"] as? String ?? "no fucking bio fuck"
+            completion(bio)
+        })
     }
 }
 

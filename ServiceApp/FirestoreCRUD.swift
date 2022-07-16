@@ -12,7 +12,7 @@ import MapKit
 class FirestoreCRUD: ObservableObject {
     let db = Firestore.firestore()
     
-    var allCategories: [String] = ["Environmental"]
+    var allCategories: [String] = ["Environmental", "Humanitarian", "Educational"]
     @Published var allFIRResults = [EventInformationModel]()
     
     init() {
@@ -105,5 +105,16 @@ class FirestoreCRUD: ObservableObject {
 //        return model ?? OrganizationInformationModel(name: "No name", email: "No email", website: "no website")
     }
     
+    func getSpecificEvent(eventID: [String]) {
+        let categories = ["Educational", "Environmental", "Humanitarian"]
+        for i in categories {
+            for j in eventID {
+            db.collection("EventTypes/\(i)/Events").document(j)
+                .addSnapshotListener { (snap, err) in
+                    
+                }
+            }
+        }
+    }
     
 }

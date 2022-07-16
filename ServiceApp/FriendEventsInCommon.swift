@@ -9,7 +9,7 @@ import Foundation
 import FirebaseDatabase
 
 class FriendEventsInCommon {
-    func test(handler: @escaping ([String : Array<String>?]) -> ()) {
+    func multipleFriendsEventRecognizer(handler: @escaping ([String : Array<String>?]) -> ()) {
         FirebaseRealtimeDatabaseCRUD().readFriends(for: user_uuid!) { friendsArray in
             if friendsArray != nil {
                 for friend in friendsArray! {
@@ -24,5 +24,12 @@ class FriendEventsInCommon {
                 }
             }
         }
+    }
+    
+    func singularFriendEventRecognizer(uidFriend: String, handler: @escaping ([String]) -> ()) {
+        FirebaseRealtimeDatabaseCRUD().readEvents(for: uidFriend) { events in
+            handler(events ?? Array(arrayLiteral: "none"))
+        }
+        handler([])
     }
 }
