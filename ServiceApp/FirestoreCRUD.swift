@@ -105,16 +105,41 @@ class FirestoreCRUD: ObservableObject {
 //        return model ?? OrganizationInformationModel(name: "No name", email: "No email", website: "no website")
     }
     
-    func getSpecificEvent(eventID: [String]) {
+    func getSpecificEvent(eventID: String, completion: @escaping (_ data: EventInformationModel) -> ()) {
         let categories = ["Educational", "Environmental", "Humanitarian"]
         for i in categories {
-            for j in eventID {
-            db.collection("EventTypes/\(i)/Events").document(j)
-                .addSnapshotListener { (snap, err) in
+            db.collection("EventTypes/\(i)/Events").document(eventID)
+                .getDocument { snap, err in
                     
+                    if let err = err {
+                        print(err.localizedDescription)
+                        return
+                    }
+                    if snap!.exists {
+                        let id = snap!.documentID
+                        let host = snap!.get("host") as? String ?? "Host unavailable"
+                        let ein = snap!.get("ein") as? String ?? "No valid ein"
+                        let name = snap!.get("name") as? String ?? "no name"
+                        _ = snap!.get("attendees") as? [String] ?? [String]()
+                        let time = snap!.get("time") as? Timestamp
+                        let imageURL = snap!.get("images") as? [String] ?? [String]()
+                        let location = snap!.get("location") as? GeoPoint
+                        
+                        completion(
+                            EventInformationModel(
+                                FIRDocID: id,
+                                name: name,
+                                host: host,
+                                ein: ein,
+                                category: i,
+                                time: time?.dateValue() ?? Date(),
+                                images: imageURL,
+                                coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!)
+                                
+                            )
+                            )
+                    }
                 }
-            }
         }
     }
-    
 }

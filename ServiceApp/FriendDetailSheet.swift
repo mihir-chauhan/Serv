@@ -9,11 +9,16 @@ import SwiftUI
 import SwiftUICharts
 
 struct FriendDetailSheet: View {
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var sheetObserver: SheetObserver
     var data: UserInfoFromAuth
-    @State var listOfEventsFriendIsGoing: [String] = []
+    @State var listOfEventsFriendIsGoing: [EventInformationModel] = []
+    @State var clickOnEvent: Bool = false
+
     var body: some View {
         NavigationView {
             ScrollView {
+                VStack(alignment: .leading) {
                 HStack {
                     AsyncImage(url: data.photoURL) { img in
                         img
@@ -32,35 +37,65 @@ struct FriendDetailSheet: View {
                 }
                 
                 Text("Attending Upcoming Events").font(.headline).bold()
-                VStack(alignment: .leading) {
-                    ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
-                        Text(event)
-                            .padding(10)
-//                            .cornerRadius(10)
-//                            .overlay(
-//                                RoundedRectangle(cornerRadius: 10)
-//                                    .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-//                            )
-                    }
-                }
                 
-//                Text("Email: \(data.email!)").font(.system(.caption)).padding(5)
-                BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
+                    ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
+                        Button("\t \(event.name)") {
+                            dismiss()
+                            clickOnEvent.toggle()
+                            
+                        }
+                            .padding(5)
+//                            .navigate(to: EventDetailView(data: event, sheetMode: self.$sheetObserver.sheetMode), when: $clickOnEvent)
+                    }
+                
+                
+                BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true)
 
-                PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false).padding(10)
+                PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false)
 
-            }
+                }.padding(10)
             .navigationTitle(data.displayName ?? "SMITHY?")
+            
             .onAppear {
                 FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: "vPa8ksjZn2ht4Fvbt7YkqLCtIcX2") { events in
                     for event in events {
-                        self.listOfEventsFriendIsGoing.append(event)
+                        FirestoreCRUD().getSpecificEvent(eventID: event) { eventName in
+                            self.listOfEventsFriendIsGoing.append(eventName)
+                        }
+                        
                         print("HEREt", event)
                     }
-
+                }
                 }
             }
         }
     }
 
+}
+
+
+extension View {
+    /// Navigate to a new view.
+    /// - Parameters:
+    ///   - view: View to navigate to.
+    ///   - binding: Only navigates when this condition is `true`.
+    func navigate<NewView: View>(to view: NewView, when binding: Binding<Bool>) -> some View {
+        NavigationView {
+            ZStack {
+                self
+                    .navigationBarTitle("")
+                    .navigationBarHidden(true)
+
+                NavigationLink(
+                    destination: view
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true),
+                    isActive: binding
+                ) {
+                    EmptyView()
+                }
+            }
+        }
+        .navigationViewStyle(.stack)
+    }
 }
