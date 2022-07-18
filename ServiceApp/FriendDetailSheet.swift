@@ -39,11 +39,11 @@ struct FriendDetailSheet: View {
                 Text("Attending Upcoming Events").font(.headline).bold()
                 
                     ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
-                        Button("\t \(event.name)") {
-                            dismiss()
-                            clickOnEvent.toggle()
-                            
-                        }
+                        Text("\t \(event.name)")
+//                            dismiss()
+//                            clickOnEvent.toggle()
+//
+//                        }
                             .padding(5)
 //                            .navigate(to: EventDetailView(data: event, sheetMode: self.$sheetObserver.sheetMode), when: $clickOnEvent)
                     }
