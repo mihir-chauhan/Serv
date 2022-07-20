@@ -106,17 +106,19 @@ struct ScheduleCard: View {
                                     .font(.headline)
                                     .foregroundColor(.secondary)
                                 Spacer(minLength: 20)
-                                Image(systemName: "location.north.circle.fill")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                    .onTapGesture {
-                                        let url = URL(string: "maps://?saddr=&daddr=\(data.coordinate.latitude),\(data.coordinate.longitude)")
-                                        if UIApplication.shared.canOpenURL(url!) {
-                                              UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-                                        }
+                                Button(action: {
+                                    let url = URL(string: "maps://?saddr=&daddr=\(data.coordinate.latitude),\(data.coordinate.longitude)")
+                                    if UIApplication.shared.canOpenURL(url!) {
+                                        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
                                     }
+                                }) {
+                                    Image(systemName: "location.north.circle.fill")
+                                        .renderingMode(.original)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
+                                }
+
                                 Image(systemName: "trash.circle.fill")
                                     .renderingMode(.original)
                                     .resizable()
@@ -141,41 +143,42 @@ struct ScheduleCard: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     HStack {
-                                Text(data.time, formatter: dateFormatter)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    ZStack {
-                                        Circle().foregroundColor(.red.opacity(0.25)).frame(width: 35, height: 35).scaleEffect(eventIsLive ? 1 : 0)
-                                        Circle().foregroundColor(.red.opacity(0.35)).frame(width: 25, height: 25).scaleEffect(eventIsLive ? 1 : 0)
-                                        Circle().foregroundColor(.red.opacity(0.45)).frame(width: 15, height: 15).scaleEffect(eventIsLive ? 1 : 0)
-                                        Circle().foregroundColor(eventIsLive ? .red : .clear).frame(width: 9, height: 9)
-                                    }
-                                    .onAppear {
-                                        if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
-                                            self.eventIsLive.toggle()
-//                                            data.FIRDocID #error() //TODO: AHA
-                                            
+                                        Text(data.time, formatter: dateFormatter)
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                        ZStack {
+                                            Circle().foregroundColor(.red.opacity(0.25)).frame(width: 35, height: 35).scaleEffect(eventIsLive ? 1 : 0)
+                                            Circle().foregroundColor(.red.opacity(0.35)).frame(width: 25, height: 25).scaleEffect(eventIsLive ? 1 : 0)
+                                            Circle().foregroundColor(.red.opacity(0.45)).frame(width: 15, height: 15).scaleEffect(eventIsLive ? 1 : 0)
+                                            Circle().foregroundColor(eventIsLive ? .red : .clear).frame(width: 9, height: 9)
                                         }
-                                        FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
-                                            for (friend, events) in result {
-                                                for i in events! {
-                                                    if i == data.FIRDocID {
-//                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
-                                                        print(friend)
-                                                        listOfFriendsWhoSignedUpForEvent.append(friend)
-                                                        friendSignedUp = true
-//                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
+                                        .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
+                                        Text("LIVE").foregroundColor(self.eventIsLive ? .red : .clear).bold().font(.system(.subheadline))
+                                        Spacer()
+                                    }
+                                    
+                                        .onAppear {
+                                            if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
+                                                self.eventIsLive.toggle()
+                                                //                                            data.FIRDocID #error() //TODO: AHA
+                                                
+                                            }
+                                            FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
+                                                for (friend, events) in result {
+                                                    for i in events! {
+                                                        if i == data.FIRDocID {
+                                                            //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
+                                                            print(friend)
+                                                            listOfFriendsWhoSignedUpForEvent.append(friend)
+                                                            friendSignedUp = true
+                                                            //                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
-                                    }
-                                    .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
-                                        
-                                        Text("LIVE").foregroundColor(self.eventIsLive ? .red : .clear).bold().font(.system(.subheadline))
-                                    }
                                 }
-                                Spacer()
+                                
                                 
                                 if friendSignedUp == true {
                                     FriendsCommonEvent(listOfFriendsWhoSignedUpForEvent: $listOfFriendsWhoSignedUpForEvent)

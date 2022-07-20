@@ -96,6 +96,7 @@ struct EventDetailView: View {
                     Text(data.description)
                         .font(.caption)
                 }
+                
                 HStack {
                     Spacer()
                     Button(action: {

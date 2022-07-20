@@ -41,15 +41,12 @@ struct AddFriendSheet: View {
                                                 FirebaseRealtimeDatabaseCRUD().readFriends(for: (viewModel.decodeUserInfo()?.uid)!) { friendsArray in
 //                                                    if friendsArray == nil { // this was causing the problem 
                                                         FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
+                                                        FirebaseRealtimeDatabaseCRUD().writeFriends(for: result.string, friendUUID: (viewModel.decodeUserInfo()?.uid)!)
                                                         showSuccess = true
                                                         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
 //                                                    }
                                                 }
                                             }
-//                                        else {
-//                                                showingAlert.toggle()
-//                                            }
-//                                        }
                                         
                                         // add friend to firebase DB, when implemented.......
                                     case .failure(let error):

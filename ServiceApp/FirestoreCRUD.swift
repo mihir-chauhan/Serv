@@ -32,6 +32,7 @@ class FirestoreCRUD: ObservableObject {
                             let host = j.document.get("host") as? String ?? "Host unavailable"
                             let ein = j.document.get("ein") as? String ?? "No valid ein"
                             let name = j.document.get("name") as? String ?? "no name"
+                            let description = j.document.get("description") as? String ?? "No description!"
                             _ = j.document.get("attendees") as? [String] ?? [String]()
                             let time = j.document.get("time") as? Timestamp
                             let imageURL = j.document.get("images") as? [String] ?? [String]()
@@ -45,7 +46,8 @@ class FirestoreCRUD: ObservableObject {
                                 category: i,
                                 time: time?.dateValue() ?? Date(),
                                 images: imageURL,
-                                coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!)
+                                coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!),
+                                description: description
                                 
                             ))
                         }

@@ -23,7 +23,7 @@ struct HalfSheetModalView: View {
                     }
                     if self.sheetObserver.sheetMode == .quarter {
                         HStack {
-                            Text("Events")
+                            Text("Find Events")
                                 .font(.system(size: 25))
                                 .fontWeight(.bold)
                                 .padding([.top], 10)

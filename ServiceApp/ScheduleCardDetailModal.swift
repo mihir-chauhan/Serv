@@ -54,7 +54,8 @@ struct ScheduleCardDetailSheet: View {
                     .font(.system(size: 30))
                     .fontWeight(.bold)
 
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet arcu eget magna convallis euismod non at quam. Duis vel placerat nisl.").font(.system(.caption))
+                    Text(data.description).font(.system(.caption))
+                        .padding(.horizontal, 5)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
