@@ -12,7 +12,7 @@ import MapKit
 class FirestoreCRUD: ObservableObject {
     let db = Firestore.firestore()
     
-    var allCategories: [String] = ["Environmental", "Humanitarian", "Educational"]
+    var allCategories: [String] = ["Environmental", "Humanitarian", "Other"]
     @Published var allFIRResults = [EventInformationModel]()
     
     init() {
@@ -36,7 +36,7 @@ class FirestoreCRUD: ObservableObject {
                             _ = j.document.get("attendees") as? [String] ?? [String]()
                             let time = j.document.get("time") as? Timestamp
                             let imageURL = j.document.get("images") as? [String] ?? [String]()
-                            let location = j.document.get("location") as? GeoPoint
+                            let location = j.document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
                             
                             self.allFIRResults.append(EventInformationModel(
                                 FIRDocID: id,
@@ -46,7 +46,7 @@ class FirestoreCRUD: ObservableObject {
                                 category: i,
                                 time: time?.dateValue() ?? Date(),
                                 images: imageURL,
-                                coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!),
+                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
                                 description: description
                                 
                             ))
@@ -57,13 +57,44 @@ class FirestoreCRUD: ObservableObject {
     }
     
     func AddToAttendeesList(eventID: String) {
-        db.collection("EventTypes/Environmental/Events")
-            .document(eventID).updateData(["attendees" : FieldValue.arrayUnion([user_uuid as? String])])
+        var mapValues: [String : Any] {
+            return [ user_uuid! :
+                        [
+                            "name" : AuthViewModel().decodeUserInfo()?.displayName! as Any,
+                            "checkInTime" : "",
+                            "checkOutTime" : "",
+                        ]
+            ]
+        }
+            
+        db.collection("EventTypes/Other/Events")
+            .document(eventID).updateData(["attendees" : mapValues])
+
+
     }
     
+    func addCheckInTime(eventID: String, checkInTime: Date? = nil) {
+        var mapValues: [String : Any] {
+            return [ user_uuid! :
+                [
+                    "name" : AuthViewModel().decodeUserInfo()?.displayName! as Any,
+                    "checkInTime" : checkInTime!,
+                    "checkOutTime" : "",
+                ]
+            ]
+        }
+        db.collection("EventTypes/Other/Events")
+            .document(eventID).updateData(
+                ["attendees" : mapValues]
+            )
+    }
+    
+    
     func RemoveFromAttendeesList(eventID: String, user_uuid: String) {
-        db.collection("EventTypes/Environmental/Events")
-            .document(eventID).updateData(["attendees" : FieldValue.arrayRemove([user_uuid])])
+        db.collection("EventTypes/Other/Events")
+            .document(eventID)
+            .updateData(["attendees.\(user_uuid)" : nil])
+        
     }
     
     func fetchUpdates() {

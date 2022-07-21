@@ -34,6 +34,10 @@ struct CheckInView: View {
                     switch dbCode {
                     case true:
                         self.correctCode = true
+                        FirestoreCRUD().addCheckInTime(eventID: data.FIRDocID!, checkInTime: Date())
+//                        FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid!)
+//                        FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, checkInTime: Date())
+
                         withAnimation {
                             self.showMessage = Image(systemName: "checkmark.circle.fill").symbolRenderingMode(.multicolor)
                         }

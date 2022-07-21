@@ -20,25 +20,26 @@ class FIRCloudImages {
     static func getRemoteImages(gsURL: String, completion: @escaping ((UIImage)?) -> ()) {
         let storageRef = storage.reference().child("EventImages")
         
-        storageRef.listAll { (result, error) in
-                for item in result.items {
-                    item.getData(maxSize: 1 * 1024 * 1024 * 1024, completion: { data, error in
-                        if let err = error {
-                            fatalError(err.localizedDescription)
-                        }
-                        else if gsURL.contains(item.fullPath) {
-                            let downloadedImage = UIImage(data: data!)
-//                            fatalError(item.fullPath)
-                        
-                            self.cache.setObject(data! as NSData, forKey: gsURL as NSString)
-                            
-                            completion(downloadedImage)
-
-                        }
-                    })
-                
-            }
-        }
+//        storageRef.listAll { (result, error) in
+//                for item in result.items {
+//                    item.getData(maxSize: 1 * 1024 * 1024 * 1024, completion: { data, error in
+//                        if let err = error {
+//                            fatalError(err.localizedDescription)
+//                        }
+//                        else if gsURL.contains(item.fullPath) {
+//                            let downloadedImage = UIImage(data: data!)
+////                            fatalError(item.fullPath)
+//
+//                            self.cache.setObject(data! as NSData, forKey: gsURL as NSString)
+//
+//                            completion(downloadedImage)
+//
+//                        }
+//                    })
+//
+//            }
+//        }
+        completion(UIImage())
     }
         
     static func getImage(gsURL: String, completion: @escaping ((UIImage)?) -> ()) {

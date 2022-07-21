@@ -54,7 +54,7 @@ struct ScheduleCard: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                         }
-//                        WebImage(url: self.placeHolderImage)
+
 //
                         HStack {
                             Spacer()
