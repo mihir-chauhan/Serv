@@ -97,10 +97,6 @@ class FirestoreCRUD: ObservableObject {
         
     }
     
-    func fetchUpdates() {
-        
-    }
-    
     func validateOneTimeCode(data: EventInformationModel, inputtedValue: Int, completion: @escaping (_ dbCode: Bool?) -> ())  {
         db.collection("EventTypes/\(data.category)/Events")
             .document(data.FIRDocID!).getDocument() { snap, error in
