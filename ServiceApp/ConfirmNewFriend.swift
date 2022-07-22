@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ConfirmNewFriendView: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var show: Bool
     @State private var downloadButtonTapped = false
     @State private var loading = false
@@ -43,7 +44,7 @@ struct ConfirmNewFriendView: View {
                 CheckMarkAnimation()
                     .foregroundColor(.purple)
                 Text("Friend Added!")
-                }.offset(x: -5, y: 9)
+                }.offset(x: -5, y: 20)
             }
         }
         .padding(.vertical, 50)
@@ -69,6 +70,11 @@ struct ConfirmNewFriendView: View {
             withAnimation {
             self.completed = true
             self.fullcircle = false
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                withAnimation {
+                dismiss()
+                }
             }
         }
     }
