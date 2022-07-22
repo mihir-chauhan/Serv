@@ -56,7 +56,7 @@ class FirestoreCRUD: ObservableObject {
         }
     }
     
-    func AddToAttendeesList(eventID: String) {
+    func AddToAttendeesList(eventID: String, eventCategory: String) {
         var mapValues: [String : Any] {
             return [ user_uuid! :
                         [
@@ -67,13 +67,13 @@ class FirestoreCRUD: ObservableObject {
             ]
         }
             
-        db.collection("EventTypes/Other/Events")
+        db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID).updateData(["attendees" : mapValues])
 
 
     }
     
-    func addCheckInTime(eventID: String, checkInTime: Date? = nil) {
+    func addCheckInTime(eventID: String, eventCategory: String, checkInTime: Date? = nil) {
         var mapValues: [String : Any] {
             return [ user_uuid! :
                 [
@@ -83,15 +83,15 @@ class FirestoreCRUD: ObservableObject {
                 ]
             ]
         }
-        db.collection("EventTypes/Other/Events")
+        db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID).updateData(
                 ["attendees" : mapValues]
             )
     }
     
     
-    func RemoveFromAttendeesList(eventID: String, user_uuid: String) {
-        db.collection("EventTypes/Other/Events")
+    func RemoveFromAttendeesList(eventID: String, eventCategory: String, user_uuid: String) {
+        db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID)
             .updateData(["attendees.\(user_uuid)" : nil])
         

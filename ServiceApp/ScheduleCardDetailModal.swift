@@ -83,10 +83,10 @@ struct ScheduleCardDetailSheet: View {
                     Spacer()
                     Button(action: {
                         if !buttonStateIsSignedUp {
-                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!)
+                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
                             FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid!, eventUUID: data.FIRDocID!)
                         } else {
-                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, user_uuid: user_uuid!)
+                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: user_uuid!)
                             FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid!, eventUUID: data.FIRDocID!)
                         }
                         

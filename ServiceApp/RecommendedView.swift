@@ -26,10 +26,10 @@ struct RecommendedView: View {
         if !self.viewRendered {
             ProgressView().frame(width: 290, height: 250)
                 .onAppear {
-//                    FIRCloudImages.getImage(gsURL: data.images![0]) { image in
-//                        self.placeHolderUIImage = image!
-//                        self.viewRendered = true
-//                    }
+                    FIRCloudImages.getImage(gsURL: data.images![0]) { image in
+                        self.placeHolderUIImage = image!
+                        self.viewRendered = true
+                    }
                     
                     print("cache size", URLCache.shared.memoryCapacity / 1024)
                 }
