@@ -19,8 +19,7 @@ struct ContentView: View {
             switch self.signInState {
             case .signedOut: AccountLogin2()
             case .signedIn: CustomTabBar()
-            case .error: Text("Error")
-            }
+            case .error: AccountLogin2()            }
         }
 //        ScheduleCardDetailSheet(data: $data)
 

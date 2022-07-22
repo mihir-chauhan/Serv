@@ -16,6 +16,11 @@ struct EditAccountDetails: View {
     @State var changeName: String = ""
     @State var changeBio: String = ""
     @State var placeholderForBio = "Add Bio"
+    
+    init() {
+        
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -59,12 +64,6 @@ struct EditAccountDetails: View {
                     VStack(alignment: .leading) {
                         Text("Bio").font(.headline).bold()
                         ZStack {
-                            if self.changeBio.isEmpty {
-                                TextEditor(text: $placeholderForBio)
-                                    .font(.body)
-                                    .foregroundColor(.gray)
-                                    .disabled(true)
-                            }
                             TextEditor(text: $changeBio)
                                 .font(.body)
                                 .opacity(self.changeBio.isEmpty ? 0.25 : 1)
@@ -86,7 +85,7 @@ struct EditAccountDetails: View {
                             
                         }
                         if !changeBio.isEmpty {
-//                            this will also need to be saved to realtime database for friends to read the info
+                            //                            this will also need to be saved to realtime database for friends to read the info
                             viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
                             FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
                         }
@@ -111,6 +110,11 @@ struct EditAccountDetails: View {
                     }
                 }
             }
+            .onAppear(perform: {
+                changeName = (viewModel.decodeUserInfo()?.displayName ?? "")
+                changeBio = (viewModel.decodeUserInfo()?.bio ?? "")
+            })
+            
         }
     }
 }
