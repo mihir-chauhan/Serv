@@ -17,7 +17,7 @@ struct AccountSignUpView: View {
     @State var passwordEntered: String = ""
     @State var confirmPassword: String = ""
     
-    @State var disableSubmitButton: Bool = true
+    @State var disableSubmitButton: Bool = false
     var body: some View {
         VStack {
             Spacer(minLength: 30)
@@ -55,6 +55,7 @@ struct AccountSignUpView: View {
                     .foregroundColor(Color.mint.opacity(0.5))
                 
                 TextField("Email", text: $emailEntered)
+                    .autocapitalization(.none)
             }
             .padding(10)
             .background(Color.gray.opacity(0.1))
@@ -65,7 +66,7 @@ struct AccountSignUpView: View {
                 HStack (alignment: .center, spacing: 10) {
                     Image(systemName: "lock.fill")
                         .resizable()
-                        .frame(width: 23, height: 23)
+                        .frame(width: 20, height: 25)
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.mint.opacity(0.5))
                     
@@ -77,7 +78,7 @@ struct AccountSignUpView: View {
                 HStack (alignment: .center, spacing: 10) {
                     Image(systemName: "lock.fill")
                         .resizable()
-                        .frame(width: 23, height: 23)
+                        .frame(width: 20, height: 25)
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.mint.opacity(0.5))
                     
@@ -93,7 +94,7 @@ struct AccountSignUpView: View {
             Capsule()
                     .foregroundColor(disableSubmitButton ? Color.green.opacity(0.3) : Color.green)
                 .frame(width: 175, height: 45)
-                .overlay(Text("Sign Up"))
+                .overlay(Text("Sign Up").foregroundColor(Color.black))
                 
             }.disabled(disableSubmitButton ? true : false)
             Spacer(minLength: 30)
