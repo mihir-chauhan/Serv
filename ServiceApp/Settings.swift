@@ -16,8 +16,8 @@ struct Settings: View {
     @State private var signOutConfirmation = false
     var body: some View {
         VStack(spacing: 20) {
-            Toggle("Share Activity with Friends", isOn: $shareActivityWithFriends)
-            Toggle("See Friend Activity", isOn: $seeFriendActivity)
+//            Toggle("Share Activity with Friends", isOn: $shareActivityWithFriends)
+//            Toggle("See Friend Activity", isOn: $seeFriendActivity)
             
             Button(action: {
                 self.signOutConfirmation = true
