@@ -21,8 +21,10 @@ class AuthViewModel: ObservableObject {
     }
     
     @Published var state: SignInState = .signedOut
+    @Published var signInDialogMessage: String = ""
     @Published var loading: Bool = false
     
+    @Published var inlineErrorDialog = ""
     @Published var userInfoFromAuth: UserInfoFromAuth?
 //    @Published var uidStoredInfo: String = ContentView().uidStoredInfo
     @State var currentNonce: String?
@@ -222,12 +224,18 @@ class AuthViewModel: ObservableObject {
                 case .operationNotAllowed:
                     break
                 case .userDisabled:
+                    self?.signInDialogMessage = "Account has been disabled"
                     break
                 case .wrongPassword:
+                    print("wrong password")
+                    self?.signInDialogMessage = "Invalid username or password"
                     self?.state = .error
                 case .invalidEmail:
+                    print("wrong email")
+                    self?.signInDialogMessage = "Invalid username or password"
                     self?.state = .error
                 default:
+                    self?.signInDialogMessage = "An unknown error occurred"
                     print("Error: \(error.localizedDescription)")
                 }
             } else {
@@ -250,26 +258,31 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func createUser(firstName: String, lastName: String, username: String, email: String, password: String) {
+    func createUser(name: String, username: String, email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             self.loading = true
             if let error = error as NSError? {
                 switch AuthErrorCode(rawValue: error.code) {
 //                  TODO:  use combine to check email validation, if user doesn't exist, create new user, if exists,
                 case .operationNotAllowed:
+                    self.inlineErrorDialog = "The given sign-in provider is disabled for this Firebase project. Enable it in the Firebase console, under the sign-in method tab of the Auth section."
                     print("The given sign-in provider is disabled for this Firebase project. Enable it in the Firebase console, under the sign-in method tab of the Auth section.")
                 case .emailAlreadyInUse:
+                    self.inlineErrorDialog = "The email address is already in use by another account."
                      print("The email address is already in use by another account.")
                    case .invalidEmail:
+                    self.inlineErrorDialog = "The email address is badly formatted."
                      print("The email address is badly formatted.")
                    case .weakPassword:
+//                    self.inlineErrorDialog =  "The password must be 6 characters long or more."
                      print("The password must be 6 characters long or more.")
                    default:
+                    self.inlineErrorDialog = "unknown error"
                        print("Error: \(error.localizedDescription)")
                 }
             } else {
                 let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                changeRequest?.displayName = firstName + " " + lastName
+                changeRequest?.displayName = name
                 
                 changeRequest?.commitChanges { error in
                     if error == nil {
@@ -284,10 +297,10 @@ class AuthViewModel: ObservableObject {
                 self.loading = false
                 let user = Auth.auth().currentUser
                 #warning("doesn't enter in submitted username yet")
-                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: firstName + " " + lastName, username: username, photoURL: user?.photoURL, email: user?.email))
+                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
 
                 var bio: String = "Add an informative bio!"
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: firstName + " " + lastName, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
                 UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
             }
         }

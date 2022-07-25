@@ -9,111 +9,79 @@ import SwiftUI
 
 struct AccountSignUpView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @ObservedObject private var combineViewModel = FormValidationSignUp()
     @Binding var goToRegistration: Bool
     @State var firstName: String = ""
     @State var lastName: String = ""
-    @State var usernameEntered: String = ""
-    @State var emailEntered: String = ""
-    @State var passwordEntered: String = ""
-    @State var confirmPassword: String = ""
+    //    @State var usernameEntered: String = ""
+    //    @State var emailEntered: String = ""
+    //    @State var passwordEntered: String = ""
+    //    @State var confirmPassword: String = ""
     
     @State var disableSubmitButton: Bool = false
-    var body: some View {
-        VStack {
-        VStack(alignment: .leading) {
-            Text("Sign Up").font(.largeTitle).bold()
-                .padding()
-//                .padding(.bottom, 25)
-//            Spacer(minLength: 10)
-            VStack {
-                HStack {
-                    HStack (alignment: .center, spacing: 10) {
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(Color.mint.opacity(0.5))
-                        
-                        TextField("First Name", text: $firstName)
-                        
-                    }
-                    .padding(10)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(15)
-                    
-                    TextField("Last Name", text: $lastName)
-                        .padding(10)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(15)
-                }
-            }
-            Text("Use your full name, this is what event hosts will go by")
-                .font(.caption)
-                .padding(.bottom, 40)
-            
-            HStack (alignment: .center, spacing: 10) {
-                Image(systemName: "envelope.fill")
-                    .resizable()
-                    .frame(width: 25, height: 20)
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(Color.mint.opacity(0.5))
-                
-                TextField("Email", text: $emailEntered)
-                    .autocapitalization(.none)
-            }
-            .padding(10)
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(15)
-            
-            .padding(.bottom, 25)
-            VStack {
-                HStack (alignment: .center, spacing: 10) {
-                    Image(systemName: "lock.fill")
-                        .resizable()
-                        .frame(width: 20, height: 25)
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(Color.mint.opacity(0.5))
-                    
-                    SecureField("Password", text: $passwordEntered)
-                }
-                .padding(10)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(15)
-                HStack (alignment: .center, spacing: 10) {
-                    Image(systemName: "lock.fill")
-                        .resizable()
-                        .frame(width: 20, height: 25)
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(Color.mint.opacity(0.5))
-                    
-                    SecureField("Confirm Password", text: $confirmPassword)
-                }
-                .padding(10)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(15)
-            }
-        }
-            Button(action: {
-                viewModel.createUser(firstName: firstName, lastName: lastName, username: usernameEntered, email: emailEntered, password: passwordEntered)
-            }) {
-            Capsule()
-                .foregroundColor(disableSubmitButton ? Color.green.opacity(0.3) : Color.green)
-                .frame(width: 175, height: 45)
-                .overlay(Text("Sign Up").foregroundColor(Color.black))
-                .padding()
-            }.disabled(disableSubmitButton ? true : false)
-//            Spacer(minLength: 30)
-            Button(action: {
-                withAnimation {
-                    goToRegistration = false
-                }
-            }) {
-                Text("I have an account")
-                    .padding(.bottom, 25)
-            }
-        }
-        .padding(.horizontal, 35)
-            .ignoresSafeArea(.keyboard)
+    
+    //    init(combineViewModel: FormValidationUsingCombine = FormValidationUsingCombine()) {
+    //          self.combineViewModel = combineViewModel
+    //      }
+    var buttonOpacity: Double {
+        return combineViewModel.isValid ? 1 : 0.5
     }
-}
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+                Text("Sign Up").font(.largeTitle).bold()
+                    .padding()
+
+            VStack {
+                    Form {
+                        Section(header: Text("name"), footer: Text("Please use your full name, this is what event hosts will go by").fixedSize(horizontal: false, vertical: true)) {
+
+                            TextField("Name", text: $combineViewModel.username)
+                                .disableAutocorrection(true)
+
+                        }
+
+                        Section(header: Text("Email"), footer: Text(combineViewModel.inlineErrorForEmail).foregroundColor(.red)) {
+
+                            TextField("Email", text: $combineViewModel.email)
+                                .autocapitalization(.none)
+                                .keyboardType(.emailAddress)
+                                .disableAutocorrection(true)
+
+                        }
+                        Section(header: Text("password"), footer: Text(combineViewModel.inlineErrorForPassword).foregroundColor(.red)) {
+
+                            
+                            SecureField("Password", text: $combineViewModel.password)
+                            SecureField("Confirm Password", text: $combineViewModel.passwordAgain)
+
+                        }
+                    }
+                
+                Button(action: {
+                    viewModel.createUser(name: combineViewModel.username, username: "", email: combineViewModel.email, password: combineViewModel.password)
+                }) {
+                    Capsule()
+                        .foregroundColor(!combineViewModel.isValid ? Color.green.opacity(0.3) : Color.green)
+                        .frame(width: 175, height: 45)
+                        .overlay(Text("Sign Up").foregroundColor(Color.black))
+                        .padding()
+                }.disabled(!combineViewModel.isValid)
+                Text(viewModel.inlineErrorDialog).foregroundColor(.red).bold().fixedSize()
+                Button(action: {
+                    withAnimation {
+                        goToRegistration = false
+                    }
+                }) {
+                    Text("I have an account")
+                        .padding(.horizontal)
+                        .padding(.bottom, 30)
+                }
+            }
+            }.padding(.horizontal, 15)
+            .ignoresSafeArea(.keyboard)
+            .background(Color(.systemGray6))
+        }
+    }
+
 

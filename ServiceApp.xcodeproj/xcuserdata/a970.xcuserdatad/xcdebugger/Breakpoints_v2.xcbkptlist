@@ -14,9 +14,9 @@
             filePath = "ServiceApp/AuthSignIn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
-            landmarkName = "createUser(firstName:lastName:username:email:password:)"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "createUser(name:username:email:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

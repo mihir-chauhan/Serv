@@ -49,6 +49,7 @@
 		BEB551CE27C1A820008ED810 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CD27C1A820008ED810 /* FirebaseFirestore */; };
 		BEB551D027C1A820008ED810 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CF27C1A820008ED810 /* FirebaseStorage */; };
 		BEB551D327C1AEB4008ED810 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551D227C1AEB4008ED810 /* GoogleSignIn */; };
+		BEBAB0BD288E72330049F689 /* FormValidationSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */; };
 		BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */; };
 		BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */; };
 		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
@@ -57,7 +58,6 @@
 		BEDEE6F528768122003B6857 /* FriendEventsInCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
 		F426FA3827B43E8C00899C4B /* ConfirmNewFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */; };
-		F446C5AD27D99B3900F49196 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F446C5AC27D99B3900F49196 /* SignInView.swift */; };
 		F4496577280151490068A497 /* AccountLogin2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4496576280151490068A497 /* AccountLogin2.swift */; };
 		F449657928026E300068A497 /* AccountSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449657828026E300068A497 /* AccountSignUpView.swift */; };
 		F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E233F27A9B263007AF9D4 /* RecommendedView.swift */; };
@@ -102,6 +102,7 @@
 		BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountDetails.swift; sourceTree = "<group>"; };
 		BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignIn.swift; sourceTree = "<group>"; };
 		BEB48449284B17DC00FB8469 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
+		BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidationSignUp.swift; sourceTree = "<group>"; };
 		BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImagesWithCache.swift; sourceTree = "<group>"; };
 		BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBezierPaths.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
@@ -109,7 +110,6 @@
 		BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendEventsInCommon.swift; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
 		F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmNewFriend.swift; sourceTree = "<group>"; };
-		F446C5AC27D99B3900F49196 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F4496576280151490068A497 /* AccountLogin2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLogin2.swift; sourceTree = "<group>"; };
 		F449657828026E300068A497 /* AccountSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSignUpView.swift; sourceTree = "<group>"; };
 		F45E233F27A9B263007AF9D4 /* RecommendedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedView.swift; sourceTree = "<group>"; };
@@ -163,6 +163,7 @@
 				BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */,
 				F4496576280151490068A497 /* AccountLogin2.swift */,
 				F449657828026E300068A497 /* AccountSignUpView.swift */,
+				BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 				BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */,
 				BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */,
@@ -247,7 +248,6 @@
 				B3E6FCC8277C58D3004DEE5B /* Account.swift */,
 				BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */,
 				BE196EFA279CDA2800DA0217 /* Settings.swift */,
-				F446C5AC27D99B3900F49196 /* SignInView.swift */,
 				BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
@@ -362,7 +362,6 @@
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
 				BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */,
 				B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */,
-				F446C5AD27D99B3900F49196 /* SignInView.swift in Sources */,
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
 				BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */,
 				B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */,
@@ -389,6 +388,7 @@
 				BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */,
 				B3E6FCDF277C5A43004DEE5B /* DataModel.swift in Sources */,
 				BEDEE6F528768122003B6857 /* FriendEventsInCommon.swift in Sources */,
+				BEBAB0BD288E72330049F689 /* FormValidationSignUp.swift in Sources */,
 				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,

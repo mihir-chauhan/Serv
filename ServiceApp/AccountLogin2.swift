@@ -20,39 +20,44 @@ struct AccountLogin2: View {
     @State var goIntoRegistration: Bool = false
     private let items: [String] = ["Attendee", "Host"]
     var body: some View {
+        Group {
         if selection == 0 {
             if goIntoRegistration == false {
-                Group {
+                
                 VStack(alignment: .leading) {
                     Text("Welcome").font(.largeTitle).bold()
                         .padding(.bottom)
                     SegmentedPicker(items: self.items, selection: $selection)
-                    HStack (alignment: .center, spacing: 10) {
-                        Image(systemName: "envelope.fill")
-                            .resizable()
-                            .frame(width: 25, height: 20)
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(selection == 0 ? Color.mint.opacity(0.5) : Color.purple.opacity(0.3))
-                        
+                    
+                    Section(footer: Text(viewModel.signInDialogMessage).foregroundColor(.red).font(.caption).bold()) {
+                        //                        HStack (alignment: .center, spacing: 10) {
+                        //                            Image(systemName: "envelope.fill")
+                        //                                .resizable()
+                        //                                .frame(width: 25, height: 20)
+                        //                                .aspectRatio(contentMode: .fit)
+                        //                                .foregroundColor(Color.mint.opacity(0.5))
+                        //
                         TextField ("Email", text: $usernameEntered)
+                            .disableAutocorrection(true)
                             .autocapitalization(.none)
-                    }
-                    .padding(10)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(15)
-                    HStack {
-                        Spacer().frame(width:2.5)
-                        Image(systemName: "lock.fill")
-                            .resizable()
-                            .frame(width: 20, height: 25)
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(selection == 0 ? Color.mint.opacity(0.5) : Color.purple.opacity(0.3))
-                        Spacer().frame(width:12.5)
+                        //                        }
+                            .padding(12)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(15)
+                        //                        HStack {
+                        //                            Spacer().frame(width:2.5)
+                        //                            Image(systemName: "lock.fill")
+                        //                                .resizable()
+                        //                                .frame(width: 20, height: 25)
+                        //                                .aspectRatio(contentMode: .fit)
+                        //                                .foregroundColor(Color.mint.opacity(0.5))
+                        //                            Spacer().frame(width:12.5)
                         SecureField("Password", text: $passwordEntered)
-                    }
-                    .padding(10)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(15)
+                            .padding(12)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(15)
+                }
+                    
                     
                     
                     HStack {
@@ -132,9 +137,7 @@ struct AccountLogin2: View {
                     .clipShape(Capsule())
                     .padding(.bottom, 20)
                 }
-                .edgesIgnoringSafeArea(.top)
                 
-                }.ignoresSafeArea(.keyboard)
             }
             else {
                 AccountSignUpView(goToRegistration: $goIntoRegistration)
@@ -142,7 +145,7 @@ struct AccountLogin2: View {
         } else {
             WebView()
         }
-        
+        }.ignoresSafeArea(.keyboard)
     }
 }
 
