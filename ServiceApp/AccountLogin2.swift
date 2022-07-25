@@ -15,19 +15,19 @@ struct AccountLogin2: View {
     @Environment(\.colorScheme) var colorScheme
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
-    @State var rememberUser: Bool = false
-    @State var selection: Int = 0
+//    @State var rememberUser: Bool = false
+//    @State var selection: Int = 0
     @State var goIntoRegistration: Bool = false
-    private let items: [String] = ["Attendee", "Host"]
+//    private let items: [String] = ["Attendee", "Host"]
     var body: some View {
         Group {
-        if selection == 0 {
+//        if selection == 0 {
             if goIntoRegistration == false {
                 
                 VStack(alignment: .leading) {
                     Text("Welcome").font(.largeTitle).bold()
                         .padding(.bottom)
-                    SegmentedPicker(items: self.items, selection: $selection)
+//                    SegmentedPicker(items: self.items, selection: $selection)
                     
                     Section(footer: Text(viewModel.signInDialogMessage).foregroundColor(.red).font(.caption).bold()) {
                         //                        HStack (alignment: .center, spacing: 10) {
@@ -141,9 +141,10 @@ struct AccountLogin2: View {
             else {
                 AccountSignUpView(goToRegistration: $goIntoRegistration)
             }
-        } else {
-            WebView()
-        }
+//        }
+//        else {
+//            WebView()
+//        }
         }.ignoresSafeArea(.keyboard)
     }
 }
