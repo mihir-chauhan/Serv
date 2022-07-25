@@ -61,18 +61,19 @@ struct AccountLogin2: View {
                     
                     
                     HStack {
-                        Image(systemName: rememberUser ? "checkmark.square" : "square")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(rememberUser ? Color.mint : Color.black)
-                            .onTapGesture {
-                                withAnimation {
-                                    rememberUser.toggle()
-                                }
-                            }
-                        Text("Remember me")
+//                        Image(systemName: rememberUser ? "checkmark.square" : "square")
+//                            .resizable()
+//                            .frame(width: 20, height: 20)
+//                            .foregroundColor(rememberUser ? Color.mint : Color.black)
+//                            .onTapGesture {
+//                                withAnimation {
+//                                    rememberUser.toggle()
+//                                }
+//                            }
+//                        Text("Remember me")
                         Spacer(minLength: 20)
                         Text("Sign Up")
+                            .underline()
                             .bold()
                             .foregroundColor(.mint.opacity(0.5))
                             .onTapGesture {
@@ -82,14 +83,12 @@ struct AccountLogin2: View {
                             }
                     }.padding()
                 }
-                .padding(25)
-                .padding(.horizontal, 15)
+                .padding(.horizontal, 40)
                 
                 Capsule()
                     .foregroundColor(Color.green)
                     .frame(width: 175, height: 45)
                     .overlay(Text("Login"))
-                    .padding(.top, 20)
                     .onTapGesture(perform: {
                         viewModel.emailPwdSignIn(email: usernameEntered, password: passwordEntered)
                     })

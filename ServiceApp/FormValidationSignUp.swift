@@ -102,7 +102,7 @@ class FormValidationSignUp: ObservableObject {
             .map { value -> String in
                 switch value {
                 case false:
-                    return "enter a valid email"
+                    return "Enter a valid email"
                 case true:
                     return ""
                 }
@@ -117,11 +117,11 @@ class FormValidationSignUp: ObservableObject {
             .map { passwordStatus in
                 switch passwordStatus {
                 case .empty:
-                    return "password cannot be empty!"
+                    return "Password cannot be empty!"
                 case .notStrongEnough:
-                    return "password not strong enough"
+                    return "Password not strong enough"
                 case .repeatedPasswordWrong:
-                    return "password do not match"
+                    return "Password do not match"
                 case .valid:
                     return ""
                 }
