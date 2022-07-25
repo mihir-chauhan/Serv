@@ -20,7 +20,11 @@ struct AccountSignUpView: View {
     @State var disableSubmitButton: Bool = false
     var body: some View {
         VStack {
-            Spacer(minLength: 30)
+        VStack(alignment: .leading) {
+            Text("Sign Up").font(.largeTitle).bold()
+                .padding()
+//                .padding(.bottom, 25)
+//            Spacer(minLength: 10)
             VStack {
                 HStack {
                     HStack (alignment: .center, spacing: 10) {
@@ -88,25 +92,28 @@ struct AccountSignUpView: View {
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(15)
             }
+        }
             Button(action: {
                 viewModel.createUser(firstName: firstName, lastName: lastName, username: usernameEntered, email: emailEntered, password: passwordEntered)
             }) {
             Capsule()
-                    .foregroundColor(disableSubmitButton ? Color.green.opacity(0.3) : Color.green)
+                .foregroundColor(disableSubmitButton ? Color.green.opacity(0.3) : Color.green)
                 .frame(width: 175, height: 45)
                 .overlay(Text("Sign Up").foregroundColor(Color.black))
-                
+                .padding()
             }.disabled(disableSubmitButton ? true : false)
-            Spacer(minLength: 30)
+//            Spacer(minLength: 30)
             Button(action: {
                 withAnimation {
                     goToRegistration = false
                 }
             }) {
                 Text("I have an account")
-                    .padding()
+                    .padding(.bottom, 25)
             }
-        }.padding(.horizontal, 35)
+        }
+        .padding(.horizontal, 35)
+            .ignoresSafeArea(.keyboard)
     }
 }
 

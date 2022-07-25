@@ -22,8 +22,10 @@ struct AccountLogin2: View {
     var body: some View {
         if selection == 0 {
             if goIntoRegistration == false {
-                
+                Group {
                 VStack(alignment: .leading) {
+                    Text("Welcome").font(.largeTitle).bold()
+                        .padding(.bottom)
                     SegmentedPicker(items: self.items, selection: $selection)
                     HStack (alignment: .center, spacing: 10) {
                         Image(systemName: "envelope.fill")
@@ -131,6 +133,8 @@ struct AccountLogin2: View {
                     .padding(.bottom, 20)
                 }
                 .edgesIgnoringSafeArea(.top)
+                
+                }.ignoresSafeArea(.keyboard)
             }
             else {
                 AccountSignUpView(goToRegistration: $goIntoRegistration)
