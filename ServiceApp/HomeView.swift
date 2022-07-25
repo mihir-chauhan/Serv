@@ -21,12 +21,14 @@ struct HomeView: View {
     @State var showingHeaAlert = false
     @State var showingAniAlert = false
     
-    @State var selectedIndexOfServiceType = 0
     
     @State var eventDatas = [EventInformationModel]()
+    
+    @Environment(\.colorScheme) var colorScheme
 
     var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶"]
-    
+    @State var selectedIndexOfServiceType = [false, false, false, false, false]
+
     var body: some View {
         ZStack {
             if !toggleHeroAnimation {
@@ -40,93 +42,84 @@ struct HomeView: View {
                             Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
                             Color.pink
                         ]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                            .matchedGeometryEffect(id: "hero", in: animation)
-                            .frame(width: display.width - 40, height: 125)
-                            .mask(
-                                RoundedRectangle(cornerRadius: 20)
-                                
-                                    .matchedGeometryEffect(id: "hero", in: animation)
-                                    .frame(width: display.width - 40, height: 125)
-                                    .foregroundColor(Color(.systemGray4))
-                                
-                            )
-                            .overlay(
-                                VStack(alignment: .leading) {
-                                    Text("Your Upcoming Events")
-                                        .font(.title2)
-                                        .bold()
+                        .matchedGeometryEffect(id: "hero", in: animation)
+                        .frame(width: display.width - 40, height: 125)
+                        .mask(
+                            RoundedRectangle(cornerRadius: 20)
+                            
+                                .matchedGeometryEffect(id: "hero", in: animation)
+                                .frame(width: display.width - 40, height: 125)
+                                .foregroundColor(Color(.systemGray4))
+                            
+                        )
+                        .overlay(
+                            VStack(alignment: .leading) {
+                                Text("Your Upcoming Events")
+                                    .font(.title2)
+                                    .bold()
+                                Spacer()
+                                HStack {
                                     Spacer()
-                                    HStack {
-                                        Spacer()
-                                        Button(action: {
-                                            withAnimation(.spring()) {
-                                                toggleHeroAnimation.toggle()
-                                            }
-                                        }) {
-                                            ZStack {
-                                                CustomMaterialEffectBlur(blurStyle: .systemMaterial)
-                                                    .mask(
-                                                        Circle()
-                                                    )
-                                                    .frame(width: 60, height: 60)
-                                                    .overlay(
-                                                        Image(systemName: "arrow.right")
-                                                            .renderingMode(.original)
-                                                            .resizable()
-                                                            .aspectRatio(contentMode: .fit)
-                                                            .frame(width: 25, height: 25)
-                                                    )
-                                            }
-                                            
+                                    Button(action: {
+                                        withAnimation(.spring()) {
+                                            toggleHeroAnimation.toggle()
                                         }
+                                    }) {
+                                        ZStack {
+                                            CustomMaterialEffectBlur(blurStyle: .systemMaterial)
+                                                .mask(
+                                                    Circle()
+                                                )
+                                                .frame(width: 60, height: 60)
+                                                .overlay(
+                                                    Image(systemName: "arrow.right")
+                                                        .renderingMode(.original)
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 25, height: 25)
+                                                )
+                                        }
+                                        
                                     }
-                                }.padding(15)
-                            )
+                                }
+                            }.padding(15)
+                        )
                     }
                     VStack(alignment: .trailing) {
                         PVSAProgressBar()
                         Text("16 more hours to go...")
                             .font(.caption)
                     }
+
                     VStack(alignment: .leading) {
-                        Text("Categories")
+                        Text("Categories: " + String(selectedIndexOfServiceType.filter{$0}.count) + " Selected")
                             .font(.system(.headline))
-                            .padding(.leading, 30)
+                            .padding(.leading, 15)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(0..<5, id: \.self) { index in
                                     RoundedRectangle(cornerRadius: 50)
                                         .frame(width: 75, height: 75)
-                                        .foregroundColor(Color(selectedIndexOfServiceType == index ? .systemGray6 : .systemGray4))
+                                        .foregroundColor(Color(selectedIndexOfServiceType[index] ? (colorScheme == .dark ?.systemGray6 : .systemGray4) : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
                                         .overlay(Text(categories[index]).font(.system(size: 30)))
                                         .onTapGesture() {
-                                            if index == 0 {
-                                                showingEnvAlert.toggle()
-                                            } else if index == 1 {
-                                                showingHumAlert.toggle()
-                                            } else if index == 2 {
-                                                showingSchAlert.toggle()
-                                            } else if index == 3 {
-                                                showingHeaAlert.toggle()
-                                            } else if index == 4 {
-                                                showingAniAlert.toggle()
-                                            }
+                                            selectedIndexOfServiceType[index] = !selectedIndexOfServiceType[index]
                                         }
                                 }.padding(.trailing, 30)
                             }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         }
-                        
+
                         Text("Recommended")
                             .font(.system(.headline))
-                            .padding(.leading, 30)
+                            .padding(.leading, 15)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 //                            TODO: create a detail view for the cards listed in "recommended"
-//                                ForEach(0..<self.results.allFIRResults.count, id: \.self) { img in
-//                                    RecommendedView(data: results.allFIRResults[img]).padding(.trailing, 30)
+                                //                                ForEach(0..<self.results.allFIRResults.count, id: \.self) { img in
+                                //                                    RecommendedView(data: results.allFIRResults[img]).padding(.trailing, 30)
                                 ForEach(0..<results.allFIRResults.count, id: \.self) { imgURL in
-//                                    FIRCloudImages3().getRemoteImages(gsURL: imgURL) { image in
-//                                        Image(uiImage: image!)
+                                    //                                    FIRCloudImages3().getRemoteImages(gsURL: imgURL) { image in
+                                    //                                        Image(uiImage: image!)
                                     RecommendedView(data: results.allFIRResults[imgURL])
                                     
                                 }
@@ -145,7 +138,7 @@ struct HomeView: View {
             
         }
         .padding(.vertical)
-            
+        
         
         .onAppear() {
             FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
@@ -168,19 +161,19 @@ struct HomeView: View {
         .alert(isPresented: $showingEnvAlert) {
             Alert(title: Text("Environmental"), message: Text("Environmental projects may have volunteers working in an office preparing educational materials, outside creating trails (or recycling, or picking up trash, or planting and tending flora), or in schools or neighborhood centers providing community outreach"), dismissButton: .default(Text("Okay")))
         }
-    
+        
         .alert(isPresented: $showingHumAlert) {
             Alert(title: Text("Humanitarian"), message: Text("Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places."), dismissButton: .default(Text("Okay")))
         }
-    
+        
         .alert(isPresented: $showingSchAlert) {
             Alert(title: Text("Education"), message: Text("Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program."), dismissButton: .default(Text("Okay")))
         }
-    
+        
         .alert(isPresented: $showingHeaAlert) {
             Alert(title: Text("Health"), message: Text("While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS."), dismissButton: .default(Text("Okay")))
         }
-    
+        
         .alert(isPresented: $showingAniAlert) {
             Alert(title: Text("Wildlife"), message: Text("Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild."), dismissButton: .default(Text("Okay")))
         }

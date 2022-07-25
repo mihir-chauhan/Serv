@@ -24,7 +24,7 @@ class FIRCloudImages {
                 for item in result.items {
                     item.getData(maxSize: 1 * 1024 * 1024 * 1024, completion: { data, error in
                         if let err = error {
-                            fatalError(err.localizedDescription)
+                            //fatalError(err.localizedDescription)
                         }
                         else if gsURL.contains(item.fullPath) {
                             let downloadedImage = UIImage(data: data!)
