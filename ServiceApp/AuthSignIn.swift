@@ -105,13 +105,14 @@ class AuthViewModel: ObservableObject {
                 }
                 let user = user?.user
                 var bio: String = "no bio [105].unique "
-                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
-                    bio = value
-                }
+                
 //                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
                 UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
-//                self.uidStoredInfo = user!.uid
+                
+                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                    bio = value
+                }
             }
         }
     }

@@ -73,7 +73,6 @@ struct OnboardingView: View {
                                 if pageIndex == 3 {
                                     Capsule()
                                         .frame(width: 105, height: 50)
-//                                        .foregroundColor(Color.white)
                                         .overlay(
                                             Text("Get started")
                                                 .foregroundColor(.white)
