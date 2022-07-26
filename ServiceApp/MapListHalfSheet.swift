@@ -36,9 +36,14 @@ struct HalfSheetModalView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20, height: 20)
                                     .foregroundColor(.blue)
-  
                             }
                         }.padding()
+                        .contentShape(Rectangle())
+                        .gesture(TapGesture().onEnded { value in
+                            if self.sheetObserver.sheetMode == .quarter {
+                                self.sheetObserver.toFullSheet()
+                            }
+                        })
                         Spacer()
                     }
                     if self.sheetObserver.sheetMode == .half {
@@ -50,35 +55,27 @@ struct HalfSheetModalView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                 .offset(y: self.dragOffset)
                 
+
             }
-            
             .gesture(DragGesture()
-                        .onChanged { value in
-                if self.sheetObserver.sheetMode != .half {
-                    
-                    
-                    if (self.sheetObserver.sheetMode == .full && self.dragOffset < -10) || (self.sheetObserver.sheetMode == .quarter && value.translation.height > 0) {
-                    } else {
-                        self.dragOffset = value.translation.height
+                .onEnded { value in
+                    self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
+
+                    if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
+                        self.dragOffset = 0
+                        self.sheetObserver.toFullSheet()
                     }
+                    if self.sheetObserver.sheetMode == .full && value.translation.height > 100 {
+                        self.dragOffset = 0
+                        self.sheetObserver.toQuarterSheet()
+                    }
+                    if self.sheetObserver.sheetMode == .half && value.translation.height > 100 {
+                        self.dragOffset = 0
+                        self.sheetObserver.toQuarterSheet()
+                    }
+
                 }
-            }
-                        .onEnded { value in
-                self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
-                
-                if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
-                    self.dragOffset = 0
-                    self.sheetObserver.toFullSheet()
-                }
-                if self.sheetObserver.sheetMode == .full && value.translation.height > 100 {
-                    self.dragOffset = 0
-                    self.sheetObserver.toQuarterSheet()
-                }
-                if self.sheetObserver.sheetMode == .full && self.dragOffset < -10 {
-                    self.dragOffset = 0
-                    self.sheetObserver.toFullSheet()
-                }
-            })
+            )
         }
     }
 }

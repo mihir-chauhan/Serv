@@ -37,7 +37,7 @@ struct CustomTabBar: View {
                         self.selectedIndex = icon
                         }
                     }) {
-                            Image(systemName: icon.icon)
+                        Image(systemName: self.selectedIndex == icon ? icon.icon + ".fill" : icon.icon)
                                 .font(.system(size: 25))
                                 .foregroundColor(self.selectedIndex == icon ? .blue : Color(UIColor.gray))
                                                         .frame(width: 55, height: 55)

@@ -18,17 +18,17 @@ struct EventDetailView: View {
     
     @State var buttonStateIsSignedUp: Bool = false
     
-//    var drag: some Gesture {
-//        DragGesture(minimumDistance: 50)
-//
-//                                .onChanged({ value in
-//            self.dragOffset = value.translation.height
-//        })
-//                                .onEnded({ value in
-//            self.sheetMode = .quarter
-//            self.dragOffset = 0
-//        })
-//    }
+    //    var drag: some Gesture {
+    //        DragGesture(minimumDistance: 50)
+    //
+    //                                .onChanged({ value in
+    //            self.dragOffset = value.translation.height
+    //        })
+    //                                .onEnded({ value in
+    //            self.sheetMode = .quarter
+    //            self.dragOffset = 0
+    //        })
+    //    }
     var dateToString: String {
         get {
             let dateFormatter = DateFormatter()
@@ -59,23 +59,23 @@ struct EventDetailView: View {
         }
     }
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(data.name)
-                        .font(.system(size: 30))
-                        .fontWeight(.bold)
-                    Spacer()
-                    Button(action: {
-                        self.sheetMode = .quarter
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.systemGray2))
-                            .padding(12)
-                    }
+        VStack(alignment: .leading) {
+            HStack {
+                Text(data.name)
+                    .font(.system(size: 30))
+                    .fontWeight(.bold)
+                Spacer()
+                Button(action: {
+                    self.sheetMode = .quarter
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(Color(.systemGray2))
+                        .padding(12)
                 }
+            }
+            ScrollView {
                 
                 VStack(alignment: .leading) {
                     Text(data.category)
@@ -120,11 +120,12 @@ struct EventDetailView: View {
                 .padding(.horizontal, 15)
                 .padding(.bottom, 200)
             }
-            .padding([.top, .trailing, .leading])
-            .padding(.bottom, 200)
-
+            
         }
-//        .simultaneousGesture(self.drag)
+        
+        .padding([.top, .trailing, .leading])
+        .padding(.bottom, 200)
+        //        .simultaneousGesture(self.drag)
         .onAppear {
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
