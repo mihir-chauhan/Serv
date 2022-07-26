@@ -10,7 +10,7 @@ import AuthenticationServices
 import Combine
 
 
-struct AccountLogin2: View {
+struct AccountLoginView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.colorScheme) var colorScheme
     @State var usernameEntered: String = ""
@@ -29,7 +29,7 @@ struct AccountLogin2: View {
                         .padding(.bottom)
 //                    SegmentedPicker(items: self.items, selection: $selection)
                     
-                    Section(footer: Text(viewModel.signInDialogMessage).foregroundColor(.red).font(.caption).bold()) {
+                    Section(header: Text("Sign in").font(.headline).bold(), footer: Text(viewModel.signInDialogMessage).foregroundColor(.red).font(.caption).bold()) {
                         //                        HStack (alignment: .center, spacing: 10) {
                         //                            Image(systemName: "envelope.fill")
                         //                                .resizable()
@@ -151,7 +151,7 @@ struct AccountLogin2: View {
 
 struct AccountLogin2_Previews: PreviewProvider {
     static var previews: some View {
-        AccountLogin2()
+        AccountLoginView()
     }
 }
 
