@@ -27,7 +27,10 @@ struct Socials: View {
                         haveFriends ? nil : CustomMaterialEffectBlur(blurStyle: .systemUltraThinMaterial).cornerRadius(25).offset(y: -10).overlay(Text("Leaderboard would appear after you add friends").font(.headline).bold().padding())
                     )
                 if self.listOfFriends.isEmpty {
+
                     Text("No friends to show!").font(.title).bold()
+                        .offset(y: UIScreen.main.bounds.height / 5)
+                        
                 } else {
                 ForEach(self.listOfFriends, id: \.self) { friend in
                     FriendCardView(image: friend.photoURL ?? imgForDetailSheet, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
