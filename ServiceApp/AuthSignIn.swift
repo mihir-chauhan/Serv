@@ -279,10 +279,10 @@ class AuthViewModel: ObservableObject {
                         print(user.email!, user.uid)
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                             bio = value
-                            print(bio)
+                            self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email, bio: bio))
                         }
                         self?.state = .signedIn
-                        self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email, bio: bio))
+                        
                         UserDefaults.standard.set(user.uid, forKey: "user_uuid")
                     } else {
                         print("HOST ACCOUNT!!!")
@@ -324,8 +324,9 @@ class AuthViewModel: ObservableObject {
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                             bio = value
                             print(bio)
+                            self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
                         }
-                        encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
+                        
                         UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
                     } else {
                         FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
@@ -348,23 +349,6 @@ class AuthViewModel: ObservableObject {
 //                        // Do something
 //                    }
 //                }
-                
-                
-                #warning("so it seems like the first time you sign in, it'll load the default of John Smith and nil values for displayName, user email, etc. But everything is normal when you sign out and sign back in. So when the user first creates the account, it goes back to the default values, and realtime db saves the default values (of lines 311-314")
-//                self.state = .signedIn
-//                self.loading = false
-//
-//                var bio: String = "no bio [105].unique"
-//                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
-//                    bio = value
-//                    print(bio)
-//                }
-                #warning("doesn't enter in submitted username yet")
-//                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
-
-//                var bio: String = "Add an informative bio!"
-//                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
-//                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
             }
         }
     }
