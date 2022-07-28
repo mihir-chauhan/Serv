@@ -85,34 +85,38 @@ class AuthViewModel: ObservableObject {
                 self.loading = false
                 self.state = .error
             } else {
-                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.user.uid) { exists in
-                    self.loading = false
+                let user = user?.user
+                var bio: String = "no bio [105].unique"
+                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { exists in
+                    
+//                    fatalError("\(exists)")
                     if exists == true {
-                        print("Welcome back \(user!.user.displayName ?? "no name"), aka: \(user!.user.uid)")
-                        user_uuid = user!.user.uid
+                        print("Welcome back \(user?.displayName ?? "no name"), aka: \(String(describing: user?.uid))")
+                        user_uuid = user?.uid
                         self.state = .signedIn
-                        
+                        FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                            bio = value
+                            self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
+                        }
                     }
                     else {
                         FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(
-                            uid: user!.user.uid,
-                            displayName: user?.user.displayName,
-                            photoURL: user?.user.photoURL,
-                            email: user?.user.email))
+                            uid: user?.uid,
+                            displayName: user?.displayName,
+                            photoURL: user?.photoURL,
+                            email: user?.email
+                        ))
                         print("Tell us about yourself")
-                        UserDefaults.standard.set(user?.user.uid, forKey: "user_uuid")
+                        
+                        self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
                     }
                 }
-                let user = user?.user
-                var bio: String = "no bio [105].unique "
                 
-//                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
+                
+                
                 UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
                 
-                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
-                    bio = value
-                }
+                self.loading = false
             }
         }
     }
@@ -153,17 +157,42 @@ class AuthViewModel: ObservableObject {
                         print(error?.localizedDescription as Any)
                         self.state = .error
                         return
+                    } else {
+//                        let user = Auth.auth().currentUser
+                        let user = authResult?.user
+                        
+                        var bio: String = "no bio [105].unique"
+                        
+                        FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { exists in
+                            if exists == true {
+                                user_uuid = user?.uid
+                                
+                                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                                    bio = value
+                                    self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
+                                }
+                            } else {
+                                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(
+                                    uid: user?.uid,
+                                    displayName: user?.displayName,
+                                    photoURL: user?.photoURL,
+                                    email: user?.email
+                                ))
+                                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                            }
+                            
+                            UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
+                            
+                            self.state = .signedIn
+                            self.loading = false
+                        }
+                        
+                        print("signed in through Apple")
+                        self.state = .signedIn
                     }
-                    print("signed in")
-                    self.state = .signedIn
+
+                    
                 }
-                
-                print("\(String(describing: Auth.auth().currentUser?.uid))")
-                let user = Auth.auth().currentUser
-//                self.userInfoFromAuth = UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email)
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
-                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
-//                self.uidStoredInfo = user!.uid
             default:
                 break
                 
@@ -243,12 +272,17 @@ class AuthViewModel: ObservableObject {
                 let user = Auth.auth().currentUser!
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user.uid) { exists in
                     if(exists) {
+                        var bio: String = "no bio [105].unique"
                         self?.loading = false
                         print("Welcome back \(user.displayName ?? "no name")")
                         print("User signs in successfully")
                         print(user.email!, user.uid)
+                        FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                            bio = value
+                            print(bio)
+                        }
                         self?.state = .signedIn
-                        self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email))
+                        self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email, bio: bio))
                         UserDefaults.standard.set(user.uid, forKey: "user_uuid")
                     } else {
                         print("HOST ACCOUNT!!!")
@@ -282,27 +316,55 @@ class AuthViewModel: ObservableObject {
                        print("Error: \(error.localizedDescription)")
                 }
             } else {
-                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                changeRequest?.displayName = name
+                let user = Auth.auth().currentUser
+                var bio: String = "no bio [105].unique"
                 
-                changeRequest?.commitChanges { error in
-                    if error == nil {
-                        // Do something
+                FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { [self] exists in
+                    if exists {
+                        FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                            bio = value
+                            print(bio)
+                        }
+                        encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
+                        UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
                     } else {
-                        // Do something
+                        FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
+                        encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
+                        
                     }
+                    UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
+                    self.state = .signedIn
+                    self.loading = false
                 }
+            
+                    
+//                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+//                changeRequest?.displayName = name
+//
+//                changeRequest?.commitChanges { error in
+//                    if error == nil {
+//                        // Do something
+//                    } else {
+//                        // Do something
+//                    }
+//                }
+                
                 
                 #warning("so it seems like the first time you sign in, it'll load the default of John Smith and nil values for displayName, user email, etc. But everything is normal when you sign out and sign back in. So when the user first creates the account, it goes back to the default values, and realtime db saves the default values (of lines 311-314")
-                self.state = .signedIn
-                self.loading = false
-                let user = Auth.auth().currentUser
+//                self.state = .signedIn
+//                self.loading = false
+//
+//                var bio: String = "no bio [105].unique"
+//                FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+//                    bio = value
+//                    print(bio)
+//                }
                 #warning("doesn't enter in submitted username yet")
-                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
+//                FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
 
-                var bio: String = "Add an informative bio!"
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
-                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
+//                var bio: String = "Add an informative bio!"
+//                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
+//                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
             }
         }
     }

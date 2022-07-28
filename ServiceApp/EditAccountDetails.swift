@@ -58,6 +58,7 @@ struct EditAccountDetails: View {
                         Text("Name").font(.headline).bold()
                         Spacer(minLength: 10)
                         TextField("Name", text: $changeName)
+                            .disableAutocorrection(true)
                     }
                     Text("Make sure that this is your legal name, as this will be presented to organizations when you sign up for an event and they must be able to identify you on the day of the event").foregroundColor(.gray).font(.caption)
                     Divider()
@@ -65,6 +66,7 @@ struct EditAccountDetails: View {
                         Text("Bio").font(.headline).bold()
                         ZStack {
                             TextEditor(text: $changeBio)
+                                .disableAutocorrection(true)
                                 .font(.body)
                                 .opacity(self.changeBio.isEmpty ? 0.25 : 1)
                         }
