@@ -9,17 +9,18 @@ import SwiftUI
 import CoreLocation
 import MapKit
 import Combine
+import FirebaseFirestore
 
 struct MapListElements: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @State var searchTerm = ""
     @Binding var eventPresented: EventInformationModel
     @StateObject var viewModel = LocationTrackerViewModel()
-    @ObservedObject var results = FirestoreCRUD()
     @State private var startEventDate = Date()
-    @State private var endEventDate = Date()
-    @State private var showPicker = false
-
+    @State private var endEventDate = Date().addingTimeInterval(86400 * 7)
+    @State private var selectedRadius: Int = 0
+    @State private var searchResults = [EventInformationModel]()
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
@@ -27,36 +28,104 @@ struct MapListElements: View {
                     .font(.system(size: 35))
                     .fontWeight(.bold)
                     .padding()
-                HStack {
+                VStack {
                     HStack {
-                        TextField("Radius (mi)", text: $searchTerm)
-                            .keyboardType(.numberPad)
-                        if !searchTerm.isEmpty {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(Color(.systemGray2))
-                                .padding(.horizontal, 3)
-                                .onTapGesture {
-                                    UIApplication.shared.endEditing()
+                        HStack {
+                            TextField("Event Name", text: $searchTerm)
+                            if !searchTerm.isEmpty {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(Color(.systemGray2))
+                                    .padding(.horizontal, 3)
+                                    .onTapGesture {
+                                        self.searchTerm = ""
+                                    }
+                                
+                            }
+                            
+                        }.padding(10)
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(12)
+                        
+                        
+                        Spacer()
+                            .frame(width: 10)
+                        
+                        Menu {
+                            Button {
+                                selectedRadius = 0
+                            } label: {
+                                Text("10 mi")
+                                if(selectedRadius == 0) {
+                                    Image(systemName: "checkmark")
                                 }
+                            }
+                            Button {
+                                selectedRadius = 1
+                            } label: {
+                                Text("20 mi")
+                                if(selectedRadius == 1) {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                            Button {
+                                selectedRadius = 2
+                            } label: {
+                                Text("40 mi")
+                                if(selectedRadius == 2) {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                            Button {
+                                selectedRadius = 3
+                            } label: {
+                                Text("60 mi")
+                                if(selectedRadius == 3) {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                            Button {
+                                selectedRadius = 4
+                            } label: {
+                                Text("100 mi")
+                                if(selectedRadius == 4) {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        } label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.white)
+                                .overlay(
+                                    Image(systemName: "arrow.left.and.right.circle")
+                                        .renderingMode(.original)
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(Color(.systemGray2))
+                                )
                         }
-                    }.padding(10)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(12)
-
-                    VStack {
+                        
+                        
+                    }.padding(.top, 10)
+                        .padding(.horizontal, 20)
+                    
+                    HStack {
                         DatePicker("Start", selection: $startEventDate, in: Date()..., displayedComponents: [.date])
                             .labelsHidden()
-                            .frame(width: 100, height: 30, alignment: .center)
-
-                        DatePicker("End", selection: $endEventDate, in: startEventDate..., displayedComponents: [.date])
+                            .id(UUID().uuidString)
+                        
+                        Spacer()
+                            .frame(width: 7)
+                        Text("to")
+                        Spacer()
+                            .frame(width: 7)
+                        DatePicker("End", selection: $endEventDate, in: startEventDate.addingTimeInterval(86400)..., displayedComponents: [.date])
                             .labelsHidden()
-                            .frame(width: 100, height: 30, alignment: .center)
+                            .id(UUID().uuidString)
                     }
-
-                }.padding(.top, 10)
-                    .padding(.horizontal, 20)
+                }
+                
                 if self.searchTerm.isEmpty {
-                    List(results.allFIRResults) { event in
+                    List(searchResults) { event in
                         Button(action: {
                             withAnimation(.spring()) {
                                 self.sheetObserver.eventDetailData = event
@@ -69,9 +138,9 @@ struct MapListElements: View {
                     }.padding(.vertical)
                 }
                 else {
-//                    List(results.allFIRResults.filter({(CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude).distance(from: CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude))/1609.344) <= CGFloat(Int(searchTerm)!)})) { event in
-                    List(results.allFIRResults.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
-
+                    //                    List(results.allFIRResults.filter({(CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude).distance(from: CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude))/1609.344) <= CGFloat(Int(searchTerm)!)})) { event in
+                    List(searchResults.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
+                        
                         Button(action: {
                             withAnimation(.spring()) {
                                 self.sheetObserver.eventDetailData = event
@@ -86,24 +155,82 @@ struct MapListElements: View {
             }
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
+        .onAppear() {
+            queryBasedOnSearchParams();
+        }
     }
     
     func sortByDate() {
-        self.results.allFIRResults.sort {
+        self.searchResults.sort {
             $0.time > $1.time
         }
     }
     func sortByDistance() {
-        self.results.allFIRResults.sort {
+        self.searchResults.sort {
             let userCoordinate = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.latitude)
             let distanceBetweenTwoPoints1 = CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)
             let distanceBetweenTwoPoints2 = CLLocation(latitude: $1.coordinate.latitude, longitude: $1.coordinate.longitude)
             
-            self.results.allFIRResults.sort(by: { _,_ in distanceBetweenTwoPoints1.distance(from: userCoordinate) < distanceBetweenTwoPoints2.distance(from: userCoordinate) })
+            self.searchResults.sort(by: { _,_ in distanceBetweenTwoPoints1.distance(from: userCoordinate) < distanceBetweenTwoPoints2.distance(from: userCoordinate) })
             
             return true
         }
         
+    }
+    
+    func queryBasedOnSearchParams() {
+        let db = Firestore.firestore()
+        
+        let formatter = DateFormatter()
+        let dateFormatter = DateFormatter()
+
+        formatter.dateFormat = "MMMM d, yyyy HH:mm:ss"
+
+        let startTime: Date = formatter.date(from: dateFormatter.string(from: startEventDate)) ?? Date(timeIntervalSince1970: 0)
+        let startTimestamp: Timestamp = Timestamp(date: startTime)
+
+        let endTime: Date = formatter.date(from: dateFormatter.string(from: endEventDate)) ?? Date()
+        let endTimestamp: Timestamp = Timestamp(date: endTime)
+
+        print(Date())
+        
+        
+        db.collection("EventTypes").getDocuments() { (querySnapshot, err) in
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+            }
+            else
+            {
+                for document in querySnapshot!.documents {
+                    
+                    print("122121: " + "EventTypes/\(document.documentID)/Events" + ":: \(startEventDate))")
+                    let eventRef = db.collection("EventTypes/\(document.documentID)/Events").whereField("date", isGreaterThan: dateFormatter.string(from: startEventDate)).getDocuments() {
+                        (querySnapshot, err) in
+//                        if let err = err {
+                            print("Error getting documents: \(err)")
+//                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                            }
+//                        }
+                        
+                    }
+//                    let query = eventRef.order(by: "date", descending: false)//.whereField("date", isGreaterThan: start)//.whereField("date", isLessThan: end)
+//                    query.getDocuments { snapshot, error in
+//                        print("docunebts: \(snapshot!.count)")
+//                        if let error = error {
+//                            print("Error getting documents: \(error)")
+//                        } else {
+//                            for document in snapshot!.documents {
+//                                print("heellolo  \(document.documentID) => \(document.data())")
+//                            }
+//                        }
+//                    }
+                }
+            }
+            
+        }
     }
 }
 

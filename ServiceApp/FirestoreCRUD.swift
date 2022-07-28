@@ -16,7 +16,7 @@ class FirestoreCRUD: ObservableObject {
     @Published var allFIRResults = [EventInformationModel]()
     
     init() {
-        getAllEvents()
+        //getAllEvents()
     }
     
     func getAllEvents() {
