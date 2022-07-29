@@ -156,9 +156,21 @@ struct MapListElements: View {
             }
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
-        .onAppear() {
-            queryBasedOnSearchParams();
+
+        .onChange(of: startEventDate) { _ in
+            
+            queryBasedOnSearchParams()
         }
+        .onChange(of: endEventDate) { _ in
+            queryBasedOnSearchParams()
+        }
+        .onChange(of: selectedRadius) { _ in
+            print("onchange 168")
+            queryBasedOnSearchParams()
+        }
+        
+        
+        
     }
     
     func sortByDate() {
@@ -180,18 +192,18 @@ struct MapListElements: View {
     }
     
     func queryBasedOnSearchParams() {
-        let latitude = (viewModel.locationManager?.location!.coordinate.latitude)!
-        let longitude = (viewModel.locationManager?.location!.coordinate.longitude)!
+        let latitude = (viewModel.region.center.latitude)
+        let longitude = (viewModel.region.center.longitude)
         
-        
+        print(latitude, longitude)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let startEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: startEventDate))
         let endEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: endEventDate))
 
-//        let radius: Double = ((selectedRadius == 0) ? 10 : (selectedRadius == 1) ? 20 : (selectedRadius == 2) : 40 ? (selectedRadius == 3) ? 60 : 100)
+        let radius: Double = ((selectedRadius == 0) ? 10 : (selectedRadius == 1) ? 20 : (selectedRadius == 2) ? 40 : (selectedRadius == 3) ? 60 : 100)
         
-        viewModel.updateQueriedEventsList(latitude: latitude, longitude: longitude, radiusInMi: 10, startEventDate: startEventDate!, endEventDate: endEventDate!)
+        viewModel.updateQueriedEventsList(latitude: latitude, longitude: longitude, radiusInMi: radius, startEventDate: startEventDate!, endEventDate: endEventDate!)
         
     }
 }

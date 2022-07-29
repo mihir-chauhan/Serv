@@ -57,7 +57,7 @@ struct MapView: View {
 }
 
 final class LocationTrackerViewModel: NSObject, ObservableObject {
-    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0.5, longitude: 0.5), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
     @Published var queriedEventsList = [EventInformationModel]()
     
     func updateQueriedEventsList(latitude: Double, longitude: Double, radiusInMi: Double, startEventDate: Date, endEventDate: Date) {
@@ -92,7 +92,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                         }
                         
                         for document in documents {
-                            print("NAMENAMENAME: \(document.data()["name"])")
+                            print("NAMENAMENAME: \(document.get("name"))")
                             
                             let id = document.documentID
                             let host = document.get("host") as? String ?? "Host unavailable"
