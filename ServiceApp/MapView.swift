@@ -55,7 +55,7 @@ struct MapView: View {
                 HalfSheetModalView()
             }
             .edgesIgnoringSafeArea(.all)
-            .onAppear {
+            .task {
                 print("APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;1")
                 viewModel.checkIfLocationServicesIsEnabled()
             }

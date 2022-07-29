@@ -126,7 +126,7 @@ struct EventDetailView: View {
         .padding([.top, .trailing, .leading])
         .padding(.bottom, 200)
         //        .simultaneousGesture(self.drag)
-        .onAppear {
+        .task {
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
             }

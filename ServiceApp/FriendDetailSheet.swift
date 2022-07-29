@@ -35,28 +35,21 @@ struct FriendDetailSheet: View {
                     Text(data.bio ?? "huhh no bio?").font(.system(.caption)).padding(5)
                     Spacer(minLength: 15)
                 }
-                
-                Text("Attending Upcoming Events").font(.headline).bold()
-                
-                    ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
-                        Text("\t \(event.name)")
-//                            dismiss()
-//                            clickOnEvent.toggle()
-//
-//                        }
-                            .padding(5)
-//                            .navigate(to: EventDetailView(data: event, sheetMode: self.$sheetObserver.sheetMode), when: $clickOnEvent)
-                    }
-                
-                
                 BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true)
 
-                PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false)
+//                PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false)
 
-                }.padding(10)
+                    Text("Attending Upcoming Events").font(.headline).bold()
+
+                        ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
+                            Text("\t \(event.name)")
+                                .padding(5)
+    //                            .navigate(to: EventDetailView(data: event, sheetMode: self.$sheetObserver.sheetMode), when: $clickOnEvent)
+                        }
+                }.padding(20)
             .navigationTitle(data.displayName ?? "SMITHY?")
             
-            .onAppear {
+            .task {
                 FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: "vPa8ksjZn2ht4Fvbt7YkqLCtIcX2") { events in
                     for event in events {
                         FirestoreCRUD().getSpecificEvent(eventID: event) { eventName in

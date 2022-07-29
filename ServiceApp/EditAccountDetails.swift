@@ -112,10 +112,10 @@ struct EditAccountDetails: View {
                     }
                 }
             }
-            .onAppear(perform: {
+            .task {
                 changeName = (viewModel.decodeUserInfo()?.displayName ?? "")
                 changeBio = (viewModel.decodeUserInfo()?.bio ?? "")
-            })
+            }
             
         }
     }

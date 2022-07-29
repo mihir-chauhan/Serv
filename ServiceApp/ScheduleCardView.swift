@@ -37,7 +37,7 @@ struct ScheduleCard: View {
             } label: {
                 if !self.viewRendered {
                     ProgressView().frame(width: 290, height: 250)
-                        .onAppear {
+                        .task {
                             FIRCloudImages.getImage(gsURL: data.images![0]) { image in
                                 self.placeHolderUIImage = image!
                                 self.viewRendered = true
@@ -79,7 +79,7 @@ struct ScheduleCard: View {
                             }
                         }
                     }
-                    .onAppear {
+                    .task {
                         FirebaseRealtimeDatabaseCRUD().checkIfEventExistsInUser(uuidString: user_uuid!, eventToCheck: data.FIRDocID!) { res in
                             switch res {
                             case true:
@@ -157,7 +157,7 @@ struct ScheduleCard: View {
                                         Spacer()
                                     }
                                     
-                                        .onAppear {
+                                        .task {
                                             if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
                                                 self.eventIsLive.toggle()
                                                 //                                            data.FIRDocID #error() //TODO: AHA

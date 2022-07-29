@@ -156,11 +156,7 @@ struct MapListElements: View {
             }
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
-//        .onAppear() {
-//            selectedRadius = viewModel.searchRadius
-//
-//            //invokes onChanged; maybe bad
-//        }
+
         .onChange(of: startEventDate) { _ in
                         
         }
@@ -223,7 +219,6 @@ struct ListCellView: View {
                 .font(.caption)
         }
     }
-    
 }
 
 struct CloseButton: View {

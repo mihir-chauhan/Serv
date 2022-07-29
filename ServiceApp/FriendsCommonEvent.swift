@@ -64,7 +64,7 @@ struct FriendsCommonEvent: View {
                     //                    .font(.system(.caption))
                     
                 }.padding([.bottom, .horizontal], 10)
-                    .onAppear {
+                    .task {
                         for friend in listOfFriendsWhoSignedUpForEvent {
                             FirebaseRealtimeDatabaseCRUD().getProfilePictureFromURL(uid: friend) { photoURL in
                                 print("DAY6", photoURL)
