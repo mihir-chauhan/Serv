@@ -62,10 +62,10 @@
             filePath = "ServiceApp/MapView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "getDocumentsCompletion(snapshot:error:)"
-            landmarkType = "9">
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "updateQueriedEventsList(latitude:longitude:radiusInMi:startEventDate:endEventDate:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

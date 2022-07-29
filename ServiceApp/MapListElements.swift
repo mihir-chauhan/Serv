@@ -52,42 +52,42 @@ struct MapListElements: View {
                         
                         Menu {
                             Button {
-                                selectedRadius = 10
+                                viewModel.searchRadius = 10
                             } label: {
                                 Text("~10 mi")
-                                if(selectedRadius == 10) {
+                                if(viewModel.searchRadius == 10) {
                                     Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 20
+                                viewModel.searchRadius = 20
                             } label: {
                                 Text("~20 mi")
-                                if(selectedRadius == 20) {
+                                if(viewModel.searchRadius == 20) {
                                     Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 40
+                                viewModel.searchRadius = 40
                             } label: {
                                 Text("~40 mi")
-                                if(selectedRadius == 40) {
+                                if(viewModel.searchRadius == 40) {
                                     Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 60
+                                viewModel.searchRadius = 60
                             } label: {
                                 Text("~60 mi")
-                                if(selectedRadius == 60) {
+                                if(viewModel.searchRadius == 60) {
                                     Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 100
+                                viewModel.searchRadius = 100
                             } label: {
                                 Text("~100 mi")
-                                if(selectedRadius == 100) {
+                                if(viewModel.searchRadius == 100) {
                                     Image(systemName: "checkmark.circle")
                                 }
                             }
@@ -155,7 +155,7 @@ struct MapListElements: View {
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
         .onAppear() {
-            selectedRadius = viewModel.searchRadius
+//            selectedRadius = viewModel.searchRadius
             
             //invokes onChanged; maybe bad
         }
