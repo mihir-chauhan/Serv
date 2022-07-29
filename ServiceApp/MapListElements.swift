@@ -241,22 +241,22 @@ struct MapListElements: View {
                 for document in querySnapshot!.documents {
                     
                     db.collection("EventTypes/\(document.documentID)/Events")
-                        .whereField("latitude",  isGreaterThan: lesserGeopoint.latitude  )
-                        .whereField("latitude",  isLessThan:    greaterGeopoint.latitude )
-                        .whereField("longitude", isGreaterThan: lesserGeopoint.longitude )
-                        .whereField("longitude", isLessThan:    greaterGeopoint.longitude).getDocuments() {
-                        (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                let dataDescription = document.data()["location"]
-                                print("\(document.documentID) => \(dataDescription)")
-
+                        .whereField("latitude",  isGreaterThanOrEqualTo: lesserGeopoint.latitude  )
+                        .whereField("latitude",  isLessThanOrEqualTo:    greaterGeopoint.latitude ).getDocuments() {
+//                        .whereField("longitude", isGreaterThanOrEqualTo: lesserGeopoint.longitude )
+//                        .whereField("longitude", isLessThanOrEqualTo:    greaterGeopoint.longitude).getDocuments() {
+                            (querySnapshot, err) in
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    let dataDescription = document.data()["location"]
+                                    print("\(document.documentID) => \(dataDescription)")
+                                    
+                                }
                             }
+                            
                         }
-                        
-                    }
                 }
             }
             
