@@ -28,7 +28,13 @@ struct ContentView: View {
                 }
             }
         }
-        
+        .onAppear {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let startEventDate: Date? = dateFormatter.date(from: "2022-07-15")
+            let endEventDate: Date? = dateFormatter.date(from: "2022-07-16")
+            FirestoreCRUD().sortGivenDateRange(startEventDate: startEventDate!, endEventDate: endEventDate!)
+        }
 
 
         .environmentObject(sheetObserver)

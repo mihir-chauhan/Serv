@@ -171,4 +171,27 @@ class FirestoreCRUD: ObservableObject {
                 }
         }
     }
+    
+    func sortGivenDateRange(startEventDate: Date, endEventDate: Date) {
+        db.collection("EventTypes").getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    self.db.collection("EventTypes/\(document.documentID)/Events")
+                        .whereField("time", isGreaterThan: startEventDate)
+                        .whereField("time", isLessThan: endEventDate)
+                        .getDocuments { snapshot, err in
+                            if let err = err {
+                                print(err.localizedDescription)
+                            } else {
+                                for i in snapshot!.documents {
+                                    print(i.documentID)
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    }
 }
