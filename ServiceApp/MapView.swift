@@ -25,9 +25,9 @@ struct MapView: View {
                         if pin.FIRDocID == "USER_LOCATION" {
                             ZStack {
                                 Circle()
-                                    //.foregroundColor(.blue).opacity(0.1)
-                                    .strokeBorder(Color.blue,lineWidth: 4)
-                                    .background(Circle().foregroundColor(Color.blue).opacity(0.1))
+                                    .foregroundColor(.blue).opacity(0.2)
+                                    //.strokeBorder(Color.blue,lineWidth: 4)
+                                    //.background(Circle().foregroundColor(Color.blue).opacity(0.1))
 
                             }
                             .frame(width: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8, height: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8)
@@ -126,7 +126,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                         }
                         
                         for document in documents {
-                            print("NAMENAMENAME: \(document.get("name"))")
+                            print("\(queriedEventsList.count) NAMENAMENAME: \(document.get("name"))")
                             
                             let id = document.documentID
                             let host = document.get("host") as? String ?? "Host unavailable"

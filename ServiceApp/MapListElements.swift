@@ -167,7 +167,7 @@ struct MapListElements: View {
         .onChange(of: endEventDate) { _ in
                         
         }
-        .onChange(of: selectedRadius) { _ in
+        .onChange(of: viewModel.searchRadius) { _ in
             queryBasedOnSearchParams()
         }
     }
