@@ -221,8 +221,6 @@ struct ListCellView: View {
             Spacer(minLength: 10)
             Text(String(format: "%.2f", distance) + " mi." + " | " + date)
                 .font(.caption)
-        }.onAppear {
-            viewModel.checkIfLocationServicesIsEnabled()
         }
     }
     
