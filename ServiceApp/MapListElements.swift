@@ -192,15 +192,32 @@ struct MapListElements: View {
     }
     
     func queryBasedOnSearchParams() {
-        let latitude = (viewModel.region.center.latitude)
-        let longitude = (viewModel.region.center.longitude)
+        
+        var locManager = CLLocationManager()
+        locManager.requestWhenInUseAuthorization()
+        
+        var currentLocation: CLLocation!
+        
+        if
+            CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+                CLLocationManager.authorizationStatus() ==  .authorizedAlways
+        {
+            currentLocation = locManager.location
+        }
+        else {
+            currentLocation = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude)
+        }
+        
+        
+        let latitude = (currentLocation.coordinate.latitude)
+        let longitude = (currentLocation.coordinate.longitude)
         
         print(latitude, longitude)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let startEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: startEventDate))
         let endEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: endEventDate))
-
+        
         let radius: Double = ((selectedRadius == 0) ? 10 : (selectedRadius == 1) ? 20 : (selectedRadius == 2) ? 40 : (selectedRadius == 3) ? 60 : 100)
         
         viewModel.updateQueriedEventsList(latitude: latitude, longitude: longitude, radiusInMi: radius, startEventDate: startEventDate!, endEventDate: endEventDate!)
