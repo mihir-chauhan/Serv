@@ -32,6 +32,7 @@ struct MapListElements: View {
                     HStack {
                         HStack {
                             TextField("Event Name", text: $searchTerm)
+                                
                             if !searchTerm.isEmpty {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(Color(.systemGray2))
@@ -43,6 +44,7 @@ struct MapListElements: View {
                             }
                             
                         }.padding(10)
+                            .foregroundColor(Color.primary)
                             .background(Color.white.opacity(0.5))
                             .cornerRadius(12)
                         
@@ -94,13 +96,13 @@ struct MapListElements: View {
                         } label: {
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.white.opacity(0.5))
                                 .overlay(
                                     Image(systemName: "arrow.left.and.right.circle")
                                         .renderingMode(.original)
                                         .resizable()
                                         .frame(width: 20, height: 20)
-                                        .foregroundColor(Color(.systemGray2))
+                                        .foregroundColor(Color.primary.opacity(0.7))
                                 )
                         }
                         
