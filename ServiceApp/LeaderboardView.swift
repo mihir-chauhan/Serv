@@ -32,8 +32,11 @@ struct LeaderboardView: View {
                                     .resizable()
                                     .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
                             } placeholder: {
-                                Color.gray
-                                    .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                                ZStack {
+                                    Color.gray
+                                        .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                                    ProgressView()
+                                }
                             }
                         }
                     }
@@ -66,8 +69,11 @@ struct LeaderboardView: View {
                                     .shadow(color: Color.black.opacity(0.2), radius: 10, x: -5, y: -5)
                                     .shadow(color: Color.white.opacity(0.7), radius: 10, x: 5, y: 5)
                             } placeholder: {
-                                Color.gray
-                                    .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                                ZStack {
+                                    Color.gray
+                                        .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                                    ProgressView()
+                                }
                             }
                         }
                         
@@ -96,8 +102,11 @@ struct LeaderboardView: View {
                                     .resizable()
                                     .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
                             } placeholder: {
-                                Color.gray
-                                    .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                                ZStack {
+                                    Color.gray
+                                        .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                                    ProgressView()
+                                }
                             }
                         }
                     }
