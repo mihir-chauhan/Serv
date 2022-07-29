@@ -16,7 +16,7 @@ struct MapListElements: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @State var searchTerm = ""
     @Binding var eventPresented: EventInformationModel
-    @StateObject var viewModel = LocationTrackerViewModel()
+    @EnvironmentObject var viewModel: LocationTrackerViewModel
     @State private var startEventDate = Date()
     @State private var endEventDate = Date().addingTimeInterval(86400 * 7)
     @State private var selectedRadius: Int = 0

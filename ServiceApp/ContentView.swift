@@ -10,6 +10,7 @@ import GoogleSignIn
 
 struct ContentView: View {
     @StateObject private var sheetObserver = SheetObserver()
+    @StateObject private var mapViewModel = LocationTrackerViewModel()
     @StateObject var viewModel = AuthViewModel()
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
     @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
@@ -38,6 +39,7 @@ struct ContentView: View {
 
 
         .environmentObject(sheetObserver)
+        .environmentObject(mapViewModel)
         .environmentObject(viewModel)
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue

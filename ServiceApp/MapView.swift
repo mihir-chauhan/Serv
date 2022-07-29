@@ -13,7 +13,7 @@ import FirebaseFirestore
 
 struct MapView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
-    @StateObject var viewModel = LocationTrackerViewModel()
+    @EnvironmentObject var viewModel: LocationTrackerViewModel
     @ObservedObject var results = FirestoreCRUD()
     @State var tracking: MapUserTrackingMode = .follow
     
