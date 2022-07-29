@@ -54,6 +54,8 @@
 		BEBAB0BD288E72330049F689 /* FormValidationSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */; };
 		BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */; };
 		BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */; };
+		BEBE4DA52893A4AF003A0CE9 /* GeoFire in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA42893A4AF003A0CE9 /* GeoFire */; };
+		BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */; };
 		BEC7640F288FAECC00F90651 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC7640E288FAECC00F90651 /* OnboardingManager.swift */; };
 		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
@@ -131,9 +133,11 @@
 				B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */,
 				BEB551CA27C1A820008ED810 /* FirebaseAuth in Frameworks */,
 				B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */,
+				BEBE4DA52893A4AF003A0CE9 /* GeoFire in Frameworks */,
 				B3DE1ADB27843C8200E06378 /* SwiftUICharts in Frameworks */,
 				BEB551D027C1A820008ED810 /* FirebaseStorage in Frameworks */,
 				BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */,
+				BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */,
 				BEB551CE27C1A820008ED810 /* FirebaseFirestore in Frameworks */,
 				BEB551D327C1AEB4008ED810 /* GoogleSignIn in Frameworks */,
 			);
@@ -297,6 +301,8 @@
 				BEB551CD27C1A820008ED810 /* FirebaseFirestore */,
 				BEB551CF27C1A820008ED810 /* FirebaseStorage */,
 				BEB551D227C1AEB4008ED810 /* GoogleSignIn */,
+				BEBE4DA42893A4AF003A0CE9 /* GeoFire */,
+				BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */,
 			);
 			productName = ServiceApp;
 			productReference = B3E6FCB7277C5870004DEE5B /* ServiceApp.app */;
@@ -332,6 +338,7 @@
 				BED38A7827A61D180080D5B9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				BEB551C827C1A820008ED810 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				BEB551D127C1AEB3008ED810 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				BEBE4DA32893A4AF003A0CE9 /* XCRemoteSwiftPackageReference "geofire-objc" */,
 			);
 			productRefGroup = B3E6FCB8277C5870004DEE5B /* Products */;
 			projectDirPath = "";
@@ -662,6 +669,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		BEBE4DA32893A4AF003A0CE9 /* XCRemoteSwiftPackageReference "geofire-objc" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/geofire-objc";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		BED38A7827A61D180080D5B9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -707,6 +722,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BEB551D127C1AEB3008ED810 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		BEBE4DA42893A4AF003A0CE9 /* GeoFire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BEBE4DA32893A4AF003A0CE9 /* XCRemoteSwiftPackageReference "geofire-objc" */;
+			productName = GeoFire;
+		};
+		BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BEBE4DA32893A4AF003A0CE9 /* XCRemoteSwiftPackageReference "geofire-objc" */;
+			productName = GeoFireUtils;
 		};
 		BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
