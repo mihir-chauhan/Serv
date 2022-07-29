@@ -126,7 +126,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                         }
                         
                         for document in documents {
-                            print("\(queriedEventsList.count) NAMENAMENAME: \(document.get("name"))")
+                            print("\(mapAnnotationsList.count) NAMENAMENAME: \(document.get("name"))")
                             
                             let id = document.documentID
                             let host = document.get("host") as? String ?? "Host unavailable"
