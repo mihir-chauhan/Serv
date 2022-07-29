@@ -87,11 +87,12 @@ class FirebaseRealtimeDatabaseCRUD {
     }
     
     func checkIfUserExists(uuidString: String, completion: @escaping (Bool) -> ()) {
-        ref.child(uuidString).observeSingleEvent(of: .value) { (snapshot) in
+        ref.root.child("\(uuidString)").observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
                 completion(true)
-            }
+            } else {
             completion(false)
+            }
         }
     }
     
