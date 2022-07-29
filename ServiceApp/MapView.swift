@@ -97,19 +97,6 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             else
             {
                 self.queriedEventsList = [EventInformationModel]()
-                self.mapAnnotationsList = [EventInformationModel]()
-                
-                self.mapAnnotationsList.append(EventInformationModel(
-                    FIRDocID: "USER_LOCATION",
-                    name: "",
-                    host: "",
-                    ein: "",
-                    category: "",
-                    time: Date(),
-                    images: [""],
-                    coordinate: (locationManager?.location!.coordinate)!,
-                    description: "description"
-                ))
                 
                 for eventTypesDocument in querySnapshot!.documents {
                     let queries = queryBounds.map { bound -> Query in
@@ -149,24 +136,12 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                                 coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
                                 description: description
                             ))
-                            
-                            self.mapAnnotationsList.append(EventInformationModel(
-                                FIRDocID: id,
-                                name: name,
-                                host: host,
-                                ein: ein,
-                                category: eventTypesDocument.documentID,
-                                time: time?.dateValue() ?? Date(),
-                                images: imageURL,
-                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
-                                description: description
-                            ))
                         }
                         
                         queriedEventsList.sort {
                             $0.time < $1.time
                         }
-
+                        applyDateRangeFilters(startRange: startEventDate, endRange: endEventDate)
                     }
                     
                     // After all callbacks have executed, matchingDocs contains the result. Note that this
@@ -180,6 +155,29 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         }
     }
     
+    func applyDateRangeFilters(startRange: Date, endRange: Date) {
+        print("11100   \(startRange) to \(endRange)")
+        print("11111   \(queriedEventsList.count)")
+        let range = startRange...endRange
+        self.mapAnnotationsList = queriedEventsList.filter({ range.contains($0.time) })
+        self.filteredEventsList = queriedEventsList.filter({ range.contains($0.time) })
+        print("11122   \(queriedEventsList.count)")
+        print("11133   \(mapAnnotationsList.count)")
+
+        
+        self.mapAnnotationsList.insert(EventInformationModel(
+            FIRDocID: "USER_LOCATION",
+            name: "",
+            host: "",
+            ein: "",
+            category: "",
+            time: Date(),
+            images: [""],
+            coordinate: (locationManager?.location!.coordinate)!,
+            description: "description"
+        ), at: 0)
+    }
+    
     var locationManager: CLLocationManager?
     func checkIfLocationServicesIsEnabled() {
         if CLLocationManager.locationServicesEnabled() {
@@ -188,12 +186,13 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             locationManager?.delegate = self
             guard let locationManager = locationManager else { return }
             checkLocationAuthorization()
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            let startEventDate: Date? = dateFormatter.date(from: "2022-07-15")
-            let endEventDate: Date? = dateFormatter.date(from: "2022-07-16")
-            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, radiusInMi: 10, startEventDate: startEventDate!, endEventDate: endEventDate!)
-
+            
+            let startEventDate: Date = Date()
+            let endEventDate: Date = Date().addingTimeInterval(86400 * 7)
+            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
         } else {
             
         }

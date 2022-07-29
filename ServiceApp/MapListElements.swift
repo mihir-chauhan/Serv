@@ -127,7 +127,7 @@ struct MapListElements: View {
                 }
                 
                 if self.searchTerm.isEmpty {
-                    List(viewModel.queriedEventsList) { event in
+                    List(viewModel.filteredEventsList) { event in
                         Button(action: {
                             withAnimation(.spring()) {
                                 self.sheetObserver.eventDetailData = event
@@ -140,7 +140,7 @@ struct MapListElements: View {
                     }.padding(.bottom, 130)
                 }
                 else {
-                    List(viewModel.queriedEventsList.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
+                    List(viewModel.filteredEventsList.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
                         
                         Button(action: {
                             withAnimation(.spring()) {
@@ -158,31 +158,41 @@ struct MapListElements: View {
         }
 
         .onChange(of: startEventDate) { _ in
-                        
+            updateDateFilter()
         }
         .onChange(of: endEventDate) { _ in
-                        
+            updateDateFilter()
         }
         .onChange(of: viewModel.searchRadius) { _ in
             queryBasedOnSearchParams()
         }
     }
     func sortByDistance() {
-        self.viewModel.queriedEventsList.sort {
+        self.viewModel.filteredEventsList.sort {
             let userCoordinate = CLLocation(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!)
             let distanceBetweenTwoPoints1 = CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)
             let distanceBetweenTwoPoints2 = CLLocation(latitude: $1.coordinate.latitude, longitude: $1.coordinate.longitude)
             
-            self.viewModel.queriedEventsList.sort(by: { _,_ in distanceBetweenTwoPoints1.distance(from: userCoordinate) < distanceBetweenTwoPoints2.distance(from: userCoordinate) })
+            self.viewModel.filteredEventsList.sort(by: { _,_ in distanceBetweenTwoPoints1.distance(from: userCoordinate) < distanceBetweenTwoPoints2.distance(from: userCoordinate) })
             
             return true
         }
         
     }
     
+    func updateDateFilter() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        viewModel.applyDateRangeFilters(startRange: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endRange: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
+    }
+
+    
     func queryBasedOnSearchParams() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        print("start: \(startEventDate) and \((dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!)")
         
         viewModel.updateQueriedEventsList(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!, radiusInMi: viewModel.searchRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
     }
@@ -194,11 +204,6 @@ struct ListCellView: View {
     
     var distance: CLLocationDistance {
         get {
-            let eventCoordinate = CLLocation(latitude: event.coordinate.latitude, longitude: event.coordinate.longitude)
-            let userCoordinate = CLLocation(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!)
-            let distanceBetweenTwoPoints = eventCoordinate.distance(from: userCoordinate)
-            
-            let distanceInMiles = distanceBetweenTwoPoints/1609.344
             return (CLLocation(latitude: event.coordinate.latitude, longitude: event.coordinate.longitude).distance(from: CLLocation(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!))/1609.344)
         }
     }
