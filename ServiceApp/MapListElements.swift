@@ -154,11 +154,11 @@ struct MapListElements: View {
             }
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
-        .onAppear() {
+//        .onAppear() {
 //            selectedRadius = viewModel.searchRadius
-            
-            //invokes onChanged; maybe bad
-        }
+//
+//            //invokes onChanged; maybe bad
+//        }
         .onChange(of: startEventDate) { _ in
                         
         }
@@ -186,7 +186,7 @@ struct MapListElements: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        viewModel.updateQueriedEventsList(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude, radiusInMi: selectedRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
+        viewModel.updateQueriedEventsList(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude, radiusInMi: viewModel.searchRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
     }
 }
 
