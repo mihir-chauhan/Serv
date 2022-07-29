@@ -8,6 +8,8 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import GeoFireUtils
+import FirebaseFirestore
 
 struct MapView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
@@ -17,7 +19,7 @@ struct MapView: View {
     
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: results.allFIRResults) { pin in
+            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: viewModel.queriedEventsList) { pin in
                 MapAnnotation(coordinate: pin.coordinate) {
                     Button(action: {
                         withAnimation(.spring()) {
@@ -56,6 +58,80 @@ struct MapView: View {
 
 final class LocationTrackerViewModel: NSObject, ObservableObject {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+    @Published var queriedEventsList = [EventInformationModel]()
+    
+    func updateQueriedEventsList(latitude: Double, longitude: Double, radiusInMi: Double, startEventDate: Date, endEventDate: Date) {
+        let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let radiusInM: Double = radiusInMi * 1609.34
+        
+        let queryBounds = GFUtils.queryBounds(forLocation: center,
+                                              withRadius: radiusInM)
+        
+        let db = Firestore.firestore()
+        
+        db.collection("EventTypes").getDocuments() { (querySnapshot, err) in
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+            }
+            else
+            {
+                self.queriedEventsList = [EventInformationModel]()
+                for eventTypesDocument in querySnapshot!.documents {
+                    let queries = queryBounds.map { bound -> Query in
+                        return db.collection("EventTypes/\(eventTypesDocument.documentID)/Events")
+                            .order(by: "geohash")
+                            .start(at: [bound.startValue])
+                            .end(at: [bound.endValue])
+                    }
+                    
+                    func getDocumentsCompletion(snapshot: QuerySnapshot?, error: Error?) -> () {
+                        guard let documents = snapshot?.documents else {
+                            print("Unable to fetch snapshot data. \(String(describing: error))")
+                            return
+                        }
+                        
+                        for document in documents {
+                            print("NAMENAMENAME: \(document.data()["name"])")
+                            
+                            let id = document.documentID
+                            let host = document.get("host") as? String ?? "Host unavailable"
+                            let ein = document.get("ein") as? String ?? "No valid ein"
+                            let name = document.get("name") as? String ?? "no name"
+                            let description = document.get("description") as? String ?? "No description!"
+                            _ = document.get("attendees") as? [String] ?? [String]()
+                            let time = document.get("time") as? Timestamp
+                            let imageURL = document.get("images") as? [String] ?? [String]()
+                            let location = document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
+                            
+                            self.queriedEventsList.append(EventInformationModel(
+                                FIRDocID: id,
+                                name: name,
+                                host: host,
+                                ein: ein,
+                                category: eventTypesDocument.documentID,
+                                time: time?.dateValue() ?? Date(),
+                                images: imageURL,
+                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
+                                description: description
+                                
+                            ))
+                            
+                            
+                        }
+                    }
+                    
+                    // After all callbacks have executed, matchingDocs contains the result. Note that this
+                    // sample does not demonstrate how to wait on all callbacks to complete.
+                    for query in queries {
+                        query.getDocuments(completion: getDocumentsCompletion)
+                    }
+                }
+            }
+            
+        }
+    }
+    
     var locationManager: CLLocationManager?
     func checkIfLocationServicesIsEnabled() {
         if CLLocationManager.locationServicesEnabled() {
@@ -69,7 +145,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
     }
     
     private func checkLocationAuthorization() {
-//        if locationManager is not nil, proceed. Otherwise, early exit out of function
+        //        if locationManager is not nil, proceed. Otherwise, early exit out of function
         guard let locationManager = locationManager else { return }
         
         switch locationManager.authorizationStatus {
@@ -92,9 +168,9 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
 extension LocationTrackerViewModel: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last
-            else { return }
+        else { return }
         DispatchQueue.main.async {
-            self.checkLocationAuthorization()            
+            self.checkLocationAuthorization()
         }
     }
 }

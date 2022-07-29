@@ -10,6 +10,7 @@ import CoreLocation
 import MapKit
 import Combine
 import FirebaseFirestore
+import GeoFireUtils
 
 struct MapListElements: View {
     @EnvironmentObject var sheetObserver: SheetObserver
@@ -179,88 +180,19 @@ struct MapListElements: View {
     }
     
     func queryBasedOnSearchParams() {
-        let db = Firestore.firestore()
+        let latitude = (viewModel.locationManager?.location!.coordinate.latitude)!
+        let longitude = (viewModel.locationManager?.location!.coordinate.longitude)!
         
-        let formatter = DateFormatter()
+        
         let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let startEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: startEventDate))
+        let endEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: endEventDate))
 
-        formatter.dateFormat = "MMMM d, yyyy HH:mm:ss"
-
-        let startTime: Date = formatter.date(from: dateFormatter.string(from: startEventDate)) ?? Date(timeIntervalSince1970: 0)
-        let startTimestamp: Timestamp = Timestamp(date: startTime)
-
-        let endTime: Date = formatter.date(from: dateFormatter.string(from: endEventDate)) ?? Date()
-        let endTimestamp: Timestamp = Timestamp(date: endTime)
-
+//        let radius: Double = ((selectedRadius == 0) ? 10 : (selectedRadius == 1) ? 20 : (selectedRadius == 2) : 40 ? (selectedRadius == 3) ? 60 : 100)
         
-        let distance = 3.0
+        viewModel.updateQueriedEventsList(latitude: latitude, longitude: longitude, radiusInMi: 10, startEventDate: startEventDate!, endEventDate: endEventDate!)
         
-        var locManager = CLLocationManager()
-        locManager.requestWhenInUseAuthorization()
-
-        var currentLocation: CLLocation!
-        
-        if
-           CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-           CLLocationManager.authorizationStatus() ==  .authorizedAlways
-        {
-            currentLocation = locManager.location
-        }
-        else {
-            currentLocation = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude)
-        }
-
-        
-        let latitude = currentLocation.coordinate.latitude
-        let longitude = currentLocation.coordinate.longitude
-
-        let lat = 0.0144927536231884
-        let lon = 0.0181818181818182
-
-        let lowerLat = latitude - (lat * distance)
-        let lowerLon = longitude - (lon * distance)
-
-        let greaterLat = latitude + (lat * distance)
-        let greaterLon = longitude + (lon * distance)
-
-        let lesserGeopoint = GeoPoint(latitude: lowerLat, longitude: lowerLon)
-        let greaterGeopoint = GeoPoint(latitude: greaterLat, longitude: greaterLon)
-        
-        print(GeoPoint(latitude: latitude, longitude: longitude))
-        
-        print(lesserGeopoint)
-        print(greaterGeopoint)
-        
-        db.collection("EventTypes").getDocuments() { (querySnapshot, err) in
-            if let err = err
-            {
-                print("Error getting documents: \(err)");
-            }
-            else
-            {
-                for document in querySnapshot!.documents {
-                    
-                    db.collection("EventTypes/\(document.documentID)/Events")
-                        .whereField("latitude",  isGreaterThanOrEqualTo: lesserGeopoint.latitude  )
-                        .whereField("latitude",  isLessThanOrEqualTo:    greaterGeopoint.latitude ).getDocuments() {
-//                        .whereField("longitude", isGreaterThanOrEqualTo: lesserGeopoint.longitude )
-//                        .whereField("longitude", isLessThanOrEqualTo:    greaterGeopoint.longitude).getDocuments() {
-                            (querySnapshot, err) in
-                            if let err = err {
-                                print("Error getting documents: \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    let dataDescription = document.data()["location"]
-                                    print("\(document.documentID) => \(dataDescription)")
-                                    
-                                }
-                            }
-                            
-                        }
-                }
-            }
-            
-        }
     }
 }
 
