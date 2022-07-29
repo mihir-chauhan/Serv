@@ -192,8 +192,44 @@ struct MapListElements: View {
         let endTime: Date = formatter.date(from: dateFormatter.string(from: endEventDate)) ?? Date()
         let endTimestamp: Timestamp = Timestamp(date: endTime)
 
-        print(Date())
         
+        let distance = 3.0
+        
+        var locManager = CLLocationManager()
+        locManager.requestWhenInUseAuthorization()
+
+        var currentLocation: CLLocation!
+        
+        if
+           CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+           CLLocationManager.authorizationStatus() ==  .authorizedAlways
+        {
+            currentLocation = locManager.location
+        }
+        else {
+            currentLocation = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude)
+        }
+
+        
+        let latitude = currentLocation.coordinate.latitude
+        let longitude = currentLocation.coordinate.longitude
+
+        let lat = 0.0144927536231884
+        let lon = 0.0181818181818182
+
+        let lowerLat = latitude - (lat * distance)
+        let lowerLon = longitude - (lon * distance)
+
+        let greaterLat = latitude + (lat * distance)
+        let greaterLon = longitude + (lon * distance)
+
+        let lesserGeopoint = GeoPoint(latitude: lowerLat, longitude: lowerLon)
+        let greaterGeopoint = GeoPoint(latitude: greaterLat, longitude: greaterLon)
+        
+        print(GeoPoint(latitude: latitude, longitude: longitude))
+        
+        print(lesserGeopoint)
+        print(greaterGeopoint)
         
         db.collection("EventTypes").getDocuments() { (querySnapshot, err) in
             if let err = err
@@ -204,29 +240,19 @@ struct MapListElements: View {
             {
                 for document in querySnapshot!.documents {
                     
-                    print("122121: " + "EventTypes/\(document.documentID)/Events" + ":: \(startEventDate))")
-                    let eventRef = db.collection("EventTypes/\(document.documentID)/Events").whereField("date", isGreaterThan: dateFormatter.string(from: startEventDate)).getDocuments() {
+                    db.collection("EventTypes/\(document.documentID)/Events").whereField("location", isGreaterThan: lesserGeopoint).whereField("location", isLessThan: greaterGeopoint).getDocuments() {
                         (querySnapshot, err) in
-//                        if let err = err {
+                        if let err = err {
                             print("Error getting documents: \(err)")
-//                        } else {
+                        } else {
                             for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
+                                let dataDescription = document.data()["location"]
+                                print("\(document.documentID) => \(dataDescription)")
+
                             }
-//                        }
+                        }
                         
                     }
-//                    let query = eventRef.order(by: "date", descending: false)//.whereField("date", isGreaterThan: start)//.whereField("date", isLessThan: end)
-//                    query.getDocuments { snapshot, error in
-//                        print("docunebts: \(snapshot!.count)")
-//                        if let error = error {
-//                            print("Error getting documents: \(error)")
-//                        } else {
-//                            for document in snapshot!.documents {
-//                                print("heellolo  \(document.documentID) => \(document.data())")
-//                            }
-//                        }
-//                    }
                 }
             }
             
