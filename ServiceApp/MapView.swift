@@ -78,7 +78,9 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
     @Published var filteredEventsList = [EventInformationModel]()
     @Published var mapAnnotationsList = [EventInformationModel]()
     @Published var searchRadius = 10.0
-    
+    @Published var startRangeDate = Date()
+    @Published var endRangeDate = Date().addingTimeInterval(86400 * 7)
+
     func updateQueriedEventsList(latitude: Double, longitude: Double, radiusInMi: Double, startEventDate: Date, endEventDate: Date) {
         searchRadius = radiusInMi
         let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -156,9 +158,11 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
     }
     
     func applyDateRangeFilters(startRange: Date, endRange: Date) {
+        startRangeDate = startRange
+        endRangeDate = endRange
         print("11100   \(startRange) to \(endRange)")
         print("11111   \(queriedEventsList.count)")
-        let range = startRange...endRange
+        let range = startRange...endRange.addingTimeInterval(86400)
         self.mapAnnotationsList = queriedEventsList.filter({ range.contains($0.time) })
         self.filteredEventsList = queriedEventsList.filter({ range.contains($0.time) })
         print("11122   \(queriedEventsList.count)")
@@ -190,9 +194,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            let startEventDate: Date = Date()
-            let endEventDate: Date = Date().addingTimeInterval(86400 * 7)
-            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
+            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!)
         } else {
             
         }

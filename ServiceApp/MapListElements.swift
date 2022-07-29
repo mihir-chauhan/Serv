@@ -17,9 +17,6 @@ struct MapListElements: View {
     @State var searchTerm = ""
     @Binding var eventPresented: EventInformationModel
     @EnvironmentObject var viewModel: LocationTrackerViewModel
-    @State private var startEventDate = Date()
-    @State private var endEventDate = Date().addingTimeInterval(86400 * 7)
-    @State private var selectedRadius: Double = 10.0
     
     var body: some View {
         ZStack {
@@ -111,18 +108,18 @@ struct MapListElements: View {
                         .padding(.horizontal, 20)
                     
                     HStack {
-                        DatePicker("Start", selection: $startEventDate, in: Date()..., displayedComponents: [.date])
+                        DatePicker("Start", selection: $viewModel.startRangeDate, in: Date()...viewModel.endRangeDate.addingTimeInterval(-86400), displayedComponents: [.date])
                             .labelsHidden()
-                            .id(UUID().uuidString)
+                            //.id(UUID().uuidString)
                         
                         Spacer()
                             .frame(width: 7)
                         Text("to")
                         Spacer()
                             .frame(width: 7)
-                        DatePicker("End", selection: $endEventDate, in: startEventDate.addingTimeInterval(86400)..., displayedComponents: [.date])
+                        DatePicker("End", selection: $viewModel.endRangeDate, in: viewModel.startRangeDate.addingTimeInterval(86400)..., displayedComponents: [.date])
                             .labelsHidden()
-                            .id(UUID().uuidString)
+                            //.id(UUID().uuidString)
                     }
                 }
                 
@@ -157,10 +154,10 @@ struct MapListElements: View {
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
 
-        .onChange(of: startEventDate) { _ in
+        .onChange(of: viewModel.startRangeDate) { _ in
             updateDateFilter()
         }
-        .onChange(of: endEventDate) { _ in
+        .onChange(of: viewModel.endRangeDate) { _ in
             updateDateFilter()
         }
         .onChange(of: viewModel.searchRadius) { _ in
@@ -184,17 +181,15 @@ struct MapListElements: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        viewModel.applyDateRangeFilters(startRange: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endRange: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
+        viewModel.applyDateRangeFilters(startRange: (dateFormatter.date(from: dateFormatter.string(from: viewModel.startRangeDate)))!, endRange: (dateFormatter.date(from: dateFormatter.string(from: viewModel.endRangeDate)))!)
     }
 
     
     func queryBasedOnSearchParams() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        print("start: \(startEventDate) and \((dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!)")
-        
-        viewModel.updateQueriedEventsList(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!, radiusInMi: viewModel.searchRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
+                
+        viewModel.updateQueriedEventsList(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!, radiusInMi: viewModel.searchRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.endRangeDate)))!)
     }
 }
 
