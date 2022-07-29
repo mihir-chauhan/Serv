@@ -20,6 +20,8 @@
 		B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B339FBB5278F53D200545F0E /* CloudKit.framework */; };
 		B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */; };
 		B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */; };
+		B36C7DF728935F1D009FC23E /* GeohashBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36C7DF628935F1D009FC23E /* GeohashBox.swift */; };
+		B36C7DF928935F35009FC23E /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36C7DF828935F35009FC23E /* Geohash.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
 		B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */; };
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
@@ -80,6 +82,8 @@
 		B339FBB5278F53D200545F0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseCRUD.swift; sourceTree = "<group>"; };
 		B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreCRUD.swift; sourceTree = "<group>"; };
+		B36C7DF628935F1D009FC23E /* GeohashBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeohashBox.swift; sourceTree = "<group>"; };
+		B36C7DF828935F35009FC23E /* Geohash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
 		B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailModal.swift; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				B3E6FCD4277C59E2004DEE5B /* MapListElements.swift */,
 				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
 				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
+				B36C7DF628935F1D009FC23E /* GeohashBox.swift */,
+				B36C7DF828935F35009FC23E /* Geohash.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -373,6 +379,7 @@
 				399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */,
 				B333369E27819C59007E9482 /* FriendCardView.swift in Sources */,
 				B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */,
+				B36C7DF728935F1D009FC23E /* GeohashBox.swift in Sources */,
 				F4496577280151490068A497 /* AccountLoginView.swift in Sources */,
 				BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */,
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
@@ -386,6 +393,7 @@
 				39982F84278421AB002D0F5F /* LeaderboardView.swift in Sources */,
 				BEC7640F288FAECC00F90651 /* OnboardingManager.swift in Sources */,
 				B3E6FCCF277C5972004DEE5B /* EventDetailView.swift in Sources */,
+				B36C7DF928935F35009FC23E /* Geohash.swift in Sources */,
 				B3DE1ADD278443AE00E06378 /* FriendsCommonEvent.swift in Sources */,
 				F426FA3827B43E8C00899C4B /* ConfirmNewFriend.swift in Sources */,
 				B3E6FCD9277C5A0B004DEE5B /* MapListHalfSheet.swift in Sources */,

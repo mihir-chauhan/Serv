@@ -240,7 +240,11 @@ struct MapListElements: View {
             {
                 for document in querySnapshot!.documents {
                     
-                    db.collection("EventTypes/\(document.documentID)/Events").whereField("location", isGreaterThan: lesserGeopoint).whereField("location", isLessThan: greaterGeopoint).getDocuments() {
+                    db.collection("EventTypes/\(document.documentID)/Events")
+                        .whereField("latitude",  isGreaterThan: lesserGeopoint.latitude  )
+                        .whereField("latitude",  isLessThan:    greaterGeopoint.latitude )
+                        .whereField("longitude", isGreaterThan: lesserGeopoint.longitude )
+                        .whereField("longitude", isLessThan:    greaterGeopoint.longitude).getDocuments() {
                         (querySnapshot, err) in
                         if let err = err {
                             print("Error getting documents: \(err)")
