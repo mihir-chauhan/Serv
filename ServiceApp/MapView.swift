@@ -18,49 +18,69 @@ struct MapView: View {
     @State var tracking: MapUserTrackingMode = .follow
     
     var body: some View {
-        ZStack {
-            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: viewModel.queriedEventsList) { pin in
-                MapAnnotation(coordinate: pin.coordinate) {
-                    Button(action: {
-                        withAnimation(.spring()) {
-                            self.sheetObserver.sheetMode = .half
-                            self.sheetObserver.eventDetailData = pin
-                            self.viewModel.region = MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+        GeometryReader { geo in
+            ZStack {
+                Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: viewModel.mapAnnotationsList) { pin in
+                    MapAnnotation(coordinate: pin.coordinate) {
+                        if pin.FIRDocID == "USER_LOCATION" {
+                            ZStack {
+                                Circle()
+                                    //.foregroundColor(.blue).opacity(0.1)
+                                    .strokeBorder(Color.blue,lineWidth: 4)
+                                    .background(Circle().foregroundColor(Color.blue).opacity(0.1))
+
+                            }
+                            .frame(width: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8, height: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8)
+                            
+                        } else {
+                            Button(action: {
+                                withAnimation(.spring()) {
+                                    self.sheetObserver.sheetMode = .half
+                                    self.sheetObserver.eventDetailData = pin
+                                    self.viewModel.region = MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+                                }
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .foregroundColor(.white)
+                                    Image(systemName: "mappin.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(Color(#colorLiteral(red: 1, green: 0.2941176471, blue: 0.3098039216, alpha: 1)))
+                                }.frame(width: 25, height: 25)
+                                
+                            }
                         }
-                    }) {
-                        ZStack {
-                            Circle()
-                                .foregroundColor(.white)
-                            Image(systemName: "mappin.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color(#colorLiteral(red: 1, green: 0.2941176471, blue: 0.3098039216, alpha: 1)))
-                        }.frame(width: 25, height: 25)
-                        
                     }
                 }
+                HalfSheetModalView()
             }
-            HalfSheetModalView()
-        }
-        .edgesIgnoringSafeArea(.all)
-        .onAppear {
-            viewModel.checkIfLocationServicesIsEnabled()
-        }
-        .onChange(of: self.sheetObserver.eventDetailData) { newValue in
-            withAnimation {
-                self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: newValue.coordinate.latitude - 0.02, longitude: newValue.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+            .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                print("APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;1")
+                viewModel.checkIfLocationServicesIsEnabled()
             }
-        }
-        .onDisappear {
-            self.sheetObserver.sheetMode = .quarter
+            .onChange(of: self.sheetObserver.eventDetailData) { newValue in
+                withAnimation {
+                    self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: newValue.coordinate.latitude - 0.02, longitude: newValue.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+                }
+            }
+            .onDisappear {
+                self.sheetObserver.sheetMode = .quarter
+            }
         }
     }
 }
 
 final class LocationTrackerViewModel: NSObject, ObservableObject {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0.5, longitude: 0.5), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
-    @Published var queriedEventsList = [EventInformationModel]()
+    @Published var queriedEventsList = [EventInformationModel]() // used as basis for filtered events since this should be untouched and copied to filtered
+    
+    @Published var filteredEventsList = [EventInformationModel]()
+    @Published var mapAnnotationsList = [EventInformationModel]()
+    @Published var searchRadius = 10.0
     
     func updateQueriedEventsList(latitude: Double, longitude: Double, radiusInMi: Double, startEventDate: Date, endEventDate: Date) {
+        searchRadius = radiusInMi
         let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let radiusInM: Double = radiusInMi * 1609.34
         
@@ -69,7 +89,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         
         let db = Firestore.firestore()
         
-        db.collection("EventTypes").getDocuments() { (querySnapshot, err) in
+        db.collection("EventTypes").getDocuments() { [self] (querySnapshot, err) in
             if let err = err
             {
                 print("Error getting documents: \(err)");
@@ -77,6 +97,20 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             else
             {
                 self.queriedEventsList = [EventInformationModel]()
+                self.mapAnnotationsList = [EventInformationModel]()
+                
+                self.mapAnnotationsList.append(EventInformationModel(
+                    FIRDocID: "USER_LOCATION",
+                    name: "",
+                    host: "",
+                    ein: "",
+                    category: "",
+                    time: Date(),
+                    images: [""],
+                    coordinate: (locationManager?.location!.coordinate)!,
+                    description: "description"
+                ))
+                
                 for eventTypesDocument in querySnapshot!.documents {
                     let queries = queryBounds.map { bound -> Query in
                         return db.collection("EventTypes/\(eventTypesDocument.documentID)/Events")
@@ -114,11 +148,25 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                                 images: imageURL,
                                 coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
                                 description: description
-                                
                             ))
                             
-                            
+                            self.mapAnnotationsList.append(EventInformationModel(
+                                FIRDocID: id,
+                                name: name,
+                                host: host,
+                                ein: ein,
+                                category: eventTypesDocument.documentID,
+                                time: time?.dateValue() ?? Date(),
+                                images: imageURL,
+                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
+                                description: description
+                            ))
                         }
+                        
+                        queriedEventsList.sort {
+                            $0.time < $1.time
+                        }
+
                     }
                     
                     // After all callbacks have executed, matchingDocs contains the result. Note that this
@@ -138,7 +186,14 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             locationManager = CLLocationManager()
             locationManager?.desiredAccuracy = kCLLocationAccuracyBest
             locationManager?.delegate = self
+            guard let locationManager = locationManager else { return }
             checkLocationAuthorization()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let startEventDate: Date? = dateFormatter.date(from: "2022-07-15")
+            let endEventDate: Date? = dateFormatter.date(from: "2022-07-16")
+            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, radiusInMi: 10, startEventDate: startEventDate!, endEventDate: endEventDate!)
+
         } else {
             
         }

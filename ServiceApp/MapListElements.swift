@@ -19,8 +19,7 @@ struct MapListElements: View {
     @EnvironmentObject var viewModel: LocationTrackerViewModel
     @State private var startEventDate = Date()
     @State private var endEventDate = Date().addingTimeInterval(86400 * 7)
-    @State private var selectedRadius: Int = 0
-    @State private var searchResults = [EventInformationModel]()
+    @State private var selectedRadius: Double = 10.0
     
     var body: some View {
         ZStack {
@@ -53,43 +52,43 @@ struct MapListElements: View {
                         
                         Menu {
                             Button {
-                                selectedRadius = 0
+                                selectedRadius = 10
                             } label: {
-                                Text("10 mi")
-                                if(selectedRadius == 0) {
-                                    Image(systemName: "checkmark")
+                                Text("~10 mi")
+                                if(selectedRadius == 10) {
+                                    Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 1
+                                selectedRadius = 20
                             } label: {
-                                Text("20 mi")
-                                if(selectedRadius == 1) {
-                                    Image(systemName: "checkmark")
+                                Text("~20 mi")
+                                if(selectedRadius == 20) {
+                                    Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 2
+                                selectedRadius = 40
                             } label: {
-                                Text("40 mi")
-                                if(selectedRadius == 2) {
-                                    Image(systemName: "checkmark")
+                                Text("~40 mi")
+                                if(selectedRadius == 40) {
+                                    Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 3
+                                selectedRadius = 60
                             } label: {
-                                Text("60 mi")
-                                if(selectedRadius == 3) {
-                                    Image(systemName: "checkmark")
+                                Text("~60 mi")
+                                if(selectedRadius == 60) {
+                                    Image(systemName: "checkmark.circle")
                                 }
                             }
                             Button {
-                                selectedRadius = 4
+                                selectedRadius = 100
                             } label: {
-                                Text("100 mi")
-                                if(selectedRadius == 4) {
-                                    Image(systemName: "checkmark")
+                                Text("~100 mi")
+                                if(selectedRadius == 100) {
+                                    Image(systemName: "checkmark.circle")
                                 }
                             }
                         } label: {
@@ -126,7 +125,7 @@ struct MapListElements: View {
                 }
                 
                 if self.searchTerm.isEmpty {
-                    List(searchResults) { event in
+                    List(viewModel.queriedEventsList) { event in
                         Button(action: {
                             withAnimation(.spring()) {
                                 self.sheetObserver.eventDetailData = event
@@ -136,11 +135,10 @@ struct MapListElements: View {
                             ListCellView(event: event)
                             
                         }.padding(.vertical)
-                    }.padding(.vertical)
+                    }.padding(.bottom, 130)
                 }
                 else {
-                    //                    List(results.allFIRResults.filter({(CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude).distance(from: CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude))/1609.344) <= CGFloat(Int(searchTerm)!)})) { event in
-                    List(searchResults.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
+                    List(viewModel.queriedEventsList.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
                         
                         Button(action: {
                             withAnimation(.spring()) {
@@ -151,40 +149,33 @@ struct MapListElements: View {
                             ListCellView(event: event)
                             
                         }.padding(.vertical)
-                    }.padding(.vertical)
+                    }.padding(.bottom, 130)
                 }
             }
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
-
-        .onChange(of: startEventDate) { _ in
+        .onAppear() {
+            selectedRadius = viewModel.searchRadius
             
-            queryBasedOnSearchParams()
+            //invokes onChanged; maybe bad
+        }
+        .onChange(of: startEventDate) { _ in
+                        
         }
         .onChange(of: endEventDate) { _ in
-            queryBasedOnSearchParams()
+                        
         }
         .onChange(of: selectedRadius) { _ in
-            print("onchange 168")
             queryBasedOnSearchParams()
-        }
-        
-        
-        
-    }
-    
-    func sortByDate() {
-        self.searchResults.sort {
-            $0.time > $1.time
         }
     }
     func sortByDistance() {
-        self.searchResults.sort {
+        self.viewModel.queriedEventsList.sort {
             let userCoordinate = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.latitude)
             let distanceBetweenTwoPoints1 = CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)
             let distanceBetweenTwoPoints2 = CLLocation(latitude: $1.coordinate.latitude, longitude: $1.coordinate.longitude)
             
-            self.searchResults.sort(by: { _,_ in distanceBetweenTwoPoints1.distance(from: userCoordinate) < distanceBetweenTwoPoints2.distance(from: userCoordinate) })
+            self.viewModel.queriedEventsList.sort(by: { _,_ in distanceBetweenTwoPoints1.distance(from: userCoordinate) < distanceBetweenTwoPoints2.distance(from: userCoordinate) })
             
             return true
         }
@@ -192,36 +183,10 @@ struct MapListElements: View {
     }
     
     func queryBasedOnSearchParams() {
-        
-        var locManager = CLLocationManager()
-        locManager.requestWhenInUseAuthorization()
-        
-        var currentLocation: CLLocation!
-        
-        if
-            CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-                CLLocationManager.authorizationStatus() ==  .authorizedAlways
-        {
-            currentLocation = locManager.location
-        }
-        else {
-            currentLocation = CLLocation(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude)
-        }
-        
-        
-        let latitude = (currentLocation.coordinate.latitude)
-        let longitude = (currentLocation.coordinate.longitude)
-        
-        print(latitude, longitude)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let startEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: startEventDate))
-        let endEventDate: Date? = dateFormatter.date(from: dateFormatter.string(from: endEventDate))
         
-        let radius: Double = ((selectedRadius == 0) ? 10 : (selectedRadius == 1) ? 20 : (selectedRadius == 2) ? 40 : (selectedRadius == 3) ? 60 : 100)
-        
-        viewModel.updateQueriedEventsList(latitude: latitude, longitude: longitude, radiusInMi: radius, startEventDate: startEventDate!, endEventDate: endEventDate!)
-        
+        viewModel.updateQueriedEventsList(latitude: viewModel.region.center.latitude, longitude: viewModel.region.center.longitude, radiusInMi: selectedRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startEventDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endEventDate)))!)
     }
 }
 
