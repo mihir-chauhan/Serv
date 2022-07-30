@@ -22,7 +22,7 @@ struct HomeView: View {
     @State var showingHeaAlert = false
     @State var showingAniAlert = false
     
-    
+    @State var firstFiveElements = [EventInformationModel]()
     @State var eventDatas = [EventInformationModel]()
     
     @Environment(\.colorScheme) var colorScheme
@@ -115,22 +115,12 @@ struct HomeView: View {
                             .padding(.leading, 15)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ForEach(0..<1, id: \.self) { imgURL in
-                                    RecommendedView(data:
-//                                      viewModel.queriedEventsList[imgURL]
-                                        EventInformationModel(
-                                            FIRDocID: "iCTsCEi7tvSPN2yghjPL",
-                                            name: "Community Center Assistant",
-                                            host: "Irvington High School",
-                                            ein: "11-9453811",
-                                            category: "Humanitarian",
-                                            time: Date(),
-                                            images: ["gs://serviceapp22.appspot.com/EventImages/5a2e1f80-0971-11ed-8d92-3f99c26ebb48.jpg"],
-                                            coordinate: CLLocationCoordinate2D(latitude: 37.486497, longitude: -121.924984),
-                                            description: "Help monitor events at Warms Spring community center"
-                                        )
-                                    )
-                                    
+                                if firstFiveElements.isEmpty {
+                                    Text("No recommended events!")
+                                } else {
+                                    ForEach(firstFiveElements, id: \.self) { event in
+                                        RecommendedView(data: event)
+                                    }
                                 }
                                 
                             }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
@@ -148,8 +138,15 @@ struct HomeView: View {
         }
         .padding(.vertical)
         
-        
+        .onChange(of: viewModel.queriedEventsList) { value in
+            if value.count > 3 {
+                firstFiveElements = Array(value[0...3])
+            }
+            print(value)
+        }
         .task {
+            viewModel.checkIfLocationServicesIsEnabled()
+
             FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
                 if eventsArray != nil {
                     for i in 0..<eventsArray!.count {
