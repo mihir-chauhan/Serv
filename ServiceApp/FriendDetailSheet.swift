@@ -44,7 +44,6 @@ struct FriendDetailSheet: View {
                         ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
                             Text("\t \(event.name)")
                                 .padding(5)
-    //                            .navigate(to: EventDetailView(data: event, sheetMode: self.$sheetObserver.sheetMode), when: $clickOnEvent)
                         }
                 }.padding(20)
             .navigationTitle(data.displayName ?? "SMITHY?")

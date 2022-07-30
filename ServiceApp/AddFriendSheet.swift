@@ -22,14 +22,14 @@ struct AddFriendSheet: View {
         NavigationView {
             if #available(iOS 15.0, *) {
                 TabView {
-                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid!)!)!)!)
-                        .resizable()
-                        .frame(width: 290, height: 290, alignment: .center)
-                        .font(.system(size: 30, weight: .bold, design: .rounded))
-                        .tabItem {
-                            Image(systemName: "qrcode")
-                        }
-                        .tag(0)
+//                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid!)!)!)!)
+//                        .resizable()
+//                        .frame(width: 290, height: 290, alignment: .center)
+//                        .font(.system(size: 30, weight: .bold, design: .rounded))
+//                        .tabItem {
+//                            Image(systemName: "qrcode")
+//                        }
+//                        .tag(0)
                     ZStack {
                         if selectedImage == nil {
                             ZStack {
@@ -39,16 +39,12 @@ struct AddFriendSheet: View {
                                         FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: result.string) { value in
 //                                            if value == true {
                                                 FirebaseRealtimeDatabaseCRUD().readFriends(for: (viewModel.decodeUserInfo()?.uid)!) { friendsArray in
-//                                                    if friendsArray == nil { // this was causing the problem 
                                                         FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
                                                         FirebaseRealtimeDatabaseCRUD().writeFriends(for: result.string, friendUUID: (viewModel.decodeUserInfo()?.uid)!)
                                                         showSuccess = true
                                                         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-//                                                    }
                                                 }
                                             }
-                                        
-                                        // add friend to firebase DB, when implemented.......
                                     case .failure(let error):
                                         print(error.localizedDescription)
                                     }

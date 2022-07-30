@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 final class TabBarController: ObservableObject {
     @Published var selectedIndex: TabBarItem = .home

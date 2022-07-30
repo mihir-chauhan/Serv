@@ -15,14 +15,13 @@ struct ContentView: View {
     @StateObject private var viewModel = AuthViewModel()
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
     @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
-//    @AppStorage("currentUser", store: .standard) var currentUser: String?
     @State var data = EventInformationModel(id: UUID(), FIRDocID: "", name: "Trash Cleanup", host: "ABC Foundation", ein: "32-1263743", category: "Environmental", time: Date(), enterDetailView: true)
     var body: some View {
         VStack {
             switch hasOnboarded {
-            case false:
-                OnboardingView()
             case true:
+                OnboardingView()
+            case false:
                 switch self.signInState {
                 case .signedOut: AccountLoginView()
                 case .signedIn: CustomTabBar()

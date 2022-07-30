@@ -46,7 +46,7 @@ struct OnboardingView: View {
                     
                         Button(action: {
                             if pageIndex < 3 {
-                                withAnimation {
+                                withAnimation(Animation.easeInOut) {
                                     pageIndex += 1
                                 }
                             }
@@ -58,7 +58,7 @@ struct OnboardingView: View {
                         }) {
                             if pageIndex < 3 {
                             Circle()
-                                .foregroundColor(.white)
+                                .foregroundColor(.neuWhite)
                                 .overlay(
                                     Image(systemName: "chevron.right")
                                         .resizable()
@@ -97,10 +97,21 @@ struct SingularOnboardingPageView: View {
     var page: SingularOnboardingPage
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            VStack {
+            VStack(alignment: .center) {
                 Image(page.image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: UIScreen.main.bounds.height * (2/3))
+                VStack(alignment: .leading) {
+                Text(page.title)
+                    .font(.title).bold()
+                    .foregroundColor(.black)
+                    
                 Text(page.description)
-            }
+                    .font(.subheadline).bold()
+                    .foregroundColor(.black)
+                }.padding()
+            }.padding()
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -112,14 +123,15 @@ struct SingularOnboardingPage {
     var placement: Int
     var color: Color
     var image: String
+    var title: String
     var description: String
 }
 
 let dummyOnboardingPages: [SingularOnboardingPage] = [
-    SingularOnboardingPage(placement: 0, color: .green, image: "leaderboardPic-1", description: "lorem ipsum"),
-    SingularOnboardingPage(placement: 1, color: .blue, image: "leaderboardPic-2", description: "lorem ipsum"),
-    SingularOnboardingPage(placement: 2, color: .mint, image: "leaderboardPic-3", description: "lorem ipsum"),
-    SingularOnboardingPage(placement: 3, color: .orange, image: "leaderboardPic-2", description: "lorem ipsum"),
+    SingularOnboardingPage(placement: 0, color: .white, image: "onBoard-0", title: "Browse Opportunities", description: "Find service events from different categories posted by verified organizations near you"),
+    SingularOnboardingPage(placement: 1, color: .white, image: "onBoard-1", title: "Attend events", description: "Sign up and attend for upcoming events to earn service hours"),
+    SingularOnboardingPage(placement: 2, color: .white, image: "onBoard-0", title: "Connect with Friends", description: "See what events your friends are planning to attend"),
+    SingularOnboardingPage(placement: 3, color: .white, image: "onBoard-1", title: "Keeping track", description: "Keep track of your valid service hours and apply for the President's Volunteer Service Award!"),
 ]
 
 struct UIPageControlView: UIViewRepresentable {

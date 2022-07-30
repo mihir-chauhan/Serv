@@ -68,14 +68,3 @@ extension UIBezierPath {
         return bezierPath
     }
 }
-
-//struct UIBezierPathViewConverter: UIViewRepresentable {
-//    func makeUIView(context: Context) -> UIView {
-//        var view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//        view.addSubview(UIBezierPath.attempt1)
-//        return view
-//    }
-//    func updateUIView(_ uiView: UIView, context: Context) {
-//
-//    }
-//}

@@ -45,24 +45,6 @@ struct FriendsCommonEvent: View {
                         }
                     }
                 }
-                    
-                    
-//                    Image(img1Name)
-//                        .pfpIconModifier()
-//                    Image(img2Name)
-//                        .pfpIconModifier()
-//                    Image(img3Name)
-//                        .pfpIconModifier()
-                    //                Image("leaderboardPic-1")
-                    //                    .pfpIconModifier()
-                    //                Image("leaderboardPic-2")
-                    //                    .pfpIconModifier()
-                    
-                    // add to Socials page only, because we're reusing it in another view
-                    //                Text("Common Event")
-                    //                    .padding(.leading, 50)
-                    //                    .font(.system(.caption))
-                    
                 }.padding([.bottom, .horizontal], 10)
                     .task {
                         for friend in listOfFriendsWhoSignedUpForEvent {
@@ -71,13 +53,8 @@ struct FriendsCommonEvent: View {
                                 listOfFriendProfilePictures.append(photoURL)
                             }
                         }
-//                    }
-//            }
-        
         }
-        //            .onChange(of: listOfFriendsWhoSignedUpForEvent) { newValue in
-        //                print("DAY2", newValue)
-        //            }
+
         
     }
 }
