@@ -61,6 +61,7 @@
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
 		BED38A7C27A625980080D5B9 /* TOOL_fir_batch_transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */; };
 		BEDEE6F528768122003B6857 /* FriendEventsInCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */; };
+		BEE28C3A2894BD2C00D0B15A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE28C392894BD2C00D0B15A /* TabBarController.swift */; };
 		F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */; };
 		F426FA3827B43E8C00899C4B /* ConfirmNewFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */; };
 		F4496577280151490068A497 /* AccountLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4496576280151490068A497 /* AccountLoginView.swift */; };
@@ -116,6 +117,7 @@
 		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
 		BED38A7B27A625980080D5B9 /* TOOL_fir_batch_transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOOL_fir_batch_transaction.swift; sourceTree = "<group>"; };
 		BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendEventsInCommon.swift; sourceTree = "<group>"; };
+		BEE28C392894BD2C00D0B15A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
 		F426FA3727B43E8C00899C4B /* ConfirmNewFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmNewFriend.swift; sourceTree = "<group>"; };
 		F4496576280151490068A497 /* AccountLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLoginView.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */,
+				BEE28C392894BD2C00D0B15A /* TabBarController.swift */,
 				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
 				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B319D159277EE7A90045F06D /* SheetObserver.swift */,
@@ -391,6 +394,7 @@
 				BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */,
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
+				BEE28C3A2894BD2C00D0B15A /* TabBarController.swift in Sources */,
 				BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */,
 				BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,

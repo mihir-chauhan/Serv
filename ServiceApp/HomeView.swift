@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-import SwiftUI
+import MapKit
 import SDWebImageSwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var viewModel: LocationTrackerViewModel
     var animation: Namespace.ID
     @State var toggleHeroAnimation: Bool = false
     @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
@@ -114,8 +115,21 @@ struct HomeView: View {
                             .padding(.leading, 15)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ForEach(0..<results.allFIRResults.count, id: \.self) { imgURL in
-                                    RecommendedView(data: results.allFIRResults[imgURL])
+                                ForEach(0..<1, id: \.self) { imgURL in
+                                    RecommendedView(data:
+//                                      viewModel.queriedEventsList[imgURL]
+                                        EventInformationModel(
+                                            FIRDocID: "iCTsCEi7tvSPN2yghjPL",
+                                            name: "Community Center Assistant",
+                                            host: "Irvington High School",
+                                            ein: "11-9453811",
+                                            category: "Humanitarian",
+                                            time: Date(),
+                                            images: ["gs://serviceapp22.appspot.com/EventImages/5a2e1f80-0971-11ed-8d92-3f99c26ebb48.jpg"],
+                                            coordinate: CLLocationCoordinate2D(latitude: 37.486497, longitude: -121.924984),
+                                            description: "Help monitor events at Warms Spring community center"
+                                        )
+                                    )
                                     
                                 }
                                 

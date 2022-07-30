@@ -7,8 +7,11 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import MapKit
 
 struct RecommendedView: View {
+    @EnvironmentObject var viewModel: LocationTrackerViewModel
+    @EnvironmentObject var tabBarController: TabBarController
     @EnvironmentObject var sheetObserver: SheetObserver
     @Environment(\.colorScheme) var colorScheme
     @State var viewRendered = false
@@ -75,8 +78,11 @@ struct RecommendedView: View {
             }
             .frame(width: 290, height: 250)
             .onTapGesture {
+                tabBarController.selectedIndex = .map
+                self.sheetObserver.eventDetailData = data
                 self.sheetObserver.sheetMode = .half
-                EventDetailView(data: self.sheetObserver.eventDetailData, sheetMode: self.$sheetObserver.sheetMode)
+                self.viewModel.region = MKCoordinateRegion(center: data.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+
             }
         }
     }

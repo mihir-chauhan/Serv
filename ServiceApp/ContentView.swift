@@ -9,9 +9,10 @@ import SwiftUI
 import GoogleSignIn
 
 struct ContentView: View {
+    @StateObject private var tabBarController = TabBarController()
     @StateObject private var sheetObserver = SheetObserver()
     @StateObject private var mapViewModel = LocationTrackerViewModel()
-    @StateObject var viewModel = AuthViewModel()
+    @StateObject private var viewModel = AuthViewModel()
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
     @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
 //    @AppStorage("currentUser", store: .standard) var currentUser: String?
@@ -29,6 +30,7 @@ struct ContentView: View {
                 }
             }
         }
+        .environmentObject(tabBarController)
         .environmentObject(sheetObserver)
         .environmentObject(mapViewModel)
         .environmentObject(viewModel)

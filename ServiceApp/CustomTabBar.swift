@@ -9,11 +9,12 @@ import SwiftUI
 import FirebaseAuth
 
 struct CustomTabBar: View {
-    @State public var selectedIndex: TabBarItem = .home
+    @EnvironmentObject private var tabBarController: TabBarController
+//    @State public var selectedIndex: TabBarItem = .home
     @Namespace var animation
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
-                switch selectedIndex {
+            switch tabBarController.selectedIndex {
                 case .home:
                     HomeView(animation: animation)
                 case .map:
@@ -34,12 +35,12 @@ struct CustomTabBar: View {
                     Spacer()
                     Button(action: {
                         withAnimation {
-                        self.selectedIndex = icon
+                            self.tabBarController.selectedIndex = icon
                         }
                     }) {
-                        Image(systemName: self.selectedIndex == icon ? icon.icon + ".fill" : icon.icon)
+                        Image(systemName: self.tabBarController.selectedIndex == icon ? icon.icon + ".fill" : icon.icon)
                                 .font(.system(size: 25))
-                                .foregroundColor(self.selectedIndex == icon ? .blue : Color(UIColor.gray))
+                                .foregroundColor(self.tabBarController.selectedIndex == icon ? .blue : Color(UIColor.gray))
                                                         .frame(width: 55, height: 55)
                                                         .cornerRadius(30)
                         
