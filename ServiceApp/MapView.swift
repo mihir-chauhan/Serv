@@ -37,7 +37,7 @@ struct MapView: View {
                                 withAnimation(.spring()) {
                                     self.sheetObserver.sheetMode = .half
                                     self.sheetObserver.eventDetailData = pin
-                                    self.viewModel.region = MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+                                    self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: pin.coordinate.latitude - 0.02, longitude: pin.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
                                 }
                             }) {
                                 ZStack {
@@ -74,7 +74,12 @@ struct MapView: View {
 final class LocationTrackerViewModel: NSObject, ObservableObject {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0.5, longitude: 0.5), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
     @Published var queriedEventsList = [EventInformationModel]() // used as basis for filtered events since this should be untouched and copied to filtered
-    
+    @Published var recommendedEventFromHomePage: EventInformationModel? {
+        didSet {
+            print("set: \(recommendedEventFromHomePage?.name)")
+        }
+        
+    }
     @Published var filteredEventsList = [EventInformationModel]()
     @Published var mapAnnotationsList = [EventInformationModel]()
     @Published var searchRadius = 10.0
@@ -115,7 +120,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                         }
                         
                         for document in documents {
-                            print("\(mapAnnotationsList.count) NAMENAMENAME: \(document.get("name"))")
+                            print("\(mapAnnotationsList.count) NAMENAMENAME: \(document.get("name")), \(document.documentID)")
                             
                             let id = document.documentID
                             let host = document.get("host") as? String ?? "Host unavailable"
@@ -180,6 +185,13 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             coordinate: (locationManager?.location!.coordinate)!,
             description: "description"
         ), at: 0)
+        
+        if recommendedEventFromHomePage != nil {
+            print("222akjsasdfkjnasdfjknasldfjlajfdnflafnadjnfaljdf \(recommendedEventFromHomePage!.name)")
+            self.mapAnnotationsList.append(recommendedEventFromHomePage!)
+            self.filteredEventsList.append(recommendedEventFromHomePage!)
+            //recommendedEventFromHomePage = nil
+        }
     }
     
     var locationManager: CLLocationManager?

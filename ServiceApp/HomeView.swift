@@ -96,7 +96,7 @@ struct HomeView: View {
                     }
                     
                     VStack(alignment: .leading) {
-                        Text(selectedIndexOfServiceType.filter{$0}.count == 0 ? "Category Filters: No Filters" : "Category Filters")
+                        Text("Category Filters")
                             .font(.system(.headline))
                             .padding(.leading, 15)
                         Text("Long press to learn more about a category")
