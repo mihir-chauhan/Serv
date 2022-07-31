@@ -10,6 +10,8 @@ import MapKit
 import SDWebImageSwiftUI
 
 struct EventDetailView: View {
+    @EnvironmentObject var sheetObserver: SheetObserver
+    @EnvironmentObject var viewModel: LocationTrackerViewModel
     var data: EventInformationModel = EventInformationModel()
     @Binding var sheetMode: SheetMode
     var connectionResult = ConnectionResult.failure("OK!")
@@ -125,8 +127,9 @@ struct EventDetailView: View {
         
         .padding([.top, .trailing, .leading])
         .padding(.bottom, 200)
-        //        .simultaneousGesture(self.drag)
         .task {
+                                       self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: sheetObserver.eventDetailData.coordinate.latitude - 0.02, longitude: sheetObserver.eventDetailData.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
             }
