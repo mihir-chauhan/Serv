@@ -92,15 +92,14 @@ struct HomeView: View {
                         Text("16 more hours to go...")
                             .font(.caption)
                     }
-
+                    
                     VStack(alignment: .leading) {
-                        Text("Category Filters")
+                        Text(selectedIndexOfServiceType.filter{$0}.count == 0 ? "Category Filters: No Filters" : "Category Filters")
                             .font(.system(.headline))
                             .padding(.leading, 15)
-                        
-                            Text("Long press to learn more about a category")
+                        Text("Long press to learn more about a category")
                             .font(.system(.caption))
-                                .padding(.leading, 15)
+                            .padding(.leading, 15)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(0..<5, id: \.self) { index in
@@ -121,18 +120,22 @@ struct HomeView: View {
 
                         Spacer().frame(height: 15)
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                if firstFiveElements.isEmpty {
-                                    Text("No recommended events!")
-                                } else {
-                                    ForEach(firstFiveElements, id: \.self) { event in
-                                        RecommendedView(data: event)
+                        if(selectedIndexOfServiceType.filter{$0}.count != 0) {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    if firstFiveElements.isEmpty {
+                                        Text("No recommended events!")
+                                    } else {
+                                        ForEach(firstFiveElements, id: \.self) { event in
+                                            RecommendedView(data: event)
+                                        }
                                     }
-                                }
+                                    
+                                }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
                                 
-                            }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
-                            
+                            }
+                        } else {
+                            Spacer().frame(width: 290, height: 250)
                         }
                     }
                 }
@@ -158,18 +161,12 @@ struct HomeView: View {
             FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
                 if eventsArray != nil {
                     for i in 0..<eventsArray!.count {
-                        for x in 0..<results.allFIRResults.count {
-                            print("akjdsnflasdjnflasdjnf: ", results.allFIRResults[x].FIRDocID!, eventsArray![i])
-                            if results.allFIRResults[x].FIRDocID! == eventsArray![i] {
-                                self.eventDatas.append(results.allFIRResults[x])
-                                print("akjdsnflasdjnfadfadfkajnsdfjkasndfkajsndfjlasdjnf: ", self.eventDatas.count, self.eventDatas)
-                            }
+                        results.getSpecificEvent(eventID: eventsArray![i]) { event in
+                            self.eventDatas.append(event)
                         }
                     }
                 }
             }
-            
-            
         }
         
         
@@ -180,7 +177,6 @@ struct HomeView: View {
         if toggleHeroAnimation {
             VStack {
                 HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation, eventDatas: eventDatas)
-                
             }
             .edgesIgnoringSafeArea(.top)
             .padding(.bottom, 100)
