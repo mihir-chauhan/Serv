@@ -18,7 +18,7 @@ struct ContentView: View {
     @State var data = EventInformationModel(id: UUID(), FIRDocID: "", name: "Trash Cleanup", host: "ABC Foundation", ein: "32-1263743", category: "Environmental", time: Date(), enterDetailView: true)
     var body: some View {
         VStack {
-            if(hasOnboarded) {
+            if(!hasOnboarded) {
                 OnboardingView(hasOnboarded: $hasOnboarded)
             } else {
                 switch self.signInState {
