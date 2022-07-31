@@ -7,26 +7,8 @@
 
 import SwiftUI
 
-struct OnboardingManager: View {
-    @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
-    @State var currentIndex = 0
-    @State var shouldShowOnboarding: Bool = true
-    private func switchColor() -> Color {
-        let tabColor = Color.green
-//       let tabColor = TabColor(rawValue: currentIndex) ?? .one
-       return tabColor
-     }
-    var body: some View {
-        if !hasOnboarded {
-            OnboardingView()
-        } else {
-            CustomTabBar()
-        }
-    }
-}
-
 struct OnboardingView: View {
-    @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
+    @Binding var hasOnboarded: Bool
     @State var pageIndex = 0
     @State var numberOfPages = dummyOnboardingPages.count
     let passedOnboarding = UserDefaults.standard

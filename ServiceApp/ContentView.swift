@@ -18,10 +18,9 @@ struct ContentView: View {
     @State var data = EventInformationModel(id: UUID(), FIRDocID: "", name: "Trash Cleanup", host: "ABC Foundation", ein: "32-1263743", category: "Environmental", time: Date(), enterDetailView: true)
     var body: some View {
         VStack {
-            switch hasOnboarded {
-            case true:
-                OnboardingView()
-            case false:
+            if(hasOnboarded) {
+                OnboardingView(hasOnboarded: $hasOnboarded)
+            } else {
                 switch self.signInState {
                 case .signedOut: AccountLoginView()
                 case .signedIn: CustomTabBar()
