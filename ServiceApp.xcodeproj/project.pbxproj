@@ -42,6 +42,7 @@
 		B3E6FCDF277C5A43004DEE5B /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCDE277C5A43004DEE5B /* DataModel.swift */; };
 		B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCE0277C5A53004DEE5B /* Socials.swift */; };
 		BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE196EFA279CDA2800DA0217 /* Settings.swift */; };
+		BE4FDCC02896450700136E6F /* launchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE4FDCBF2896450700136E6F /* launchScreen.storyboard */; };
 		BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */; };
 		BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */; };
 		BEB2934027C1FE7C00D32BDE /* AuthSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */; };
@@ -105,6 +106,7 @@
 		B3E6FCDE277C5A43004DEE5B /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		B3E6FCE0277C5A53004DEE5B /* Socials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socials.swift; sourceTree = "<group>"; };
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		BE4FDCBF2896450700136E6F /* launchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = launchScreen.storyboard; sourceTree = "<group>"; };
 		BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailView.swift; sourceTree = "<group>"; };
 		BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountDetails.swift; sourceTree = "<group>"; };
 		BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignIn.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */,
+				BE4FDCBF2896450700136E6F /* launchScreen.storyboard */,
 				BEE28C392894BD2C00D0B15A /* TabBarController.swift */,
 				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
 				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
@@ -371,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39B5A9C52786ABEA0003E23F /* GoogleService-Info.plist in Resources */,
+				BE4FDCC02896450700136E6F /* launchScreen.storyboard in Resources */,
 				B3E6FCC2277C5871004DEE5B /* Preview Assets.xcassets in Resources */,
 				B3E6FCBF277C5871004DEE5B /* Assets.xcassets in Resources */,
 			);
@@ -571,10 +575,11 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Stalker needs ur location ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = launchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -610,10 +615,11 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Stalker needs ur location ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = launchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
