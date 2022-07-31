@@ -16,6 +16,7 @@ struct EditAccountDetails: View {
     @State var changeName: String = ""
     @State var changeBio: String = ""
     @State var placeholderForBio = "Add Bio"
+    @State var disableChangeName: Bool = true
     
     init() {
         
@@ -58,7 +59,9 @@ struct EditAccountDetails: View {
                         Text("Name").font(.headline).bold()
                         Spacer(minLength: 10)
                         TextField("Name", text: $changeName)
+                            .foregroundColor(disableChangeName ? .gray : .primary)
                             .disableAutocorrection(true)
+                            .disabled(disableChangeName)
                     }
                     Text("Make sure that this is your legal name, as this will be presented to organizations when you sign up for an event and they must be able to identify you on the day of the event").foregroundColor(.gray).font(.caption)
                     Divider()

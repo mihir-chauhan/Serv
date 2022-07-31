@@ -23,14 +23,14 @@ struct MapView: View {
                 Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: viewModel.mapAnnotationsList) { pin in
                     MapAnnotation(coordinate: pin.coordinate) {
                         if pin.FIRDocID == "USER_LOCATION" {
-//                            ZStack {
-//                                Circle()
-//                                    .foregroundColor(.blue).opacity(0.2)
-//                                    //.strokeBorder(Color.blue,lineWidth: 4)
-//                                    //.background(Circle().foregroundColor(Color.blue).opacity(0.1))
-//
-//                            }
-//                            .frame(width: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8, height: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8)
+                            ZStack {
+                                Circle()
+                                    .foregroundColor(.blue).opacity(0.2)
+                                    //.strokeBorder(Color.blue,lineWidth: 4)
+                                    //.background(Circle().foregroundColor(Color.blue).opacity(0.1))
+
+                            }
+                            .frame(width: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8, height: viewModel.searchRadius * (geo.size.height/viewModel.region.span.latitudeDelta)/37.8)
                             
                         } else {
                             Button(action: {
