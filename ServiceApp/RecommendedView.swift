@@ -59,7 +59,7 @@ struct RecommendedView: View {
                             .font(.headline)
                             .padding(15)
                         Spacer()
-                        Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 20)).padding(.trailing, 5)
+                        Text(data.category == "Environmental" ? "🌲" : data.category == "Humanitarian" ? "🤝🏿" : data.category == "Educational" ? "🏫" : data.category == "Health" ? "👨‍⚕️" : data.category == "Wildlife" ? "🐶" : "").font(.system(size: 20)).padding(.trailing, 5)
                     }
                     
                     Spacer()

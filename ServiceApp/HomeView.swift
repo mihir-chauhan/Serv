@@ -18,8 +18,10 @@ struct HomeView: View {
     @ObservedObject var results = FirestoreCRUD()
     @State var showingCategoryDetailAlert = false
     
-    @State var firstFiveElements = [EventInformationModel]()
+    @State var recommendedEvents = [EventInformationModel]()
     @State var eventDatas = [EventInformationModel]()
+    
+    @State var numberOfShownRecommendations = 0
     
     @Environment(\.colorScheme) var colorScheme
 
@@ -123,11 +125,16 @@ struct HomeView: View {
                         if(selectedIndexOfServiceType.filter{$0}.count != 0) {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
-                                    if firstFiveElements.isEmpty {
-                                        Text("No recommended events!")
-                                    } else {
-                                        ForEach(firstFiveElements, id: \.self) { event in
-                                            RecommendedView(data: event)
+                                    if !recommendedEvents.isEmpty {
+                                        ForEach(recommendedEvents, id: \.self) { event in
+                                            // TODO: i dont like that i have to match environmental to idnex 0 maybe use dict later on
+                                            if((event.category == "Environmental" && selectedIndexOfServiceType[0]) ||
+                                               (event.category == "Humanitarian" && selectedIndexOfServiceType[1]) ||
+                                               (event.category == "Educational" && selectedIndexOfServiceType[2]) ||
+                                               (event.category == "Health" && selectedIndexOfServiceType[3]) ||
+                                               (event.category == "Wildlife" && selectedIndexOfServiceType[4])) {
+                                                RecommendedView(data: event)
+                                            }
                                         }
                                     }
                                     
@@ -148,13 +155,11 @@ struct HomeView: View {
             
         }
         .padding(.vertical)
-        
         .onChange(of: viewModel.queriedEventsList) { value in
-            if value.count > 3 {
-                firstFiveElements = Array(value[0...3])
-            }
-            print(value)
-        }
+                    if value.count > 3 {
+                        recommendedEvents = value
+                    }
+                }
         .task {
             viewModel.checkIfLocationServicesIsEnabled()
 
