@@ -64,8 +64,8 @@ class FirebaseRealtimeDatabaseCRUD {
     }
     
     func checkIfUserExists(uuidString: String, completion: @escaping (Bool) -> ()) {
-        ref.collection("Volunteer Accounts").document(uuidString).getDocument { snap, err in
-            if((snap?.exists) != nil) {
+        ref.collection("Volunteer Accounts").document(uuidString).getDocument { (document, error) in
+            if document!.exists {
                 completion(true)
             } else {
                 completion(false)
@@ -89,12 +89,13 @@ class FirebaseRealtimeDatabaseCRUD {
         let userInfoAsDict = [
             "uid" : userInfo.uid!,
             "name" : userInfo.displayName ?? "No name",
-            "username" : userInfo.username ?? "No username :///",
+            "username" : userInfo.username ?? "No username",
             "photoURL" : userInfo.photoURL?.absoluteString ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg",
             "email" : userInfo.email ?? "default@email.com",
             "bio" : "Add an informative bio!"
         ] as [String : Any]
-        ref.collection("Volunteer Accounts").document(userInfo.uid!).updateData(["UserInfo": userInfoAsDict])
+        print("ajflajdfnasdjfnalsdfnlasfnjasdf \(userInfoAsDict)")
+        ref.collection("Volunteer Accounts").document(userInfo.uid!).setData(["UserInfo": userInfoAsDict])
         
 //        will be set when user creates it
 //        ref.child("\(userInfo.uid!)/Friends").setValue([])

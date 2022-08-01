@@ -12,6 +12,7 @@ import SDWebImageSwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var viewModel: LocationTrackerViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     var animation: Namespace.ID
     @State var toggleHeroAnimation: Bool = false
     @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
@@ -163,7 +164,7 @@ struct HomeView: View {
         .task {
             viewModel.checkIfLocationServicesIsEnabled()
 
-            FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
+            FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
                 if eventsArray != nil {
                     for i in 0..<eventsArray!.count {
                         results.getSpecificEvent(eventID: eventsArray![i]) { event in

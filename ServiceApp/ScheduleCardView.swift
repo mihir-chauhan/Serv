@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct ScheduleCard: View {
     var data: EventInformationModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State var showingAlert = false
     @State var placeHolderUIImage: UIImage?
     @State var viewRendered = false
@@ -80,7 +81,7 @@ struct ScheduleCard: View {
                         }
                     }
                     .task {
-                        FirebaseRealtimeDatabaseCRUD().checkIfEventExistsInUser(uuidString: user_uuid!, eventToCheck: data.FIRDocID!) { res in
+                        FirebaseRealtimeDatabaseCRUD().checkIfEventExistsInUser(uuidString: authViewModel.decodeUserInfo()!.uid, eventToCheck: data.FIRDocID!) { res in
                             switch res {
                             case true:
                                 eventExistsInUser = true
@@ -91,7 +92,7 @@ struct ScheduleCard: View {
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(action: {
-                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid!, eventUUID: data.FIRDocID!)
+                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                         }) {
                             Image(systemName: "trash")
                                 .foregroundColor(.red)
@@ -131,7 +132,7 @@ struct ScheduleCard: View {
                                     .alert("Are you sure you want to delete the event?", isPresented: $showingAlert) {
                                         Button("cancel", role: .cancel) { }
                                         Button("delete", role: .destructive) {
-                                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid!, eventUUID: data.FIRDocID!)
+                                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                         }
                                     }
                             }

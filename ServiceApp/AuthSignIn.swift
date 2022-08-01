@@ -86,13 +86,11 @@ class AuthViewModel: ObservableObject {
                 self.state = .error
             } else {
                 let user = user?.user
-                var bio: String = "no bio [105].unique"
+                var bio: String = "No Bio"
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { exists in
-                    
-//                    fatalError("\(exists)")
+                    user_uuid = user?.uid
                     if exists == true {
                         print("Welcome back \(user?.displayName ?? "no name"), aka: \(String(describing: user?.uid))")
-                        user_uuid = user?.uid
                         self.state = .signedIn
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                             bio = value
@@ -161,11 +159,11 @@ class AuthViewModel: ObservableObject {
 //                        let user = Auth.auth().currentUser
                         let user = authResult?.user
                         
-                        var bio: String = "no bio [105].unique"
+                        var bio: String = "No Bio"
                         
                         FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { exists in
+                            user_uuid = user?.uid
                             if exists == true {
-                                user_uuid = user?.uid
                                 
                                 FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                                     bio = value
@@ -271,8 +269,9 @@ class AuthViewModel: ObservableObject {
             } else {
                 let user = Auth.auth().currentUser!
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user.uid) { exists in
+                    user_uuid = user.uid
                     if(exists) {
-                        var bio: String = "no bio [105].unique"
+                        var bio: String = "No Bio"
                         self?.loading = false
                         print("Welcome back \(user.displayName ?? "no name")")
                         print("User signs in successfully")
@@ -317,9 +316,11 @@ class AuthViewModel: ObservableObject {
                 }
             } else {
                 let user = Auth.auth().currentUser
-                var bio: String = "no bio [105].unique"
-                
+                var bio: String = "No Bio"
+                user_uuid = user!.uid
+                print("kjadsjlfndafkjndfjnhere 11111111121212121 \(user!.uid)")
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { [self] exists in
+                    print("kjadsjlfndafkjndfjnhere 11111111121212121 \(exists)")
                     if exists {
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                             bio = value

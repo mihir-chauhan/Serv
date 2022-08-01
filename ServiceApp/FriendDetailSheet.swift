@@ -32,7 +32,7 @@ struct FriendDetailSheet: View {
                         .scaleEffect(1.1)
                         .clipShape(Circle())
                         .padding(.leading, 10)
-                    Text(data.bio ?? "huhh no bio?").font(.system(.caption)).padding(5)
+                    Text(data.bio ?? "No Bio").font(.system(.caption)).padding(5)
                     Spacer(minLength: 15)
                 }
                 BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true)

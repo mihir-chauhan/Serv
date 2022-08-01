@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 
 struct ScheduleCardDetailSheet: View {
     @Binding var data: EventInformationModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var connectionResult = ConnectionResult.failure("OK!")
     @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
@@ -19,7 +20,7 @@ struct ScheduleCardDetailSheet: View {
     @State var viewOrganization = false
     
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
-        FirebaseRealtimeDatabaseCRUD().readEvents(for: user_uuid!) { eventsArray in
+        FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
             if eventsArray == nil {
                 buttonStateIsSignedUp = false
                 handler(false);
@@ -84,10 +85,10 @@ struct ScheduleCardDetailSheet: View {
                     Button(action: {
                         if !buttonStateIsSignedUp {
                             FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
-                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: user_uuid!, eventUUID: data.FIRDocID!)
+                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                         } else {
-                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: user_uuid!)
-                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: user_uuid!, eventUUID: data.FIRDocID!)
+                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
+                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                         }
                         
                         buttonStateIsSignedUp.toggle()
