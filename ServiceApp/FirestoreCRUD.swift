@@ -14,47 +14,47 @@ class FirestoreCRUD: ObservableObject {
     
     var allCategories: [String] = ["Environmental", "Humanitarian", "Other"]
     @Published var allFIRResults = [EventInformationModel]()
-    
-    init() {
-        //getAllEvents()
-    }
-    
-    func getAllEvents() {
-        for i in allCategories {
-            db.collection("EventTypes/\(i)/Events")
-                .addSnapshotListener { (snap, err) in
-                    if let error = err {
-                        print(error.localizedDescription)
-                        return
-                    } else {
-                        for j in snap!.documentChanges {
-                            let id = j.document.documentID
-                            let host = j.document.get("host") as? String ?? "Host unavailable"
-                            let ein = j.document.get("ein") as? String ?? "No valid ein"
-                            let name = j.document.get("name") as? String ?? "no name"
-                            let description = j.document.get("description") as? String ?? "No description!"
-                            _ = j.document.get("attendees") as? [String] ?? [String]()
-                            let time = j.document.get("time") as? Timestamp
-                            let imageURL = j.document.get("images") as? [String] ?? [String]()
-                            let location = j.document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
-                            
-                            self.allFIRResults.append(EventInformationModel(
-                                FIRDocID: id,
-                                name: name,
-                                host: host,
-                                ein: ein,
-                                category: i,
-                                time: time?.dateValue() ?? Date(),
-                                images: imageURL,
-                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
-                                description: description
-                                
-                            ))
-                        }
-                    }
-                }
-        }
-    }
+//
+//    init() {
+//        //getAllEvents()
+//    }
+//
+//    func getAllEvents() {
+//        for i in allCategories {
+//            db.collection("EventTypes/\(i)/Events")
+//                .addSnapshotListener { (snap, err) in
+//                    if let error = err {
+//                        print(error.localizedDescription)
+//                        return
+//                    } else {
+//                        for j in snap!.documentChanges {
+//                            let id = j.document.documentID
+//                            let host = j.document.get("host") as? String ?? "Host unavailable"
+//                            let ein = j.document.get("ein") as? String ?? "No valid ein"
+//                            let name = j.document.get("name") as? String ?? "no name"
+//                            let description = j.document.get("description") as? String ?? "No description!"
+//                            _ = j.document.get("attendees") as? [String] ?? [String]()
+//                            let time = j.document.get("time") as? Timestamp
+//                            let imageURL = j.document.get("images") as? [String] ?? [String]()
+//                            let location = j.document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
+//
+//                            self.allFIRResults.append(EventInformationModel(
+//                                FIRDocID: id,
+//                                name: name,
+//                                host: host,
+//                                ein: ein,
+//                                category: i,
+//                                time: time?.dateValue() ?? Date(),
+//                                images: imageURL,
+//                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
+//                                description: description
+//
+//                            ))
+//                        }
+//                    }
+//                }
+//        }
+//    }
     
     func AddToAttendeesList(eventID: String, eventCategory: String) {
         var mapValues: [String : Any] {

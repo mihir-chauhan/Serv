@@ -31,7 +31,7 @@ struct HomeView: View {
     @State var alertInfoIndex = 0
     
     
-    @State var selectedIndexOfServiceType = [false, false, false, false, false]
+    @State var selectedIndexOfServiceType = [true, false, false, false, false]
 
     var body: some View {
         ZStack {
