@@ -12,6 +12,7 @@ import GeoFireUtils
 import FirebaseFirestore
 
 struct MapView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var sheetObserver: SheetObserver
     @EnvironmentObject var viewModel: LocationTrackerViewModel
     @ObservedObject var results = FirestoreCRUD()
@@ -58,7 +59,7 @@ struct MapView: View {
                 HalfSheetModalView()
             }
         } else {
-                Image("noLocationPermissionBg")
+            Image(colorScheme == .dark ? "noLocationPermissionBgDark" : "noLocationPermissionBgWhite")
                 .resizable()
                 
                 .aspectRatio(contentMode: .fill)
