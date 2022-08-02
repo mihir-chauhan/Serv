@@ -35,6 +35,8 @@ struct HomeView: View {
     @State var selectedIndexOfServiceType = [true, false, false, false, false]
 
     var body: some View {
+        GeometryReader { geo in
+
         Group {
         ZStack {
             if !toggleHeroAnimation {
@@ -141,21 +143,22 @@ struct HomeView: View {
                                         }
                                     }
                                 }
-                                    
-                                    
-                                }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
+                                
+                                
+                            }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
                                 
                             } else {
                                 VStack {
-                                Image(systemName: "location.slash.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .aspectRatio(contentMode: .fit)
-                                    .symbolRenderingMode(.palette)
-                                Text("Please enable location access in Settings")
+                                    Image(systemName: "location.slash.fill")
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
+                                        .aspectRatio(contentMode: .fit)
+                                        .symbolRenderingMode(.palette)
+                                    Text("Please enable location access in Settings")
                                         .bold()
                                         .padding(.horizontal)
                                 }.padding()
+                                    .frame(width: geo.size.width, height: 100)
                             }
                         } else {
                             Spacer().frame(width: 290, height: 250)
@@ -203,6 +206,7 @@ struct HomeView: View {
             .edgesIgnoringSafeArea(.top)
             .padding(.bottom, 100)
         }
+    }
     }
     
 }
