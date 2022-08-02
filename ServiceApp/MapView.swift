@@ -18,7 +18,10 @@ struct MapView: View {
     @State var tracking: MapUserTrackingMode = .follow
     
     var body: some View {
-        GeometryReader { geo in
+        Group {
+            GeometryReader { geo in
+        if viewModel.allowingLocationTracker {
+        
             ZStack {
                 Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: viewModel.mapAnnotationsList) { pin in
                     MapAnnotation(coordinate: pin.coordinate) {
@@ -54,6 +57,31 @@ struct MapView: View {
                 }
                 HalfSheetModalView()
             }
+        } else {
+                Image("noLocationPermissionBg")
+                .resizable()
+                
+                .aspectRatio(contentMode: .fill)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                .foregroundColor(Color.primary.opacity(0.3))
+                .blur(radius: 25)
+                .edgesIgnoringSafeArea(.all)
+                .overlay(
+                    VStack {
+                    Image(systemName: "location.slash.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .aspectRatio(contentMode: .fill)
+                        .symbolRenderingMode(.palette)
+                        
+                    Text("Please enable location access in Settings")
+                            .bold()
+                    }.position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
+                )
+                        
+                    }
+        }
+        }
             .edgesIgnoringSafeArea(.all)
             .task {
                 print("APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;1")
@@ -68,10 +96,11 @@ struct MapView: View {
                 self.sheetObserver.sheetMode = .quarter
             }
         }
-    }
+    
 }
 
 final class LocationTrackerViewModel: NSObject, ObservableObject {
+    @Published var allowingLocationTracker: Bool = false
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0.5, longitude: 0.5), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
     @Published var queriedEventsList = [EventInformationModel]() // used as basis for filtered events since this should be untouched and copied to filtered
     @Published var recommendedEventFromHomePage: EventInformationModel? {
@@ -180,9 +209,9 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             host: "",
             ein: "",
             category: "",
-            time: Date(),
+             time: Date(),
             images: [""],
-            coordinate: (locationManager?.location!.coordinate)!,
+            coordinate: (locationManager?.location?.coordinate) ?? CLLocationCoordinate2D(latitude: 39.8283, longitude: -98.5795),
             description: "description"
         ), at: 0)
         
@@ -206,7 +235,9 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!)
+            if !self.allowingLocationTracker {
+            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude) ?? 39.8283, longitude: (locationManager.location?.coordinate.longitude) ?? -98.5795, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!)
+            }
         } else {
             
         }
@@ -221,10 +252,15 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
+            self.allowingLocationTracker = false
+            self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 39.8283, longitude: -98.5795), span: MKCoordinateSpan(latitudeDelta: 0.99, longitudeDelta: 0.99))
             print("location restricted cuz of parental controls?")
         case .denied:
+            self.allowingLocationTracker = false
+            self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 39.8283, longitude: -98.5795), span: MKCoordinateSpan(latitudeDelta: 0.99, longitudeDelta: 0.99))
             print("location denied, enable in phone settings")
         case .authorizedAlways, .authorizedWhenInUse:
+            self.allowingLocationTracker = true
             self.region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 37.3382, longitude: -121.8863), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
         @unknown default:
             break

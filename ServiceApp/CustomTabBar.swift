@@ -10,7 +10,6 @@ import FirebaseAuth
 
 struct CustomTabBar: View {
     @EnvironmentObject private var tabBarController: TabBarController
-//    @State public var selectedIndex: TabBarItem = .home
     @Namespace var animation
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {

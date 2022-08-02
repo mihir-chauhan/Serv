@@ -35,6 +35,7 @@ struct HomeView: View {
     @State var selectedIndexOfServiceType = [true, false, false, false, false]
 
     var body: some View {
+        Group {
         ZStack {
             if !toggleHeroAnimation {
                 ScrollView {
@@ -124,6 +125,7 @@ struct HomeView: View {
                         Spacer().frame(height: 15)
                         
                         if(selectedIndexOfServiceType.filter{$0}.count != 0) {
+                            if viewModel.allowingLocationTracker {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
                                     if !recommendedEvents.isEmpty {
@@ -138,9 +140,22 @@ struct HomeView: View {
                                             }
                                         }
                                     }
+                                }
+                                    
                                     
                                 }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
                                 
+                            } else {
+                                VStack {
+                                Image(systemName: "location.slash.fill")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .aspectRatio(contentMode: .fit)
+                                    .symbolRenderingMode(.palette)
+                                Text("Please enable location access in Settings")
+                                        .bold()
+                                        .padding(.horizontal)
+                                }.padding()
                             }
                         } else {
                             Spacer().frame(width: 290, height: 250)
@@ -156,6 +171,7 @@ struct HomeView: View {
             
         }
         .padding(.vertical)
+        }
         .onChange(of: viewModel.queriedEventsList) { value in
                     if value.count > 3 {
                         recommendedEvents = value

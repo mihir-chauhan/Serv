@@ -52,7 +52,7 @@ struct OnboardingView: View {
                             
                                 .frame(width: 50, height: 50)
                             }
-                                if pageIndex == 3 {
+                                if pageIndex == 4 {
                                     Capsule()
                                         .frame(width: 105, height: 50)
                                         .overlay(

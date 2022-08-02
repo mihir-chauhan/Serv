@@ -80,7 +80,9 @@ struct AccountSignUpView: View {
             }
             }.padding(.horizontal, 15)
             .ignoresSafeArea(.keyboard)
-            .background(Color(.systemGray6))
+            .cornerRadius(20)
+//            .background(Color(.systemGray6))
+            .background(Color("signUpBgColor"))
         }
     }
 
