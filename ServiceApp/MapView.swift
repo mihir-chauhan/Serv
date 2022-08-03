@@ -236,9 +236,9 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            if !self.allowingLocationTracker {
+            //if !self.allowingLocationTracker {
             updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude) ?? 39.8283, longitude: (locationManager.location?.coordinate.longitude) ?? -98.5795, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!)
-            }
+            //}
         } else {
             
         }
@@ -248,6 +248,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         //        if locationManager is not nil, proceed. Otherwise, early exit out of function
         guard let locationManager = locationManager else { return }
         
+        print("locationManager \(locationManager.authorizationStatus)")
         switch locationManager.authorizationStatus {
             
         case .notDetermined:
