@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import CoreGraphics
 
-struct PVSAGraph: View {
+struct PVSALineGraph: View {
     var data: [CGFloat] = [
         0, 1.5, 0.75, 2, 6.5, 2, 2, 0, 0.85, 2.25, 2
 //        989, 1200, 750, 790, 650, 25, 1200, 600, 500, 600, 890, 1203, 1400, 900, 1250, 1600, 1200
@@ -16,6 +17,15 @@ struct PVSAGraph: View {
         LineGraph(data: data)
             
             .cornerRadius(20)
+    }
+}
+
+struct PVSABarGraph: View {
+    var data: [CGFloat] = [
+        10, 13, 2, 7
+    ]
+    var body: some View {
+        BarGraph(data: data)
     }
 }
 
@@ -71,7 +81,7 @@ struct LineGraph: View {
                 )
                 Text("Hours Volunteered per Month")
                     .bold()
-                    .padding()
+                    .padding(10)
             }
             .overlay (
                 //Drag
@@ -143,5 +153,83 @@ struct LineGraph: View {
 //                               + Array(repeating: Color.clear, count: 2)
                        
                        , startPoint: .top, endPoint: .bottom)
+    }
+}
+
+struct BarGraph: View {
+    @GestureState var isDragging: Bool = false
+    @State var offset: CGFloat = 0
+    @State var currentWeekID: CGFloat?
+    var data: [CGFloat]
+    var body: some View {
+        ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
+            Text("Volunteer Hours this month")
+                .bold()
+                .padding(10)
+            HStack(spacing: 10) {
+                ForEach(0..<data.count, id: \.self) { week in
+                    CardView(week: week)
+                }
+            }
+            .padding(.horizontal, 10)
+            .frame(height: 250)
+            .animation(.easeOut, value: isDragging)
+            .gesture(
+                DragGesture()
+                    .updating($isDragging, body: { _, out, _ in
+                        out = true
+                    })
+                    .onChanged({ value in
+                        offset = isDragging ? value.location.x : 0
+                        
+                        let draggingSpace = UIScreen.main.bounds.width - 60
+                        let eachBlock = draggingSpace / CGFloat(data.count)
+                        let temp = Int(offset / eachBlock)
+                        
+                        print(temp)
+                        
+                        let index = max(min(temp, data.count - 1), 0)
+                        self.currentWeekID = data[index]
+                    })
+                    .onEnded({ value in
+                        offset = .zero
+                        currentWeekID = nil
+                    })
+            )
+        }
+    }
+    
+    @ViewBuilder
+    func CardView(week: Int) -> some View {
+        VStack(spacing: 20) {
+            GeometryReader { proxy in
+                let size = proxy.size
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.mint)
+                    .opacity(isDragging ? (currentWeekID == data[week] ? 1 : 0.35) : 1)
+                    .frame(height: (data[week] / getMax()) * (size.height - 50))
+                    .overlay(
+//                      prints out element value
+                        Text("\(Int(data[week]))")
+                            .font(.callout)
+                            .foregroundColor(.orange)
+                            .opacity(isDragging && currentWeekID == data[week] ? 1 : 0)
+                            .offset(y: -20)
+                        , alignment: .top
+                    )
+                    .frame(maxHeight: .infinity, alignment: .bottom)
+            }
+//          prints out index
+            Text("Week \(String(Int(week)))")
+                .font(.caption)
+                .foregroundColor(currentWeekID == data[week] ? Color.orange : Color.gray)
+        }
+    }
+    
+    func getMax() -> CGFloat {
+        let max = data.max { first, second in
+            return second > first
+        }
+        return max ?? 0
     }
 }
