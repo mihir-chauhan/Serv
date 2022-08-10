@@ -69,8 +69,25 @@ class FirestoreCRUD: ObservableObject {
             
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID).updateData(["attendees" : mapValues])
-
-
+    }
+    
+    func checkForMaxSlot(eventID: String, eventCategory: String
+//                         completion: @escaping (_ maxSlotReached: Bool) -> ()
+    ) {
+        db.collection("EventTypes/\(eventCategory)/Events")
+            .document(eventID)
+            .getDocument { doc, err in
+                if let err = err {
+                    print(err.localizedDescription)
+                    return
+                }
+                let data = doc?.data()
+                let maxSlots = data?["maxSlots"] as? Int
+                let attendeeCount = data?["attendees"]
+                print("slots", maxSlots, attendeeCount)
+//                completion(true)
+            }
+        
     }
     
     func addCheckInTime(eventID: String, eventCategory: String, checkInTime: Date? = nil) {
@@ -87,6 +104,29 @@ class FirestoreCRUD: ObservableObject {
             .document(eventID).updateData(
                 ["attendees" : mapValues]
             )
+    }
+    
+    func serviceCompletedPerWeek(start: Date, end: Date, completion: @escaping (_ hours: Double?) -> ()) {
+        var totalHours: Double = 0
+        db.collection("Volunteer Accounts").document("OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+            .whereField("checkOutTime", isGreaterThan: start)
+            .whereField("checkOutTime", isLessThan: end)
+        
+            .getDocuments { doc, err in
+                if let err = err {
+                    print(err.localizedDescription)
+                    return
+                }
+                
+//                print(doc?.count)
+                for i in doc!.documents {
+                    print(i.documentID)
+                    let checkOutTime = i.get("hoursSpent") as? Double
+                    
+                    totalHours += checkOutTime!
+                }
+                completion(totalHours)
+            }
     }
     
     

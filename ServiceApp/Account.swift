@@ -16,11 +16,7 @@ struct Account: View {
     @State var offset: CGFloat = 0
     @State var toggleEditInfoSheet: Bool = false
     @State var toggleFullScreenQR: Bool = false
-//    var uidInfoStored: String {
-//            get {
-//                return ContentView().uidStoredInfo
-//                }
-//        }
+    @State var toggleEventHistory: Bool = false
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 15) {
@@ -83,7 +79,7 @@ struct Account: View {
                     RoundedRectangle(cornerRadius: 20)
                         .foregroundColor(.primary.opacity(0.05))
                         .frame(height: 75)
-                        .padding()
+                        .padding(.horizontal)
                         .overlay(
                             HStack {
                             Text("Your QR Code")
@@ -93,7 +89,29 @@ struct Account: View {
                                     .resizable()
                                     .frame(width: 20, height: 20)
                                     .padding()
-                            }.padding()
+                            }.padding(.horizontal)
+                        )
+                    }
+                    
+                    
+                    Button(action: {
+                        toggleEventHistory.toggle()
+                    }) {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundColor(.primary.opacity(0.05))
+                        .frame(height: 75)
+                        .padding(.horizontal)
+                        .overlay(
+                            HStack {
+                            Text("Event History")
+                                    .padding()
+                            Spacer(minLength: 10)
+                                Image(systemName: "clock.arrow.circlepath")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
+                                    .padding()
+                            }.padding(.horizontal)
                         )
                     }
 //
@@ -112,10 +130,6 @@ struct Account: View {
                         )
                         .padding(.horizontal)
                     
-//                    PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false).padding(10)
-                    
-//                    BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
-                    
                     Settings().padding()
                 }
                 .zIndex(0)
@@ -128,7 +142,14 @@ struct Account: View {
             .coordinateSpace(name: "SCROLL")
             .fullScreenCover(isPresented: $toggleEditInfoSheet) {
                 EditAccountDetails()
-        }
+            }
+            .fullScreenCover(isPresented: $toggleEventHistory) {
+                ZStack {
+                    Text("Event History View")
+//                    ForEach(<#T##data: _##_#>, content: <#T##(_.Element) -> _#>)
+                    closeButtonHistory
+                }
+            }
             .fullScreenCover(isPresented: $toggleFullScreenQR) {
                 ZStack {
                     Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid)!)!)!)
@@ -136,19 +157,36 @@ struct Account: View {
                         .frame(width: 320, height: 320, alignment: .center)
                         .aspectRatio(contentMode: .fit)
                         .font(.system(size: 30, weight: .bold, design: .rounded))
-                    closeButton
+                    closeButtonQR
                 }
             }
         
         
     }
     
-    var closeButton: some View {
+    var closeButtonQR: some View {
             VStack {
                 HStack {
                     Spacer()
                     Button(action: {
                         toggleFullScreenQR.toggle()
+                    }) {
+                        Image(systemName: "xmark.circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .padding(10)
+                    }
+                }
+                .padding(.top, 5)
+                Spacer()
+            }
+        }
+    var closeButtonHistory: some View {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        toggleEventHistory.toggle()
                     }) {
                         Image(systemName: "xmark.circle")
                             .resizable()
@@ -227,7 +265,6 @@ struct TopBar: View {
                     ProgressView()
                 }
             }
-            
             
             HStack {
                 Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")

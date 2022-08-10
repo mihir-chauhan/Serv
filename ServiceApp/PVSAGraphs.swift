@@ -21,11 +21,47 @@ struct PVSALineGraph: View {
 }
 
 struct PVSABarGraph: View {
-    var data: [CGFloat] = [
-        10, 13, 2, 7
+    @State var data: [CGFloat] = [
+//        10, 13, 2, 7
     ]
+    let oneWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: Date().startOfWeek())
+    let twoWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -2, to: Date().startOfWeek())
+    let threeWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -3, to: Date().startOfWeek())
+    let fourWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -4, to: Date().startOfWeek())
+//    let weekOfMonth = Calendar.current.component(.weekOfMonth, from: Date())
     var body: some View {
         BarGraph(data: data)
+            .onAppear {
+                //four weeks before
+                FirestoreCRUD().serviceCompletedPerWeek(start: fourWeekBefore!, end: threeWeekBefore!) { value in
+                    data.append(value ?? 0.0)
+                }
+                
+                //three weeks before
+                FirestoreCRUD().serviceCompletedPerWeek(start: threeWeekBefore!, end: twoWeekBefore!) { value in
+                    data.append(value ?? 0.0)
+                }
+                
+                // two weeks before
+                FirestoreCRUD().serviceCompletedPerWeek(start: twoWeekBefore!, end: oneWeekBefore!) { value in
+                    data.append(value ?? 0.0)
+                }
+                
+                // this week
+                FirestoreCRUD().serviceCompletedPerWeek(start: oneWeekBefore!, end: Date()) { value in
+                    data.append(value ?? 0.0)
+                }
+            }
+    }
+}
+
+extension Calendar {
+    static let gregorian = Calendar(identifier: .gregorian)
+}
+
+extension Date {
+    func startOfWeek(using calendar: Calendar = .gregorian) -> Date {
+        calendar.dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: self).date!
     }
 }
 
@@ -48,10 +84,6 @@ struct LineGraph: View {
                 let progress = item.element / maxPoint
                 let pathHeight = (progress * height)
                 let pathWidth = width * CGFloat(item.offset)
-//                if  {
-//                    pathWidth
-//                    print(points[currentIndex - 1], "Previously...", points[currentIndex - 1])
-//                }
 
                 return CGPoint(x: pathWidth, y: -pathHeight + height)
             }
@@ -149,9 +181,6 @@ struct LineGraph: View {
                 .opacity(0.1)
             
         ]
-//                               + Array(repeating: Color.brown.opacity(0.1), count: 4)
-//                               + Array(repeating: Color.clear, count: 2)
-                       
                        , startPoint: .top, endPoint: .bottom)
     }
 }
@@ -163,7 +192,7 @@ struct BarGraph: View {
     var data: [CGFloat]
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-            Text("Volunteer Hours this month")
+            Text("Volunteer Hours Past 4 Weeks")
                 .bold()
                 .padding(10)
             HStack(spacing: 10) {
@@ -210,7 +239,7 @@ struct BarGraph: View {
                     .frame(height: (data[week] / getMax()) * (size.height - 50))
                     .overlay(
 //                      prints out element value
-                        Text("\(Int(data[week]))")
+                        Text("\(String(format: "%.2f", Double(data[week])))")
                             .font(.callout)
                             .foregroundColor(.orange)
                             .opacity(isDragging && currentWeekID == data[week] ? 1 : 0)
@@ -220,7 +249,7 @@ struct BarGraph: View {
                     .frame(maxHeight: .infinity, alignment: .bottom)
             }
 //          prints out index
-            Text("Week \(String(Int(week)))")
+            Text("Week \(String(Int(week) + 1))")
                 .font(.caption)
                 .foregroundColor(currentWeekID == data[week] ? Color.orange : Color.gray)
         }

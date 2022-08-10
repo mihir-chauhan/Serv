@@ -103,15 +103,16 @@ struct EventDetailView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        if !buttonStateIsSignedUp {
-                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
-                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                        } else {
-                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
-                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                        }
-                        
-                        buttonStateIsSignedUp.toggle()
+                        FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category)
+//                        if !buttonStateIsSignedUp {
+//                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
+//                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+//                        } else {
+//                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
+//                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+//                        }
+//
+//                        buttonStateIsSignedUp.toggle()
                     }) {
                         Capsule()
                             .frame(width: 135, height: 45)
