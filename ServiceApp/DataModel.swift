@@ -52,6 +52,12 @@ struct OrganizationInformationModel {
     var website: String
 }
 
+struct EventHistoryInformationModel {
+    var eventName: String
+    var dateOfService: Date
+    var hoursSpent: Double
+}
+
 
 
 // MARK: sample data

@@ -17,6 +17,8 @@ struct Account: View {
     @State var toggleEditInfoSheet: Bool = false
     @State var toggleFullScreenQR: Bool = false
     @State var toggleEventHistory: Bool = false
+    @State var eventHistory: [EventHistoryInformationModel] = []
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 15) {
@@ -146,11 +148,39 @@ struct Account: View {
                 EditAccountDetails()
             }
             .fullScreenCover(isPresented: $toggleEventHistory) {
-                ZStack {
-                    Text("Event History View")
-//                    ForEach(<#T##data: _##_#>, content: <#T##(_.Element) -> _#>)
-                    closeButtonHistory
+                NavigationView {
+                    ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                    ForEach(0..<eventHistory.count, id: \.self) { i in
+                        VStack(alignment: .leading) {
+                            Text(eventHistory[i].eventName)
+                                .font(.headline).bold()
+                                .padding()
+                            HStack {
+                                Text("Hours rewarded: \(String(format: "%.1f", eventHistory[i].hoursSpent))")
+                                    .font(.caption)
+                                Spacer()
+                                Text("\(dateToString(from: eventHistory[i].dateOfService))")
+                                    .font(.caption)
+                            }
+                            .padding(10)
+                        }.overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+                        )
+                        .padding(.horizontal)
+                        }
+                        
+                    }
                 }
+                .task {
+                    FirestoreCRUD().getEventHistory { eventHistory in
+                        self.eventHistory = eventHistory
+                    }
+                }
+                .navigationBarTitle("Event History")
+                .navigationBarItems(trailing: closeButtonHistory)
+            }
             }
             .fullScreenCover(isPresented: $toggleFullScreenQR) {
                 ZStack {
@@ -238,6 +268,13 @@ struct Account: View {
         }
         
         return nil
+    }
+    
+    func dateToString(from date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/YY"
+        
+        return dateFormatter.string(from: date)
     }
     
 }

@@ -240,4 +240,33 @@ class FirestoreCRUD: ObservableObject {
             }
         }
     }
+    
+    func getEventHistory(completion: @escaping (_ eventHistory: [EventHistoryInformationModel]) -> ()) {
+        var eventHistory: [EventHistoryInformationModel] = []
+        db.collection("Volunteer Accounts").document(
+            "OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+            .getDocuments { doc, err in
+                if let err = err {
+                    print(err.localizedDescription)
+                    return
+                }
+                if !doc!.isEmpty {
+                    for i in doc!.documents {
+                        let eventName = i.get("eventName") as? String
+                        let dateOfService = i.get("checkOutTime") as! Timestamp
+                        let hoursSpent = i.get("hoursSpent") as! Double
+                        
+                        let dateFormatter = DateFormatter()
+                        let date = dateOfService.dateValue()
+                        dateFormatter.dateStyle = .medium
+                        dateFormatter.timeStyle = .none
+                        
+                        eventHistory.append(EventHistoryInformationModel(eventName: eventName ?? "Unknown", dateOfService: date, hoursSpent: hoursSpent))
+                    }
+                    completion(eventHistory)
+                }
+                
+            }
+        
+    }
 }
