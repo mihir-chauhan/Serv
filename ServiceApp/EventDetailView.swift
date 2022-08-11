@@ -19,6 +19,7 @@ struct EventDetailView: View {
     @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     @State var dragOffset: CGFloat = 0
     
+    @State var reachedMaxSlotBool: Bool = false
     @State var buttonStateIsSignedUp: Bool = false
     
     //    var drag: some Gesture {
@@ -103,22 +104,28 @@ struct EventDetailView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category)
-//                        if !buttonStateIsSignedUp {
-//                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
-//                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-//                        } else {
-//                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
-//                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-//                        }
-//
-//                        buttonStateIsSignedUp.toggle()
+                        FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
+                            if !reachedMaxSlots {
+                                if !buttonStateIsSignedUp {
+                                    FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
+                                    FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                } else {
+                                    FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
+                                    FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                }
+                                
+                                buttonStateIsSignedUp.toggle()
+                            } else {
+                                reachedMaxSlotBool = true
+                            }
+                        }
+
                     }) {
                         Capsule()
                             .frame(width: 135, height: 45)
-                            .foregroundColor(!buttonStateIsSignedUp ? .blue : .red)
-                            .overlay(Text(!buttonStateIsSignedUp ? "Sign up" : "Remove Event").foregroundColor(.white))
-                    }
+                            .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .blue : .red) : .gray)
+                            .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white))
+                    }.disabled(reachedMaxSlotBool)
                 }
                 .padding(.vertical, 30)
                 .padding(.horizontal, 15)

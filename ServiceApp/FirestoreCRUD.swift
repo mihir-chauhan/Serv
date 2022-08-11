@@ -66,13 +66,14 @@ class FirestoreCRUD: ObservableObject {
                         ]
             ]
         }
-            
+        
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID).updateData(["attendees" : mapValues])
     }
     
     func checkForMaxSlot(eventID: String, eventCategory: String
-//                         completion: @escaping (_ maxSlotReached: Bool) -> ()
+                         ,
+                         completion: @escaping (_ maxSlotReached: Bool) -> ()
     ) {
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID)
@@ -83,9 +84,14 @@ class FirestoreCRUD: ObservableObject {
                 }
                 let data = doc?.data()
                 let maxSlots = data?["maxSlots"] as? Int
-                let attendeeCount = data?["attendees"]
-                print("slots", maxSlots, attendeeCount)
-//                completion(true)
+                let attendees = data?["attendees"] as? Dictionary<String, Any>
+                print(attendees?.count)
+                
+                if attendees!.count > maxSlots! {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
             }
         
     }

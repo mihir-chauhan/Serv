@@ -24,32 +24,48 @@ struct PVSABarGraph: View {
     @State var data: [CGFloat] = [
 //        10, 13, 2, 7
     ]
-    let oneWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: Date().startOfWeek())
-    let twoWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -2, to: Date().startOfWeek())
-    let threeWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -3, to: Date().startOfWeek())
-    let fourWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -4, to: Date().startOfWeek())
-//    let weekOfMonth = Calendar.current.component(.weekOfMonth, from: Date())
+    
+    
+    let tuple: [ (start: Date, end: Date) ]  = {
+        let oneWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: Date().startOfWeek())
+        let twoWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -2, to: Date().startOfWeek())
+        let threeWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -3, to: Date().startOfWeek())
+        let fourWeekBefore = Calendar.current.date(byAdding: .weekOfMonth, value: -4, to: Date().startOfWeek())
+        return [
+            (oneWeekBefore!, Date()),
+            (twoWeekBefore!, oneWeekBefore!),
+            (threeWeekBefore!, twoWeekBefore!),
+            (fourWeekBefore!, threeWeekBefore!),
+        ]
+    }()
     var body: some View {
         BarGraph(data: data)
             .onAppear {
+                for i in 0..<tuple.count {
+                    FirestoreCRUD().serviceCompletedPerWeek(start: tuple[i].start, end: tuple[i].end) { value in
+                        print("hey", value)
+                        data.append(value ?? 0.0)
+                        print("HERE", data)
+//                    }
+                }
                 //four weeks before
-                FirestoreCRUD().serviceCompletedPerWeek(start: fourWeekBefore!, end: threeWeekBefore!) { value in
-                    data.append(value ?? 0.0)
-                }
-                
-                //three weeks before
-                FirestoreCRUD().serviceCompletedPerWeek(start: threeWeekBefore!, end: twoWeekBefore!) { value in
-                    data.append(value ?? 0.0)
-                }
-                
-                // two weeks before
-                FirestoreCRUD().serviceCompletedPerWeek(start: twoWeekBefore!, end: oneWeekBefore!) { value in
-                    data.append(value ?? 0.0)
-                }
-                
-                // this week
-                FirestoreCRUD().serviceCompletedPerWeek(start: oneWeekBefore!, end: Date()) { value in
-                    data.append(value ?? 0.0)
+//                FirestoreCRUD().serviceCompletedPerWeek(start: fourWeekBefore!, end: threeWeekBefore!) { value in
+//                    data.append(value ?? 0.0)
+//                }
+//
+//                //three weeks before
+//                FirestoreCRUD().serviceCompletedPerWeek(start: threeWeekBefore!, end: twoWeekBefore!) { value in
+//                    data.append(value ?? 0.0)
+//                }
+//
+//                // two weeks before
+//                FirestoreCRUD().serviceCompletedPerWeek(start: twoWeekBefore!, end: oneWeekBefore!) { value in
+//                    data.append(value ?? 0.0)
+//                }
+//
+//                // this week
+//                FirestoreCRUD().serviceCompletedPerWeek(start: oneWeekBefore!, end: Date()) { value in
+//                    data.append(value ?? 0.0)
                 }
             }
     }
