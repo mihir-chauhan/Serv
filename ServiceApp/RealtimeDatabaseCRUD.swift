@@ -175,15 +175,18 @@ class FirebaseRealtimeDatabaseCRUD {
         }
     }
     
-    func retrieveUserBio(uid: String, completion: @escaping (String) ->()) {
+    func retrieveUserBio(uid: String, completion: @escaping (UserInfoFromAuth) ->()) {
         ref.collection("Volunteer Accounts").document(uid).getDocument { snap, err in
             guard err == nil else {
                 print(err!.localizedDescription)
-                completion("No Bio");
+//                completion("No Bio");
                 return;
             }
             let userInfo = snap?.get("UserInfo") as? NSDictionary
-            completion(userInfo?["bio"] as? String ?? "No Bio")
+            let bio = userInfo?["bio"] as? String ?? "No Bio"
+            let name = userInfo?["name"] as? String ?? "Johnny Smithy"
+            let photoURL = userInfo?["photoURL"] as? String ?? "no url"
+            completion(UserInfoFromAuth(displayName: name, photoURL: URL(string: photoURL), bio: bio))
         }
     }
 }

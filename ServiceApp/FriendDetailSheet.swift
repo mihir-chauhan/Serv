@@ -37,8 +37,13 @@ struct FriendDetailSheet: View {
                 }
 //                BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true)
                     let _ = print("39", data.hoursSpent)
-                    PVSALineGraph(user: data.uid!, data: data.hoursSpent)
-//                PieChartView(data: [8, 23, 54, 32], title: "Service Categories", form: ChartForm.extraLarge, dropShadow: false)
+                    PVSALineGraph(data: data.hoursSpent, user: data.uid!)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+                        )
+                        .padding(.horizontal)
+                    
                     Text("Attending Upcoming Events").font(.headline).bold()
 
                         ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in

@@ -110,6 +110,12 @@ struct EditAccountDetails: View {
                             selectedImage = images.first
                             if let imageData = selectedImage?.jpeg(.lowest) {
                                 FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: imageData)
+//                                viewModel.encodeUserInfo(for: UserInfoFromAuth(
+//                                    uid: viewModel.decodeUserInfo()?.uid,
+//                                    displayName: viewModel.decodeUserInfo()?.displayName,
+//                                    photoURL: UIImage(data: imageData),
+//                                    bio: <#T##String?#>,
+//                                    hoursSpent: <#T##[CGFloat]#>))
                             }
                         }
                     }

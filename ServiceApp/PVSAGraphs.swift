@@ -4,30 +4,28 @@
 //
 //  Created by Kelvin J on 8/2/22.
 //
-
 import SwiftUI
 import CoreGraphics
-
 struct PVSALineGraph: View {
-    var user: String
     @State var hasData: Bool = false
     @State var data: [CGFloat] = [
         0, 1.5, 0.75, 2, 6.5, 2, 2, 0, 0.85, 2.25, 2
 //        989, 1200, 750, 790, 650, 25, 1200, 600, 500, 600, 890, 1203, 1400, 900, 1250, 1600, 1200
     ]
+    var user: String
     var body: some View {
         LineGraph(hasData: $hasData, data: data)
             .task {
                 FirestoreCRUD().allTimeCompleted(for: user) { totalHours in
                     data = totalHours
-                    if !data.isEmpty {
+                    if !data.isEmpty && data.count > 1 {
                         hasData = true
                     } else {
                         hasData = false
                     }
                 }
             }
-            .cornerRadius(20)
+            .cornerRadius(10)
     }
 }
 
@@ -71,7 +69,6 @@ struct PVSABarGraph: View {
                         }
                     }
                 }
-                
             }
     }
 }
@@ -112,11 +109,11 @@ struct LineGraph: View {
                 return CGPoint(x: pathWidth, y: -pathHeight + height)
             }
             ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
+                
                 Text("Hours Volunteered (All Time)")
                     .bold()
                     .padding(10)
                 if hasData {
-                
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: 0))
                     path.addLines(points)
@@ -235,33 +232,33 @@ struct BarGraph: View {
                 HStack(spacing: 10) {
                     ForEach(0..<data.count, id: \.self) { week in
                         CardView(week: week)
+                            .padding(.horizontal, 10)
+                            .frame(height: 250)
+                            .animation(.easeOut, value: isDragging)
+                            .gesture(
+                                DragGesture()
+                                    .updating($isDragging, body: { _, out, _ in
+                                        out = true
+                                    })
+                                    .onChanged({ value in
+                                        offset = isDragging ? value.location.x : 0
+                                        
+                                        let draggingSpace = UIScreen.main.bounds.width - 60
+                                        let eachBlock = draggingSpace / CGFloat(data.count)
+                                        let temp = Int(offset / eachBlock)
+                                        
+                                        print(temp)
+                                        
+                                        let index = max(min(temp, data.count - 1), 0)
+                                        self.currentWeekID = data[index]
+                                    })
+                                    .onEnded({ value in
+                                        offset = .zero
+                                        currentWeekID = nil
+                                    })
+                            )
                     }
                 }
-                .padding(.horizontal, 10)
-                .frame(height: 250)
-                .animation(.easeOut, value: isDragging)
-                .gesture(
-                    DragGesture()
-                        .updating($isDragging, body: { _, out, _ in
-                            out = true
-                        })
-                        .onChanged({ value in
-                            offset = isDragging ? value.location.x : 0
-                            
-                            let draggingSpace = UIScreen.main.bounds.width - 60
-                            let eachBlock = draggingSpace / CGFloat(data.count)
-                            let temp = Int(offset / eachBlock)
-                            
-                            print(temp)
-                            
-                            let index = max(min(temp, data.count - 1), 0)
-                            self.currentWeekID = data[index]
-                        })
-                        .onEnded({ value in
-                            offset = .zero
-                            currentWeekID = nil
-                        })
-                )
             } else {
                 Text("Start volunteering to see your stats")
                 .padding(.horizontal, 10)

@@ -38,6 +38,21 @@ class FIRCloudImages {
 
             }
         }
+        
+//        let fileCoordinator = NSFileCoordinator()
+//        fileCoordinator.coordinate(writingItemAt: gsURL as URL, options: .forReplacing, error: nil, byAccessor: { _ in
+//            do {
+//                      try UIImagePNGRepresentation(image)?.write(to: someURL)
+//                 } catch let error as NSError {
+//                      print (error)
+//                 }
+//        })
+//        if let data = Data(contentsOf: gsURL), let image = UIImage(data: data!) {
+//            return image
+//        } else {
+//            print("Something wrong")
+//        }
+        
         completion(UIImage())
     }
         

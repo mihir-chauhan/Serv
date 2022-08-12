@@ -93,7 +93,7 @@ class AuthViewModel: ObservableObject {
                         print("Welcome back \(user?.displayName ?? "no name"), aka: \(String(describing: user?.uid))")
                         self.state = .signedIn
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
-                            bio = value
+                            bio = value.bio ?? "no bio?!"
                             self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
                         }
                     }
@@ -166,7 +166,7 @@ class AuthViewModel: ObservableObject {
                             if exists == true {
                                 
                                 FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
-                                    bio = value
+                                    bio = value.bio ?? "no bio?!"
                                     self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
                                 }
                             } else {
@@ -277,8 +277,10 @@ class AuthViewModel: ObservableObject {
                         print("User signs in successfully")
                         print(user.email!, user.uid)
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
-                            bio = value
-                            self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: user.displayName, photoURL: user.photoURL, email: user.email, bio: bio))
+                            bio = value.bio ?? "No bio?"
+                            
+                            print(user.displayName)
+                            self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: value.displayName, photoURL: value.photoURL, email: user.email, bio: bio))
                         }
                         self?.state = .signedIn
                         
@@ -323,7 +325,7 @@ class AuthViewModel: ObservableObject {
                     print("kjadsjlfndafkjndfjnhere 11111111121212121 \(exists)")
                     if exists {
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
-                            bio = value
+                            bio = value.bio ?? "no bio?!"
                             print(bio)
                             self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
                         }

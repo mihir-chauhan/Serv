@@ -27,7 +27,7 @@
                         <constraints>
                             <constraint firstItem="xYt-Rh-fxT" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="40" id="18C-KP-dRx"/>
                             <constraint firstItem="F4t-q2-05k" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Os3-Tx-RL7"/>
-                            <constraint firstItem="xYt-Rh-fxT" firstAttribute="bottom" secondItem="Bcu-3y-fUS" secondAttribute="bottom" id="QCQ-66-ALC"/>
+                            <constraint firstItem="xYt-Rh-fxT" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottomMargin" id="QCQ-66-ALC"/>
                             <constraint firstAttribute="bottom" secondItem="F4t-q2-05k" secondAttribute="bottom" id="UJZ-fe-rZX"/>
                             <constraint firstItem="xYt-Rh-fxT" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="Zr6-Ag-ep2"/>
                             <constraint firstItem="F4t-q2-05k" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="f1c-3q-IsX"/>
@@ -42,7 +42,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="appIconGradient" width="1582" height="1080"/>
+        <image name="appIconGradient" width="447.33334350585938" height="313"/>
         <image name="appIconNoBg" width="2048" height="2048"/>
     </resources>
 </document>
