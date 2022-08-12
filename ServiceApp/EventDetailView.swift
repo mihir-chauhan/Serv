@@ -97,7 +97,12 @@ struct EventDetailView: View {
                             }
                         }
                     }
+                    
                     Text(data.description)
+                        .font(.caption)
+                    Text("Special requirements:")
+                        .bold()
+                    Text(data.specialRequirements)
                         .font(.caption)
                 }
                 
