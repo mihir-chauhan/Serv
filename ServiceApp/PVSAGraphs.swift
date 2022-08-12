@@ -79,14 +79,16 @@ struct LineGraph: View {
             let height = proxy.size.height
             let width = (proxy.size.width) / CGFloat(data.count - 1)
             
-            let maxPoint = (data.max() ?? 0) + (data.reduce(0, +) / CGFloat(data.count)) // getting average
+            let maxPoint = 5 + data.reduce(0, +) // getting average
             let _ = print(data.reduce(0, +))
             
+            var prevProgess = 0.0
             let points = data.enumerated().compactMap { item -> CGPoint in
-                let progress = item.element / maxPoint
+                print("prevProgess", prevProgess, item.element)
+                let progress = (item.element + prevProgess) / maxPoint
                 let pathHeight = (progress * height)
                 let pathWidth = width * CGFloat(item.offset)
-
+                prevProgess = (item.element + prevProgess)
                 return CGPoint(x: pathWidth, y: -pathHeight + height)
             }
             ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
