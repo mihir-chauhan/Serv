@@ -9,15 +9,21 @@ import SwiftUI
 import CoreGraphics
 
 struct PVSALineGraph: View {
+    @State var hasData: Bool = false
     @State var data: [CGFloat] = [
         0, 1.5, 0.75, 2, 6.5, 2, 2, 0, 0.85, 2.25, 2
 //        989, 1200, 750, 790, 650, 25, 1200, 600, 500, 600, 890, 1203, 1400, 900, 1250, 1600, 1200
     ]
     var body: some View {
-        LineGraph(data: data)
+        LineGraph(hasData: $hasData, data: data)
             .task {
                 FirestoreCRUD().allTimeCompleted { totalHours in
                     data = totalHours
+                    if !data.isEmpty {
+                        hasData = true
+                    } else {
+                        hasData = false
+                    }
                 }
             }
             .cornerRadius(20)
@@ -25,6 +31,7 @@ struct PVSALineGraph: View {
 }
 
 struct PVSABarGraph: View {
+    @State var hasData: Bool = false
     @State var data: [CGFloat] = [
 //        10, 13, 2, 7
     ]
@@ -43,7 +50,7 @@ struct PVSABarGraph: View {
         ]
     }()
     var body: some View {
-        BarGraph(data: data)
+        BarGraph(hasData: $hasData, data: data)
             .task {
                 FirestoreCRUD().serviceCompletedPerWeek(start: tuple[0].start, end: tuple[0].end) { value1 in
                     FirestoreCRUD().serviceCompletedPerWeek(start: tuple[1].start, end: tuple[1].end) { value2 in
@@ -53,10 +60,17 @@ struct PVSABarGraph: View {
                                 data.append(value2 ?? 0.0)
                                 data.append(value3 ?? 0.0)
                                 data.append(value4 ?? 0.0)
+                                
+                                if data[0] == 0.0 && data[1] == 0.0 && data[2] == 0.0 && data[3] == 0.0 {
+                                    hasData = false
+                                } else {
+                                    hasData = true
+                                }
                             }
                         }
                     }
                 }
+                
             }
     }
 }
@@ -73,6 +87,7 @@ extension Date {
 
 
 struct LineGraph: View {
+    @Binding var hasData: Bool
     var data: [CGFloat]
     @State var currentPlot = ""
     @State var offset: CGSize = .zero
@@ -96,7 +111,10 @@ struct LineGraph: View {
                 return CGPoint(x: pathWidth, y: -pathHeight + height)
             }
             ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-                
+                Text("Hours Volunteered per Month")
+                    .bold()
+                    .padding(10)
+                if hasData {
                 
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: 0))
@@ -119,10 +137,7 @@ struct LineGraph: View {
                         path.addLine(to: CGPoint(x: 0, y: height))
                     }
                 )
-                Text("Hours Volunteered per Month")
-                    .bold()
-                    .padding(10)
-            }
+                
             .overlay (
                 //Drag
                 VStack(spacing: 0) {
@@ -168,16 +183,24 @@ struct LineGraph: View {
                     
 //                    let new = data[index] + prevProgess
 //                    print("NEWNEWNEW", new)
-                    
-                    currentPlot = String(format: "%.2f", data[index] + prevProgess)
-                    self.translation = translation
-                    
-                    offset = CGSize(width: points[index].x - 40, height: points[index].y - height)
+                    if !data.isEmpty {
+                        currentPlot = String(format: "%.2f", prevProgess + data[index])
+                        self.translation = translation
+                        
+                        offset = CGSize(width: points[index].x - 40, height: points[index].y - height)
+                    }
+                   
                 })
                     .onEnded({ value in
                         withAnimation { showPlot = false }
                     })
             )
+                } else {
+                    Text("Start volunteering to see PVSA progress")
+                        .padding(.horizontal, 10)
+                        .frame(width: UIScreen.main.bounds.width - 35, height: 250)
+                }
+            }
         }.frame(height: 250)
     }
     
@@ -197,6 +220,7 @@ struct LineGraph: View {
 }
 
 struct BarGraph: View {
+    @Binding var hasData: Bool
     @GestureState var isDragging: Bool = false
     @State var offset: CGFloat = 0
     @State var currentWeekID: CGFloat?
@@ -206,7 +230,7 @@ struct BarGraph: View {
             Text("Volunteer Hours Past 4 Weeks")
                 .bold()
                 .padding(10)
-            if !data.isEmpty {
+            if hasData {
                 HStack(spacing: 10) {
                     ForEach(0..<data.count, id: \.self) { week in
                         CardView(week: week)

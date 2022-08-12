@@ -80,6 +80,7 @@ class FirestoreCRUD: ObservableObject {
                          ,
                          completion: @escaping (_ maxSlotReached: Bool) -> ()
     ) {
+//        var currentAttendees: Int = 0
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID)
             .getDocument { doc, err in
@@ -89,10 +90,17 @@ class FirestoreCRUD: ObservableObject {
                 }
                 let data = doc?.data()
                 let maxSlots = data?["maxSlots"] as? Int
-                let attendees = data?["attendees"] as? Dictionary<String, Any>
+                let attendees = data?["attendees"] as? Dictionary<String, Any?>
                 print(attendees?.count)
                 
-                if attendees!.count > maxSlots! {
+//                for (key, valuezzz) in attendees! {
+//                    guard valuezzz != nil else {
+//                        return
+//                    }
+//                    currentAttendees += 1
+//                }
+                
+                if attendees!.count == maxSlots! {
                     completion(true)
                 } else {
                     completion(false)
@@ -169,7 +177,7 @@ class FirestoreCRUD: ObservableObject {
     func RemoveFromAttendeesList(eventID: String, eventCategory: String, user_uuid: String) {
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID)
-            .updateData(["attendees.\(user_uuid)" : nil])
+            .updateData(["attendees.\(user_uuid)" : FieldValue.delete()])
         
     }
     
