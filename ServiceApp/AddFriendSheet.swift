@@ -22,14 +22,14 @@ struct AddFriendSheet: View {
         NavigationView {
             if #available(iOS 15.0, *) {
                 TabView {
-//                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid!)!)!)!)
-                    //                        .resizable()
-                    //                        .frame(width: 290, height: 290, alignment: .center)
-                    //                        .font(.system(size: 30, weight: .bold, design: .rounded))
-                    //                        .tabItem {
-                    //                            Image(systemName: "qrcode")
-                    //                        }
-                    //                        .tag(0)
+                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid!)!)!)!)
+                                            .resizable()
+                                            .frame(width: 290, height: 290, alignment: .center)
+                                            .font(.system(size: 30, weight: .bold, design: .rounded))
+                                            .tabItem {
+                                                Image(systemName: "qrcode")
+                                            }
+                                            .tag(0)
                     ZStack {
                         if selectedImage == nil {
                             ZStack {
