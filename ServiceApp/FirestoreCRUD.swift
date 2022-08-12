@@ -119,7 +119,7 @@ class FirestoreCRUD: ObservableObject {
     func serviceCompletedPerWeek(start: Date, end: Date, completion: @escaping (_ hours: Double?) -> ()) {
         var totalHours: Double = 0
         let g = DispatchGroup()
-        let docRef = db.collection("Volunteer Accounts").document("OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+        let docRef = db.collection("Volunteer Accounts").document(user_uuid!).collection("Attended Event Data")
             .whereField("checkOutTime", isGreaterThan: start)
             .whereField("checkOutTime", isLessThan: end)
         
@@ -150,7 +150,7 @@ class FirestoreCRUD: ObservableObject {
     
     func allTimeCompleted(completion: @escaping (_ totalHours: [CGFloat]) -> ()) {
         var totalHours: [CGFloat] = []
-        let docRef = db.collection("Volunteer Accounts").document("OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+        let docRef = db.collection("Volunteer Accounts").document(user_uuid!).collection("Attended Event Data")
             .order(by: "checkOutTime", descending: true)
         
         docRef.getDocuments { snap, err in
