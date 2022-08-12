@@ -68,7 +68,12 @@ class FirestoreCRUD: ObservableObject {
         }
         
         db.collection("EventTypes/\(eventCategory)/Events")
-            .document(eventID).updateData(["attendees" : mapValues])
+            .document(eventID).updateData([
+                "attendees.\(user_uuid!).name" : (AuthViewModel().decodeUserInfo()?.displayName!)! as String?,
+                "attendees.\(user_uuid!).checkInTime" : nil,
+                "attendees.\(user_uuid!).checkOutTime" : nil
+            ])
+//            .document(eventID).updateData(["attendees" : mapValues])
     }
     
     func checkForMaxSlot(eventID: String, eventCategory: String
@@ -114,25 +119,34 @@ class FirestoreCRUD: ObservableObject {
     
     func serviceCompletedPerWeek(start: Date, end: Date, completion: @escaping (_ hours: Double?) -> ()) {
         var totalHours: Double = 0
-        db.collection("Volunteer Accounts").document("OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+        let g = DispatchGroup()
+        let docRef = db.collection("Volunteer Accounts").document("OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
             .whereField("checkOutTime", isGreaterThan: start)
             .whereField("checkOutTime", isLessThan: end)
         
-            .getDocuments { doc, err in
-                if let err = err {
-                    print(err.localizedDescription)
-                    return
-                }
+        g.enter()
+        
+        docRef.getDocuments { doc, err in
+            if let err = err {
+                print(err.localizedDescription)
+                g.leave()
+                return
+            }
+            for i in doc!.documents {
+                let checkOutTime = i.get("hoursSpent") as? Double
                 
-//                print(doc?.count)
-                for i in doc!.documents {
-                    print(i.documentID)
-                    let checkOutTime = i.get("hoursSpent") as? Double
-                    
-                    totalHours += checkOutTime!
-                }
+                totalHours += checkOutTime!
+                print("Got data!")
+                
+            }
+            g.leave()
+            
+            g.notify(queue: .main) {
+                print("TOTAL HOURS: \(totalHours)")
                 completion(totalHours)
             }
+            
+        }
     }
     
     
@@ -245,6 +259,8 @@ class FirestoreCRUD: ObservableObject {
         var eventHistory: [EventHistoryInformationModel] = []
         db.collection("Volunteer Accounts").document(
             "OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+            .order(by: "checkOutTime", descending: true)
+            .limit(to: 10)
             .getDocuments { doc, err in
                 if let err = err {
                     print(err.localizedDescription)

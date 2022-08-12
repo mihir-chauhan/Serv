@@ -40,32 +40,13 @@ struct PVSABarGraph: View {
     }()
     var body: some View {
         BarGraph(data: data)
-            .onAppear {
+            .task {
                 for i in 0..<tuple.count {
                     FirestoreCRUD().serviceCompletedPerWeek(start: tuple[i].start, end: tuple[i].end) { value in
-                        print("hey", value)
                         data.append(value ?? 0.0)
                         print("HERE", data)
-//                    }
-                }
-                //four weeks before
-//                FirestoreCRUD().serviceCompletedPerWeek(start: fourWeekBefore!, end: threeWeekBefore!) { value in
-//                    data.append(value ?? 0.0)
-//                }
-//
-//                //three weeks before
-//                FirestoreCRUD().serviceCompletedPerWeek(start: threeWeekBefore!, end: twoWeekBefore!) { value in
-//                    data.append(value ?? 0.0)
-//                }
-//
-//                // two weeks before
-//                FirestoreCRUD().serviceCompletedPerWeek(start: twoWeekBefore!, end: oneWeekBefore!) { value in
-//                    data.append(value ?? 0.0)
-//                }
-//
-//                // this week
-//                FirestoreCRUD().serviceCompletedPerWeek(start: oneWeekBefore!, end: Date()) { value in
-//                    data.append(value ?? 0.0)
+                        
+                    }
                 }
             }
     }

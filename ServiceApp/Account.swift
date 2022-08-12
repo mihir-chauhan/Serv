@@ -183,13 +183,16 @@ struct Account: View {
             }
             }
             .fullScreenCover(isPresented: $toggleFullScreenQR) {
-                ZStack {
-                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid)!)!)!)
-                        .resizable()
-                        .frame(width: 320, height: 320, alignment: .center)
-                        .aspectRatio(contentMode: .fit)
-                        .font(.system(size: 30, weight: .bold, design: .rounded))
-                    closeButtonQR
+                NavigationView {
+                        Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid)!)!)!)
+                            .resizable()
+                            .frame(width: 320, height: 320, alignment: .center)
+                            .aspectRatio(contentMode: .fit)
+                            .font(.system(size: 30, weight: .bold, design: .rounded))
+                        
+                    
+                    .navigationBarTitle("Your QR Code")
+                    .navigationBarItems(trailing: closeButtonQR)
                 }
             }
         
