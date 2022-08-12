@@ -14,7 +14,7 @@ struct Socials: View {
     @State private var nameForDetailSheet = ""
     @State private var imgForDetailSheet = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")!
     @State var sheetMode: SheetMode = .quarter
-
+    
     @State var listOfFriends = [UserInfoFromAuth]()
     
     @State var haveFriends: Bool = false
@@ -27,17 +27,17 @@ struct Socials: View {
                         haveFriends ? nil : CustomMaterialEffectBlur(blurStyle: .systemUltraThinMaterial).cornerRadius(25).offset(y: -10).overlay(Text("Leaderboard would appear after you add friends").font(.headline).bold().padding())
                     )
                 if self.listOfFriends.isEmpty {
-
+                    
                     Text("No friends to show!").font(.title).bold()
                         .offset(y: UIScreen.main.bounds.height / 5)
-                        
+                    
                 } else {
-                ForEach(self.listOfFriends, id: \.self) { friend in
-                    FriendCardView(image: friend.photoURL ?? imgForDetailSheet, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
-                        .sheet(isPresented: $showingFriendDetailSheet) {
-                            FriendDetailSheet(data: friend)
-                        }
-                }.padding(.horizontal)
+                    ForEach(self.listOfFriends, id: \.self) { friend in
+                        FriendCardView(image: friend.photoURL ?? imgForDetailSheet, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
+                            .sheet(isPresented: $showingFriendDetailSheet) {
+                                FriendDetailSheet(data: friend)
+                            }
+                    }.padding(.horizontal)
                 }
             }
             .navigationTitle("Socials")
@@ -51,6 +51,24 @@ struct Socials: View {
                     }
                     .sheet(isPresented: $showingSheet) {
                         AddFriendSheet()
+                    }
+                    
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { allFriends in
+                            self.listOfFriends.removeAll()
+                            for friend in allFriends {
+                                if !allFriends.isEmpty { haveFriends = true }
+                                FirebaseRealtimeDatabaseCRUD().getUserFriendInfo(uid: friend) { friendInfo in
+                                    self.listOfFriends.append(friendInfo)
+                                }
+                            }
+                            
+                        }
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                            .renderingMode(.original)
                     }
                     
                 }
