@@ -115,18 +115,38 @@ class FirebaseRealtimeDatabaseCRUD {
     }
     
     func getUserFriendInfo(uid: String, completion: @escaping (UserInfoFromAuth) -> ()) {
+        var hoursSpentArray: [CGFloat] = []
+        var counter = 0
         ref.collection("Volunteer Accounts").document(uid).getDocument { snap, err in
             guard err == nil else {
                 print(err!.localizedDescription)
                 completion(UserInfoFromAuth(displayName: "Unknown Name", photoURL: URL(string: "no image")))
                 return;
             }
+            let uid = snap?.documentID
             let value = snap?.get("UserInfo") as? NSDictionary
             let displayName = value?["name"] as? String ?? "no name"
             let photoURL = value?["photoURL"] as? String ?? "no image"
-            let model = UserInfoFromAuth(displayName: displayName, photoURL: URL(string: photoURL))
-            print(displayName)
-            completion(model)
+            
+            
+            ref.collection("Volunteer Accounts").document(uid!).collection("Attended Event Data").getDocuments { snap, err in
+                if let err = err {
+                    print(err.localizedDescription)
+                    return
+                }
+                for i in snap!.documents {
+                    hoursSpentArray.append(i.get("hoursSpent") as! CGFloat)
+//                    print("RAH", hoursSpentArray)
+                    counter += 1
+                    
+                    if counter == snap!.documents.count {
+                        let model = UserInfoFromAuth(uid: uid, displayName: displayName, photoURL: URL(string: photoURL), hoursSpent: hoursSpentArray)
+                        print("RAH", model.hoursSpent)
+                        completion(model)
+                    }
+                }
+            }
+            
         }
     }
     

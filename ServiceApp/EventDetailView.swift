@@ -100,6 +100,7 @@ struct EventDetailView: View {
                     
                     Text(data.description)
                         .font(.caption)
+                        .padding(.bottom, 5)
                     Text("Special requirements:")
                         .bold()
                     Text(data.specialRequirements)

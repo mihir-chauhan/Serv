@@ -125,7 +125,7 @@ struct Account: View {
                                 .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
                         )
                         .padding(.horizontal)
-                    PVSALineGraph()
+                    PVSALineGraph(user: user_uuid!)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)

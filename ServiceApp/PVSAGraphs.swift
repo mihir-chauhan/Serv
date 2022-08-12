@@ -9,6 +9,7 @@ import SwiftUI
 import CoreGraphics
 
 struct PVSALineGraph: View {
+    var user: String
     @State var hasData: Bool = false
     @State var data: [CGFloat] = [
         0, 1.5, 0.75, 2, 6.5, 2, 2, 0, 0.85, 2.25, 2
@@ -17,7 +18,7 @@ struct PVSALineGraph: View {
     var body: some View {
         LineGraph(hasData: $hasData, data: data)
             .task {
-                FirestoreCRUD().allTimeCompleted { totalHours in
+                FirestoreCRUD().allTimeCompleted(for: user) { totalHours in
                     data = totalHours
                     if !data.isEmpty {
                         hasData = true
@@ -52,10 +53,10 @@ struct PVSABarGraph: View {
     var body: some View {
         BarGraph(hasData: $hasData, data: data)
             .task {
-                FirestoreCRUD().serviceCompletedPerWeek(start: tuple[0].start, end: tuple[0].end) { value1 in
-                    FirestoreCRUD().serviceCompletedPerWeek(start: tuple[1].start, end: tuple[1].end) { value2 in
-                        FirestoreCRUD().serviceCompletedPerWeek(start: tuple[2].start, end: tuple[2].end) { value3 in
-                            FirestoreCRUD().serviceCompletedPerWeek(start: tuple[3].start, end: tuple[3].end) { value4 in
+                FirestoreCRUD().serviceCompletedPerWeek(for: user_uuid!, start: tuple[0].start, end: tuple[0].end) { value1 in
+                    FirestoreCRUD().serviceCompletedPerWeek(for: user_uuid!, start: tuple[1].start, end: tuple[1].end) { value2 in
+                        FirestoreCRUD().serviceCompletedPerWeek(for: user_uuid!, start: tuple[2].start, end: tuple[2].end) { value3 in
+                            FirestoreCRUD().serviceCompletedPerWeek(for: user_uuid!, start: tuple[3].start, end: tuple[3].end) { value4 in
                                 data.append(value1 ?? 0.0)
                                 data.append(value2 ?? 0.0)
                                 data.append(value3 ?? 0.0)
@@ -111,7 +112,7 @@ struct LineGraph: View {
                 return CGPoint(x: pathWidth, y: -pathHeight + height)
             }
             ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-                Text("Hours Volunteered per Month")
+                Text("Hours Volunteered (All Time)")
                     .bold()
                     .padding(10)
                 if hasData {
