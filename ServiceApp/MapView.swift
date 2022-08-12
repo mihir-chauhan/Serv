@@ -150,13 +150,13 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                         }
                         
                         for document in documents {
-                            print("\(mapAnnotationsList.count) NAMENAMENAME: \(document.get("name")), \(document.documentID)")
                             
                             let id = document.documentID
                             let host = document.get("host") as? String ?? "Host unavailable"
                             let ein = document.get("ein") as? String ?? "No valid ein"
                             let name = document.get("name") as? String ?? "no name"
                             let description = document.get("description") as? String ?? "No description!"
+                            let specialRequirement = document.get("specialRequirements") as? String ?? "No special requirements"
                             _ = document.get("attendees") as? [String] ?? [String]()
                             let time = document.get("time") as? Timestamp
                             let imageURL = document.get("images") as? [String] ?? [String]()
@@ -171,7 +171,8 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                                 time: time?.dateValue() ?? Date(),
                                 images: imageURL,
                                 coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
-                                description: description
+                                description: description,
+                                specialRequirements: specialRequirement
                             ))
                         }
                         

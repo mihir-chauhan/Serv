@@ -49,7 +49,7 @@ struct FriendDetailSheet: View {
             .navigationTitle(data.displayName ?? "SMITHY?")
             
             .task {
-                FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: "vPa8ksjZn2ht4Fvbt7YkqLCtIcX2") { events in
+                FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: data.uid) { events in
                     for event in events {
                         FirestoreCRUD().getSpecificEvent(eventID: event) { eventName in
                             self.listOfEventsFriendIsGoing.append(eventName)

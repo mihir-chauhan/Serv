@@ -69,7 +69,7 @@ class FirestoreCRUD: ObservableObject {
         
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID).updateData([
-                "attendees.\(user_uuid!).name" : (AuthViewModel().decodeUserInfo()?.displayName!)! as String?,
+                "attendees.\(user_uuid!).name" : (AuthViewModel().decodeUserInfo()?.displayName!)! as Any,
                 "attendees.\(user_uuid!).checkInTime" : nil,
                 "attendees.\(user_uuid!).checkOutTime" : nil
             ])
@@ -98,7 +98,6 @@ class FirestoreCRUD: ObservableObject {
                     completion(false)
                 }
             }
-        
     }
     
     func addCheckInTime(eventID: String, eventCategory: String, checkInTime: Date? = nil) {
@@ -149,6 +148,23 @@ class FirestoreCRUD: ObservableObject {
         }
     }
     
+    func allTimeCompleted(completion: @escaping (_ totalHours: [CGFloat]) -> ()) {
+        var totalHours: [CGFloat] = []
+        let docRef = db.collection("Volunteer Accounts").document("OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+            .order(by: "checkOutTime", descending: true)
+        
+        docRef.getDocuments { snap, err in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            }
+            for i in snap!.documents {
+                let hours = i.get("hoursSpent") as! Double
+                totalHours.append(CGFloat(hours))
+            }
+            completion(totalHours)
+        }
+    }
     
     func RemoveFromAttendeesList(eventID: String, eventCategory: String, user_uuid: String) {
         db.collection("EventTypes/\(eventCategory)/Events")
@@ -191,11 +207,10 @@ class FirestoreCRUD: ObservableObject {
 //                model = OrganizationInformationModel(name: name!, email: email!, website: website!)
             }
         
-//        return model ?? OrganizationInformationModel(name: "No name", email: "No email", website: "no website")
     }
     
     func getSpecificEvent(eventID: String, completion: @escaping (_ data: EventInformationModel) -> ()) {
-        let categories = ["Educational", "Environmental", "Humanitarian"]
+        let categories = ["Educational", "Environmental", "Humanitarian", "Others"]
         for i in categories {
             db.collection("EventTypes/\(i)/Events").document(eventID)
                 .getDocument { snap, err in
