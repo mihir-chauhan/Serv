@@ -21,7 +21,7 @@ struct LeaderboardView: View {
                                 .frame(width: display.width / 4)
                             )
                         if listOfFriends.count < 2 {
-                            Image("leaderboardPic-1")
+                            Image("person")
                                 .resizable()
                                 .opacity(0.1)
                                 .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
@@ -40,7 +40,7 @@ struct LeaderboardView: View {
                             }
                         }
                     }
-                    Text((listOfFriends.count < 2 ? "Astrobunny!" : listOfFriends[1]?.displayName)!)
+                    Text((listOfFriends.count < 2 ? "Friend" : listOfFriends[1]?.displayName)!)
                         .font(.system(.caption)).bold()
                     
                 }
@@ -54,7 +54,7 @@ struct LeaderboardView: View {
                                 .frame(width: display.width / 3.5, height: display.height / 3.5)
                             )
                         if listOfFriends.isEmpty {
-                            Image("leaderboardPic-1")
+                            Image("person")
                                 .resizable()
                                 .opacity(0.5)
                                 .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
@@ -78,7 +78,7 @@ struct LeaderboardView: View {
                         }
                         
                     }
-                    Text((listOfFriends.isEmpty ? "Astrobunny" : listOfFriends[0]?.displayName)!)
+                    Text((listOfFriends.isEmpty ? "Friend" : listOfFriends[0]?.displayName)!)
                         .font(.system(.caption)).bold()
                         .padding(.top, 20)
                 }
@@ -92,7 +92,7 @@ struct LeaderboardView: View {
                                 .frame(width: display.width / 4)
                             )
                         if listOfFriends.count < 3 {
-                            Image("leaderboardPic-1")
+                            Image("person")
                                 .resizable()
                                 .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
                                 .opacity(0.1)
@@ -111,7 +111,7 @@ struct LeaderboardView: View {
                         }
                     }
                     
-                    Text((listOfFriends.count < 3 ? "Astrobunny!" : listOfFriends[2]?.displayName)!)
+                    Text((listOfFriends.count < 3 ? "Friend" : listOfFriends[2]?.displayName)!)
                         .font(.system(.caption)).bold()
                     
                 }
