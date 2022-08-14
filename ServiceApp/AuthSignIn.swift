@@ -86,6 +86,30 @@ class AuthViewModel: ObservableObject {
                 self.state = .error
             } else {
                 let user = user?.user
+                let imageURL = user?.photoURL
+                let session = URLSession(configuration: .default)
+                session.dataTask(with: imageURL!) { (data, response, error) in
+                    // The download has finished.
+                    if let e = error {
+                        print("Error downloading cat picture: \(e)")
+                    } else {
+                        // No errors found.
+                        // It would be weird if we didn't have a response, so check for that too.
+                        if let res = response as? HTTPURLResponse {
+                            print("Downloaded cat picture with response code \(res.statusCode)")
+                            if let imageData = data {
+                                // Finally convert that Data into an image and do what you wish with it.
+                                let image = UIImage(data: imageData)
+                                self.saveJpg(image!)
+                                // Do something with your image.
+                            } else {
+                                print("Couldn't get image: Image is nil")
+                            }
+                        } else {
+                            print("Couldn't get response code for some reason")
+                        }
+                    }
+                }
                 var bio: String = "No Bio"
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { exists in
                     user_uuid = user?.uid
@@ -93,7 +117,9 @@ class AuthViewModel: ObservableObject {
                         print("Welcome back \(user?.displayName ?? "no name"), aka: \(String(describing: user?.uid))")
                         self.state = .signedIn
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                            
                             bio = value.bio ?? "no bio?!"
+                            
                             self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
                         }
                     }
@@ -105,6 +131,31 @@ class AuthViewModel: ObservableObject {
                             email: user?.email
                         ))
                         print("Tell us about yourself")
+                        
+                        let imageURL = user?.photoURL
+                        let session = URLSession(configuration: .default)
+                        session.dataTask(with: imageURL!) { (data, response, error) in
+                            // The download has finished.
+                            if let e = error {
+                                print("Error downloading cat picture: \(e)")
+                            } else {
+                                // No errors found.
+                                // It would be weird if we didn't have a response, so check for that too.
+                                if let res = response as? HTTPURLResponse {
+                                    print("Downloaded cat picture with response code \(res.statusCode)")
+                                    if let imageData = data {
+                                        // Finally convert that Data into an image and do what you wish with it.
+                                        let image = UIImage(data: imageData)
+                                        self.saveJpg(image!)
+                                        // Do something with your image.
+                                    } else {
+                                        print("Couldn't get image: Image is nil")
+                                    }
+                                } else {
+                                    print("Couldn't get response code for some reason")
+                                }
+                            }
+                        }
                         
                         self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
                     }
@@ -166,10 +217,62 @@ class AuthViewModel: ObservableObject {
                             if exists == true {
                                 
                                 FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
+                                    let imageURL = value.photoURL
+                                    let session = URLSession(configuration: .default)
+                                    session.dataTask(with: imageURL!) { (data, response, error) in
+                                        // The download has finished.
+                                        if let e = error {
+                                            print("Error downloading cat picture: \(e)")
+                                        } else {
+                                            // No errors found.
+                                            // It would be weird if we didn't have a response, so check for that too.
+                                            if let res = response as? HTTPURLResponse {
+                                                print("Downloaded cat picture with response code \(res.statusCode)")
+                                                if let imageData = data {
+                                                    // Finally convert that Data into an image and do what you wish with it.
+                                                    let image = UIImage(data: imageData)
+                                                    self.saveJpg(image!)
+                                                    // Do something with your image.
+                                                } else {
+                                                    print("Couldn't get image: Image is nil")
+                                                }
+                                            } else {
+                                                print("Couldn't get response code for some reason")
+                                            }
+                                        }
+                                    }
+                                    
+                                    
                                     bio = value.bio ?? "no bio?!"
+                                    
                                     self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
                                 }
                             } else {
+                                let imageURL = user?.photoURL
+                                let session = URLSession(configuration: .default)
+                                session.dataTask(with: imageURL!) { (data, response, error) in
+                                    // The download has finished.
+                                    if let e = error {
+                                        print("Error downloading cat picture: \(e)")
+                                    } else {
+                                        // No errors found.
+                                        // It would be weird if we didn't have a response, so check for that too.
+                                        if let res = response as? HTTPURLResponse {
+                                            print("Downloaded cat picture with response code \(res.statusCode)")
+                                            if let imageData = data {
+                                                // Finally convert that Data into an image and do what you wish with it.
+                                                let image = UIImage(data: imageData)
+                                                self.saveJpg(image!)
+                                                // Do something with your image.
+                                            } else {
+                                                print("Couldn't get image: Image is nil")
+                                            }
+                                        } else {
+                                            print("Couldn't get response code for some reason")
+                                        }
+                                    }
+                                }
+                                
                                 FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(
                                     uid: user?.uid,
                                     displayName: user?.displayName,
@@ -283,7 +386,7 @@ class AuthViewModel: ObservableObject {
                             
                             let imageURL = value.photoURL
                             let session = URLSession(configuration: .default)
-                            let downloadPicTask = session.dataTask(with: imageURL!) { (data, response, error) in
+                            session.dataTask(with: imageURL!) { (data, response, error) in
                                 // The download has finished.
                                 if let e = error {
                                     print("Error downloading cat picture: \(e)")
@@ -359,6 +462,30 @@ class AuthViewModel: ObservableObject {
                         
                         UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
                     } else {
+                        let imageURL = user?.photoURL
+                        let session = URLSession(configuration: .default)
+                        session.dataTask(with: imageURL!) { (data, response, error) in
+                            // The download has finished.
+                            if let e = error {
+                                print("Error downloading cat picture: \(e)")
+                            } else {
+                                // No errors found.
+                                // It would be weird if we didn't have a response, so check for that too.
+                                if let res = response as? HTTPURLResponse {
+                                    print("Downloaded cat picture with response code \(res.statusCode)")
+                                    if let imageData = data {
+                                        // Finally convert that Data into an image and do what you wish with it.
+                                        let image = UIImage(data: imageData)
+                                        self.saveJpg(image!)
+                                        // Do something with your image.
+                                    } else {
+                                        print("Couldn't get image: Image is nil")
+                                    }
+                                } else {
+                                    print("Couldn't get response code for some reason")
+                                }
+                            }
+                        }
                         FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
                         encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
                         

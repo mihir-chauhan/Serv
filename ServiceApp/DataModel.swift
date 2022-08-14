@@ -62,6 +62,7 @@ struct EventHistoryInformationModel {
 
 
 
+
 // MARK: sample data
 // will use Firebase to host these info
 //var pointsOfInterest = [

@@ -129,7 +129,7 @@ struct Account: View {
             }
             .coordinateSpace(name: "SCROLL")
             .fullScreenCover(isPresented: $toggleEditInfoSheet) {
-                EditAccountDetails()
+                EditAccountDetails(toggleEditInfoSheet: $toggleEditInfoSheet)
             }
             .fullScreenCover(isPresented: $toggleEventHistory) {
                 NavigationView {
@@ -300,7 +300,9 @@ struct TopBar: View {
                     .font(.largeTitle.bold())
                 
                 Button(action: {
-                    toggleEditInfoSheet.toggle()
+                    withAnimation {
+                        toggleEditInfoSheet.toggle()
+                    }
                 }) {
                     Image(systemName: "pencil")
                         .resizable()
@@ -320,6 +322,12 @@ struct TopBar: View {
             }
         }
         .opacity(Double(getOpacity()))
+        .onChange(of: toggleEditInfoSheet) { value in
+            if !value {
+                viewModel.decodeUserInfo()
+                documentDirectoryPath()
+            }
+        }
     }
     
     func getOpacity() -> CGFloat {

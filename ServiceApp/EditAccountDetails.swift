@@ -10,6 +10,7 @@ import SwiftUI
 struct EditAccountDetails: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.dismiss) var dismiss
+    @Binding var toggleEditInfoSheet: Bool
     @State var selectedImage: UIImage? = nil
     @State var showPhotoPicker = false
     
@@ -17,10 +18,6 @@ struct EditAccountDetails: View {
     @State var changeBio: String = ""
     @State var placeholderForBio = "Add Bio"
     @State var disableChangeName: Bool = true
-    
-    init() {
-        
-    }
     
     var body: some View {
         NavigationView {
@@ -85,12 +82,17 @@ struct EditAccountDetails: View {
                         }
                         if selectedImage != nil {
 //                            #error("Need to save image when first time signing in")
-                            saveJpg(selectedImage!)
+                            DispatchQueue.main.async {
+                                saveJpg(selectedImage!)
+                            }
+                            
 
                             
                             FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!.jpeg(.lowest)!)
                         }
-                        dismiss()
+                        withAnimation {
+                            toggleEditInfoSheet.toggle()
+                        }
                         
                     }) { Text("Done").bold() }
                     )
