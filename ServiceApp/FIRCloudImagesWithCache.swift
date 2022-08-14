@@ -70,6 +70,7 @@ class FIRCloudImages {
     }
     
     func uploadPfp(uid: String, viewModel: AuthViewModel, for data: Data) {
+        let db = Firestore.firestore()
         let storageRef = FIRCloudImages.storage.reference().child("ProfilePictures")
         let profilePicRef = storageRef.child("\(String(describing: viewModel.decodeUserInfo()!.uid!))")
         profilePicRef.putData(data, metadata: nil) { (metadata, error) in
@@ -83,9 +84,11 @@ class FIRCloudImages {
             guard let downloadURL = url else {
                 return
             }
-            let dbRef = Database.database().reference()
-            dbRef.child(uid).child("UserInfo")
-                .updateChildValues(["photoURL" : downloadURL.absoluteString])
+            let dbRef = db.collection("Volunteer Accounts").document(viewModel.decodeUserInfo()!.uid!)
+            
+            dbRef.updateData([
+                "UserInfo.photoURL" : downloadURL.absoluteString
+            ])
 //            let changeReq = Auth.auth().currentUser?.createProfileChangeRequest()
 //            changeReq?.photoURL = downloadURL
 //            changeReq?.commitChanges { error in
@@ -95,9 +98,11 @@ class FIRCloudImages {
 //                    // Do something
 //                }
 //            }
+            let oldStuff = viewModel.decodeUserInfo()!
             let user = Auth.auth().currentUser
+            print("HEREEE", user?.displayName)
             viewModel.encodeUserInfo(for: UserInfoFromAuth(
-                uid: user?.uid, displayName: user?.displayName, username: "no username", photoURL: downloadURL, email: user?.email
+                uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email
             ))
 //            TODO: must update userinfo user defaults
             print("HERE", downloadURL.absoluteString)

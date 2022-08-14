@@ -33,23 +33,12 @@ struct EditAccountDetails: View {
                         .cornerRadius(15)
                         .padding()
                 } else {
-                    AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                        case .success(let image):
-                            image.resizable()
-                                .frame(width: 150, height: 150)
-                                .aspectRatio(contentMode: .fit)
-                                .cornerRadius(15)
-                                .padding()
-                            
-                        case .failure:
-                            Image(systemName: "photo")
-                        @unknown default:
-                            ProgressView()
-                        }
-                    }
+                    Image(uiImage: getImage()!)
+                        .resizable()
+                        .frame(width: 150, height: 150)
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(15)
+                        .padding()
                 }
                 Button("Change Profile Picture") {
                     showPhotoPicker.toggle()
@@ -97,9 +86,9 @@ struct EditAccountDetails: View {
                         if selectedImage != nil {
 //                            #error("Need to save image when first time signing in")
                             saveJpg(selectedImage!)
-                            // HOW TO ONLY UPDATE ONE FIELD VALUE OF A STRUCT (IN THIS CASE ONLY PHOTOURL
-                            viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
-                            FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
+
+                            
+                            FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!.jpeg(.lowest)!)
                         }
                         dismiss()
                         
@@ -116,12 +105,6 @@ struct EditAccountDetails: View {
                             selectedImage = images.first
                             if let imageData = selectedImage?.jpeg(.lowest) {
                                 FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: imageData)
-//                                viewModel.encodeUserInfo(for: UserInfoFromAuth(
-//                                    uid: viewModel.decodeUserInfo()?.uid,
-//                                    displayName: viewModel.decodeUserInfo()?.displayName,
-//                                    photoURL: UIImage(data: imageData),
-//                                    bio: <#T##String?#>,
-//                                    hoursSpent: <#T##[CGFloat]#>))
                             }
                         }
                     }
@@ -153,7 +136,13 @@ struct EditAccountDetails: View {
         }
     }
     
-    func getSaveJpgPath() -> URL? {
-        return documentDirectoryPath()
+    public func getImage() -> UIImage? {
+//        let path = FileManager.default.urls(for: .documentDirectory,
+//                                            in: .userDomainMask)
+
+        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent("exampleJpg.jpg").path)
+        }
+        return nil
     }
 }

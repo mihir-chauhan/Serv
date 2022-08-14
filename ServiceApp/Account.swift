@@ -35,24 +35,8 @@ struct Account: View {
                 }
                 .overlay(
                     HStack {
-//                        AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
-                        AsyncImage(url: documentDirectoryPath() ?? UserInfoFromAuth().photoURL) { phase in
-//                            Because of user defaults, image isn't updating right away
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                            case .success(let image):
-                                image.resizable()
-                                    .frame(width: 45, height: 45)
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(Circle())
-                                    .opacity(Double(topBarTitleOpacity()))
-                            case .failure:
-                                Image(systemName: "photo")
-                            @unknown default:
-                                ProgressView()
-                            }
-                        }
+                        Image(uiImage: documentDirectoryPath() ?? UIImage())
+                            .resizable()
                             .frame(width: 45, height: 45)
                             .aspectRatio(contentMode: .fit)
                             .clipShape(Circle())
@@ -279,12 +263,21 @@ struct Account: View {
         
         return dateFormatter.string(from: date)
     }
-    func documentDirectoryPath() -> URL? {
+    public func documentDirectoryPath() -> URL? {
         let path = FileManager.default.urls(for: .documentDirectory,
                                             in: .userDomainMask)
         return path.first
     }
     
+    public func documentDirectoryPath() -> UIImage? {
+//        let path = FileManager.default.urls(for: .documentDirectory,
+//                                            in: .userDomainMask)
+
+        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent("exampleJpg.jpg").path)
+        }
+        return nil
+    }
 }
 
 struct TopBar: View {
@@ -293,25 +286,14 @@ struct TopBar: View {
     @Binding var offset: CGFloat
     @Binding var toggleEditInfoSheet: Bool
     var maxHeight: CGFloat
-
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            
-            AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image.resizable()
-                        .frame(width: 80, height: 80)
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(10)
-                case .failure:
-                    Image(systemName: "photo")
-                @unknown default:
-                    ProgressView()
-                }
-            }
+
+            Image(uiImage: documentDirectoryPath() ?? UIImage())
+                .resizable()
+                .frame(width: 80, height: 80)
+                .aspectRatio(contentMode: .fit)
+                .cornerRadius(10)
             
             HStack {
                 Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
@@ -345,7 +327,15 @@ struct TopBar: View {
         let opacity = 1 - progress
         return offset < 0 ? opacity : 1
     }
-    
+    public func documentDirectoryPath() -> UIImage? {
+//        let path = FileManager.default.urls(for: .documentDirectory,
+//                                            in: .userDomainMask)
+
+        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent("exampleJpg.jpg").path)
+        }
+        return nil
+    }
 }
 
 struct CustomCorner: Shape {
