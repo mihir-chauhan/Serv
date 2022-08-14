@@ -280,6 +280,33 @@ class AuthViewModel: ObservableObject {
                             bio = value.bio ?? "No bio?"
                             
                             print(user.displayName)
+                            
+                            let imageURL = value.photoURL
+                            let session = URLSession(configuration: .default)
+                            let downloadPicTask = session.dataTask(with: imageURL!) { (data, response, error) in
+                                // The download has finished.
+                                if let e = error {
+                                    print("Error downloading cat picture: \(e)")
+                                } else {
+                                    // No errors found.
+                                    // It would be weird if we didn't have a response, so check for that too.
+                                    if let res = response as? HTTPURLResponse {
+                                        print("Downloaded cat picture with response code \(res.statusCode)")
+                                        if let imageData = data {
+                                            // Finally convert that Data into an image and do what you wish with it.
+                                            let image = UIImage(data: imageData)
+                                            self!.saveJpg(image!)
+                                            // Do something with your image.
+                                        } else {
+                                            print("Couldn't get image: Image is nil")
+                                        }
+                                    } else {
+                                        print("Couldn't get response code for some reason")
+                                    }
+                                }
+                            }
+                            
+                            
                             self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: value.displayName, photoURL: value.photoURL, email: user.email, bio: bio))
                         }
                         self?.state = .signedIn
@@ -378,5 +405,23 @@ class AuthViewModel: ObservableObject {
             }
         }
         return nil
+    }
+    
+    func documentDirectoryPath() -> URL? {
+        let path = FileManager.default.urls(for: .documentDirectory,
+                                            in: .userDomainMask)
+        return path.first
+    }
+    func savePng(_ image: UIImage) {
+        if let pngData = image.pngData(),
+            let path = documentDirectoryPath()?.appendingPathComponent("examplePng.png") {
+            try? pngData.write(to: path)
+        }
+    }
+    func saveJpg(_ image: UIImage) {
+        if let jpgData = image.jpegData(compressionQuality: 0.5),
+            let path = documentDirectoryPath()?.appendingPathComponent("exampleJpg.jpg") {
+            try? jpgData.write(to: path)
+        }
     }
 }

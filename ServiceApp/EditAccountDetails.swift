@@ -94,10 +94,16 @@ struct EditAccountDetails: View {
                             viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
                             FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
                         }
+                        if selectedImage != nil {
+//                            #error("Need to save image when first time signing in")
+                            saveJpg(selectedImage!)
+                            // HOW TO ONLY UPDATE ONE FIELD VALUE OF A STRUCT (IN THIS CASE ONLY PHOTOURL
+                            viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
+                            FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
+                        }
                         dismiss()
                         
-                    })
-                                        { Text("Done").bold() }
+                    }) { Text("Done").bold() }
                     )
             }
             .fullScreenCover(isPresented: $showPhotoPicker) {
@@ -127,5 +133,27 @@ struct EditAccountDetails: View {
             }
             
         }
+    }
+    
+    func documentDirectoryPath() -> URL? {
+        let path = FileManager.default.urls(for: .documentDirectory,
+                                            in: .userDomainMask)
+        return path.first
+    }
+    func savePng(_ image: UIImage) {
+        if let pngData = image.pngData(),
+            let path = documentDirectoryPath()?.appendingPathComponent("examplePng.png") {
+            try? pngData.write(to: path)
+        }
+    }
+    func saveJpg(_ image: UIImage) {
+        if let jpgData = image.jpegData(compressionQuality: 0.5),
+            let path = documentDirectoryPath()?.appendingPathComponent("exampleJpg.jpg") {
+            try? jpgData.write(to: path)
+        }
+    }
+    
+    func getSaveJpgPath() -> URL? {
+        return documentDirectoryPath()
     }
 }

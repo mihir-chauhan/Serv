@@ -93,11 +93,11 @@ struct HomeView: View {
                             }.padding(15)
                         )
                     }
-                    VStack(alignment: .trailing) {
-                        PVSAProgressBar()
-                        Text("16 more hours to go...")
-                            .font(.caption)
-                    }
+//                    VStack(alignment: .trailing) {
+//                        PVSAProgressBar()
+//                        Text("16 more hours to go...")
+//                            .font(.caption)
+//                    }
                     
                     VStack(alignment: .leading) {
                         Text("Category Filters")

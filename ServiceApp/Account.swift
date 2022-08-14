@@ -35,7 +35,8 @@ struct Account: View {
                 }
                 .overlay(
                     HStack {
-                        AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
+//                        AsyncImage(url: viewModel.decodeUserInfo()?.photoURL ?? UserInfoFromAuth().photoURL) { phase in
+                        AsyncImage(url: documentDirectoryPath() ?? UserInfoFromAuth().photoURL) { phase in
 //                            Because of user defaults, image isn't updating right away
                             switch phase {
                             case .empty:
@@ -278,6 +279,11 @@ struct Account: View {
         
         return dateFormatter.string(from: date)
     }
+    func documentDirectoryPath() -> URL? {
+        let path = FileManager.default.urls(for: .documentDirectory,
+                                            in: .userDomainMask)
+        return path.first
+    }
     
 }
 
@@ -339,6 +345,7 @@ struct TopBar: View {
         let opacity = 1 - progress
         return offset < 0 ? opacity : 1
     }
+    
 }
 
 struct CustomCorner: Shape {
