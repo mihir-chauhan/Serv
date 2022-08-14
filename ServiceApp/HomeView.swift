@@ -164,19 +164,19 @@ struct HomeView: View {
                                     .bold()
                                     .padding(.horizontal)
                                 
-                                Button(action: {
-                                    viewModel.checkIfLocationServicesIsEnabled()
-                                }) {
-                                    Capsule()
-                                        .frame(width: 100, height: 35)
-                                        .foregroundColor(.blue.opacity(0.05))
-                                        .overlay(
-                                            Text("refresh")
-                                                .foregroundColor(.blue)
-                                        )
-                                }
+//                                Button(action: {
+//                                    viewModel.checkIfLocationServicesIsEnabled()
+//                                }) {
+//                                    Capsule()
+//                                        .frame(width: 90, height: 35)
+//                                        .foregroundColor(.blue.opacity(0.05))
+//                                        .overlay(
+//                                            Text("Refresh")
+//                                                .foregroundColor(.blue)
+//                                        )
+//                                }.padding()
                             }.padding()
-                                .frame(width: geo.size.width, height: 100)
+                                .frame(width: geo.size.width, height: 150)
                         }
                     }
                 }

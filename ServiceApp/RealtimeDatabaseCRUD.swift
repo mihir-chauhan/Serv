@@ -128,24 +128,29 @@ class FirebaseRealtimeDatabaseCRUD {
             let displayName = value?["name"] as? String ?? "no name"
             let photoURL = value?["photoURL"] as? String ?? "no image"
             
-            
             ref.collection("Volunteer Accounts").document(uid!).collection("Attended Event Data").getDocuments { snap, err in
                 if let err = err {
                     print(err.localizedDescription)
                     return
                 }
-                for i in snap!.documents {
-                    hoursSpentArray.append(i.get("hoursSpent") as! CGFloat)
-//                    print("RAH", hoursSpentArray)
-                    counter += 1
-                    
-                    if counter == snap!.documents.count {
-                        let model = UserInfoFromAuth(uid: uid, displayName: displayName, photoURL: URL(string: photoURL), hoursSpent: hoursSpentArray)
-                        print("RAH", model.hoursSpent)
-                        completion(model)
+                if ((snap?.isEmpty) != nil) {
+                    print("ENTERED AT 137")
+                    let model = UserInfoFromAuth(uid: uid, displayName: displayName, photoURL: URL(string: photoURL), hoursSpent: [])
+                    completion(model)
+                } else {
+                    for i in snap!.documents {
+                        hoursSpentArray.append(i.get("hoursSpent") as! CGFloat)
+                        counter += 1
+                        
+                        if counter == snap!.documents.count {
+                            let model = UserInfoFromAuth(uid: uid, displayName: displayName, photoURL: URL(string: photoURL), hoursSpent: hoursSpentArray)
+                            print("RAH", model.hoursSpent)
+                            completion(model)
+                        }
                     }
                 }
             }
+            
             
         }
     }

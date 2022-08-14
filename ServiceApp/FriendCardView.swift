@@ -9,17 +9,15 @@ import SwiftUI
 
 struct FriendCardView: View {
     
-    var image: URL
-    var lastService: String
-    var name: String
-    var onTapCallback : (String, URL) -> ()
+    var data: UserInfoFromAuth
+    @State var showingFriendDetailSheet: Bool = false
 
     var body: some View {
         Button {
-            self.onTapCallback(name, image)
+            showingFriendDetailSheet.toggle()
         } label: {
             HStack {
-                AsyncImage(url: image) { img in
+                AsyncImage(url: data.photoURL) { img in
                     img
                         .resizable()
                         .scaledToFill()
@@ -35,10 +33,10 @@ struct FriendCardView: View {
 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Last Service: " + lastService + " hrs ago")
+                        Text("Last Service: " + "5" + " hrs ago")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        Text(name)
+                        Text(data.displayName!)
                             .font(.title)
                             .fontWeight(.black)
                             .foregroundColor(.primary)
@@ -57,5 +55,8 @@ struct FriendCardView: View {
             .padding([.top, .horizontal], 5)
         }
 //        .buttonStyle(CardButtonStyle())
+        .sheet(isPresented: $showingFriendDetailSheet) {
+            FriendDetailSheet(data: data)
+        }
     }
 }

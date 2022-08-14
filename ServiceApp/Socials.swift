@@ -33,8 +33,10 @@ struct Socials: View {
                     
                 } else {
                     ForEach(self.listOfFriends, id: \.self) { friend in
-                        FriendCardView(image: friend.photoURL ?? imgForDetailSheet, lastService: "5", name: friend.displayName!, onTapCallback: cardTapped)
+                        
+                        FriendCardView(data: friend)
                             .sheet(isPresented: $showingFriendDetailSheet) {
+                                let _ = print("FRIEND INFO SHOWING:", friend.displayName)
                                 FriendDetailSheet(data: friend)
                             }
                     }.padding(.horizontal)
@@ -79,9 +81,8 @@ struct Socials: View {
             //        TODO: when querying from Firestore, make sure to sort based on PVSA hours (greatest to least)
             FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { allFriends in
                 self.listOfFriends.removeAll()
+                if !allFriends.isEmpty { haveFriends = true }
                 for friend in allFriends {
-                    
-                    if !allFriends.isEmpty { haveFriends = true }
                     FirebaseRealtimeDatabaseCRUD().getUserFriendInfo(uid: friend) { friendInfo in
                         self.listOfFriends.append(friendInfo)
                     }
@@ -90,12 +91,6 @@ struct Socials: View {
                 print("ALL MY FRIENDS", self.listOfFriends)
             }
         }
-    }
-    
-    func cardTapped(name: String, img: URL) {
-        nameForDetailSheet = name
-        imgForDetailSheet = img
-        showingFriendDetailSheet.toggle()
     }
 }
 
