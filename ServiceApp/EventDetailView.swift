@@ -22,17 +22,11 @@ struct EventDetailView: View {
     @State var reachedMaxSlotBool: Bool = false
     @State var buttonStateIsSignedUp: Bool = false
     
-    //    var drag: some Gesture {
-    //        DragGesture(minimumDistance: 50)
-    //
-    //                                .onChanged({ value in
-    //            self.dragOffset = value.translation.height
-    //        })
-    //                                .onEnded({ value in
-    //            self.sheetMode = .quarter
-    //            self.dragOffset = 0
-    //        })
-    //    }
+    @State var eventExistsInUser: Bool = false
+    
+    @State var friendSignedUp: Bool = false
+    
+    @State var listOfFriendsWhoSignedUpForEvent: [String] = []
     var dateToString: String {
         get {
             let dateFormatter = DateFormatter()
@@ -108,6 +102,9 @@ struct EventDetailView: View {
                 }
                 
                 HStack {
+                    if friendSignedUp == true {
+                        FriendsCommonEvent(listOfFriendsWhoSignedUpForEvent: $listOfFriendsWhoSignedUpForEvent)
+                    }
                     Spacer()
                     Button(action: {
                         FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
@@ -149,8 +146,8 @@ struct EventDetailView: View {
         .padding([.top, .trailing, .leading])
         .padding(.bottom, 200)
         .task {
-                                       self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: sheetObserver.eventDetailData.coordinate.latitude - 0.02, longitude: sheetObserver.eventDetailData.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
-
+            self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: sheetObserver.eventDetailData.coordinate.latitude - 0.02, longitude: sheetObserver.eventDetailData.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+            
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
             }
@@ -164,6 +161,30 @@ struct EventDetailView: View {
                     print(error)
                 }
             }
+            
+            if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
+//                self.eventIsLive.toggle()
+            }
+            FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
+                for (friend, events) in result {
+                    for i in events! {
+                        if i == data.FIRDocID {
+                            //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
+                            print(friend)
+                            listOfFriendsWhoSignedUpForEvent.append(friend)
+                            friendSignedUp = true
+                            //                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
+                        }
+                    }
+                }
+            }
         }
+        
+    }
+    func checkForLiveEvents(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let stringDate = dateFormatter.string(from: date)
+        return stringDate
     }
 }

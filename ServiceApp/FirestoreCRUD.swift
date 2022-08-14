@@ -308,4 +308,11 @@ class FirestoreCRUD: ObservableObject {
             }
         
     }
+    
+//    func updatePfpInFirestore(url: URL) {
+//        db.collection("Volunteer Accounts").document(user_uuid!).updateData([
+//            "UserInfo.photoURL" : url.absoluteString
+//        ])
+//        
+//    }
 }

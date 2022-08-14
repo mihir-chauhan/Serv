@@ -191,6 +191,7 @@
 				B3E6FCD4277C59E2004DEE5B /* MapListElements.swift */,
 				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
 				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
+				BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */,
 				B36C7DF628935F1D009FC23E /* GeohashBox.swift */,
 				B36C7DF828935F35009FC23E /* Geohash.swift */,
 			);
@@ -259,7 +260,6 @@
 				BEB48449284B17DC00FB8469 /* CheckInView.swift */,
 				B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */,
 				BEE28C3B2894F0AB00D0B15A /* Auth */,
-				BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */,
 				B319D157277EE7880045F06D /* Schedule.swift */,
 				BEE28C3C2894F16600D0B15A /* Account */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,

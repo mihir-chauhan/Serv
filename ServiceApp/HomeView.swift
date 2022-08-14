@@ -24,6 +24,7 @@ struct HomeView: View {
     
     @State var numberOfShownRecommendations = 0
     
+    @State var allowsTracking: Bool = false
     @Environment(\.colorScheme) var colorScheme
 
     var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶"]
@@ -162,6 +163,18 @@ struct HomeView: View {
                                 Text("Please enable location access in Settings")
                                     .bold()
                                     .padding(.horizontal)
+                                
+                                Button(action: {
+                                    viewModel.checkIfLocationServicesIsEnabled()
+                                }) {
+                                    Capsule()
+                                        .frame(width: 100, height: 35)
+                                        .foregroundColor(.blue.opacity(0.05))
+                                        .overlay(
+                                            Text("refresh")
+                                                .foregroundColor(.blue)
+                                        )
+                                }
                             }.padding()
                                 .frame(width: geo.size.width, height: 100)
                         }
@@ -182,6 +195,7 @@ struct HomeView: View {
                         recommendedEvents = value
                     }
                 }
+
         .task {
             viewModel.checkIfLocationServicesIsEnabled()
 
@@ -194,6 +208,10 @@ struct HomeView: View {
                     }
                 }
             }
+        }
+        .onChange(of: viewModel.allowingLocationTracker) { _ in
+            viewModel.checkIfLocationServicesIsEnabled()
+            
         }
         
         

@@ -30,7 +30,7 @@ struct EditAccountDetails: View {
                         .cornerRadius(15)
                         .padding()
                 } else {
-                    Image(uiImage: getImage()!)
+                    Image(uiImage: (getImage() ?? UIImage(systemName: "photo"))!)
                         .resizable()
                         .frame(width: 150, height: 150)
                         .aspectRatio(contentMode: .fit)
@@ -84,11 +84,12 @@ struct EditAccountDetails: View {
 //                            #error("Need to save image when first time signing in")
                             DispatchQueue.main.async {
                                 saveJpg(selectedImage!)
+                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!.jpeg(.lowest)!)
                             }
                             
-
                             
-                            FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!.jpeg(.lowest)!)
+                            
+                            
                         }
                         withAnimation {
                             toggleEditInfoSheet.toggle()
@@ -132,7 +133,7 @@ struct EditAccountDetails: View {
         }
     }
     func saveJpg(_ image: UIImage) {
-        if let jpgData = image.jpegData(compressionQuality: 0.5),
+        if let jpgData = image.jpegData(compressionQuality: 0.2),
             let path = documentDirectoryPath()?.appendingPathComponent("exampleJpg.jpg") {
             try? jpgData.write(to: path)
         }

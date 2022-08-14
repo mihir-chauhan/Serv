@@ -110,8 +110,8 @@ struct SingularOnboardingPage {
 let dummyOnboardingPages: [SingularOnboardingPage] = [
     SingularOnboardingPage(placement: 0, color: .white, image: "onBoard-0", title: "Browse Opportunities", description: "Find service events from different categories posted by verified organizations near you"),
     SingularOnboardingPage(placement: 1, color: .white, image: "onBoard-1", title: "Attend events", description: "Sign up and attend for upcoming events to earn service hours"),
-    SingularOnboardingPage(placement: 2, color: .white, image: "onBoard-0", title: "Connect with Friends", description: "See what events your friends are planning to attend"),
-    SingularOnboardingPage(placement: 3, color: .white, image: "onBoard-1", title: "Keeping track", description: "Keep track of your valid service hours and apply for the President's Volunteer Service Award!"),
+    SingularOnboardingPage(placement: 2, color: .white, image: "onBoard-", title: "Connect with Friends", description: "See what events your friends are planning to attend"),
+    SingularOnboardingPage(placement: 3, color: .white, image: "onBoard-3", title: "Keeping track", description: "Keep track of your valid service hours and apply for the President's Volunteer Service Award!"),
 ]
 
 struct UIPageControlView: UIViewRepresentable {

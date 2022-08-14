@@ -99,8 +99,7 @@ class FIRCloudImages {
 //                }
 //            }
             let oldStuff = viewModel.decodeUserInfo()!
-            let user = Auth.auth().currentUser
-            print("HEREEE", user?.displayName)
+//            let user = Auth.auth().currentUser
             viewModel.encodeUserInfo(for: UserInfoFromAuth(
                 uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email
             ))

@@ -80,12 +80,14 @@ struct Socials: View {
             FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { allFriends in
                 self.listOfFriends.removeAll()
                 for friend in allFriends {
+                    
                     if !allFriends.isEmpty { haveFriends = true }
                     FirebaseRealtimeDatabaseCRUD().getUserFriendInfo(uid: friend) { friendInfo in
                         self.listOfFriends.append(friendInfo)
                     }
+                    
                 }
-                
+                print("ALL MY FRIENDS", self.listOfFriends)
             }
         }
     }
