@@ -17,7 +17,7 @@ class FIRCloudImages {
     static let storage = Storage.storage()
 //    static let cache = NSCache<NSString, NSData>()
     
-    static func getRemoteImages(gsURL: String, eventID: String, completion: @escaping ((UIImage)?) -> ()) {
+    static func getRemoteImages(gsURL: String, eventID: String, eventDate: Date, completion: @escaping ((UIImage)?) -> ()) {
         let storageRef = storage.reference().child("EventImages")
         
         storageRef.listAll { (result, error) in
@@ -32,7 +32,7 @@ class FIRCloudImages {
                             print("item.fullPath ", item.fullPath)
                             let downloadedImage = UIImage(data: data!)
                             
-                            PhotoFileManager().saveJpg(UIImage(data: data!)!, fileName: eventID)
+                            PhotoFileManager().saveJpg(UIImage(data: data!)!, fileName: eventID, eventDate: eventDate)
                             
 //                            self.cache.setObject(data! as NSData, forKey: gsURL as NSString)
 
@@ -46,17 +46,15 @@ class FIRCloudImages {
         completion(UIImage())
     }
         
-    static func getImage(gsURL: String, eventID: String, completion: @escaping ((UIImage)?) -> ()) {
-//        if let imageData = cache.object(forKey: gsURL as NSString) {
-//            print("cached results")
-//
-//            let image = UIImage(data: imageData as Data)
+    static func getImage(gsURL: String, eventID: String, eventDate: Date, completion: @escaping ((UIImage)?) -> ()) {
+
+        
         if let image = PhotoFileManager().getImage(fileName: eventID) {
             print("used saved img at: ", image.jpegData(compressionQuality: 0.2))
             completion(image)
         }
         else {
-            getRemoteImages(gsURL: gsURL, eventID: eventID, completion: completion)
+        getRemoteImages(gsURL: gsURL, eventID: eventID, eventDate: eventDate, completion: completion)
             print("loading new results")
         }
     }

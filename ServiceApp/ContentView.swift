@@ -37,3 +37,37 @@ struct ContentView: View {
         }
     }
 }
+
+
+extension Date {
+
+    // Convert local time to UTC (or GMT)
+    func toGlobalTime() -> Date {
+        let timezone = TimeZone.current
+        let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
+    }
+
+    // Convert UTC (or GMT) to local time
+    func toLocalTime() -> Date {
+        let timezone = TimeZone.current
+        let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
+    }
+    
+    var startOfDay: Date {
+            return Calendar.current.startOfDay(for: self)
+        }
+
+        var endOfDay: Date {
+            var components = DateComponents()
+            components.day = 1
+            components.second = -1
+            return Calendar.current.date(byAdding: components, to: startOfDay)!
+        }
+}
+
+
+// Try it
+//let utcDate = Date().toGlobalTime()
+//let localDate = utcDate.toLocalTime()

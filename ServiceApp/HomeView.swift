@@ -139,8 +139,13 @@ struct HomeView: View {
                                                (event.category == "Educational" && selectedIndexOfServiceType[2]) ||
                                                (event.category == "Health" && selectedIndexOfServiceType[3]) ||
                                                (event.category == "Wildlife" && selectedIndexOfServiceType[4])) {
-                                                RecommendedView(data: event)
-                                                let _ = print(recommendedEvents)
+                                                
+//                                                manually filtering out the outdated events
+                                                if event.time > Date() {
+                                                    RecommendedView(data: event)
+                                                    let _ = print(recommendedEvents)
+                                                }
+                                                
                                             }
                                         }
                                     }
@@ -232,6 +237,5 @@ struct HomeView: View {
         }
     }
     }
-    
 }
 

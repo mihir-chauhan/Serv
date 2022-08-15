@@ -139,12 +139,12 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                     let queries = queryBounds.map { bound -> Query in
                         if limitResults {
                             return db.collection("EventTypes/\(eventTypesDocument.documentID)/Events")
-//                                .whereField("time", isGreaterThan: Date())
+                                .whereField("time", isGreaterThan: Date())
 //                                .order(by: "time")
                             
-                                .order(by: "geohash", descending: false)
-                                .start(at: [bound.startValue])
-                                .end(at: [bound.endValue])
+//                                .order(by: "geohash", descending: false)
+//                                .start(at: [bound.startValue])
+//                                .end(at: [bound.endValue])
 //
                                 .limit(to: 2)
                         } else {
@@ -174,6 +174,12 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                             let time = document.get("time") as? Timestamp
                             let imageURL = document.get("images") as? [String] ?? [String]()
                             let location = document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
+                            
+//                            deleting image from FileManager once event date has passed
+                            if (time?.dateValue())! < Date().endOfDay {
+                                PhotoFileManager().deleteJpg(for: id)
+                            }
+                            
                             
                             self.queriedEventsList.append(EventInformationModel(
                                 FIRDocID: id,
@@ -231,7 +237,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         ), at: 0)
         
         if recommendedEventFromHomePage != nil {
-            print("222akjsasdfkjnasdfjknasldfjlajfdnflafnadjnfaljdf \(recommendedEventFromHomePage!.name)")
+//            print("222akjsasdfkjnasdfjknasldfjlajfdnflafnadjnfaljdf \(recommendedEventFromHomePage!.name)")
             self.mapAnnotationsList.append(recommendedEventFromHomePage!)
             self.filteredEventsList.append(recommendedEventFromHomePage!)
             //recommendedEventFromHomePage = nil
