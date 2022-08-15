@@ -198,20 +198,22 @@ struct HomeView: View {
 
         .task {
             viewModel.checkIfLocationServicesIsEnabled()
-
-            FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
-                if eventsArray != nil {
-                    for i in 0..<eventsArray!.count {
-                        results.getSpecificEvent(eventID: eventsArray![i]) { event in
-                            self.eventDatas.append(event)
+            if authViewModel.decodeUserInfo() != nil {
+                FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
+                    if eventsArray != nil {
+                        for i in 0..<eventsArray!.count {
+                            results.getSpecificEvent(eventID: eventsArray![i]) { event in
+                                self.eventDatas.append(event)
+                            }
                         }
                     }
                 }
             }
+            
         }
         .onChange(of: viewModel.allowingLocationTracker) { _ in
             viewModel.checkIfLocationServicesIsEnabled()
-            
+
         }
         
         

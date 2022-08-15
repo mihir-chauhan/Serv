@@ -111,20 +111,14 @@ struct EventDetailView: View {
                             if buttonStateIsSignedUp {
                                 FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
                                 FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                                FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { newValue in
-                                    if !newValue {
-                                        buttonStateIsSignedUp.toggle()
-                                        reachedMaxSlotBool = false
-                                    }
-                                }
+                                buttonStateIsSignedUp = false
                             }
-                            if !reachedMaxSlots {
-                                    FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
-                                    FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                                
-                                
-                                buttonStateIsSignedUp.toggle()
-                            } else {
+                            else if !reachedMaxSlots && !buttonStateIsSignedUp {
+                                FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
+                                FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                buttonStateIsSignedUp = true
+                            }
+                            else if reachedMaxSlots {
                                 reachedMaxSlotBool = true
                             }
                         }

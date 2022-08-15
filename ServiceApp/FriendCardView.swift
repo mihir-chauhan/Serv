@@ -21,6 +21,7 @@ struct FriendCardView: View {
                     img
                         .resizable()
                         .scaledToFill()
+                        .cornerRadius(20)
         
                 } placeholder: {
                     Color.gray
@@ -47,7 +48,7 @@ struct FriendCardView: View {
                 }
                 .padding()
             }
-            .cornerRadius(10)
+            .cornerRadius(15)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
