@@ -189,7 +189,7 @@ struct MapListElements: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
                 
-        viewModel.updateQueriedEventsList(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!, radiusInMi: viewModel.searchRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.endRangeDate)))!)
+        viewModel.updateQueriedEventsList(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!, radiusInMi: viewModel.searchRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.endRangeDate)))!, limitResults: false)
     }
 }
 

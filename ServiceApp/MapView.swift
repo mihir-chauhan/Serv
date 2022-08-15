@@ -86,7 +86,7 @@ struct MapView: View {
             .edgesIgnoringSafeArea(.all)
             .task {
                 print("APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;APPEAR;1")
-                viewModel.checkIfLocationServicesIsEnabled()
+                viewModel.checkIfLocationServicesIsEnabled(limitResults: false)
             }
             .onChange(of: self.sheetObserver.eventDetailData) { newValue in
                 withAnimation {
@@ -116,7 +116,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
     @Published var startRangeDate = Date()
     @Published var endRangeDate = Date().addingTimeInterval(86400 * 7)
 
-    func updateQueriedEventsList(latitude: Double, longitude: Double, radiusInMi: Double, startEventDate: Date, endEventDate: Date) {
+    func updateQueriedEventsList(latitude: Double, longitude: Double, radiusInMi: Double, startEventDate: Date, endEventDate: Date, limitResults: Bool) {
         searchRadius = radiusInMi
         let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let radiusInM: Double = radiusInMi * 1609.34
@@ -137,10 +137,23 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                 
                 for eventTypesDocument in querySnapshot!.documents {
                     let queries = queryBounds.map { bound -> Query in
-                        return db.collection("EventTypes/\(eventTypesDocument.documentID)/Events")
-                            .order(by: "geohash")
-                            .start(at: [bound.startValue])
-                            .end(at: [bound.endValue])
+                        if limitResults {
+                            return db.collection("EventTypes/\(eventTypesDocument.documentID)/Events")
+//                                .whereField("time", isGreaterThan: Date())
+//                                .order(by: "time")
+                            
+                                .order(by: "geohash", descending: false)
+                                .start(at: [bound.startValue])
+                                .end(at: [bound.endValue])
+//
+                                .limit(to: 2)
+                        } else {
+                            return db.collection("EventTypes/\(eventTypesDocument.documentID)/Events")
+                                .order(by: "geohash")
+                                .start(at: [bound.startValue])
+                                .end(at: [bound.endValue])
+                        }
+                        
                     }
                     
                     func getDocumentsCompletion(snapshot: QuerySnapshot?, error: Error?) -> () {
@@ -226,7 +239,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
     }
     
     var locationManager: CLLocationManager?
-    func checkIfLocationServicesIsEnabled() {
+    func checkIfLocationServicesIsEnabled(limitResults: Bool) {
         if CLLocationManager.locationServicesEnabled() {
             locationManager = CLLocationManager()
             locationManager?.desiredAccuracy = kCLLocationAccuracyBest
@@ -238,7 +251,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
             //if !self.allowingLocationTracker {
-            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude) ?? 39.8283, longitude: (locationManager.location?.coordinate.longitude) ?? -98.5795, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!)
+            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude) ?? 39.8283, longitude: (locationManager.location?.coordinate.longitude) ?? -98.5795, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!, limitResults: limitResults)
             //}
         } else {
             

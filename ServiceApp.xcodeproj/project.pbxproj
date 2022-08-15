@@ -59,7 +59,7 @@
 		BEBE4DA52893A4AF003A0CE9 /* GeoFire in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA42893A4AF003A0CE9 /* GeoFire */; };
 		BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */; };
 		BEC7640F288FAECC00F90651 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC7640E288FAECC00F90651 /* OnboardingManager.swift */; };
-		BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */; };
+		BED38A7427A5E10B0080D5B9 /* PhotoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
 		BEDEE6F528768122003B6857 /* FriendEventsInCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */; };
 		BEE28C3A2894BD2C00D0B15A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE28C392894BD2C00D0B15A /* TabBarController.swift */; };
@@ -117,7 +117,7 @@
 		BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImagesWithCache.swift; sourceTree = "<group>"; };
 		BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBezierPaths.swift; sourceTree = "<group>"; };
 		BEC7640E288FAECC00F90651 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
-		BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImages.swift; sourceTree = "<group>"; };
+		BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFileManager.swift; sourceTree = "<group>"; };
 		BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendEventsInCommon.swift; sourceTree = "<group>"; };
 		BEE28C392894BD2C00D0B15A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerForQRScan.swift; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 				BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */,
 				F4903AB127E97BE7004FE5B7 /* WebView.swift */,
 				BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */,
-				BED38A7327A5E10B0080D5B9 /* FIRCloudImages.swift */,
+				BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */,
 				BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 			);
@@ -396,7 +396,7 @@
 				BEB2934027C1FE7C00D32BDE /* AuthSignIn.swift in Sources */,
 				B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */,
 				F449657928026E300068A497 /* AccountSignUpView.swift in Sources */,
-				BED38A7427A5E10B0080D5B9 /* FIRCloudImages.swift in Sources */,
+				BED38A7427A5E10B0080D5B9 /* PhotoFileManager.swift in Sources */,
 				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
 				BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */,

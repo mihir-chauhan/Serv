@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B3D35CFE-9ECE-4CBD-947A-6C244A89C72E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ServiceApp/RecommendedView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "E221D1E7-39F5-4076-BEA0-7D25F36765B4"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -48,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "23"
             endingLineNumber = "23"
-            landmarkName = "getRemoteImages(gsURL:completion:)"
+            landmarkName = "getRemoteImages(gsURL:eventID:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -64,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "121"
             endingLineNumber = "121"
-            landmarkName = "updateQueriedEventsList(latitude:longitude:radiusInMi:startEventDate:endEventDate:)"
+            landmarkName = "updateQueriedEventsList(latitude:longitude:radiusInMi:startEventDate:endEventDate:limitResults:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

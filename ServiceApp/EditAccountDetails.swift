@@ -85,6 +85,9 @@ struct EditAccountDetails: View {
                             DispatchQueue.main.async {
                                 saveJpg(selectedImage!)
                                 FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!.jpeg(.lowest)!)
+                                
+                                viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: oldStuff.bio))
+                                
                             }
                             
                             

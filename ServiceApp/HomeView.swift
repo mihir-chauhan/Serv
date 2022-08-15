@@ -140,6 +140,7 @@ struct HomeView: View {
                                                (event.category == "Health" && selectedIndexOfServiceType[3]) ||
                                                (event.category == "Wildlife" && selectedIndexOfServiceType[4])) {
                                                 RecommendedView(data: event)
+                                                let _ = print(recommendedEvents)
                                             }
                                         }
                                     }
@@ -164,17 +165,18 @@ struct HomeView: View {
                                     .bold()
                                     .padding(.horizontal)
                                 
-//                                Button(action: {
+                                Button(action: {
+//                                    allowsTracking = true
 //                                    viewModel.checkIfLocationServicesIsEnabled()
-//                                }) {
-//                                    Capsule()
-//                                        .frame(width: 90, height: 35)
-//                                        .foregroundColor(.blue.opacity(0.05))
-//                                        .overlay(
-//                                            Text("Refresh")
-//                                                .foregroundColor(.blue)
-//                                        )
-//                                }.padding()
+                                }) {
+                                    Capsule()
+                                        .frame(width: 160, height: 35)
+                                        .foregroundColor(.blue.opacity(0.05))
+                                        .overlay(
+                                            Text("DEBUG PURPOSES")
+                                                .foregroundColor(.blue)
+                                        )
+                                }.padding()
                             }.padding()
                                 .frame(width: geo.size.width, height: 150)
                         }
@@ -197,7 +199,7 @@ struct HomeView: View {
                 }
 
         .task {
-            viewModel.checkIfLocationServicesIsEnabled()
+            viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
             if authViewModel.decodeUserInfo() != nil {
                 FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
                     if eventsArray != nil {
@@ -211,10 +213,10 @@ struct HomeView: View {
             }
             
         }
-        .onChange(of: viewModel.allowingLocationTracker) { _ in
-            viewModel.checkIfLocationServicesIsEnabled()
-
-        }
+//        .onChange(of: viewModel.allowingLocationTracker) { _ in
+//            viewModel.checkIfLocationServicesIsEnabled()
+//
+//        }
         
         
         .alert(isPresented: $showingCategoryDetailAlert) {

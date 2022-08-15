@@ -15,21 +15,26 @@ import AuthenticationServices
 
 class FIRCloudImages {
     static let storage = Storage.storage()
-    static let cache = NSCache<NSString, NSData>()
+//    static let cache = NSCache<NSString, NSData>()
     
-    static func getRemoteImages(gsURL: String, completion: @escaping ((UIImage)?) -> ()) {
+    static func getRemoteImages(gsURL: String, eventID: String, completion: @escaping ((UIImage)?) -> ()) {
         let storageRef = storage.reference().child("EventImages")
         
         storageRef.listAll { (result, error) in
                 for item in result.items {
                     item.getData(maxSize: 1 * 1024 * 1024 * 1024, completion: { data, error in
                         if let err = error {
-                            //fatalError(err.localizedDescription)
+                            print(err.localizedDescription)
+                            return
                         }
                         else if gsURL.contains(item.fullPath) {
+                            print("GSURL ", gsURL)
+                            print("item.fullPath ", item.fullPath)
                             let downloadedImage = UIImage(data: data!)
-
-                            self.cache.setObject(data! as NSData, forKey: gsURL as NSString)
+                            
+                            PhotoFileManager().saveJpg(UIImage(data: data!)!, fileName: eventID)
+                            
+//                            self.cache.setObject(data! as NSData, forKey: gsURL as NSString)
 
                             completion(downloadedImage)
 
@@ -38,33 +43,20 @@ class FIRCloudImages {
 
             }
         }
-        
-//        let fileCoordinator = NSFileCoordinator()
-//        fileCoordinator.coordinate(writingItemAt: gsURL as URL, options: .forReplacing, error: nil, byAccessor: { _ in
-//            do {
-//                      try UIImagePNGRepresentation(image)?.write(to: someURL)
-//                 } catch let error as NSError {
-//                      print (error)
-//                 }
-//        })
-//        if let data = Data(contentsOf: gsURL), let image = UIImage(data: data!) {
-//            return image
-//        } else {
-//            print("Something wrong")
-//        }
-        
         completion(UIImage())
     }
         
-    static func getImage(gsURL: String, completion: @escaping ((UIImage)?) -> ()) {
-        if let imageData = cache.object(forKey: gsURL as NSString) {
-            print("cached results")
-            
-            let image = UIImage(data: imageData as Data)
+    static func getImage(gsURL: String, eventID: String, completion: @escaping ((UIImage)?) -> ()) {
+//        if let imageData = cache.object(forKey: gsURL as NSString) {
+//            print("cached results")
+//
+//            let image = UIImage(data: imageData as Data)
+        if let image = PhotoFileManager().getImage(fileName: eventID) {
+            print("used saved img at: ", image.jpegData(compressionQuality: 0.2))
             completion(image)
         }
         else {
-            getRemoteImages(gsURL: gsURL, completion: completion)
+            getRemoteImages(gsURL: gsURL, eventID: eventID, completion: completion)
             print("loading new results")
         }
     }
@@ -99,15 +91,46 @@ class FIRCloudImages {
 //                }
 //            }
             let oldStuff = viewModel.decodeUserInfo()!
-//            let user = Auth.auth().currentUser
             viewModel.encodeUserInfo(for: UserInfoFromAuth(
-                uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email
+                uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email, bio: oldStuff.bio
             ))
 //            TODO: must update userinfo user defaults
             print("HERE", downloadURL.absoluteString)
             
         }
     }
+}
+
+class FIRCloudImagesUSED {
+    let storage = Storage.storage()
+    func getRemoteImages(gsURL: [String], completion: @escaping (ConnectionResult) -> ()) {
+        let storageRef = storage.reference().child("EventImages")
+        var tempURLArray = [URL]()
+        
+        var counter = 0
+        
+        storageRef.listAll { (result, error) in
+            for i in 0...(gsURL.count-1) {
+                for item in result.items {
+                    item.downloadURL { url, error in
+                        if let err = error {
+                            completion(.failure(err.localizedDescription))
+                        } else if gsURL[i].contains(item.fullPath) {
+                            tempURLArray.append(url!)
+                            counter += 1
+                            if counter == gsURL.count {
+                                completion(.success(tempURLArray))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+enum ConnectionResult {
+    case success([URL])
+    case failure(String)
 }
 
 //Compressing image size
