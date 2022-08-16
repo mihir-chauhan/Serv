@@ -17,6 +17,30 @@ struct VerificationPending: View {
     var body: some View {
         NavigationView {
             VStack {
+                Image(systemName: "envelope.badge.fill")
+                    .symbolRenderingMode(.palette)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 100)
+                    
+                    
+                VStack {
+                    Text("Confirm your email address")
+                        .font(.headline)
+                        .font(.system(size: 30))
+                        .bold()
+                        .padding(.bottom, 5)
+                    Text("We sent a confirmation email to: ")
+                        .font(.headline)
+                    Text(viewModel.decodeUserInfo()?.email ?? "example@ex.com")
+                        .font(.headline)
+                        .bold()
+                        .padding(10)
+                    Text("Tap Refresh after you verified your email")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .padding(.bottom, 10)
+                }.padding(.horizontal)
                 Button(action: {
                     let currentUser = Auth.auth().currentUser
                     currentUser?.reload { err in
@@ -43,10 +67,7 @@ struct VerificationPending: View {
                                 .bold()
                         )
                 }
-                Text("Tap Refresh after you verified your email")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .padding(.bottom, 10)
+                
                 
                 Button(action: {
                     let actionCodeSettings = ActionCodeSettings()
