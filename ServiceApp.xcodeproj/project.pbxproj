@@ -576,7 +576,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Serv;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to Scan QR Codes";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = hey;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Stalker needs ur location ";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Serv needs to find events near you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = launchScreen;
@@ -616,7 +616,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Serv;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to Scan QR Codes";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = hey;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Stalker needs ur location ";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Serv needs to find events near you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = launchScreen;
