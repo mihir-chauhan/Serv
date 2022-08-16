@@ -46,6 +46,7 @@
 		BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */; };
 		BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */; };
 		BE92CC2E2899D34300CD7264 /* PVSAGraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */; };
+		BEAA842B28AC1AF1007161DD /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA842A28AC1AF1007161DD /* AlertToast */; };
 		BEB2934027C1FE7C00D32BDE /* AuthSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */; };
 		BEB4844A284B17DC00FB8469 /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB48449284B17DC00FB8469 /* CheckInView.swift */; };
 		BEB551CA27C1A820008ED810 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551C927C1A820008ED810 /* FirebaseAuth */; };
@@ -144,6 +145,7 @@
 				BEB551D027C1A820008ED810 /* FirebaseStorage in Frameworks */,
 				BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */,
 				BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */,
+				BEAA842B28AC1AF1007161DD /* AlertToast in Frameworks */,
 				BEB551CE27C1A820008ED810 /* FirebaseFirestore in Frameworks */,
 				BEB551D327C1AEB4008ED810 /* GoogleSignIn in Frameworks */,
 			);
@@ -328,6 +330,7 @@
 				BEB551D227C1AEB4008ED810 /* GoogleSignIn */,
 				BEBE4DA42893A4AF003A0CE9 /* GeoFire */,
 				BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */,
+				BEAA842A28AC1AF1007161DD /* AlertToast */,
 			);
 			productName = ServiceApp;
 			productReference = B3E6FCB7277C5870004DEE5B /* ServiceApp.app */;
@@ -364,6 +367,7 @@
 				BEB551C827C1A820008ED810 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				BEB551D127C1AEB3008ED810 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				BEBE4DA32893A4AF003A0CE9 /* XCRemoteSwiftPackageReference "geofire-objc" */,
+				BEAA842928AC1AF1007161DD /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = B3E6FCB8277C5870004DEE5B /* Products */;
 			projectDirPath = "";
@@ -683,6 +687,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		BEAA842928AC1AF1007161DD /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		BEB551C827C1A820008ED810 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -727,6 +739,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B3DE1AD927843C8200E06378 /* XCRemoteSwiftPackageReference "ChartView" */;
 			productName = SwiftUICharts;
+		};
+		BEAA842A28AC1AF1007161DD /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BEAA842928AC1AF1007161DD /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 		BEB551C927C1A820008ED810 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

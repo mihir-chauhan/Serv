@@ -8,26 +8,29 @@
 import SwiftUI
 import FirebaseAuth
 import AuthenticationServices
+import AlertToast
 
 struct VerificationPending: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedIn
+    @State var showAlertIsVerified: Bool = false
+    @State var showAlertIsNotVerified: Bool = false
     @State var signOutConfirmation: Bool = false
     @State var resentVerification: Bool = false
     var body: some View {
         NavigationView {
             VStack {
                 Image(systemName: "envelope.badge.fill")
-                    .symbolRenderingMode(.palette)
+                
+                    .symbolRenderingMode(.multicolor)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 75, height: 75)
                     
                     
                 VStack {
                     Text("Confirm your email address")
-                        .font(.headline)
-                        .font(.system(size: 30))
+                        .font(.system(size: 25))
                         .bold()
                         .padding(.bottom, 5)
                     Text("We sent a confirmation email to: ")
@@ -35,11 +38,11 @@ struct VerificationPending: View {
                     Text(viewModel.decodeUserInfo()?.email ?? "example@ex.com")
                         .font(.headline)
                         .bold()
-                        .padding(10)
+                        .padding(.bottom, 10)
                     Text("Tap Refresh after you verified your email")
                         .font(.caption)
                         .foregroundColor(.gray)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 5)
                 }.padding(.horizontal)
                 Button(action: {
                     let currentUser = Auth.auth().currentUser
@@ -51,9 +54,14 @@ struct VerificationPending: View {
                         let isEmailVerified = currentUser?.isEmailVerified
                         if isEmailVerified! {
                             FirebaseRealtimeDatabaseCRUD().updateField(for: user_uuid!, fieldToUpdate: ["emailVerified" : true])
-                            self.signInState = .signedIn
+                            showAlertIsVerified.toggle()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                self.signInState = .signedIn
+                            }
+                            
                             print("signed in")
                         } else {
+                            showAlertIsNotVerified.toggle()
                             print("has not verified yet")
                         }
                     }
@@ -66,7 +74,7 @@ struct VerificationPending: View {
                                 .foregroundColor(.white)
                                 .bold()
                         )
-                }
+                }.padding(.bottom, 5)
                 
                 
                 Button(action: {
@@ -113,6 +121,12 @@ struct VerificationPending: View {
                 }
             }
             .navigationTitle("Verification Is Pending")
+        }
+        .toast(isPresenting: $showAlertIsVerified) {
+            AlertToast(type: .complete(.green), title: "Email verified!")
+        }
+        .toast(isPresenting: $showAlertIsNotVerified) {
+            AlertToast(type: .error(.red), title: "Email is not verified")
         }
     }
 }
