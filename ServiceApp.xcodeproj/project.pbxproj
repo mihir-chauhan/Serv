@@ -14,6 +14,7 @@
 		B319D158277EE7880045F06D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D157277EE7880045F06D /* Schedule.swift */; };
 		B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D159277EE7A90045F06D /* SheetObserver.swift */; };
 		B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D15D277EF7030045F06D /* ScheduleCardView.swift */; };
+		B31F1AF128AC458A00C703AE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = B31F1AF028AC458A00C703AE /* FirebaseMessaging */; };
 		B333369E27819C59007E9482 /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369D27819C59007E9482 /* FriendCardView.swift */; };
 		B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369F27819E19007E9482 /* AddFriendSheet.swift */; };
 		B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A32782E5DD007E9482 /* ScheduleModel.swift */; };
@@ -144,6 +145,7 @@
 				B3DE1ADB27843C8200E06378 /* SwiftUICharts in Frameworks */,
 				BEB551D027C1A820008ED810 /* FirebaseStorage in Frameworks */,
 				BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */,
+				B31F1AF128AC458A00C703AE /* FirebaseMessaging in Frameworks */,
 				BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */,
 				BEAA842B28AC1AF1007161DD /* AlertToast in Frameworks */,
 				BEB551CE27C1A820008ED810 /* FirebaseFirestore in Frameworks */,
@@ -331,6 +333,7 @@
 				BEBE4DA42893A4AF003A0CE9 /* GeoFire */,
 				BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */,
 				BEAA842A28AC1AF1007161DD /* AlertToast */,
+				B31F1AF028AC458A00C703AE /* FirebaseMessaging */,
 			);
 			productName = ServiceApp;
 			productReference = B3E6FCB7277C5870004DEE5B /* ServiceApp.app */;
@@ -730,6 +733,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B31F1AF028AC458A00C703AE /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BEB551C827C1A820008ED810 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		B3DE1AD5278433B000E06378 /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B3DE1AD4278433B000E06378 /* XCRemoteSwiftPackageReference "CodeScanner" */;

@@ -8,7 +8,6 @@
 import SwiftUI
 import Firebase
 import FirebaseMessaging
-import FirebaseAnalytics
 import GoogleSignIn
 
 @main
@@ -35,6 +34,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
           options: authOptions) { _, _ in }
 
         application.registerForRemoteNotifications()
+
+        Messaging.messaging().delegate = self
 
         return true
     }
@@ -68,4 +69,17 @@ func application(
   didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
 ) {
   Messaging.messaging().apnsToken = deviceToken
+}
+
+extension AppDelegate: MessagingDelegate {
+  func messaging(
+    _ messaging: Messaging,
+    didReceiveRegistrationToken fcmToken: String?
+  ) {
+    let tokenDict = ["token": fcmToken ?? ""]
+    NotificationCenter.default.post(
+      name: Notification.Name("FCMToken"),
+      object: nil,
+      userInfo: tokenDict)
+  }
 }
