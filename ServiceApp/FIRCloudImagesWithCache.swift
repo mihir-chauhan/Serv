@@ -59,16 +59,23 @@ class FIRCloudImages {
         }
     }
     
-    func uploadPfp(uid: String, viewModel: AuthViewModel, for data: Data) {
+    func uploadPfp(uid: String, viewModel: AuthViewModel, for image: UIImage) {
         let db = Firestore.firestore()
         let storageRef = FIRCloudImages.storage.reference().child("ProfilePictures")
         let profilePicRef = storageRef.child("\(String(describing: viewModel.decodeUserInfo()!.uid!))")
-        profilePicRef.putData(data, metadata: nil) { (metadata, error) in
-            guard let metadata = metadata else {
-                return
-            }
-            let size = metadata.size
-            print("size", size)
+        
+        //compression2:
+        let myImage = image.resizeWithWidth(width: 100)
+        let compressedData = myImage?.jpegData(compressionQuality: 0.5)
+        
+            
+        profilePicRef.putData(compressedData!, metadata: nil) { (metadata, error) in
+                guard let metadata = metadata else {
+                    return
+                }
+                let size = metadata.size
+                print("size", size)
+//            }
         }
         profilePicRef.downloadURL { (url, error) in
             guard let downloadURL = url else {
@@ -152,5 +159,30 @@ extension UIImage {
         let resizedImage = image.aspectFittedToHeight(200)
         resizedImage.jpegData(compressionQuality: 0.2)
         return resizedImage.pngData()
+    }
+}
+
+extension UIImage {
+    func resizeWithPercent(percentage: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: size.width * percentage, height: size.height * percentage)))
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+    func resizeWithWidth(width: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
     }
 }

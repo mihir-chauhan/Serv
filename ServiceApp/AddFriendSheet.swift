@@ -8,6 +8,7 @@
 import SwiftUI
 import CodeScanner
 import AudioToolbox
+import AlertToast
 
 
 struct AddFriendSheet: View {
@@ -40,7 +41,15 @@ struct AddFriendSheet: View {
                                             if value == true {
                                                 FirebaseRealtimeDatabaseCRUD().readFriends(for: (viewModel.decodeUserInfo()?.uid)!) { friendsArray in
                                                     FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
+                                                    
+                                                    // getting friend's pfp, so that we could cache it in FileManager
+//                                                    FirebaseRealtimeDatabaseCRUD().getProfilePictureFromURL(uid: result.string) { url in
+//                                                        <#code#>
+//                                                    }
+                                                    
+                                                    
                                                     FirebaseRealtimeDatabaseCRUD().writeFriends(for: result.string, friendUUID: (viewModel.decodeUserInfo()?.uid)!)
+                                                    
                                                     showSuccess = true
                                                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                                                 }
@@ -60,9 +69,9 @@ struct AddFriendSheet: View {
                                     .padding()
                             }
                         }
-                        if showSuccess {
-                            ConfirmNewFriendView(show: $showSuccess)
-                        }
+//                        if showSuccess {
+//                            ConfirmNewFriendView(show: $showSuccess)
+//                        }
                     }.tabItem {
                         Image(systemName: "qrcode.viewfinder")
                     }
@@ -101,6 +110,9 @@ struct AddFriendSheet: View {
                             Text("Choose Photo...")
                         }
                     }
+                }
+                .toast(isPresenting: $showSuccess) {
+                    AlertToast(type: .complete(.green), title: "Friend Added")
                 }
             } else {
                 // Fallback on earlier versions

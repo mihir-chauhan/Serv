@@ -84,7 +84,8 @@ struct EditAccountDetails: View {
 //                            #error("Need to save image when first time signing in")
                             DispatchQueue.main.async {
                                 saveJpg(selectedImage!)
-                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!.jpeg(.lowest)!)
+                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!)
+                                // note that compression happens INSIDE
                                 
                                 viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: oldStuff.bio))
                                 
@@ -109,9 +110,9 @@ struct EditAccountDetails: View {
                         }
                         if let images = imageOrNil {
                             selectedImage = images.first
-                            if let imageData = selectedImage?.jpeg(.lowest) {
-                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: imageData)
-                            }
+//                            if let imageData = selectedImage?.jpeg(.lowest) {
+                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!)
+//                            }
                         }
                     }
                 }
