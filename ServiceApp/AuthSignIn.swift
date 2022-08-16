@@ -17,6 +17,7 @@ class AuthViewModel: ObservableObject {
     enum SignInState: Int {
         case signedIn
         case signedOut
+        case verificationPending
         case error
     }
     
@@ -281,32 +282,6 @@ class AuthViewModel: ObservableObject {
                             
                             print(user.displayName)
                             
-//                            let imageURL = value.photoURL
-//                            let session = URLSession(configuration: .default)
-//                            let downloadPicTask = session.dataTask(with: imageURL!) { (data, response, error) in
-//                                // The download has finished.
-//                                if let e = error {
-//                                    print("Error downloading cat picture: \(e)")
-//                                } else {
-//                                    // No errors found.
-//                                    // It would be weird if we didn't have a response, so check for that too.
-//                                    if let res = response as? HTTPURLResponse {
-//                                        print("Downloaded cat picture with response code \(res.statusCode)")
-//                                        if let imageData = data {
-//                                            // Finally convert that Data into an image and do what you wish with it.
-//                                            let image = UIImage(data: imageData)
-//                                            self!.saveJpg(image!)
-//                                            // Do something with your image.
-//                                        } else {
-//                                            print("Couldn't get image: Image is nil")
-//                                        }
-//                                    } else {
-//                                        print("Couldn't get response code for some reason")
-//                                    }
-//                                }
-//                            }
-                            
-                            
                             self?.encodeUserInfo(for: UserInfoFromAuth(uid: user.uid, displayName: value.displayName, photoURL: value.photoURL, email: user.email, bio: bio))
                         }
                         self?.state = .signedIn
@@ -350,6 +325,7 @@ class AuthViewModel: ObservableObject {
                 print("kjadsjlfndafkjndfjnhere 11111111121212121 \(user!.uid)")
                 FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { [self] exists in
                     print("kjadsjlfndafkjndfjnhere 11111111121212121 \(exists)")
+//                  THIS WILL PROBABLY NEVER BE REACHED
                     if exists {
                         FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                             bio = value.bio ?? "no bio?!"
@@ -357,14 +333,34 @@ class AuthViewModel: ObservableObject {
                             self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email, bio: bio))
                         }
                         
-                        UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
-                    } else {
+                        self.state = .signedIn
+                    }
+                    
+                    else {
                         FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
                         encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, username: username, photoURL: user?.photoURL, email: user?.email))
                         
+                        let actionCodeSettings = ActionCodeSettings()
+                        actionCodeSettings.url = nil
+                        // The sign-in operation has to always be completed in the app.
+                        actionCodeSettings.handleCodeInApp = true
+                        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
+                        
+                        Auth.auth().currentUser?.sendEmailVerification { err in
+                            if let err = err {
+                                print(err.localizedDescription)
+                                return
+                        }
+                            print("Email sent")
+//                            successfully sent
+                            self.state = .verificationPending
+                            
+                            
+                        }
+                        
                     }
                     UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
-                    self.state = .signedIn
+                    
                     self.loading = false
                 }
             

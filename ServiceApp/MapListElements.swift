@@ -21,7 +21,7 @@ struct MapListElements: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text("Events")
+                Text("Nearby Events")
                     .font(.system(size: 35))
                     .fontWeight(.bold)
                     .padding()

@@ -24,7 +24,9 @@ struct ContentView: View {
                 switch self.signInState {
                 case .signedOut: AccountLoginView()
                 case .signedIn: CustomTabBar()
+                case .verificationPending: VerificationPending()
                 case .error: AccountLoginView()
+                
                 }
             }
         }

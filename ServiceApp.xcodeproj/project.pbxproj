@@ -53,6 +53,7 @@
 		BEB551CE27C1A820008ED810 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CD27C1A820008ED810 /* FirebaseFirestore */; };
 		BEB551D027C1A820008ED810 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551CF27C1A820008ED810 /* FirebaseStorage */; };
 		BEB551D327C1AEB4008ED810 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BEB551D227C1AEB4008ED810 /* GoogleSignIn */; };
+		BEB91CCC28AB7EDE00FB9917 /* VerificationPending.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB91CCB28AB7EDE00FB9917 /* VerificationPending.swift */; };
 		BEBAB0BD288E72330049F689 /* FormValidationSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */; };
 		BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */; };
 		BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */; };
@@ -113,6 +114,7 @@
 		BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVSAGraphs.swift; sourceTree = "<group>"; };
 		BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignIn.swift; sourceTree = "<group>"; };
 		BEB48449284B17DC00FB8469 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
+		BEB91CCB28AB7EDE00FB9917 /* VerificationPending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPending.swift; sourceTree = "<group>"; };
 		BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidationSignUp.swift; sourceTree = "<group>"; };
 		BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImagesWithCache.swift; sourceTree = "<group>"; };
 		BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBezierPaths.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				F449657828026E300068A497 /* AccountSignUpView.swift */,
 				BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */,
 				BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */,
+				BEB91CCB28AB7EDE00FB9917 /* VerificationPending.swift */,
 			);
 			name = Auth;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				BEBAB0BD288E72330049F689 /* FormValidationSignUp.swift in Sources */,
 				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
+				BEB91CCC28AB7EDE00FB9917 /* VerificationPending.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,
 				B3E6FCC9277C58D3004DEE5B /* Account.swift in Sources */,
 				BEB4844A284B17DC00FB8469 /* CheckInView.swift in Sources */,

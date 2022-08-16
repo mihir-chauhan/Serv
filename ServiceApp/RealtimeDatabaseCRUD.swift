@@ -14,6 +14,11 @@ var ref = Firestore.firestore()
 
 class FirebaseRealtimeDatabaseCRUD {
     
+    func updateField(for uuidString: String, fieldToUpdate: [String : Any]) {
+        ref.collection("Volunteer Accounts").document(uuidString).updateData(fieldToUpdate)
+    }
+    
+    
     func readFriends(for uuidString: String, handler: @escaping (Array<String>?) -> ()) {
         ref.collection("Volunteer Accounts").document(uuidString).getDocument { snap, err in
             guard err == nil else {
@@ -92,7 +97,8 @@ class FirebaseRealtimeDatabaseCRUD {
             "username" : userInfo.username ?? "No username",
             "photoURL" : userInfo.photoURL?.absoluteString ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg",
             "email" : userInfo.email ?? "default@email.com",
-            "bio" : "Add an informative bio!"
+            "bio" : "Add an informative bio!",
+            "verifiedEmail" : false
         ] as [String : Any]
         print("ajflajdfnasdjfnalsdfnlasfnjasdf \(userInfoAsDict)")
         ref.collection("Volunteer Accounts").document(userInfo.uid!).setData(["UserInfo": userInfoAsDict])

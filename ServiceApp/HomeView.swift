@@ -186,18 +186,18 @@ struct HomeView: View {
                                     .bold()
                                     .padding(.horizontal)
                                 
-                                Button(action: {
-//                                    allowsTracking = true
-//                                    viewModel.checkIfLocationServicesIsEnabled()
-                                }) {
-                                    Capsule()
-                                        .frame(width: 160, height: 35)
-                                        .foregroundColor(.blue.opacity(0.05))
-                                        .overlay(
-                                            Text("DEBUG PURPOSES")
-                                                .foregroundColor(.blue)
-                                        )
-                                }.padding()
+//                                Button(action: {
+////                                    allowsTracking = true
+////                                    viewModel.checkIfLocationServicesIsEnabled()
+//                                }) {
+//                                    Capsule()
+//                                        .frame(width: 160, height: 35)
+//                                        .foregroundColor(.blue.opacity(0.05))
+//                                        .overlay(
+//                                            Text("DEBUG PURPOSES")
+//                                                .foregroundColor(.blue)
+//                                        )
+//                                }.padding()
                             }.padding()
                                 .frame(width: geo.size.width, height: 150)
                         }
