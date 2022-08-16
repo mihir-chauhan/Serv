@@ -236,12 +236,6 @@ struct HomeView: View {
                     for i in totalHours {
                         self.totalHours += i
                     }
-    //                data = totalHours
-    //                if !data.isEmpty && data.count > 1 {
-    //                    hasData = true
-    //                } else {
-    //                    hasData = false
-    //                }
                 }
             }
             

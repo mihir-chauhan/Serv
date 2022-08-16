@@ -14,11 +14,9 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>None</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.827337112175-fmffi1q8o1f5dch5k8406bb0btbluj53</string>
-			</array>
+			<array/>
 		</dict>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>

@@ -72,15 +72,19 @@ struct EditAccountDetails: View {
                                         trailing:
                                             Button(action: {
                         let oldStuff = viewModel.decodeUserInfo()!
-                        if !changeName.isEmpty {
-                            
+                        
+                        if !changeBio.isEmpty && selectedImage != nil {
+                            saveJpg(selectedImage!)
+                            FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!)
+                            FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
+                            viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
                         }
-                        if !changeBio.isEmpty {
+                        else if !changeBio.isEmpty {
                             //                            this will also need to be saved to realtime database for friends to read the info
                             viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
                             FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
                         }
-                        if selectedImage != nil {
+                        else if selectedImage != nil {
 //                            #error("Need to save image when first time signing in")
                             DispatchQueue.main.async {
                                 saveJpg(selectedImage!)
