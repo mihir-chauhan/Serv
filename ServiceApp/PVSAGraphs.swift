@@ -179,8 +179,6 @@ struct LineGraph: View {
                     
                     let index = max(min(Int((translation / width).rounded() + 1), data.count - 1), 0)
                     
-//                    let new = data[index] + prevProgess
-//                    print("NEWNEWNEW", new)
                     if !data.isEmpty {
                         currentPlot = String(format: "%.2f", prevProgess + data[index])
                         self.translation = translation
