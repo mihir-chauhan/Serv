@@ -25,7 +25,7 @@ struct EventDetailView: View {
     @State var eventExistsInUser: Bool = false
     
     @State var friendSignedUp: Bool = false
-    
+    @State var firstImage: UIImage?
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
     var dateToString: String {
         get {
@@ -83,11 +83,23 @@ struct EventDetailView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
-                                WebImage(url: self.placeHolderImage[img])
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 150, height: 150)
-                                    .clipped()
+                                Group {
+                                    if img == 0 && firstImage != nil {
+                                        Image(uiImage: firstImage!)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 150, height: 150)
+                                            .clipped()
+                                        
+                                    }
+                                    else {
+                                        WebImage(url: self.placeHolderImage[img])
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 150, height: 150)
+                                            .clipped()
+                                    }
+                                }
                             }
                         }
                     }
@@ -173,7 +185,11 @@ struct EventDetailView: View {
                 }
             }
         }
-        
+        .task {
+            FIRCloudImages.getImage(gsURL: data.images![0], eventID: data.FIRDocID!, eventDate: data.time) { image in
+                firstImage = image
+            }
+        }
     }
     func checkForLiveEvents(date: Date) -> String {
         let dateFormatter = DateFormatter()
