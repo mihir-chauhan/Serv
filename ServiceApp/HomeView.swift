@@ -249,7 +249,6 @@ struct HomeView: View {
         }
 //        .onChange(of: viewModel.allowingLocationTracker) { _ in
 //            viewModel.checkIfLocationServicesIsEnabled()
-//
 //        }
         
         

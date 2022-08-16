@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @EnvironmentObject var viewModel: LocationTrackerViewModel
     @Binding var hasOnboarded: Bool
     @State var pageIndex = 0
     @State var numberOfPages = dummyOnboardingPages.count
@@ -31,6 +32,7 @@ struct OnboardingView: View {
                                 }
                             }
                             if pageIndex == 4 {
+                                viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
                                 withAnimation(Animation.easeOut(duration: 0.3)) {
                                     self.hasOnboarded = true
                                 }
