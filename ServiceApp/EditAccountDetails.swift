@@ -110,9 +110,9 @@ struct EditAccountDetails: View {
                         }
                         if let images = imageOrNil {
                             selectedImage = images.first
-//                            if let imageData = selectedImage?.jpeg(.lowest) {
-                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!)
-//                            }
+                            if let imageData = selectedImage?.jpeg(.highest) {
+                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: UIImage(data: imageData) ?? UIImage())
+                            }
                         }
                     }
                 }
