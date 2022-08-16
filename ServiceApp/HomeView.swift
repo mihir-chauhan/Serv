@@ -32,7 +32,7 @@ struct HomeView: View {
     var categoryDescriptions = ["Environmental projects may have volunteers working in an office preparing educational materials, outside creating trails (or recycling, or picking up trash, or planting and tending flora), or in schools or neighborhood centers providing community outreach.", "Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places.", "Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program.", "While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS.", "Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild."]
     @State var alertInfoIndex = 0
     
-    
+    @State var totalHours: Double = 0
     @State var selectedIndexOfServiceType = [true, false, false, false, false]
 
     var body: some View {
@@ -100,9 +100,25 @@ struct HomeView: View {
 //                            .font(.caption)
 //                    }
                     
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(width: display.width - 40, height: 50)
+                        .foregroundColor(.primary.opacity(0.05))
+                        .overlay(
+                            HStack {
+                                Text("Total hours served")
+                                    .bold()
+                                Spacer()
+                                Text(String(format: "%.2f", totalHours))
+                                    .font(.system(size: 25, design: .rounded))
+                                    .bold()
+                            }.padding(.horizontal)
+                        )
+                        .padding(.bottom, 5)
+                    
                     VStack(alignment: .leading) {
                         Text("Category Filters")
                             .font(.system(.headline))
+                            .bold()
                             .padding(.leading, 15)
                         Text("Long press to learn more about a category")
                             .font(.system(.caption))
@@ -215,7 +231,20 @@ struct HomeView: View {
                         }
                     }
                 }
+                
+                FirestoreCRUD().allTimeCompleted(for: authViewModel.decodeUserInfo()!.uid) { totalHours in
+                    for i in totalHours {
+                        self.totalHours += i
+                    }
+    //                data = totalHours
+    //                if !data.isEmpty && data.count > 1 {
+    //                    hasData = true
+    //                } else {
+    //                    hasData = false
+    //                }
+                }
             }
+            
             
         }
 //        .onChange(of: viewModel.allowingLocationTracker) { _ in

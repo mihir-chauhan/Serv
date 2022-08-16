@@ -40,10 +40,7 @@ class PhotoFileManager {
     public func getImage(fileName: String) -> UIImage? {
         if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
             let imagePath = URL(fileURLWithPath: dir.absoluteString).appendingPathComponent("\(fileName).jpg")
-            
-//            let attributes = try? FileManager.default.attributesOfItem(atPath: imagePath)
-//            let creationDate = attributes?[.creationDate]
-//            print("Creation Date: ", creationDate)
+
             //get custom metadata:
             let customMetadata = try? imagePath.extendedAttribute(forName: "dateOfEvent")
             let retrievedTimestamp = customMetadata?.withUnsafeBytes { $0.load(as: Double.self) }

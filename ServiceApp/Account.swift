@@ -70,6 +70,7 @@ struct Account: View {
                         .overlay(
                             HStack {
                             Text("Your QR Code")
+                                    .bold()
                                     .padding()
                             Spacer(minLength: 10)
                                 Image(systemName: "qrcode")
@@ -91,6 +92,7 @@ struct Account: View {
                         .overlay(
                             HStack {
                             Text("Event History")
+                                    .bold()
                                     .padding()
                             Spacer(minLength: 10)
                                 Image(systemName: "clock.arrow.circlepath")
@@ -134,29 +136,33 @@ struct Account: View {
             .fullScreenCover(isPresented: $toggleEventHistory) {
                 NavigationView {
                     ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading) {
-                    ForEach(0..<eventHistory.count, id: \.self) { i in
                         VStack(alignment: .leading) {
-                            Text(eventHistory[i].eventName)
-                                .font(.headline).bold()
-                                .padding()
-                            HStack {
-                                Text("Hours rewarded: \(String(format: "%.1f", eventHistory[i].hoursSpent))")
-                                    .font(.caption)
-                                Spacer()
-                                Text("\(dateToString(from: eventHistory[i].dateOfService))")
-                                    .font(.caption)
+                            if !eventHistory.isEmpty {
+                                ForEach(0..<eventHistory.count, id: \.self) { i in
+                                    VStack(alignment: .leading) {
+                                        Text(eventHistory[i].eventName)
+                                            .font(.headline).bold()
+                                            .padding()
+                                        HStack {
+                                            Text("Hours rewarded: \(String(format: "%.1f", eventHistory[i].hoursSpent))")
+                                                .font(.caption)
+                                            Spacer()
+                                            Text("\(dateToString(from: eventHistory[i].dateOfService))")
+                                                .font(.caption)
+                                        }
+                                        .padding(10)
+                                    }.overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+                                    )
+                                    .padding(.horizontal)
+                                }
+                                
+                            } else {
+                                Text("See your past attended events here")
                             }
-                            .padding(10)
-                        }.overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-                        )
-                        .padding(.horizontal)
                         }
-                        
                     }
-                }
                 .task {
                     FirestoreCRUD().getEventHistory { eventHistory in
                         self.eventHistory = eventHistory

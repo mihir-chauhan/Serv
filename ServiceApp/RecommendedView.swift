@@ -41,7 +41,7 @@ struct RecommendedView: View {
             ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
                 RoundedRectangle(cornerRadius: 20)
                 
-                    .foregroundColor(colorScheme == .light ? Color(#colorLiteral(red: 0.9688304554, green: 0.9519491526, blue: 0.8814709677, alpha: 1)) : Color(#colorLiteral(red: 48/255, green: 48/255, blue: 48/255, alpha: 1)))
+                    .foregroundColor(colorScheme == .light ? Color.neuWhite : Color.neuWhite.opacity(0.25))
                 VStack(alignment: .leading) {
                     if let imageLoaded = self.placeHolderUIImage {
                         Image(uiImage: imageLoaded)
@@ -49,7 +49,7 @@ struct RecommendedView: View {
                             .scaledToFill()
                             .frame(width: 290, height: 145)
                             .clipped()
-                            .background(Color(.systemGray4))
+                            .background(Color.primary.opacity(0.05))
                             .cornerRadius(20, corners: [.topLeft, .topRight])
                     }
                     

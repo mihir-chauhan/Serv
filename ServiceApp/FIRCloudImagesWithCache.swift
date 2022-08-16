@@ -79,15 +79,6 @@ class FIRCloudImages {
             dbRef.updateData([
                 "UserInfo.photoURL" : downloadURL.absoluteString
             ])
-//            let changeReq = Auth.auth().currentUser?.createProfileChangeRequest()
-//            changeReq?.photoURL = downloadURL
-//            changeReq?.commitChanges { error in
-//                if error == nil {
-//                    // Do something
-//                } else {
-//                    // Do something
-//                }
-//            }
             let oldStuff = viewModel.decodeUserInfo()!
             viewModel.encodeUserInfo(for: UserInfoFromAuth(
                 uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email, bio: oldStuff.bio
@@ -157,9 +148,9 @@ extension UIImage {
             self.draw(in: CGRect(origin: .zero, size: newSize))
         }
     }
-    func compressImage(image: UIImage) -> UIImage {
-            let resizedImage = image.aspectFittedToHeight(200)
-            resizedImage.jpegData(compressionQuality: 0.2)
-            return resizedImage
+    func compressImage(image: UIImage) -> Data? {
+        let resizedImage = image.aspectFittedToHeight(200)
+        resizedImage.jpegData(compressionQuality: 0.2)
+        return resizedImage.pngData()
     }
 }
