@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>827337112175-fmffi1q8o1f5dch5k8406bb0btbluj53.apps.googleusercontent.com</string>
+	<string>827337112175-2197rkskvcprch748r7trm36e4d6nroo.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.827337112175-fmffi1q8o1f5dch5k8406bb0btbluj53</string>
+	<string>com.googleusercontent.apps.827337112175-2197rkskvcprch748r7trm36e4d6nroo</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAbEUrUn2Ue55DCwyGBuCRujKah58WHr80</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.app.Serv</string>
+	<string>org.goserv.Serv</string>
 	<key>PROJECT_ID</key>
 	<string>serviceapp22</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:827337112175:ios:bc6ea5b13a3c03b508ab9a</string>
+	<string>1:827337112175:ios:27ac3171ce216a8e08ab9a</string>
 	<key>DATABASE_URL</key>
 	<string>https://serviceapp22-default-rtdb.firebaseio.com</string>
 </dict>

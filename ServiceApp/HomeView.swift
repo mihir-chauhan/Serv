@@ -149,26 +149,27 @@ struct HomeView: View {
                                 HStack {
                                     if !recommendedEvents.isEmpty {
                                         ForEach(recommendedEvents, id: \.self) { event in
+                                            
                                             // TODO: i dont like that i have to match environmental to idnex 0 maybe use dict later on
                                             if((event.category == "Environmental" && selectedIndexOfServiceType[0]) ||
                                                (event.category == "Humanitarian" && selectedIndexOfServiceType[1]) ||
                                                (event.category == "Educational" && selectedIndexOfServiceType[2]) ||
                                                (event.category == "Health" && selectedIndexOfServiceType[3]) ||
-                                               (event.category == "Wildlife" && selectedIndexOfServiceType[4])) {
+                                               (event.category == "Wildlife" && selectedIndexOfServiceType[4]) ||
+                                               (event.category == "Other")) {
                                                 
 //                                                manually filtering out the outdated events
                                                 if event.time > Date() {
-                                                    RecommendedView(data: event)
-                                                    let _ = print(recommendedEvents)
+                                                    RecommendedView(data: event).padding(.trailing, 30)
                                                 }
                                                 
                                             }
                                         }
                                     }
-                                }
+                                }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
                                 
                                 
-                            }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
+                            }
                                 
                             }
                             else {
@@ -202,6 +203,10 @@ struct HomeView: View {
                                 .frame(width: geo.size.width, height: 150)
                         }
                     }
+                    
+                    
+                    Spacer()
+                        .padding(.bottom, 90)
                 }
                 
                 
@@ -214,7 +219,7 @@ struct HomeView: View {
         .padding(.vertical)
         }
         .onChange(of: viewModel.queriedEventsList) { value in
-                    if value.count > 3 {
+                    if value.count > 1 {
                         recommendedEvents = value
                     }
                 }

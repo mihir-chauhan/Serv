@@ -123,11 +123,15 @@ class AuthViewModel: ObservableObject {
     /* Apple Sign In */
     
     public func appleOnRequest(request: ASAuthorizationAppleIDRequest) {
-        let nonce = self.randomNonceString()
+        let nonce = randomNonceString()
         currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
-        request.nonce = self.sha256(nonce)
-        
+        request.nonce = sha256(nonce)
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.performRequests()
     }
     
     public func appleOnCompletion(result: Result<ASAuthorization, Error>) {
@@ -147,7 +151,7 @@ class AuthViewModel: ObservableObject {
                     return
                 }
                 
-                let credential = OAuthProvider.credential(withProviderID: "apple.com",idToken: idTokenString,rawNonce: nonce)
+                let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce, accessToken: nil)
                 Auth.auth().signIn(with: credential) { (authResult, error) in
                     if (error != nil) {
                         // Error. If error.code == .MissingOrInvalidNonce, make sure
@@ -201,16 +205,17 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    private func sha256(_ input: String) -> String {
-            let inputData = Data(input.utf8)
-            let hashedData = SHA256.hash(data: inputData)
-            let hashString = hashedData.compactMap {
+    @available(iOS 13, *)
+    func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
             return String(format: "%02x", $0)
-            }.joined()
+        }.joined()
+        
+        return hashString
+    }
 
-            return hashString
-        }
-    
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         let charset: Array<Character> =
@@ -223,7 +228,6 @@ class AuthViewModel: ObservableObject {
                 var random: UInt8 = 0
                 let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
                 if errorCode != errSecSuccess {
-                    self.state = .error
                     fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
                 }
                 return random
@@ -242,8 +246,7 @@ class AuthViewModel: ObservableObject {
         }
         return result
     }
-    
-    
+
     /* Email & Password */
     private func authenticateUserEmail(for email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
