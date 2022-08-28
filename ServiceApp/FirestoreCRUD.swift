@@ -100,7 +100,7 @@ class FirestoreCRUD: ObservableObject {
 //                    currentAttendees += 1
 //                }
                 
-                if attendees!.count == maxSlots! {
+                if attendees?.count ?? 0 == maxSlots! {
                     completion(true)
                 } else {
                     completion(false)

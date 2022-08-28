@@ -20,9 +20,7 @@ struct EventDetailView: View {
     
     @State var reachedMaxSlotBool: Bool = false
     @State var buttonStateIsSignedUp: Bool = false
-    
-    @State var eventExistsInUser: Bool = false
-    
+        
     @State var friendSignedUp: Bool = false
     @State var firstImage: [UIImage] = []
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
@@ -176,6 +174,33 @@ struct EventDetailView: View {
             }
         }
         .onChange(of: data) { value in
+            self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: sheetObserver.eventDetailData.coordinate.latitude - 0.02, longitude: sheetObserver.eventDetailData.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+            
+            reachedMaxSlotBool = false
+            friendSignedUp = false
+            listOfFriendsWhoSignedUpForEvent = []
+            checkForEventAdded(itemName: value.FIRDocID!) { eventIs in
+                buttonStateIsSignedUp = eventIs!
+            }
+            
+            if checkForLiveEvents(date: value.time) == checkForLiveEvents(date: Date.now) {
+//                self.eventIsLive.toggle()
+            }
+            FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
+                for (friend, events) in result {
+                    for i in events! {
+                        if i == value.FIRDocID {
+                            //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
+                            print(friend)
+                            listOfFriendsWhoSignedUpForEvent.append(friend)
+                            friendSignedUp = true
+                            //                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
+                        }
+                    }
+                }
+            }
+
+            
             firstImage = []
             for imageURL in value.images! {
                 FIRCloudImages.getImage(gsURL: imageURL, eventID: value.FIRDocID!, eventDate: value.time) { image in
