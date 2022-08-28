@@ -237,10 +237,14 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         ), at: 0)
         
         if recommendedEventFromHomePage != nil {
-//            print("222akjsasdfkjnasdfjknasldfjlajfdnflafnadjnfaljdf \(recommendedEventFromHomePage!.name)")
+            for event in filteredEventsList {
+                if event.FIRDocID == recommendedEventFromHomePage!.FIRDocID {
+                    return
+                }
+            }
+            print("RECOMMENDED EVENT DOESN'T EXIST; ADDING")
             self.mapAnnotationsList.append(recommendedEventFromHomePage!)
             self.filteredEventsList.append(recommendedEventFromHomePage!)
-            //recommendedEventFromHomePage = nil
         }
     }
     
