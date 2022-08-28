@@ -139,7 +139,6 @@ struct EventDetailView: View {
             }
             
         }
-        
         .padding([.top, .trailing, .leading])
         .padding(.bottom, 200)
         .task {
@@ -170,6 +169,16 @@ struct EventDetailView: View {
             firstImage = []
             for imageURL in data.images! {
                 FIRCloudImages.getImage(gsURL: imageURL, eventID: data.FIRDocID!, eventDate: data.time) { image in
+                    if(image!.size.height > 0 && image!.size.width > 0) {
+                        firstImage.append(image!)
+                    }
+                }
+            }
+        }
+        .onChange(of: data) { value in
+            firstImage = []
+            for imageURL in value.images! {
+                FIRCloudImages.getImage(gsURL: imageURL, eventID: value.FIRDocID!, eventDate: value.time) { image in
                     if(image!.size.height > 0 && image!.size.width > 0) {
                         firstImage.append(image!)
                     }
