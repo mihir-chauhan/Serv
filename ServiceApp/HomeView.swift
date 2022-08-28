@@ -27,13 +27,13 @@ struct HomeView: View {
     @State var allowsTracking: Bool = false
     @Environment(\.colorScheme) var colorScheme
 
-    var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶"]
-    var categoryTitles = ["Environmental", "Humanitarian", "Education", "Health", "Wildlife"]
-    var categoryDescriptions = ["Environmental projects may have volunteers working in an office preparing educational materials, outside creating trails (or recycling, or picking up trash, or planting and tending flora), or in schools or neighborhood centers providing community outreach.", "Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places.", "Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program.", "While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS.", "Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild."]
+    var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶", "..."]
+    var categoryTitles = ["Environmental", "Humanitarian", "Education", "Health", "Wildlife", "Other"]
+    var categoryDescriptions = ["Environmental projects may have volunteers working in an office preparing educational materials, outside creating trails (or recycling, or picking up trash, or planting and tending flora), or in schools or neighborhood centers providing community outreach.", "Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places.", "Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program.", "While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS.", "Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild.", "Miscellaneous events which do not fall into other categories."]
     @State var alertInfoIndex = 0
     
     @State var totalHours: Double = 0
-    @State var selectedIndexOfServiceType = [true, false, false, false, false]
+    @State var selectedIndexOfServiceType = [true, false, false, false, false, false]
 
     var body: some View {
         GeometryReader { geo in
@@ -125,7 +125,7 @@ struct HomeView: View {
                             .padding(.leading, 15)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ForEach(0..<5, id: \.self) { index in
+                                ForEach(0..<6, id: \.self) { index in
                                     RoundedRectangle(cornerRadius: 50)
                                         .frame(width: 75, height: 75)
                                         .foregroundColor(Color(selectedIndexOfServiceType[index] ? (#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)) : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
@@ -156,7 +156,7 @@ struct HomeView: View {
                                                (event.category == "Educational" && selectedIndexOfServiceType[2]) ||
                                                (event.category == "Health" && selectedIndexOfServiceType[3]) ||
                                                (event.category == "Wildlife" && selectedIndexOfServiceType[4]) ||
-                                               (event.category == "Other")) {
+                                               (event.category == "Other" && selectedIndexOfServiceType[5])) {
                                                 
 //                                                manually filtering out the outdated events
                                                 if event.time > Date() {

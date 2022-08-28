@@ -48,7 +48,7 @@ class FIRCloudImages {
         }
         else {
             getRemoteImages(gsURL: gsURL, eventID: eventID, eventDate: eventDate, completion: completion)
-            print("loading new results")
+            print("loading new results for \(gsURL.replacingOccurrences(of: "gs://serviceapp22.appspot.com/EventImages/", with: "").replacingOccurrences(of: ".jpg", with: ""))")
         }
     }
     
