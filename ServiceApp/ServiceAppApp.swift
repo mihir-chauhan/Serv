@@ -12,7 +12,7 @@ import GoogleSignIn
 
 @main
 struct ServiceAppApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     //    @EnvironmentObject private var appDelegate: AppDelegate
     var body: some Scene {
         WindowGroup {
@@ -24,8 +24,9 @@ struct ServiceAppApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        FirebaseConfiguration.shared.setLoggerLevel(.min)
         
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
+
         // Register Notifications
         UNUserNotificationCenter.current().delegate = self
         
@@ -40,7 +41,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
         return true
     }
     
-    func application(_ application: UIApplication, open url: URL, option: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+        print("ERROR")
+        print(error)
+    }
+
+    func application(_ application: UIApplication, open url: URL, options option: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         return GIDSignIn.sharedInstance.handle(url)
     }
 }
@@ -62,13 +71,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     ) {
         completionHandler()
     }
-}
-
-func application(
-    _ application: UIApplication,
-    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-) {
-    Messaging.messaging().apnsToken = deviceToken
+    
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
 }
 
 extension AppDelegate: MessagingDelegate {
