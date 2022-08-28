@@ -105,22 +105,6 @@ struct ScheduleCardDetailSheet: View {
                 }.padding(15)
             }
         }
-        
-//        .onAppear {
-//            checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
-//                buttonStateIsSignedUp = eventIs!
-//            }
-//            FIRCloudImagesUSED().getRemoteImages(gsURL: data.images!) { connectionResult in
-//                switch connectionResult {
-//                case .success(let url):
-//                    self.placeHolderImage.removeAll()
-//                    self.placeHolderImage = url
-//
-//                case .failure(let error):
-//                    print(error)
-//                }
-//            }
-//        }
         .fullScreenCover(isPresented: $viewOrganization) {
             OrganizationDetailView(ein: data.ein)
         }

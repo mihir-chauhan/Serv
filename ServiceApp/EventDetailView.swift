@@ -16,7 +16,6 @@ struct EventDetailView: View {
     var data: EventInformationModel = EventInformationModel()
     @Binding var sheetMode: SheetMode
     var connectionResult = ConnectionResult.failure("OK!")
-    @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
     @State var dragOffset: CGFloat = 0
     
     @State var reachedMaxSlotBool: Bool = false
@@ -25,7 +24,7 @@ struct EventDetailView: View {
     @State var eventExistsInUser: Bool = false
     
     @State var friendSignedUp: Bool = false
-    @State var firstImage: UIImage?
+    @State var firstImage: [UIImage] = []
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
     var dateToString: String {
         get {
@@ -82,18 +81,10 @@ struct EventDetailView: View {
                     Text(self.dateToString)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(0..<self.placeHolderImage.count, id: \.self) { img in
+                            ForEach(0..<(self.firstImage.count), id: \.self) { img in
                                 Group {
-                                    if img == 0 && firstImage != nil {
-                                        Image(uiImage: firstImage!)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 150, height: 150)
-                                            .clipped()
-                                        
-                                    }
-                                    else {
-                                        WebImage(url: self.placeHolderImage[img])
+                                    if firstImage.count != 0 {
+                                        Image(uiImage: firstImage[img])
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: 150, height: 150)
@@ -157,16 +148,6 @@ struct EventDetailView: View {
             checkForEventAdded(itemName: data.FIRDocID!) { eventIs in
                 buttonStateIsSignedUp = eventIs!
             }
-            FIRCloudImagesUSED().getRemoteImages(gsURL: data.images!) { connectionResult in
-                switch connectionResult {
-                case .success(let url):
-                    self.placeHolderImage.removeAll()
-                    self.placeHolderImage = url
-                    
-                case .failure(let error):
-                    print(error)
-                }
-            }
             
             if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
 //                self.eventIsLive.toggle()
@@ -186,8 +167,13 @@ struct EventDetailView: View {
             }
         }
         .task {
-            FIRCloudImages.getImage(gsURL: data.images![0], eventID: data.FIRDocID!, eventDate: data.time) { image in
-                firstImage = image
+            firstImage = []
+            for imageURL in data.images! {
+                FIRCloudImages.getImage(gsURL: imageURL, eventID: data.FIRDocID!, eventDate: data.time) { image in
+                    if(image!.size.height > 0 && image!.size.width > 0) {
+                        firstImage.append(image!)
+                    }
+                }
             }
         }
     }

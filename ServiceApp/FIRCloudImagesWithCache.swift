@@ -15,46 +15,39 @@ import AuthenticationServices
 
 class FIRCloudImages {
     static let storage = Storage.storage()
-//    static let cache = NSCache<NSString, NSData>()
+    //    static let cache = NSCache<NSString, NSData>()
     
     static func getRemoteImages(gsURL: String, eventID: String, eventDate: Date, completion: @escaping ((UIImage)?) -> ()) {
         let storageRef = storage.reference().child("EventImages")
         
         storageRef.listAll { (result, error) in
-                for item in result.items {
-                    item.getData(maxSize: 1 * 1024 * 1024 * 1024, completion: { data, error in
-                        if let err = error {
-                            print(err.localizedDescription)
-                            return
-                        }
-                        else if gsURL.contains(item.fullPath) {
-                            print("GSURL ", gsURL)
-                            print("item.fullPath ", item.fullPath)
-                            let downloadedImage = UIImage(data: data!)
-                            
-                            PhotoFileManager().saveJpg(UIImage(data: data!)!, fileName: eventID, eventDate: eventDate)
-                            
-//                            self.cache.setObject(data! as NSData, forKey: gsURL as NSString)
-
-                            completion(downloadedImage)
-
-                        }
-                    })
-
+            for item in result.items {
+                item.getData(maxSize: 1 * 512 * 512 * 512, completion: { data, error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        return
+                    }
+                    else if gsURL.contains(item.fullPath) {
+                        print("item.fullPath ", item.fullPath)
+                        let downloadedImage = UIImage(data: data!)
+                        PhotoFileManager().saveJpg(UIImage(data: data!)!, fileName: gsURL.replacingOccurrences(of: "gs://serviceapp22.appspot.com/EventImages/", with: "").replacingOccurrences(of: ".jpg", with: ""), eventDate: eventDate)
+                        completion(downloadedImage)
+                        
+                    }
+                })
+                
             }
         }
         completion(UIImage())
     }
-        
+    
     static func getImage(gsURL: String, eventID: String, eventDate: Date, completion: @escaping ((UIImage)?) -> ()) {
-
-        
-        if let image = PhotoFileManager().getImage(fileName: eventID) {
-            print("used saved img at: ", image.jpegData(compressionQuality: 0.2))
+        if let image = PhotoFileManager().getImage(fileName: gsURL.replacingOccurrences(of: "gs://serviceapp22.appspot.com/EventImages/", with: "").replacingOccurrences(of: ".jpg", with: "")) {
+            print("used saved img at: ", image)
             completion(image)
         }
         else {
-        getRemoteImages(gsURL: gsURL, eventID: eventID, eventDate: eventDate, completion: completion)
+            getRemoteImages(gsURL: gsURL, eventID: eventID, eventDate: eventDate, completion: completion)
             print("loading new results")
         }
     }
@@ -68,14 +61,14 @@ class FIRCloudImages {
         let myImage = image.resizeWithWidth(width: 100)
         let compressedData = myImage?.jpegData(compressionQuality: 0.5)
         
-            
+        
         profilePicRef.putData(compressedData!, metadata: nil) { (metadata, error) in
-                guard let metadata = metadata else {
-                    return
-                }
-                let size = metadata.size
-                print("size", size)
-//            }
+            guard let metadata = metadata else {
+                return
+            }
+            let size = metadata.size
+            print("size", size)
+            //            }
         }
         profilePicRef.downloadURL { (url, error) in
             guard let downloadURL = url else {
@@ -90,40 +83,13 @@ class FIRCloudImages {
             viewModel.encodeUserInfo(for: UserInfoFromAuth(
                 uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email, bio: oldStuff.bio
             ))
-//            TODO: must update userinfo user defaults
+            //            TODO: must update userinfo user defaults
             print("HERE", downloadURL.absoluteString)
             
         }
     }
 }
 
-class FIRCloudImagesUSED {
-    let storage = Storage.storage()
-    func getRemoteImages(gsURL: [String], completion: @escaping (ConnectionResult) -> ()) {
-        let storageRef = storage.reference().child("EventImages")
-        var tempURLArray = [URL]()
-        
-        var counter = 0
-        
-        storageRef.listAll { (result, error) in
-            for i in 0...(gsURL.count-1) {
-                for item in result.items {
-                    item.downloadURL { url, error in
-                        if let err = error {
-                            completion(.failure(err.localizedDescription))
-                        } else if gsURL[i].contains(item.fullPath) {
-                            tempURLArray.append(url!)
-                            counter += 1
-                            if counter == gsURL.count {
-                                completion(.success(tempURLArray))
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 enum ConnectionResult {
     case success([URL])
     case failure(String)
@@ -150,7 +116,7 @@ extension UIImage {
         let newWidth = self.size.width * scale
         let newSize = CGSize(width: newWidth, height: newHeight)
         let renderer = UIGraphicsImageRenderer(size: newSize)
-
+        
         return renderer.image { _ in
             self.draw(in: CGRect(origin: .zero, size: newSize))
         }
