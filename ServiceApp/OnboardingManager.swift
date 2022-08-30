@@ -21,24 +21,23 @@ struct OnboardingView: View {
                         SingularOnboardingPageView(page: page)
                             .tag(page.placement)
                     }
-                    var _ = print(pageIndex)
                 }.tabViewStyle(.page(indexDisplayMode: .never))
                 Group {
                     
-                        Button(action: {
-                            if pageIndex < 4 {
-                                withAnimation(Animation.easeInOut) {
-                                    pageIndex += 1
-                                }
+                    Button(action: {
+                        if pageIndex < 4 {
+                            withAnimation(Animation.easeInOut) {
+                                pageIndex += 1
                             }
-                            if pageIndex == 4 {
-                                viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
-                                withAnimation(Animation.easeOut(duration: 0.3)) {
-                                    self.hasOnboarded = true
-                                }
+                        }
+                        if pageIndex == 4 {
+                            viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
+                            withAnimation(Animation.easeOut(duration: 0.3)) {
+                                self.hasOnboarded = true
                             }
-                        }) {
-                            if pageIndex < 3 {
+                        }
+                    }) {
+                        if pageIndex < 3 {
                             Circle()
                                 .foregroundColor(.neuWhite)
                                 .overlay(
@@ -46,24 +45,27 @@ struct OnboardingView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 25, height: 25)
+                                        .symbolRenderingMode(.none)
+                                )
+                                .frame(width: 50, height: 50)
+                        }
+                        if pageIndex == 3 {
+                            Circle()
+                                .foregroundColor(.neuWhite)
+                                .overlay(
+                                    Image(systemName: "checkmark")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
                                     
                                         .symbolRenderingMode(.none)
                                 )
-                            
                                 .frame(width: 50, height: 50)
-                            }
-                                if pageIndex == 3 {
-                                    Capsule()
-                                        .frame(width: 105, height: 50)
-                                        .overlay(
-                                            Text("Get started")
-                                                .foregroundColor(.white)
-                                        )
-                                }
-                            
-                        }.padding(20)
-                    }
-                    
+                        }
+                        
+                    }.padding(20)
+                }
+                
             }
             
             
@@ -85,19 +87,19 @@ struct SingularOnboardingPageView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(height: UIScreen.main.bounds.height * (2/3))
                 VStack(alignment: .leading) {
-                Text(page.title)
-                    .font(.title).bold()
-                    .foregroundColor(.black)
+                    Text(page.title)
+                        .font(.title).bold()
+//                        .foregroundColor(.black)
                     
-                Text(page.description)
-                    .font(.subheadline).bold()
-                    .foregroundColor(.black)
+                    Text(page.description)
+                        .font(.subheadline).bold()
+//                        .foregroundColor(.black)
                 }.padding()
             }.padding()
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(page.color)
+//        .background(page.color)
     }
 }
 

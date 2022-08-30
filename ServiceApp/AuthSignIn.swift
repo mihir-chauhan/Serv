@@ -135,6 +135,7 @@ class AuthViewModel: ObservableObject {
     }
     
     public func appleOnCompletion(result: Result<ASAuthorization, Error>) {
+        print("12222111akdjflkajsflkjsdfljasdklfjnsdakjfnasdfj \(result)")
         switch result {
         case .success(let authResults):
             switch authResults.credential {
@@ -153,6 +154,7 @@ class AuthViewModel: ObservableObject {
                 
                 let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce, accessToken: nil)
                 Auth.auth().signIn(with: credential) { (authResult, error) in
+                    print("1111akdjflkajsflkjsdfljasdklfjnsdakjfnasdfj")
                     if (error != nil) {
                         // Error. If error.code == .MissingOrInvalidNonce, make sure
                         // you're sending the SHA256-hashed nonce as a hex string with
@@ -161,6 +163,7 @@ class AuthViewModel: ObservableObject {
                         self.state = .error
                         return
                     } else {
+                        print("lakdjflkajsflkjsdfljasdklfjnsdakjfnasdfj")
 //                        let user = Auth.auth().currentUser
                         let user = authResult?.user
                         
