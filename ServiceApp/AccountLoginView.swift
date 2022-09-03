@@ -122,10 +122,10 @@ struct AccountLoginView: View {
                     SignInWithAppleButton(
                         .signIn,
                         onRequest: { request in
-                            viewModel.appleOnRequest(request: request)
+                            viewModel.startSignInWithAppleFlow()
                         },
                         onCompletion: { result in
-                            viewModel.appleOnCompletion(result: result)
+                            print("RESULT RESULT: \(result)")
                         })
                     .frame(width: 280, height: 45, alignment: .center)
                     .overlay(
