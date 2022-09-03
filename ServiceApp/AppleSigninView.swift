@@ -1,10 +1,3 @@
-//
-//  NewAppleSignIn.swift
-//  ServiceApp
-//
-//  Created by Kelvin J on 9/3/22.
-//
-
 import Foundation
 import SwiftUI
 import FirebaseAuth

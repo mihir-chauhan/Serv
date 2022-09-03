@@ -21,6 +21,7 @@
 		B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B339FBB5278F53D200545F0E /* CloudKit.framework */; };
 		B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */; };
 		B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */; };
+		B35D61BA28C41AC70035BB75 /* AppleSigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35D61B928C41AC70035BB75 /* AppleSigninView.swift */; };
 		B36C7DF728935F1D009FC23E /* GeohashBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36C7DF628935F1D009FC23E /* GeohashBox.swift */; };
 		B36C7DF928935F35009FC23E /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36C7DF828935F35009FC23E /* Geohash.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
@@ -89,6 +90,7 @@
 		B339FBB5278F53D200545F0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseCRUD.swift; sourceTree = "<group>"; };
 		B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreCRUD.swift; sourceTree = "<group>"; };
+		B35D61B928C41AC70035BB75 /* AppleSigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSigninView.swift; sourceTree = "<group>"; };
 		B36C7DF628935F1D009FC23E /* GeohashBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeohashBox.swift; sourceTree = "<group>"; };
 		B36C7DF828935F35009FC23E /* Geohash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				B3E6FCBA277C5870004DEE5B /* ServiceAppApp.swift */,
+				B35D61B928C41AC70035BB75 /* AppleSigninView.swift */,
 				B3E6FCBC277C5870004DEE5B /* ContentView.swift */,
 				B3E6FCCC277C594A004DEE5B /* CustomTabBar.swift */,
 			);
@@ -444,6 +447,7 @@
 				BEBAB0BD288E72330049F689 /* FormValidationSignUp.swift in Sources */,
 				F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */,
 				B3E6FCBB277C5870004DEE5B /* ServiceAppApp.swift in Sources */,
+				B35D61BA28C41AC70035BB75 /* AppleSigninView.swift in Sources */,
 				BEB91CCC28AB7EDE00FB9917 /* VerificationPending.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,
 				B3E6FCC9277C58D3004DEE5B /* Account.swift in Sources */,
