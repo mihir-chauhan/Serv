@@ -60,7 +60,7 @@ class FirestoreCRUD: ObservableObject {
         var mapValues: [String : Any] {
             return [ user_uuid! :
                         [
-                            "name" : AuthViewModel().decodeUserInfo()?.displayName! as Any,
+                            "name" : AuthViewModel.shared.decodeUserInfo()?.displayName! as Any,
                             "checkInTime" : "",
                             "checkOutTime" : "",
                         ]
@@ -69,7 +69,7 @@ class FirestoreCRUD: ObservableObject {
         
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID).updateData([
-                "attendees.\(user_uuid!).name" : (AuthViewModel().decodeUserInfo()?.displayName!)! as Any,
+                "attendees.\(user_uuid!).name" : (AuthViewModel.shared.decodeUserInfo()?.displayName!)! as Any,
                 "attendees.\(user_uuid!).checkInTime" : nil,
                 "attendees.\(user_uuid!).checkOutTime" : nil
             ])
@@ -112,7 +112,7 @@ class FirestoreCRUD: ObservableObject {
         var mapValues: [String : Any] {
             return [ user_uuid! :
                 [
-                    "name" : AuthViewModel().decodeUserInfo()?.displayName! as Any,
+                    "name" : AuthViewModel.shared.decodeUserInfo()?.displayName! as Any,
                     "checkInTime" : checkInTime!,
                     "checkOutTime" : "",
                 ]

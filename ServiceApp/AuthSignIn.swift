@@ -13,7 +13,7 @@ import FirebaseAuth
 import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
-    
+    static let shared = AuthViewModel()
     enum SignInState: Int {
         case signedIn
         case signedOut
@@ -128,6 +128,7 @@ class AuthViewModel: ObservableObject {
         
         FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { exists in
             user_uuid = user?.uid
+            print("UUID: \(user?.uid) and \(user) and \(user?.displayName)")
             if exists == true {
                 
                 FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in

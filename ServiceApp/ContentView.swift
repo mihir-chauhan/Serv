@@ -12,7 +12,7 @@ struct ContentView: View {
     @StateObject private var tabBarController = TabBarController()
     @StateObject private var sheetObserver = SheetObserver()
     @StateObject private var mapViewModel = LocationTrackerViewModel()
-    @StateObject private var viewModel = AuthViewModel()
+    @StateObject private var viewModel = AuthViewModel.shared
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
     @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
     @State var data = EventInformationModel(id: UUID(), FIRDocID: "", name: "Trash Cleanup", host: "ABC Foundation", ein: "32-1263743", category: "Environmental", time: Date(), enterDetailView: true)

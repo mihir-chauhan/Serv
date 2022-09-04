@@ -34,7 +34,6 @@ struct AppleSignInView: View {
 
 class AuthViewController: UIViewController {
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject var viewModel: AuthViewModel
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -108,7 +107,7 @@ extension AuthViewController: ASAuthorizationControllerDelegate,
       }
 
       // At this point, our user is signed in. CAUTION, no nil check (prob aren't any errors anyways)
-        self.viewModel.transitionFromAppleViewController(result: result)
+    AuthViewModel.shared.transitionFromAppleViewController(result: result)
 
     }
   }
