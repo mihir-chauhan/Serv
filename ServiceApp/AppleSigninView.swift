@@ -53,28 +53,33 @@ class AuthViewController: UIViewController {
 
 extension AuthViewController: ASAuthorizationControllerDelegate,
   ASAuthorizationControllerPresentationContextProviding {
-  // MARK: ASAuthorizationControllerDelegate
-  func authorizationController(controller: ASAuthorizationController,
-                               didCompleteWithAuthorization authorization: ASAuthorization) {
-    guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
-    else {
-      print("Unable to retrieve AppleIDCredential")
-      return
-    }
+    // MARK: ASAuthorizationControllerDelegate
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
+        else {
+            print("Unable to retrieve AppleIDCredential")
+            return
+        }
+        
+//        resource: https://github.com/firebase/firebase-ios-sdk/issues/4393
+        #error("this line should do the trick, but we have to update the user's profile ourselves")
+        appleIDCredential.fullName
 
-    guard let nonce = currentNonce else {
-      fatalError("Invalid state: A login callback was received, but no login request was sent.")
-    }
-    guard let appleIDToken = appleIDCredential.identityToken else {
-      print("Unable to fetch identity token")
-      return
-    }
-    guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-      print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-      return
-    }
-
-    let credential = OAuthProvider.credential(withProviderID: "apple.com",
+        
+        guard let nonce = currentNonce else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+        }
+        guard let appleIDToken = appleIDCredential.identityToken else {
+            print("Unable to fetch identity token")
+            return
+        }
+        guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+            return
+        }
+        
+        let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                               idToken: idTokenString,
                                               rawNonce: nonce)
 
@@ -86,9 +91,6 @@ extension AuthViewController: ASAuthorizationControllerDelegate,
           print(error?.localizedDescription)
           return
       }
-        
-//        MARK: HAS ACTUAL RESULT? IS CACHED?
-        fatalError(result?.user.displayName!)
 
       // At this point, our user is signed in. CAUTION, no nil check (prob aren't any errors anyways)
         AuthViewModel().transitionFromAppleViewController(result: result)
