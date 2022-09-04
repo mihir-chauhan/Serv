@@ -1,3 +1,10 @@
+//
+//  NewAppleSignIn.swift
+//  ServiceApp
+//
+//  Created by Kelvin J on 9/3/22.
+//
+
 import Foundation
 import SwiftUI
 import FirebaseAuth
@@ -10,6 +17,7 @@ import UIKit
 struct AppleSignInView: View {
     var body: some View {
         UIViewControllerAdapter()
+            .frame(width: 280, height: 45)
     }
 }
 
@@ -25,17 +33,24 @@ struct AppleSignInView: View {
 //}
 
 class AuthViewController: UIViewController {
-    override func loadView() {
-        view = UITableView(frame: .zero, style: .insetGrouped)
-      }
+    @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject var viewModel: AuthViewModel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
+        let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: (.black) )
         signInButton.addTarget(self, action: #selector(performAppleSignInFlow), for: .touchUpInside)
+        signInButton.translatesAutoresizingMaskIntoConstraints = false
+        signInButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        signInButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+//        signInButton.constraints.forEach { (constraint) in
+//            if (constraint.firstAttribute == .width) {
+//                    constraint.isActive = false
+//            }
+//        }
+//        signInButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+//        signInButton.frame(forAlignmentRect: CGRect(x: 0, y: 0, width: 280, height: 45))
         self.view.addSubview(signInButton)
-//        configureNavigationBar()
-//        configureDataSourceProvider()
       }
     
 //    performAppleSignInFlow()
@@ -87,11 +102,14 @@ extension AuthViewController: ASAuthorizationControllerDelegate,
       // Error. If error.code == .MissingOrInvalidNonce, make sure
       // you're sending the SHA256-hashed nonce as a hex string with
       // your request to Apple.
-      guard error == nil else { return  }
+      guard error == nil else {
+          print(error?.localizedDescription)
+          return
+      }
 
-      // At this point, our user is signed in
-      // so we advance to the User View Controller
-//      self.transitionToUserViewController()
+      // At this point, our user is signed in. CAUTION, no nil check (prob aren't any errors anyways)
+        self.viewModel.transitionFromAppleViewController(result: result)
+
     }
   }
 

@@ -13,10 +13,9 @@ import GoogleSignIn
 @main
 struct ServiceAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    //    @EnvironmentObject private var appDelegate: AppDelegate
     var body: some Scene {
         WindowGroup {
-            AppleSignInView()
+            ContentView()
         }
     }
 }

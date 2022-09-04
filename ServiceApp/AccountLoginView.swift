@@ -118,23 +118,14 @@ struct AccountLoginView: View {
                         )
                         .clipShape(Capsule())
                     }
-                    
-                    SignInWithAppleButton(
-                        .signIn,
-                        onRequest: { request in
-                            viewModel.appleOnRequest(request: request)
-                        },
-                        onCompletion: { result in
-                            viewModel.appleOnCompletion(result: result)
-                        })
-                    .frame(width: 280, height: 45, alignment: .center)
-                    .overlay(
-                        Capsule()
-                            .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-                            .foregroundColor(Color(.sRGB, red: 241/255, green: 246/255, blue: 247/255))
-                    )
-                    .clipShape(Capsule())
-                    .padding(.bottom, 20)
+                    AppleSignInView()
+                        .overlay(
+                            Capsule()
+                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+                                .foregroundColor(Color(.sRGB, red: 241/255, green: 246/255, blue: 247/255))
+                        )
+                        .clipShape(Capsule())
+                        .padding(.bottom, 20)
                 }
                 
             }
