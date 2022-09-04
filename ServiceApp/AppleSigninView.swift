@@ -21,17 +21,6 @@ struct AppleSignInView: View {
     }
 }
 
-//struct QuickSignInWithApple: UIViewRepresentable {
-//    typealias UIViewType = ASAuthorizationAppleIDButton
-//
-//    func makeUIView(context: Context) -> UIViewType {
-//        ASAuthorizationAppleIDButton(type: .signIn, style: .white)
-//        AuthViewController().perfo
-//    }
-//    func updateUIView(_ uiView: UIViewType, context: Context) {
-//      }
-//}
-
 class AuthViewController: UIViewController {
     @Environment(\.colorScheme) private var colorScheme
     override func viewDidLoad() {
@@ -42,17 +31,9 @@ class AuthViewController: UIViewController {
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
         signInButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-//        signInButton.constraints.forEach { (constraint) in
-//            if (constraint.firstAttribute == .width) {
-//                    constraint.isActive = false
-//            }
-//        }
-//        signInButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-//        signInButton.frame(forAlignmentRect: CGRect(x: 0, y: 0, width: 280, height: 45))
+
         self.view.addSubview(signInButton)
       }
-    
-//    performAppleSignInFlow()
     
     var currentNonce: String?
     @objc private func performAppleSignInFlow() {
@@ -105,9 +86,12 @@ extension AuthViewController: ASAuthorizationControllerDelegate,
           print(error?.localizedDescription)
           return
       }
+        
+//        MARK: HAS ACTUAL RESULT? IS CACHED?
+        fatalError(result?.user.displayName!)
 
       // At this point, our user is signed in. CAUTION, no nil check (prob aren't any errors anyways)
-    AuthViewModel.shared.transitionFromAppleViewController(result: result)
+        AuthViewModel().transitionFromAppleViewController(result: result)
 
     }
   }
@@ -178,7 +162,5 @@ struct UIViewControllerAdapter: UIViewControllerRepresentable {
         return AuthViewController()
     }
     
-    func updateUIViewController(_ uiViewController: AuthViewController, context: Context) {
-        
-    }
+    func updateUIViewController(_ uiViewController: AuthViewController, context: Context) { }
 }
