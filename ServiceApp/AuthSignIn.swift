@@ -116,6 +116,7 @@ class AuthViewModel: ObservableObject {
                 UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
                 
                 self.loading = false
+                self.state = .signedIn
             }
         }
     }
@@ -128,7 +129,7 @@ class AuthViewModel: ObservableObject {
         
         FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: user!.uid) { exists in
             user_uuid = user?.uid
-            print("UUID: \(user?.uid) and \(user) and \(user?.displayName)")
+            print("UUID: \(user?.uid) and \(user) and \(user?.displayName) and \(user?.photoURL)")
             if exists == true {
                 
                 FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
