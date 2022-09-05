@@ -121,7 +121,7 @@ class AuthViewModel: ObservableObject {
     }
     
     /* Apple Sign In */
-    func transitionFromAppleViewController(result: AuthDataResult?) {
+    func transitionFromAppleViewController(result: AuthDataResult?, name: String) {
         let user = result?.user
         
         var bio: String = "No Bio"
@@ -136,17 +136,24 @@ class AuthViewModel: ObservableObject {
                     self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
                 }
             } else {
+                let changeRequest = user!.createProfileChangeRequest()
+                changeRequest.displayName = name
+                changeRequest.commitChanges { (error) in
+                  print("Error changing name: \(error)")
+                }
+                
                 FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(
                     uid: user?.uid,
-                    displayName: user?.displayName,
+                    displayName: name,
                     photoURL: user?.photoURL,
                     email: user?.email
                 ))
-                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email))
+                self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, photoURL: user?.photoURL, email: user?.email))
             }
             
             UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
             
+            print("siasdfasdfgned in through Apple")
             self.state = .signedIn
             self.loading = false
         }
