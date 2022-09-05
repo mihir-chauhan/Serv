@@ -134,7 +134,7 @@ class AuthViewModel: ObservableObject {
                 
                 FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                     bio = value.bio ?? "no bio?!"
-                    self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, bio: bio))
+                    self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: value.photoURL, email: user?.email, bio: bio))
                 }
             } else {
                 let changeRequest = user!.createProfileChangeRequest()
