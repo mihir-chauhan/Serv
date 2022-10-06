@@ -10,6 +10,7 @@ import SwiftUICharts
 
 struct Account: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @Environment(\.colorScheme) var colorScheme
     let maxHeight = display.height / 3.1
     var topEdge: CGFloat
     
@@ -17,6 +18,7 @@ struct Account: View {
     @State var toggleEditInfoSheet: Bool = false
     @State var toggleFullScreenQR: Bool = false
     @State var toggleEventHistory: Bool = false
+    @State var toggleAccountChange: Bool = false
     @State var eventHistory: [EventHistoryInformationModel] = []
 
     var body: some View {
@@ -120,15 +122,46 @@ struct Account: View {
                         .padding(.horizontal)
                         
                     
+                    Button(action: {
+                        toggleAccountChange.toggle()
+                    }) {
+                    RoundedRectangle(cornerRadius: 20)
+                            .foregroundColor(colorScheme == .dark ? .red.opacity(0.4) : .red.opacity(0.10))
+                        .frame(height: 65)
+                        .padding(.horizontal)
+                        .overlay(
+                            HStack {
+                            Text("Delete Account")
+                                    .bold()
+                                    .padding()
+                            Spacer(minLength: 10)
+                                Image(systemName: "person.crop.circle.fill.badge.xmark")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
+                                    .padding()
+                            }.padding(.horizontal)
+                        )
+                    }
+                    
                     Settings().padding()
                 }
                 .zIndex(0)
             }
             .padding(.bottom, 100)
             .modifier(OffsetModifier(offset: $offset))
-            
-            
             }
+        .alert(isPresented: $toggleAccountChange) {
+            Alert(
+                            title: Text("Are you sure you want to delete your account?"),
+                            message: Text("You will permanently lose your progress and data on this account"),
+                            primaryButton: .destructive(Text("Delete")) {
+                                viewModel.deleteCurrentUser()
+                                viewModel.signOut()
+                            },
+                            secondaryButton: .cancel()
+                        )
+        }
             .coordinateSpace(name: "SCROLL")
             .fullScreenCover(isPresented: $toggleEditInfoSheet) {
                 EditAccountDetails(toggleEditInfoSheet: $toggleEditInfoSheet)

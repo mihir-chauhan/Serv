@@ -22,7 +22,7 @@ struct Settings: View {
             Button(action: {
                 self.signOutConfirmation = true
             }) {
-                Text("Sign Out").foregroundColor(.red)
+                Text("Sign Out").foregroundColor(.red).bold()
             }
         }.alert(isPresented: $signOutConfirmation) {
             Alert(

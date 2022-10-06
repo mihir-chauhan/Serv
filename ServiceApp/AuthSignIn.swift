@@ -409,18 +409,18 @@ class AuthViewModel: ObservableObject {
                     
                     self.loading = false
                 }
-            
-                    
-//                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-//                changeRequest?.displayName = name
-//
-//                changeRequest?.commitChanges { error in
-//                    if error == nil {
-//                        // Do something
-//                    } else {
-//                        // Do something
-//                    }
-//                }
+            }
+        }
+    }
+    
+    func deleteCurrentUser() {
+        let user = Auth.auth().currentUser!
+        user.uid
+        user.delete { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("deleted user")
             }
         }
     }
@@ -437,29 +437,6 @@ class AuthViewModel: ObservableObject {
             let image = UIImage(data: imageData)
             print("saved image", image)
             self.saveJpg(image!)
-//            let imageURL = value.photoURL
-//            let session = URLSession(configuration: .default)
-//            session.dataTask(with: (imageURL ?? URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg"))!) { (data, response, error) in
-//                // The download has finished.
-//                if let e = error {
-//                    print("Error downloading cat picture: \(e)")
-//                } else {
-//                    if let res = response as? HTTPURLResponse {
-//                        print("Downloaded cat picture with response code \(res.statusCode)")
-//                        if let imageData = data {
-//                            // Finally convert that Data into an image and do what you wish with it.
-//                            let image = UIImage(data: imageData)
-//                            print("saved new image:", image?.pngData())
-//                            self.saveJpg(image!)
-//                            // Do something with your image.
-//                        } else {
-//                            print("Couldn't get image: Image is nil")
-//                        }
-//                    } else {
-//                        print("Couldn't get response code for some reason")
-//                    }
-//                }
-//            }
         } catch {
             print("cannot encode")
         }
