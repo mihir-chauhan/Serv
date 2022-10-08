@@ -158,6 +158,7 @@ struct Account: View {
                             primaryButton: .destructive(Text("Delete")) {
                                 viewModel.deleteCurrentUser()
                                 viewModel.signOut()
+                                // MARK: HERE
                             },
                             secondaryButton: .cancel()
                         )
