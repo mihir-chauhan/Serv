@@ -416,7 +416,7 @@ class AuthViewModel: ObservableObject {
     
     func deleteCurrentUser() {
         let user = Auth.auth().currentUser!
-        deleteCurrentUserAndReferences(uid: user.uid)
+        deleteCurrentUserAndReferences(uid: user.uid, name: user.displayName!)
         user.delete { error in
             if let error = error {
                 print(error.localizedDescription)
@@ -426,27 +426,24 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    private func deleteCurrentUserAndReferences(uid: String) {
+    private func deleteCurrentUserAndReferences(uid: String, name: String) {
         let db = Firestore.firestore()
         var eventDatas = [EventInformationModel]()
-        db.collection("Volunteer Accounts").document(uid).getDocument { snap, err in
-            let data = snap!.data()
-            let eventID = data?["Events"] as? [String]
-            
-            if eventID != nil {
-                for i in eventID! {
-                    FirestoreCRUD().getSpecificEvent(eventID: i) { event in
-                        eventDatas.append(event)
-                    }
-                }
-            }
-        }
+//
+//        // removing user from signed up events
+//        for event in eventDatas {
+//            FirestoreCRUD().RemoveFromAttendeesList(eventID: event.FIRDocID!, eventCategory: event.category, user_uuid: uid)
+//        }
         
-        // removing user from signed up events
-        for event in eventDatas {
-            FirestoreCRUD().RemoveFromAttendeesList(eventID: event.FIRDocID!, eventCategory: event.category, user_uuid: uid)
-        }
-        
+//        db.collectionGroup("EventTypes").whereField("attendees.\(uid).name", isGreaterThanOrEqualTo: name).getDocuments { snap, err in
+//            if let err = err {
+//                print(err.localizedDescription)
+//            }
+//            for i in snap!.documents {
+//                print(i)
+//            }
+//        }
+
         // removing user from friend lists
         db.collection("Volunteer Accounts").whereField("Friends", arrayContains: uid).getDocuments { docRef, err in
             if let err = err {

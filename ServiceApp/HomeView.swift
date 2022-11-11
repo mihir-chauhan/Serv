@@ -33,7 +33,7 @@ struct HomeView: View {
     @State var alertInfoIndex = 0
     
     @State var totalHours: Double = 0
-    @State var selectedIndexOfServiceType = [true, false, false, false, false, false]
+    @AppStorage("savedCategories") var savedCategories: [Bool] = [true, false, false, false, false, false]
 
     var body: some View {
         GeometryReader { geo in
@@ -128,10 +128,10 @@ struct HomeView: View {
                                 ForEach(0..<6, id: \.self) { index in
                                     RoundedRectangle(cornerRadius: 50)
                                         .frame(width: 75, height: 75)
-                                        .foregroundColor(Color(selectedIndexOfServiceType[index] ? (#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)) : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
+                                        .foregroundColor(Color(savedCategories[index] ? (#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)) : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
                                         .overlay(Text(categories[index]).font(.system(size: 30)))
                                         .onTapGesture() {
-                                            selectedIndexOfServiceType[index] = !selectedIndexOfServiceType[index]
+                                            savedCategories[index] = !savedCategories[index]
                                         }
                                         .onLongPressGesture() {
                                             alertInfoIndex = index
@@ -143,7 +143,7 @@ struct HomeView: View {
 
                         Spacer().frame(height: 15)
                         if viewModel.allowingLocationTracker {
-                        if(selectedIndexOfServiceType.filter{$0}.count != 0) {
+                        if(savedCategories.filter{$0}.count != 0) {
                             
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
@@ -151,12 +151,12 @@ struct HomeView: View {
                                         ForEach(recommendedEvents, id: \.self) { event in
                                             
                                             // TODO: i dont like that i have to match environmental to idnex 0 maybe use dict later on
-                                            if((event.category == "Environmental" && selectedIndexOfServiceType[0]) ||
-                                               (event.category == "Humanitarian" && selectedIndexOfServiceType[1]) ||
-                                               (event.category == "Educational" && selectedIndexOfServiceType[2]) ||
-                                               (event.category == "Health" && selectedIndexOfServiceType[3]) ||
-                                               (event.category == "Wildlife" && selectedIndexOfServiceType[4]) ||
-                                               (event.category == "Other" && selectedIndexOfServiceType[5])) {
+                                            if((event.category == "Environmental" && savedCategories[0]) ||
+                                               (event.category == "Humanitarian" && savedCategories[1]) ||
+                                               (event.category == "Educational" && savedCategories[2]) ||
+                                               (event.category == "Health" && savedCategories[3]) ||
+                                               (event.category == "Wildlife" && savedCategories[4]) ||
+                                               (event.category == "Other" && savedCategories[5])) {
                                                 
 //                                                manually filtering out the outdated events
                                                 if event.time > Date() {
@@ -186,19 +186,6 @@ struct HomeView: View {
                                 Text("Please enable location access in Settings")
                                     .bold()
                                     .padding(.horizontal)
-                                
-//                                Button(action: {
-////                                    allowsTracking = true
-////                                    viewModel.checkIfLocationServicesIsEnabled()
-//                                }) {
-//                                    Capsule()
-//                                        .frame(width: 160, height: 35)
-//                                        .foregroundColor(.blue.opacity(0.05))
-//                                        .overlay(
-//                                            Text("DEBUG PURPOSES")
-//                                                .foregroundColor(.blue)
-//                                        )
-//                                }.padding()
                             }.padding()
                                 .frame(width: geo.size.width, height: 150)
                         }
@@ -219,11 +206,15 @@ struct HomeView: View {
         .padding(.vertical)
         }
         .onChange(of: viewModel.queriedEventsList) { value in
-                    if value.count > 1 {
-                        recommendedEvents = value
-                    }
-                }
-
+            if value.count > 1 {
+                recommendedEvents = value
+            }
+        }
+        .onAppear {
+            if viewModel.queriedEventsList.count > 1 {
+                recommendedEvents = viewModel.queriedEventsList
+            }
+        }
         .task {
             viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
             if authViewModel.decodeUserInfo() != nil {
@@ -243,13 +234,7 @@ struct HomeView: View {
                     }
                 }
             }
-            
-            
         }
-//        .onChange(of: viewModel.allowingLocationTracker) { _ in
-//            viewModel.checkIfLocationServicesIsEnabled()
-//        }
-        
         
         .alert(isPresented: $showingCategoryDetailAlert) {
             Alert(title: Text(categoryTitles[alertInfoIndex]), message: Text(categoryDescriptions[alertInfoIndex]), dismissButton: .default(Text("Okay")))
@@ -266,3 +251,22 @@ struct HomeView: View {
     }
 }
 
+extension Array: RawRepresentable where Element: Codable {
+    public init?(rawValue: String) {
+        guard let data = rawValue.data(using: .utf8),
+              let result = try? JSONDecoder().decode([Element].self, from: data)
+        else {
+            return nil
+        }
+        self = result
+    }
+
+    public var rawValue: String {
+        guard let data = try? JSONEncoder().encode(self),
+              let result = String(data: data, encoding: .utf8)
+        else {
+            return "[]"
+        }
+        return result
+    }
+}
