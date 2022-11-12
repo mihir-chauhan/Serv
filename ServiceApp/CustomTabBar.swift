@@ -35,6 +35,8 @@ struct CustomTabBar: View {
                     Button(action: {
                         withAnimation {
                             self.tabBarController.selectedIndex = icon
+                            let haptic = UIImpactFeedbackGenerator(style: .soft)
+                            haptic.impactOccurred()
                         }
                     }) {
                         Image(systemName: self.tabBarController.selectedIndex == icon ? icon.icon + ".fill" : icon.icon)

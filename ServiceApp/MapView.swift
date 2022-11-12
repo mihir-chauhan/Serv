@@ -42,6 +42,9 @@ struct MapView: View {
                                     self.sheetObserver.sheetMode = .half
                                     self.sheetObserver.eventDetailData = pin
                                     self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: pin.coordinate.latitude - 0.02, longitude: pin.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+                                    
+                                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                    hapticResponse.impactOccurred()
                                 }
                             }) {
                                 ZStack {

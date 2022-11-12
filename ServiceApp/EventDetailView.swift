@@ -108,16 +108,21 @@ struct EventDetailView: View {
                     }
                     Spacer()
                     Button(action: {
+                        let responseHaptic = UIImpactFeedbackGenerator(style: .light)
                         FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
                             if buttonStateIsSignedUp {
                                 FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
                                 FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                 buttonStateIsSignedUp = false
+                                
+                                responseHaptic.impactOccurred()
                             }
                             else if !reachedMaxSlots && !buttonStateIsSignedUp {
                                 FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
                                 FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                 buttonStateIsSignedUp = true
+                                
+                                responseHaptic.impactOccurred()
                             }
                             else if reachedMaxSlots {
                                 reachedMaxSlotBool = true
