@@ -19,6 +19,8 @@ struct Account: View {
     @State var toggleFullScreenQR: Bool = false
     @State var toggleEventHistory: Bool = false
     @State var toggleAccountChange: Bool = false
+    @State var signOutConfirmation = false
+
     @State var eventHistory: [EventHistoryInformationModel] = []
 
     var body: some View {
@@ -142,26 +144,43 @@ struct Account: View {
                                     .padding()
                             }.padding(.horizontal)
                         )
+                    }.alert(isPresented: $toggleAccountChange) {
+                        Alert(
+                                        title: Text("Are you sure you want to delete your account?"),
+                                        message: Text("You will permanently lose your progress and data on this account"),
+                                        primaryButton: .destructive(Text("Delete")) {
+                                            viewModel.deleteCurrentUser()
+                                            viewModel.signOut()
+                                            // MARK: HERE
+                                        },
+                                        secondaryButton: .cancel()
+                                    )
                     }
                     
-                    Settings().padding()
+                    Button(action: {
+                        self.signOutConfirmation.toggle()
+                    }) {
+                        Text("Sign Out").foregroundColor(.red).bold()
+                    }.alert(isPresented: $signOutConfirmation) {
+                        Alert(
+                            title: Text("Are you sure you want to sign out?"),
+                            primaryButton: .destructive(Text("Sign out")) {
+                                viewModel.signOut()
+                            },
+                            secondaryButton: .cancel()
+                            )
+                    }
+                
+                    
+                    .padding()
                 }
                 .zIndex(0)
             }
             .padding(.bottom, 100)
             .modifier(OffsetModifier(offset: $offset))
             }
-        .alert(isPresented: $toggleAccountChange) {
-            Alert(
-                            title: Text("Are you sure you want to delete your account?"),
-                            message: Text("You will permanently lose your progress and data on this account"),
-                            primaryButton: .destructive(Text("Delete")) {
-                                viewModel.deleteCurrentUser()
-                                viewModel.signOut()
-                            },
-                            secondaryButton: .cancel()
-                        )
-        }
+        
+        
             .coordinateSpace(name: "SCROLL")
             .fullScreenCover(isPresented: $toggleEditInfoSheet) {
                 EditAccountDetails(toggleEditInfoSheet: $toggleEditInfoSheet)

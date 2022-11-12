@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 import GoogleSignIn
 import SDWebImageSwiftUI
 import CryptoKit
@@ -415,7 +416,7 @@ class AuthViewModel: ObservableObject {
     
     func deleteCurrentUser() {
         let user = Auth.auth().currentUser!
-        user.uid
+        deleteCurrentUserAndReferences(uid: user.uid, name: user.displayName!)
         user.delete { error in
             if let error = error {
                 print(error.localizedDescription)
@@ -423,6 +424,44 @@ class AuthViewModel: ObservableObject {
                 print("deleted user")
             }
         }
+    }
+    
+    private func deleteCurrentUserAndReferences(uid: String, name: String) {
+        let db = Firestore.firestore()
+        var eventDatas = [EventInformationModel]()
+//
+//        // removing user from signed up events
+//        for event in eventDatas {
+//            FirestoreCRUD().RemoveFromAttendeesList(eventID: event.FIRDocID!, eventCategory: event.category, user_uuid: uid)
+//        }
+        
+//        db.collectionGroup("EventTypes").whereField("attendees.\(uid).name", isGreaterThanOrEqualTo: name).getDocuments { snap, err in
+//            if let err = err {
+//                print(err.localizedDescription)
+//            }
+//            for i in snap!.documents {
+//                print(i)
+//            }
+//        }
+
+        // removing user from friend lists
+        db.collection("Volunteer Accounts").whereField("Friends", arrayContains: uid).getDocuments { docRef, err in
+            if let err = err {
+                print(err.localizedDescription)
+            }
+            for document in docRef!.documents {
+                document.reference.updateData( ["Friends" : FieldValue.arrayRemove([uid]) ] )
+            }
+        }
+        
+        // remove user from general volunteer list
+        db.collection("Volunteer Accounts").document(uid).delete { err in
+            if let err = err {
+                print(err.localizedDescription)
+            }
+            print("Account deleted in firestore")
+        }
+        
     }
     
     func encodeUserInfo(for value: UserInfoFromAuth) {
