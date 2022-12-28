@@ -12,7 +12,7 @@ import MapKit
 class FirestoreCRUD: ObservableObject {
     let db = Firestore.firestore()
     
-    var allCategories: [String] = ["Environmental", "Humanitarian", "Other"]
+    @Published var allCategories = [EventCategoryModel]()
     @Published var allFIRResults = [EventInformationModel]()
 //
 //    init() {
@@ -315,4 +315,27 @@ class FirestoreCRUD: ObservableObject {
 //        ])
 //        
 //    }
+    func queryAllCategories()  {
+//        var eventCategories = [EventCategory]()
+        db.collection("EventTypes").getDocuments { snap, err in
+            
+            
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in snap!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let catName = document.documentID
+                    let emoji = document.get("emoji") as? String ?? "no emoji"
+                    let description = document.get("details") as! String
+                    
+                    let temp = EventCategoryModel(name: catName, icon: emoji, description: description)
+                    self.allCategories.append(temp)
+//                    print("curently ", eventCategories)
+                }
+            }
+        }
+//        print("returned ", eventCategories)
+//        return eventCategories
+    }
 }

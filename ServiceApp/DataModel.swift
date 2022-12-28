@@ -61,6 +61,23 @@ struct EventHistoryInformationModel {
     var hoursSpent: Double
 }
 
+struct EventCategoryModel: Hashable {
+    let defaults = UserDefaults.standard
+    
+    var name: String
+    var icon: String
+    var description: String
+    var savedCategory: Bool? = true
+    
+    mutating func setState() {
+        print("boolean before ", savedCategory)
+//        let val = !self.savedCategory!
+//        UserDefaults.standard.set(val, forKey: "\(self.name)")
+        print("boolean is set to ", savedCategory)
+    }
+    
+}
+
 
 
 

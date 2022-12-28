@@ -34,7 +34,7 @@ struct HomeView: View {
     
     @State var totalHours: Double = 0
     @AppStorage("savedCategories") var savedCategories: [Bool] = [true, false, false, false, false, false]
-
+    let defaults = UserDefaults.standard
     var body: some View {
         GeometryReader { geo in
 
@@ -125,56 +125,52 @@ struct HomeView: View {
                             .padding(.leading, 15)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ForEach(0..<6, id: \.self) { index in
-                                    RoundedRectangle(cornerRadius: 50)
-                                        .frame(width: 75, height: 75)
-                                        .foregroundColor(Color(savedCategories[index] ? (#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)) : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
-                                        .overlay(Text(categories[index]).font(.system(size: 30)))
-                                        .onTapGesture() {
-                                            savedCategories[index] = !savedCategories[index]
-                                        }
-                                        .onLongPressGesture() {
-                                            alertInfoIndex = index
-                                            showingCategoryDetailAlert.toggle()
-                                        }
+                                    ForEach(0..<results.allCategories.count, id: \.self) { index in
+                                        Circle()
+                                            .frame(width: 75, height: 75)
+                                            .foregroundColor(Color(self.defaults.bool(forKey: "\(results.allCategories[index].name)") ? (#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)) : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
+                                            .overlay(Text(results.allCategories[index].icon).font(.system(size: 30)))
+                                            .onTapGesture() {
+                                                results.allCategories[index].savedCategory!.toggle()
+                                                DispatchQueue.main.async {
+                                                    UserDefaults.standard.setValue(results.allCategories[index].savedCategory!, forKey: "\(results.allCategories[index].name)")
+                                                }
+                                            }
+                                            .onLongPressGesture() {
+                                                alertInfoIndex = index
+                                                showingCategoryDetailAlert.toggle()
+                                            }
                                 }.padding(.trailing, 30)
                             }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         }
 
                         Spacer().frame(height: 15)
                         if viewModel.allowingLocationTracker {
-                        if(savedCategories.filter{$0}.count != 0) {
-                            
+//                        if(savedCategories.filter{$0}.count != 0) {
+//
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
                                     if !recommendedEvents.isEmpty {
                                         ForEach(recommendedEvents, id: \.self) { event in
-                                            
-                                            // TODO: i dont like that i have to match environmental to idnex 0 maybe use dict later on
-                                            if((event.category == "Environmental" && savedCategories[0]) ||
-                                               (event.category == "Humanitarian" && savedCategories[1]) ||
-                                               (event.category == "Educational" && savedCategories[2]) ||
-                                               (event.category == "Health" && savedCategories[3]) ||
-                                               (event.category == "Wildlife" && savedCategories[4]) ||
-                                               (event.category == "Other" && savedCategories[5])) {
-                                                
-//                                                manually filtering out the outdated events
-                                                if event.time > Date() {
-                                                    RecommendedView(data: event).padding(.trailing, 30)
+                                            ForEach(results.allCategories, id: \.self) { i in
+                                                if event.category == i.name {
+                                                    if self.defaults.bool(forKey: "\(i.name)") && event.time > Date() {
+                                                        RecommendedView(data: event)
+                                                    }
                                                 }
-                                                
                                             }
                                         }
                                     }
+                                }
                                 }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
-                                
-                                
-                            }
-                                
-                            }
-                            else {
-                                Spacer().frame(width: 290, height: 250)
-                            }
+//
+//
+//                            }
+//
+//                            }
+//                            else {
+//                                Spacer().frame(width: 290, height: 250)
+//                            }
                         }
                         else {
                             VStack {
@@ -206,13 +202,17 @@ struct HomeView: View {
         .padding(.vertical)
         }
         .onChange(of: viewModel.queriedEventsList) { value in
-            if value.count > 1 {
+            if value.count >= 1 {
                 recommendedEvents = value
+                print("221, ", recommendedEvents)
             }
         }
         .onAppear {
-            if viewModel.queriedEventsList.count > 1 {
+            results.queryAllCategories()
+            if viewModel.queriedEventsList.count >= 1 {
                 recommendedEvents = viewModel.queriedEventsList
+                print("228, ", recommendedEvents)
+                
             }
         }
         .task {
@@ -223,6 +223,7 @@ struct HomeView: View {
                         for i in 0..<eventsArray!.count {
                             results.getSpecificEvent(eventID: eventsArray![i]) { event in
                                 self.eventDatas.append(event)
+                                print("FFFF ", eventDatas)
                             }
                         }
                     }
@@ -237,7 +238,7 @@ struct HomeView: View {
         }
         
         .alert(isPresented: $showingCategoryDetailAlert) {
-            Alert(title: Text(categoryTitles[alertInfoIndex]), message: Text(categoryDescriptions[alertInfoIndex]), dismissButton: .default(Text("Okay")))
+            Alert(title: Text(results.allCategories[alertInfoIndex].name), message: Text(results.allCategories[alertInfoIndex].description), dismissButton: .default(Text("Okay")))
         }
         
         if toggleHeroAnimation {
