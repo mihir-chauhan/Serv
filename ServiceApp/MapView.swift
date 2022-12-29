@@ -15,7 +15,7 @@ struct MapView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var sheetObserver: SheetObserver
     @EnvironmentObject var viewModel: LocationTrackerViewModel
-    @ObservedObject var results = FirestoreCRUD()
+    @EnvironmentObject var results: FirestoreCRUD
     @State var tracking: MapUserTrackingMode = .follow
     
     var body: some View {

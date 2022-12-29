@@ -8,9 +8,7 @@ import SwiftUI
 
 struct HomeScheduleDetailView: View {
     var animation: Namespace.ID
-    @Binding var toggleHeroAnimation: Bool
-    @ObservedObject var results = FirestoreCRUD()
-    
+    @Binding var toggleHeroAnimation: Bool    
     var eventDatas = [EventInformationModel]()
     
     var body: some View {

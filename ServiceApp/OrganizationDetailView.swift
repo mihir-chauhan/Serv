@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OrganizationDetailView: View {
     @Environment(\.presentationMode) var presentationMode
-    let FIRclass = FirestoreCRUD()
+    @EnvironmentObject var FIRclass: FirestoreCRUD
     @State var data: OrganizationInformationModel?
     var ein: String
     
@@ -34,16 +34,12 @@ struct OrganizationDetailView: View {
             }
             closeButton
         }
-//        Text(FIRclass.getOrganizationDetail(ein: ein).name)
-//        Text(FIRclass.getOrganizationDetail(ein: ein).email)
-//        Text(FIRclass.getOrganizationDetail(ein: ein).website)
-//        Link("Visit Apple", destination: URL(string: FIRclass.getOrganizationDetail(ein: ein).website)!)
-            .onAppear {
-                FIRclass.getOrganizationDetail(ein: ein) { value in
-                    data = value!
-                    
-                }
+        .onAppear {
+            FIRclass.getOrganizationDetail(ein: ein) { value in
+                data = value!
+                
             }
+        }
     }
     
     var closeButton: some View {

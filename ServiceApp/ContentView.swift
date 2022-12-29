@@ -13,6 +13,7 @@ struct ContentView: View {
     @StateObject private var sheetObserver = SheetObserver()
     @StateObject private var mapViewModel = LocationTrackerViewModel()
     @StateObject private var viewModel = AuthViewModel.shared
+    @StateObject private var results = FirestoreCRUD()
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
     @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
     @State var data = EventInformationModel(id: UUID(), FIRDocID: "", name: "Trash Cleanup", host: "ABC Foundation", ein: "32-1263743", category: "Environmental", time: Date(), enterDetailView: true)
@@ -34,8 +35,12 @@ struct ContentView: View {
         .environmentObject(sheetObserver)
         .environmentObject(mapViewModel)
         .environmentObject(viewModel)
+        .environmentObject(results)
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue
+        }
+        .onAppear {
+            results.queryAllCategories()
         }
     }
 }

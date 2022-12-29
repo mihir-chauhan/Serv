@@ -13,28 +13,19 @@ import SDWebImageSwiftUI
 struct HomeView: View {
     @EnvironmentObject var viewModel: LocationTrackerViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
-    var animation: Namespace.ID
-    @State var toggleHeroAnimation: Bool = false
-    @State var placeHolderImage = [URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")]
-    @ObservedObject var results = FirestoreCRUD()
-    @State var showingCategoryDetailAlert = false
-    
-    @State var recommendedEvents = [EventInformationModel]()
-    @State var eventDatas = [EventInformationModel]()
-    
-    @State var numberOfShownRecommendations = 0
-    
-    @State var allowsTracking: Bool = false
+    @EnvironmentObject var results: FirestoreCRUD
     @Environment(\.colorScheme) var colorScheme
-
-    var categories = ["🌲", "🤝🏿", "🏫", "👨‍⚕️", "🐶", "..."]
-    var categoryTitles = ["Environmental", "Humanitarian", "Education", "Health", "Wildlife", "Other"]
-    var categoryDescriptions = ["Environmental projects may have volunteers working in an office preparing educational materials, outside creating trails (or recycling, or picking up trash, or planting and tending flora), or in schools or neighborhood centers providing community outreach.", "Humanitarian service programs usually focus on servies such as feeding low income families or having different types of clothing, food, or other drives in which you can help donate resources to ones that are in need of them. Most of the time volunteers will work to either collect these resources or help in the distribution at various places.", "Educational programs range from lending a hand at an elementary school to teaching English to adults in order to improve their job opportunities. Volunteers might provide vocational training or health and hygiene education through workshops, or tutor struggling students at an after-school program.", "While opportunities abound for specialized skills, from first-aid training to heart surgery, you don’t necessarily need to be a medical professional to assist in a community health clinic or public hospital. Volunteers may be able to help organize workshops, assist medical staff, provide translation skills, or raise awareness on issues such as HIV/AIDS.", "Volunteers can do activities such as protecting turtle hatchlings on their journey from nest to sea, supporting the rehabilitation of injured and trafficked animals, or restoring natural habitats for endangered species. Not all wildlife protection projects allow volunteers to work with their animals; work may instead be focused on the cleaning of cages, restoration of natural habitats, or visual monitoring of animal activity in the wild.", "Miscellaneous events which do not fall into other categories."]
-    @State var alertInfoIndex = 0
     
+    @State var toggleHeroAnimation: Bool = false
+    @State var showingCategoryDetailAlert = false
+    @State var recommendedEvents = [EventInformationModel]()
+    @State var allowsTracking: Bool = false
+    @State var alertInfoIndex = 0
     @State var totalHours: Double = 0
-    @AppStorage("savedCategories") var savedCategories: [Bool] = [true, false, false, false, false, false]
+    
     let defaults = UserDefaults.standard
+    var animation: Namespace.ID
+    
     var body: some View {
         GeometryReader { geo in
 
@@ -208,7 +199,7 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            results.queryAllCategories()
+//            results.queryAllCategories()
             if viewModel.queriedEventsList.count >= 1 {
                 recommendedEvents = viewModel.queriedEventsList
                 print("228, ", recommendedEvents)
@@ -229,7 +220,7 @@ struct HomeView: View {
                     }
                 }
                 
-                FirestoreCRUD().allTimeCompleted(for: authViewModel.decodeUserInfo()!.uid) { totalHours in
+                results.allTimeCompleted(for: authViewModel.decodeUserInfo()!.uid) { totalHours in
                     for i in totalHours {
                         self.totalHours += i
                     }
