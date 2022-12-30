@@ -60,7 +60,7 @@ struct RecommendedView: View {
                         Text(data.name)
                             .font(.system(size: 22).bold())
                             .font(.headline)
-                            .padding(15)
+                            .padding(7)
                         Spacer()
                         Text(self.emoji)
                             .font(.system(size: 25))
