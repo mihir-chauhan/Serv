@@ -78,6 +78,14 @@ struct EventCategoryModel: Hashable {
     
 }
 
+struct BroadCastMessageModel: Hashable {
+    var message: String
+    var date: Date
+}
+
+class CurrentlyPresentedScheduleCard: ObservableObject {
+    @Published var currentlyShowing: EventInformationModel = EventInformationModel()
+}
 
 
 

@@ -9,8 +9,11 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ScheduleCard: View {
+    var animation: Namespace.ID
+
     var data: EventInformationModel
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var currentlyPresentedScheduleCard: CurrentlyPresentedScheduleCard
     @State var showingAlert = false
     @State var placeHolderUIImage: UIImage?
     @State var viewRendered = false
@@ -22,7 +25,7 @@ struct ScheduleCard: View {
         return formatter
     }()
     
-    var onTapCallback : (EventInformationModel) -> ()
+//    var onTapCallback : (EventInformationModel) -> ()
     
     @State var eventIsLive: Bool = false
     @State var eventExistsInUser: Bool = false
@@ -30,11 +33,16 @@ struct ScheduleCard: View {
     @State var friendSignedUp: Bool = false
     
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
+    
+    @Binding var show: Bool
 
     var body: some View {
-        if #available(iOS 15.0, *) {
+        
             Button {
-                self.onTapCallback(data)
+                self.currentlyPresentedScheduleCard.currentlyShowing = data
+                withAnimation(.spring()) {
+                    show.toggle()
+                }
             } label: {
                 if !self.viewRendered {
                     ProgressView().frame(width: 290, height: 250)
@@ -52,8 +60,11 @@ struct ScheduleCard: View {
                     ZStack(alignment: .top) {
                         if let imageLoaded = self.placeHolderUIImage {
                             Image(uiImage: imageLoaded)
+//                            Image("leaderboardPic-1")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
+                                .matchedGeometryEffect(id: "id", in: animation, properties: .size)
+//                                .matchedGeometryEffect(id: "Shape", in: animation)
                         }
 
 //
@@ -72,10 +83,10 @@ struct ScheduleCard: View {
                                             .padding(.top, 5)
                                     }
                                 }
-                                RoundedRectangle(cornerRadius: 50)
-                                    .frame(width: 65, height: 65)
-                                    .foregroundColor(Color(.systemGray4).opacity(0.95))
-                                    .overlay(Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 40))).padding([.top, .trailing], 5)
+//                                RoundedRectangle(cornerRadius: 50)
+//                                    .frame(width: 65, height: 65)
+//                                    .foregroundColor(Color(.systemGray4).opacity(0.95))
+//                                    .overlay(Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 40))).padding([.top, .trailing], 5)
                                 
                             }
                         }
@@ -191,11 +202,13 @@ struct ScheduleCard: View {
                     }
                     .padding()
                 }
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-                )
+                
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 10)
+//                        .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+//                )
+                .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.25)))
+                .cornerRadius(15)
                 .padding([.top, .horizontal])
             }
             }
@@ -210,8 +223,8 @@ struct ScheduleCard: View {
             .sheet(isPresented: $toggleCheckInSheet) {
                 CheckInView(data: data)
             }
-            
-        }
+        
+        
     }
     
     func checkForLiveEvents(date: Date) -> String {

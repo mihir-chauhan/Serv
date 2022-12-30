@@ -22,7 +22,8 @@ struct Schedule: View {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(results.allFIRResults, id: \.self) { event in
                     if (eventDate < event.time) {
-                        ScheduleCard(data: event, onTapCallback: self.cardTapped)
+//                        showing detail sheet???
+//                        ScheduleCard(animation: animation, data: event, show: nil)
                     }
                 }
             }

@@ -7,12 +7,20 @@
 import SwiftUI
 
 struct HomeScheduleDetailView: View {
+    @Namespace private var namespace
     var animation: Namespace.ID
     @Binding var toggleHeroAnimation: Bool    
-    var eventDatas = [EventInformationModel]()
+    @State var eventDatas = [EventInformationModel]()
     
+    var currentlyPresenting: EventInformationModel = EventInformationModel()
+    
+    @State var show = false
     var body: some View {
         if toggleHeroAnimation {
+            if show {
+                ScheduleCardDetailView(show: $show, toggleHeroAnimation: $toggleHeroAnimation)
+                
+            } else {
             ScrollView {
                 VStack {
                     GeometryReader { geo in
@@ -36,18 +44,18 @@ struct HomeScheduleDetailView: View {
                                     }
                                 
                                 
-                                CustomMaterialEffectBlur(blurStyle: .systemMaterial)
-                                    .mask( Circle() )
-                                    .frame(width: 60, height: 60)
-                                    .cornerRadius(20, corners: .allCorners)
-                                    .overlay(
-                                        Image(systemName: "house")
-                                            .renderingMode(.original)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 25, height: 25)
-                                            .offset(y: geo.frame(in: .global).minY/9)
-                                    )
+//                                CustomMaterialEffectBlur(blurStyle: .systemMaterial)
+//                                    .mask( Circle() )
+//                                    .frame(width: 60, height: 60)
+//                                    .cornerRadius(20, corners: .allCorners)
+//                                    .overlay(
+//                                        Image(systemName: "house")
+//                                            .renderingMode(.original)
+//                                            .resizable()
+//                                            .aspectRatio(contentMode: .fit)
+//                                            .frame(width: 25, height: 25)
+//                                            .offset(y: geo.frame(in: .global).minY/9)
+//                                    )
                                 
                             } else {
                                 LinearGradient(gradient: Gradient(colors: [
@@ -76,11 +84,12 @@ struct HomeScheduleDetailView: View {
                     
                     
                     ForEach(0..<eventDatas.count) { event in
-                        ScheduleCard(data: eventDatas[event], onTapCallback: self.cardTapped)
+                        ScheduleCard(animation: animation, data: eventDatas[event], show: $show)
                     }
                 }
                 
                 
+            }
             }
             Spacer()
             

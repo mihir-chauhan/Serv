@@ -17,7 +17,7 @@ class FIRCloudImages {
     static let storage = Storage.storage()
     //    static let cache = NSCache<NSString, NSData>()
     
-    static func getRemoteImages(gsURL: String, eventID: String, eventDate: Date, completion: @escaping ((UIImage)?) -> ()) {
+    private static func getRemoteImages(gsURL: String, eventID: String, eventDate: Date, completion: @escaping ((UIImage)?) -> ()) {
         let storageRef = storage.reference().child("EventImages")
         
         storageRef.listAll { (result, error) in

@@ -338,4 +338,26 @@ class FirestoreCRUD: ObservableObject {
 //        print("returned ", eventCategories)
 //        return eventCategories
     }
+    
+    func getBroadcast(eventID: String, eventCategory: String, completion: @escaping (_ broadcasts: [BroadCastMessageModel]?) -> ()) {
+        var temp = [BroadCastMessageModel]()
+        db.collection("EventTypes")
+            .document(eventCategory)
+            .collection("Events")
+            .document(eventID)
+            .collection("Broadcasts").getDocuments { snap, err in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            }
+            for doc in snap!.documents {
+                let msg = doc.get("message") as! String
+                let time = doc.get("timestamp") as! Timestamp
+                
+                temp.append(BroadCastMessageModel(message: msg, date: time.dateValue()))
+                print("354", temp)
+            }
+            completion(temp)
+        }
+    }
 }

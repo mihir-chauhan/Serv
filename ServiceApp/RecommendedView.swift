@@ -17,6 +17,7 @@ struct RecommendedView: View {
     @State var viewRendered = false
     @State var placeHolderUIImage: UIImage?
     var data: EventInformationModel
+    var emoji: String
     var dateToString: String {
         get {
             let dateFormatter = DateFormatter()
@@ -41,7 +42,8 @@ struct RecommendedView: View {
             ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
                 RoundedRectangle(cornerRadius: 20)
                 
-                    .foregroundColor(colorScheme == .light ? Color.neuWhite : Color.neuWhite.opacity(0.25))
+//                    .foregroundColor(colorScheme == .light ? Color.neuWhite : Color.neuWhite.opacity(0.25))
+                    .foregroundColor(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.25)))
                 VStack(alignment: .leading) {
                     if let imageLoaded = self.placeHolderUIImage {
                         Image(uiImage: imageLoaded)
@@ -49,17 +51,20 @@ struct RecommendedView: View {
                             .scaledToFill()
                             .frame(width: 290, height: 145)
                             .clipped()
-                            .background(Color.primary.opacity(0.05))
+//                            .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.25)))
                             .cornerRadius(20, corners: [.topLeft, .topRight])
                     }
                     
                     
                     HStack {
                         Text(data.name)
+                            .font(.system(size: 22).bold())
                             .font(.headline)
                             .padding(15)
                         Spacer()
-                        Text(data.category == "Environmental" ? "🌲" : data.category == "Humanitarian" ? "🤝🏿" : data.category == "Educational" ? "🏫" : data.category == "Health" ? "👨‍⚕️" : data.category == "Wildlife" ? "🐶" : "").font(.system(size: 20)).padding(.trailing, 5)
+                        Text(self.emoji)
+                            .font(.system(size: 25))
+                            .padding(.trailing, 7)
                     }
                     
                     Spacer()

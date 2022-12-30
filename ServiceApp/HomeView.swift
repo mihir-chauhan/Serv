@@ -18,6 +18,8 @@ struct HomeView: View {
     
     @State var toggleHeroAnimation: Bool = false
     @State var showingCategoryDetailAlert = false
+    @State var eventDatas = [EventInformationModel]()
+
     @State var recommendedEvents = [EventInformationModel]()
     @State var allowsTracking: Bool = false
     @State var alertInfoIndex = 0
@@ -146,7 +148,7 @@ struct HomeView: View {
                                             ForEach(results.allCategories, id: \.self) { i in
                                                 if event.category == i.name {
                                                     if self.defaults.bool(forKey: "\(i.name)") && event.time > Date() {
-                                                        RecommendedView(data: event)
+                                                        RecommendedView(data: event, emoji: "\(i.icon)")
                                                     }
                                                 }
                                             }

@@ -46,6 +46,7 @@
 		BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE196EFA279CDA2800DA0217 /* Settings.swift */; };
 		BE4FDCC02896450700136E6F /* launchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE4FDCBF2896450700136E6F /* launchScreen.storyboard */; };
 		BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */; };
+		BE5EEE24295E58A0003914E4 /* ScheduleCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */; };
 		BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */; };
 		BE92CC2E2899D34300CD7264 /* PVSAGraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */; };
 		BEAA842B28AC1AF1007161DD /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA842A28AC1AF1007161DD /* AlertToast */; };
@@ -115,6 +116,7 @@
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BE4FDCBF2896450700136E6F /* launchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = launchScreen.storyboard; sourceTree = "<group>"; };
 		BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailView.swift; sourceTree = "<group>"; };
+		BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailView.swift; sourceTree = "<group>"; };
 		BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountDetails.swift; sourceTree = "<group>"; };
 		BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVSAGraphs.swift; sourceTree = "<group>"; };
 		BEAF4C25295D0CCF00476462 /* AgeVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeVerification.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				397A63D927810E24002443CF /* Map */,
 				39B5A9C62786AE7B0003E23F /* Socials */,
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
+				BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */,
 				BEB48449284B17DC00FB8469 /* CheckInView.swift */,
 				B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */,
 				BEE28C3B2894F0AB00D0B15A /* Auth */,
@@ -419,6 +422,7 @@
 				B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */,
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
 				B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */,
+				BE5EEE24295E58A0003914E4 /* ScheduleCardDetailView.swift in Sources */,
 				B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */,
 				F4903AB227E97BE7004FE5B7 /* WebView.swift in Sources */,
 				399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */,
