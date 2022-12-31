@@ -187,7 +187,8 @@ struct ScheduleCardDetailView: View {
                         
                         
                         Text(data.description)
-                            .font(.caption)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.subheadline)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 20)
                         

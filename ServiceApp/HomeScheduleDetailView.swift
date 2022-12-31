@@ -96,14 +96,4 @@ struct HomeScheduleDetailView: View {
             
         }
     }
-    
-    
-    
-    func cardTapped(data: EventInformationModel) {
-        //        let url = URL(string: "maps://?saddr=&daddr=\(data.coordinate.latitude),\(data.coordinate.longitude)")
-        //        if UIApplication.shared.canOpenURL(url!) {
-        //              UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-        //        }
-        
-    }
 }

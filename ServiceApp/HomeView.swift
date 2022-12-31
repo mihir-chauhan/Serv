@@ -216,7 +216,7 @@ struct HomeView: View {
                         for i in 0..<eventsArray!.count {
                             results.getSpecificEvent(eventID: eventsArray![i]) { event in
                                 self.eventDatas.append(event)
-                                print("FFFF ", eventDatas)
+                                print("FFFF ", eventDatas[0].description)
                             }
                         }
                     }

@@ -236,6 +236,7 @@ class FirestoreCRUD: ObservableObject {
                         let time = snap!.get("time") as? Timestamp
                         let imageURL = snap!.get("images") as? [String] ?? [String]()
                         let location = snap!.get("location") as? GeoPoint
+                        let description = snap!.get("description") as? String ?? "no description"
                         
                         completion(
                             EventInformationModel(
@@ -246,7 +247,8 @@ class FirestoreCRUD: ObservableObject {
                                 category: i,
                                 time: time?.dateValue() ?? Date(),
                                 images: imageURL,
-                                coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!)
+                                coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!),
+                                description: description
                                 
                             )
                             )
