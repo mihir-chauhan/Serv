@@ -42,7 +42,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="appIconGradient" width="447.33334350585938" height="313"/>
+        <image name="appIconGradient" width="682.66668701171875" height="682.66668701171875"/>
         <image name="appIconNoBg" width="2048" height="2048"/>
     </resources>
 </document>

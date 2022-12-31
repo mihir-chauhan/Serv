@@ -80,7 +80,7 @@ struct EditAccountDetails: View {
                             viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
                         }
                         else if !changeBio.isEmpty {
-                            //                            this will also need to be saved to realtime database for friends to read the info
+                            //                             this will also need to be saved to realtime database for friends to read the info
                             viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio))
                             FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
                         }
