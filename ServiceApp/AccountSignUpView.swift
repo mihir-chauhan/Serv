@@ -13,10 +13,10 @@ struct AccountSignUpView: View {
     @Binding var goToRegistration: Bool
     @State var firstName: String = ""
     @State var lastName: String = ""
-    //    @State var usernameEntered: String = ""
-    //    @State var emailEntered: String = ""
-    //    @State var passwordEntered: String = ""
-    //    @State var confirmPassword: String = ""
+    @State var birthYear: Int = 0
+    @State var selectBirthYearSheet: Bool = false
+    
+    @State var birthYearAlert: Bool = false
     
     @State var disableSubmitButton: Bool = false
     
@@ -56,15 +56,36 @@ struct AccountSignUpView: View {
                             SecureField("Confirm Password", text: $combineViewModel.passwordAgain)
 
                         }
+                        
+                        Section(header: Text("Birth year")) {
+                            Button(action: {
+                                self.selectBirthYearSheet.toggle()
+                            }) {
+                                HStack {
+                                    Text("Select Birth Year")
+                                    Spacer()
+                                    Text(verbatim: birthYear == 0 ? "" : "\(birthYear)")
+                                        .foregroundColor(.black)
+                                        .bold()
+                                }
+                            }
+                        }
+                    }.sheet(isPresented: $selectBirthYearSheet) {
+                        AgeVerification(showView: $selectBirthYearSheet, code: $birthYear)
+//                            .presentationDetents([.fraction(0.15)])
                     }
                 
                 Button(action: {
-                    viewModel.createUser(name: combineViewModel.username, username: "", email: combineViewModel.email, password: combineViewModel.password)
+                    if birthYear == 0 {
+                        birthYearAlert = true
+                    } else {
+                        viewModel.createUser(name: combineViewModel.username, username: "", email: combineViewModel.email, password: combineViewModel.password)
+                    }
                 }) {
                     Capsule()
                         .foregroundColor(!combineViewModel.isValid ? Color.green.opacity(0.3) : Color.green)
                         .frame(width: 175, height: 45)
-                        .overlay(Text("Sign Up").foregroundColor(Color.black))
+                        .overlay(Text("Sign Up").foregroundColor(Color.black).bold())
                         .padding()
                 }.disabled(!combineViewModel.isValid)
                 Text(viewModel.inlineErrorDialog).foregroundColor(.red).bold().fixedSize()

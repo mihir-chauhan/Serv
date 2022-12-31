@@ -80,7 +80,7 @@ struct ScheduleCard: View {
                                             .frame(width: 100, height: 32.5)
                                             .foregroundColor(Color(.systemGray4).opacity(0.95))
                                             .overlay(Text("Check In").foregroundColor(.primary))
-                                            .padding(.top, 5)
+                                            .padding(5)
                                     }
                                 }
 //                                RoundedRectangle(cornerRadius: 50)

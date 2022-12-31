@@ -8,25 +8,30 @@
 import SwiftUI
 import UIKit
 struct AgeVerification: View {
+    @Binding var showView: Bool
     @State var allowSubmit = false
-    @State var code = 0
+    @Binding var code: Int
     var body: some View {
         
-        Text("Check In").font(.title)
+        Text("Enter Birth Year").font(.title)
         CheckInController(allowSubmit: $allowSubmit, code: $code)
             .frame(width: 286, height: 50)
-        HStack {
-            Text("You will get the 5-digit code from the organizer upon arrival")
-            Spacer(minLength: 30)
+        Text("Some events have a minimum age requirement. Entering your birth year helps us find suitable events for you")
+            .padding(.horizontal, 50)
+            .padding(.bottom, 20)
+            .font(.subheadline)
             Button(action: {
                 print(code)
+                self.showView = false
 //                TODO: if code matches the one in Firebase, validate
             }) {
-                Text("Submit")
-                    .foregroundColor(allowSubmit ? .blue : .darkGray)
-                    .bold()
+Capsule()
+                    .foregroundColor(allowSubmit ? Color.green : Color.green.opacity(0.3))
+                    .frame(width: 175, height: 45)
+                    .overlay(Text("Submit").foregroundColor(Color.black).bold())
+                    .padding()
             }.disabled(!allowSubmit)
-        }.padding(30)
+//        }.padding(30)
     }
 }
 struct CheckInController: UIViewRepresentable {
@@ -34,7 +39,7 @@ struct CheckInController: UIViewRepresentable {
     @Binding var code: Int
     var codeTxt = OneTimeCodeTextField()
     func makeUIView(context: Context) -> UITextField {
-        codeTxt.configure(withSlotCount: 5, andSpacing: 9)
+        codeTxt.configure(withSlotCount: 4, andSpacing: 9)
         codeTxt.codeBackgroundColor = .secondarySystemBackground
         codeTxt.codeTextColor = .label
         codeTxt.codeFont = .systemFont(ofSize: 30, weight: .black)
@@ -48,10 +53,15 @@ struct CheckInController: UIViewRepresentable {
         // Get entered Passcode
         codeTxt.didReceiveCode = { code in
             print(code)
-            allowSubmit = false
-            if code.count == 5 {
+            if code.count == 4 {
                 self.code = Int(code)!
-                allowSubmit = true
+                if self.code > 1950 && self.code < 2023 {
+                    allowSubmit = true
+                }
+                
+            } else {
+                print("AHHHH", self.code)
+                allowSubmit = false
             }
         }
         codeTxt.clear()
