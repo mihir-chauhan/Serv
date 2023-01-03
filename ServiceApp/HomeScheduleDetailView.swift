@@ -9,7 +9,7 @@ import SwiftUI
 struct HomeScheduleDetailView: View {
     @Namespace private var namespace
     var animation: Namespace.ID
-    @Binding var toggleHeroAnimation: Bool    
+    @Binding var toggleHeroAnimation: Bool
     @State var eventDatas = [EventInformationModel]()
     
     var currentlyPresenting: EventInformationModel = EventInformationModel()
@@ -19,45 +19,11 @@ struct HomeScheduleDetailView: View {
         if toggleHeroAnimation {
             if show {
                 ScheduleCardDetailView(show: $show, toggleHeroAnimation: $toggleHeroAnimation)
-                
             } else {
-            ScrollView {
-                VStack {
-                    GeometryReader { geo in
-                        ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
-                            if geo.frame(in: .global).minY <= 0 {
-                                LinearGradient(gradient: Gradient(colors: [
-                                    Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
-                                    Color.pink
-                                ]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                                .matchedGeometryEffect(id: "hero", in: animation)
-                                .frame(width: display.width, height: 250)
-                                .cornerRadius(25, corners: .allCorners)
-                                    .offset(y: geo.frame(in: .global).minY/9)
-                                    .onTapGesture {
-                                        withAnimation(.spring()) {
-                                            toggleHeroAnimation.toggle()
-                                            
-                                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                                            hapticResponse.impactOccurred()
-                                        }
-                                    }
-                                
-                                
-//                                CustomMaterialEffectBlur(blurStyle: .systemMaterial)
-//                                    .mask( Circle() )
-//                                    .frame(width: 60, height: 60)
-//                                    .cornerRadius(20, corners: .allCorners)
-//                                    .overlay(
-//                                        Image(systemName: "house")
-//                                            .renderingMode(.original)
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fit)
-//                                            .frame(width: 25, height: 25)
-//                                            .offset(y: geo.frame(in: .global).minY/9)
-//                                    )
-                                
-                            } else {
+                ScrollView {
+                    VStack {
+                        GeometryReader { geo in
+                            ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
                                 LinearGradient(gradient: Gradient(colors: [
                                     Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
                                     Color.pink
@@ -71,25 +37,45 @@ struct HomeScheduleDetailView: View {
                                 .onTapGesture {
                                     withAnimation(.spring()) {
                                         toggleHeroAnimation.toggle()
-                                        }
+                                        
+                                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                        hapticResponse.impactOccurred()
                                     }
-                                    .overlay(
-                                        Text("Your Upcoming Events")
-                                            .offset(y: -geo.frame(in: .global).minY)
-                                    )
+                                }
+                                .overlay(
+                                    CustomMaterialEffectBlur(blurStyle: .systemMaterial)
+                                        .mask( Circle() )
+                                        .frame(width: 60, height: 60)
+                                        .cornerRadius(20, corners: .allCorners)
+                                        .overlay(
+                                            Image(systemName: "house")
+                                                .renderingMode(.original)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 25, height: 25)
+                                        )
+                                        .offset(y: -geo.frame(in: .global).minY)
+                                        .onTapGesture {
+                                            withAnimation(.spring()) {
+                                                toggleHeroAnimation.toggle()
+                                                
+                                                let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                                hapticResponse.impactOccurred()
+                                            }
+                                        }
+                                )
                             }
+                        }.frame(height: 250)
+                        
+                        
+                        
+                        ForEach(0..<eventDatas.count) { event in
+                            ScheduleCard(animation: animation, data: eventDatas[event], show: $show)
                         }
-                    }.frame(height: 250)
-                    
-                    
-                    
-                    ForEach(0..<eventDatas.count) { event in
-                        ScheduleCard(animation: animation, data: eventDatas[event], show: $show)
                     }
+                    
+                    
                 }
-                
-                
-            }
             }
             Spacer()
             
