@@ -65,7 +65,7 @@ struct AccountSignUpView: View {
                                     Text("Select Birth Year")
                                     Spacer()
                                     Text(verbatim: birthYear == 0 ? "" : "\(birthYear)")
-                                        .foregroundColor(.black)
+//                                        .foregroundColor(.black)
                                         .bold()
                                 }
                             }

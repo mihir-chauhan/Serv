@@ -55,12 +55,10 @@ struct CheckInController: UIViewRepresentable {
             print(code)
             if code.count == 4 {
                 self.code = Int(code)!
-                if self.code > 1950 && self.code < 2023 {
+                if self.code > 1900 && self.code < 2023 {
                     allowSubmit = true
                 }
-                
             } else {
-                print("AHHHH", self.code)
                 allowSubmit = false
             }
         }
@@ -242,6 +240,7 @@ public class OneTimeCodeTextField: UITextField {
         }
         
         if code.count == digitLabels.count { didReceiveCode?(code) }
+        else { didReceiveCode?("") }
     }
     
     public func clear() {
