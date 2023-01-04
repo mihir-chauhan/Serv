@@ -17,11 +17,11 @@ struct ScheduleCardDetailView: View {
     @State var viewRendered = false
     @State var placeHolderUIImage: UIImage?
     @State var showingAlert = false
-
+    
     @Namespace private var namespace
     @Binding var show: Bool
     @Binding var toggleHeroAnimation: Bool
-
+    
     
     @State var broadCasts = [BroadCastMessageModel]()
     var body: some View {
@@ -50,7 +50,7 @@ struct ScheduleCardDetailView: View {
                                 }
                             }
                     }
-
+                    
                     HStack {
                         Button {
                             withAnimation(.spring()) {
@@ -60,7 +60,7 @@ struct ScheduleCardDetailView: View {
                             Image(systemName: "xmark")
                                 .foregroundColor(.white)
                                 .padding()
-                                .background(Color.black.opacity(0.5))
+                                .background(Color.black.opacity(0.7))
                                 .clipShape(Circle())
                         }
                         
@@ -90,19 +90,19 @@ struct ScheduleCardDetailView: View {
                                 .foregroundColor(Color(.red))
                                 .background(Color.white.opacity(0.7))
                                 .clipShape(Circle())
-
+                            
+                            
+                        }.alert("Are you sure you want to remove event?", isPresented: $showingAlert) {
+                            Button("Cancel", role: .cancel) { }
+                            Button("Remove", role: .destructive) {
+                                FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                self.show = false
+                                self.toggleHeroAnimation = false
                                 
-                        }.alert("Are you sure you want to delete the event?", isPresented: $showingAlert) {
-                                Button("cancel", role: .cancel) { }
-                                Button("delete", role: .destructive) {
-                                    FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                                    self.show = false
-                                    self.toggleHeroAnimation = false
-                                    
-                                }
                             }
+                        }
                     }
-                    .padding(.top, 35)
+                    .padding(.top, 55)
                     .padding(.horizontal)
                 }
                 
@@ -122,81 +122,80 @@ struct ScheduleCardDetailView: View {
                         Text(dateToString(date: data.time))
                     }
                     
-                        VStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .frame(height: 40)
-                                .foregroundColor(.clear)
-                                .overlay(
-                                    Label {
-                                        Text("Specific Instructions and Updates").bold()
-                                    } icon: {
-                                        Image(systemName: expandUpdates ? "chevron.down" : "chevron.right")
-                                            .foregroundColor(.blue)
-                                    }
-                                    
-                                )
-                            VStack {
+                    VStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(height: 40)
+                            .foregroundColor(.clear)
+                            .overlay(
+                                Label {
+                                    Text("Specific Instructions and Updates").bold()
+                                } icon: {
+                                    Image(systemName: expandUpdates ? "chevron.down" : "chevron.right")
+                                        .foregroundColor(.blue)
+                                }
                                 
-                                ForEach(broadCasts, id: \.self) { msg in
-                                    HStack {
-                                        Text(msg.message)
-                                        Spacer()
-                                        Text(dateToString(date: msg.date))
-                                            .font(.caption)
-                                    }
-                                    .padding(.vertical, 10)
-                                    .fixedSize(horizontal: false, vertical: true)
+                            )
+                        VStack {
+                            
+                            ForEach(broadCasts, id: \.self) { msg in
+                                HStack {
+                                    Text(msg.message)
+                                    Spacer()
+                                    Text(dateToString(date: msg.date))
+                                        .font(.caption)
                                 }
-                                //                            .frame(width: UIScreen.main.bounds.width - 50)
+                                .padding(.vertical, 10)
+                                .fixedSize(horizontal: false, vertical: true)
                             }
-                        }.background(GeometryReader {
-                            Color.clear.preference(key: ViewHeightKey.self,
-                                                   value: $0.frame(in: .local).size.height)
-                        })
-                        .onPreferenceChange(ViewHeightKey.self) { subviewHeight = $0 }
-                        .frame(height: expandUpdates ? subviewHeight : 35, alignment: .top)
-                        .padding()
-                        .clipped()
-                        .frame(maxWidth: UIScreen.main.bounds.width - 50)
-                        .transition(.move(edge: .bottom))
-                        .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
-                        .onTapGesture {
-                            withAnimation(.spring()) {
-                                expandUpdates.toggle()
-                            }
+                            //                            .frame(width: UIScreen.main.bounds.width - 50)
                         }
-                        .cornerRadius(20)
-                        
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(0..<(self.eventImages.count), id: \.self) { img in
-                                    Group {
-                                        if eventImages.count != 0 {
-                                            Image(uiImage: eventImages[img])
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 150, height: 150)
-                                                .cornerRadius(10)
-                                                .clipped()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        
-                        
-                        Text(data.description)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.subheadline)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 20)
-                        
-                    }
+                    }.background(GeometryReader {
+                        Color.clear.preference(key: ViewHeightKey.self,
+                                               value: $0.frame(in: .local).size.height)
+                    })
+                    .onPreferenceChange(ViewHeightKey.self) { subviewHeight = $0 }
+                    .frame(height: expandUpdates ? subviewHeight : 35, alignment: .top)
                     .padding()
+                    .clipped()
+                    .transition(.move(edge: .bottom))
+                    .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            expandUpdates.toggle()
+                        }
+                    }
+                    .cornerRadius(20)
                     
                     
-//                }
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0..<(self.eventImages.count), id: \.self) { img in
+                                Group {
+                                    if eventImages.count != 0 {
+                                        Image(uiImage: eventImages[img])
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 150, height: 150)
+                                            .cornerRadius(10)
+                                            .clipped()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                    Text(data.description)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.subheadline)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
+                    
+                }
+                .padding()
+                
+                
+                //                }
                 
                 
             }.task {

@@ -14,47 +14,47 @@ class FirestoreCRUD: ObservableObject {
     
     @Published var allCategories = [EventCategoryModel]()
     @Published var allFIRResults = [EventInformationModel]()
-//
-//    init() {
-//        //getAllEvents()
-//    }
-//
-//    func getAllEvents() {
-//        for i in allCategories {
-//            db.collection("EventTypes/\(i)/Events")
-//                .addSnapshotListener { (snap, err) in
-//                    if let error = err {
-//                        print(error.localizedDescription)
-//                        return
-//                    } else {
-//                        for j in snap!.documentChanges {
-//                            let id = j.document.documentID
-//                            let host = j.document.get("host") as? String ?? "Host unavailable"
-//                            let ein = j.document.get("ein") as? String ?? "No valid ein"
-//                            let name = j.document.get("name") as? String ?? "no name"
-//                            let description = j.document.get("description") as? String ?? "No description!"
-//                            _ = j.document.get("attendees") as? [String] ?? [String]()
-//                            let time = j.document.get("time") as? Timestamp
-//                            let imageURL = j.document.get("images") as? [String] ?? [String]()
-//                            let location = j.document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
-//
-//                            self.allFIRResults.append(EventInformationModel(
-//                                FIRDocID: id,
-//                                name: name,
-//                                host: host,
-//                                ein: ein,
-//                                category: i,
-//                                time: time?.dateValue() ?? Date(),
-//                                images: imageURL,
-//                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
-//                                description: description
-//
-//                            ))
-//                        }
-//                    }
-//                }
-//        }
-//    }
+    //
+    //    init() {
+    //        //getAllEvents()
+    //    }
+    //
+    //    func getAllEvents() {
+    //        for i in allCategories {
+    //            db.collection("EventTypes/\(i)/Events")
+    //                .addSnapshotListener { (snap, err) in
+    //                    if let error = err {
+    //                        print(error.localizedDescription)
+    //                        return
+    //                    } else {
+    //                        for j in snap!.documentChanges {
+    //                            let id = j.document.documentID
+    //                            let host = j.document.get("host") as? String ?? "Host unavailable"
+    //                            let ein = j.document.get("ein") as? String ?? "No valid ein"
+    //                            let name = j.document.get("name") as? String ?? "no name"
+    //                            let description = j.document.get("description") as? String ?? "No description!"
+    //                            _ = j.document.get("attendees") as? [String] ?? [String]()
+    //                            let time = j.document.get("time") as? Timestamp
+    //                            let imageURL = j.document.get("images") as? [String] ?? [String]()
+    //                            let location = j.document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
+    //
+    //                            self.allFIRResults.append(EventInformationModel(
+    //                                FIRDocID: id,
+    //                                name: name,
+    //                                host: host,
+    //                                ein: ein,
+    //                                category: i,
+    //                                time: time?.dateValue() ?? Date(),
+    //                                images: imageURL,
+    //                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
+    //                                description: description
+    //
+    //                            ))
+    //                        }
+    //                    }
+    //                }
+    //        }
+    //    }
     
     func AddToAttendeesList(eventID: String, eventCategory: String) {
         var mapValues: [String : Any] {
@@ -73,14 +73,14 @@ class FirestoreCRUD: ObservableObject {
                 "attendees.\(user_uuid!).checkInTime" : nil,
                 "attendees.\(user_uuid!).checkOutTime" : nil
             ])
-//            .document(eventID).updateData(["attendees" : mapValues])
+        //            .document(eventID).updateData(["attendees" : mapValues])
     }
     
     func checkForMaxSlot(eventID: String, eventCategory: String
                          ,
                          completion: @escaping (_ maxSlotReached: Bool) -> ()
     ) {
-//        var currentAttendees: Int = 0
+        //        var currentAttendees: Int = 0
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID)
             .getDocument { doc, err in
@@ -93,12 +93,12 @@ class FirestoreCRUD: ObservableObject {
                 let attendees = data?["attendees"] as? Dictionary<String, Any?>
                 print(attendees?.count)
                 
-//                for (key, valuezzz) in attendees! {
-//                    guard valuezzz != nil else {
-//                        return
-//                    }
-//                    currentAttendees += 1
-//                }
+                //                for (key, valuezzz) in attendees! {
+                //                    guard valuezzz != nil else {
+                //                        return
+                //                    }
+                //                    currentAttendees += 1
+                //                }
                 
                 if attendees?.count ?? 0 == maxSlots! {
                     completion(true)
@@ -111,11 +111,11 @@ class FirestoreCRUD: ObservableObject {
     func addCheckInTime(eventID: String, eventCategory: String, checkInTime: Date? = nil) {
         var mapValues: [String : Any] {
             return [ user_uuid! :
-                [
-                    "name" : AuthViewModel.shared.decodeUserInfo()?.displayName! as Any,
-                    "checkInTime" : checkInTime!,
-                    "checkOutTime" : "",
-                ]
+                        [
+                            "name" : AuthViewModel.shared.decodeUserInfo()?.displayName! as Any,
+                            "checkInTime" : checkInTime!,
+                            "checkOutTime" : "",
+                        ]
             ]
         }
         db.collection("EventTypes/\(eventCategory)/Events")
@@ -212,7 +212,7 @@ class FirestoreCRUD: ObservableObject {
                 let email = snap?.get("email") as? String
                 let website = snap?.get("website") as? String
                 completion(OrganizationInformationModel(name: name!, email: email!, website: website!))
-//                model = OrganizationInformationModel(name: name!, email: email!, website: website!)
+                //                model = OrganizationInformationModel(name: name!, email: email!, website: website!)
             }
         
     }
@@ -251,7 +251,7 @@ class FirestoreCRUD: ObservableObject {
                                 description: description
                                 
                             )
-                            )
+                        )
                     }
                 }
         }
@@ -311,34 +311,29 @@ class FirestoreCRUD: ObservableObject {
         
     }
     
-//    func updatePfpInFirestore(url: URL) {
-//        db.collection("Volunteer Accounts").document(user_uuid!).updateData([
-//            "UserInfo.photoURL" : url.absoluteString
-//        ])
-//        
-//    }
+    //    func updatePfpInFirestore(url: URL) {
+    //        db.collection("Volunteer Accounts").document(user_uuid!).updateData([
+    //            "UserInfo.photoURL" : url.absoluteString
+    //        ])
+    //
+    //    }
     func queryAllCategories()  {
-//        var eventCategories = [EventCategory]()
+        self.allCategories = [EventCategoryModel]()
         db.collection("EventTypes").getDocuments { snap, err in
-            
-            
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in snap!.documents {
                     print("\(document.documentID) => \(document.data())")
                     let catName = document.documentID
-                    let emoji = document.get("emoji") as? String ?? "no emoji"
+                    let emoji = document.get("emoji") as? String ?? "."
                     let description = document.get("details") as! String
                     
                     let temp = EventCategoryModel(name: catName, icon: emoji, description: description)
                     self.allCategories.append(temp)
-//                    print("curently ", eventCategories)
                 }
             }
         }
-//        print("returned ", eventCategories)
-//        return eventCategories
     }
     
     func getBroadcast(eventID: String, eventCategory: String, completion: @escaping (_ broadcasts: [BroadCastMessageModel]?) -> ()) {
@@ -348,18 +343,18 @@ class FirestoreCRUD: ObservableObject {
             .collection("Events")
             .document(eventID)
             .collection("Broadcasts").getDocuments { snap, err in
-            if let err = err {
-                print(err.localizedDescription)
-                return
+                if let err = err {
+                    print(err.localizedDescription)
+                    return
+                }
+                for doc in snap!.documents {
+                    let msg = doc.get("message") as! String
+                    let time = doc.get("timestamp") as! Timestamp
+                    
+                    temp.append(BroadCastMessageModel(message: msg, date: time.dateValue()))
+                    print("354", temp)
+                }
+                completion(temp)
             }
-            for doc in snap!.documents {
-                let msg = doc.get("message") as! String
-                let time = doc.get("timestamp") as! Timestamp
-                
-                temp.append(BroadCastMessageModel(message: msg, date: time.dateValue()))
-                print("354", temp)
-            }
-            completion(temp)
-        }
     }
 }

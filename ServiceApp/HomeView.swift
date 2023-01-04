@@ -204,7 +204,6 @@ struct HomeView: View {
                 }
             }
             .onAppear {
-                //            results.queryAllCategories()
                 if viewModel.queriedEventsList.count >= 1 {
                     recommendedEvents = viewModel.queriedEventsList
                     print("228, ", recommendedEvents)
