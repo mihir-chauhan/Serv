@@ -44,7 +44,7 @@ struct OnboardingView: View {
                                     Image(systemName: "chevron.right")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 25, height: 25)
+                                        .frame(width: 15, height: 15)
                                         .symbolRenderingMode(.none)
                                 )
                                 .frame(width: 50, height: 50)
@@ -56,7 +56,7 @@ struct OnboardingView: View {
                                     Image(systemName: "checkmark")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 25, height: 25)
+                                        .frame(width: 15, height: 15)
                                     
                                         .symbolRenderingMode(.none)
                                 )
@@ -72,6 +72,9 @@ struct OnboardingView: View {
             UIPageControlView(currentPage: $pageIndex, numberOfPages: $numberOfPages)
                 .frame(maxWidth: 0, maxHeight: 0)
                 .padding(.bottom, 40)
+                .id(pageIndex)
+                .allowsHitTesting(false)
+                
             
         }.edgesIgnoringSafeArea(.all)
     }

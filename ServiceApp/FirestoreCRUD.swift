@@ -317,7 +317,7 @@ class FirestoreCRUD: ObservableObject {
     //        ])
     //
     //    }
-    func queryAllCategories()  {
+    func queryAllCategories(resetAllToTrue: Bool)  {
         self.allCategories = [EventCategoryModel]()
         db.collection("EventTypes").getDocuments { snap, err in
             if let err = err {
@@ -329,7 +329,14 @@ class FirestoreCRUD: ObservableObject {
                     let emoji = document.get("emoji") as? String ?? "."
                     let description = document.get("details") as! String
                     
-                    let temp = EventCategoryModel(name: catName, icon: emoji, description: description)
+                    var temp = EventCategoryModel(name: catName, icon: emoji, description: description)
+                    
+                    if(resetAllToTrue) {
+                        UserDefaults.standard.setValue(true, forKey: "\(catName)")
+                        temp.savedCategory = true
+                    } else if(UserDefaults.standard.bool(forKey: "\(catName)")) {
+                        temp.savedCategory = true
+                    }
                     self.allCategories.append(temp)
                 }
             }

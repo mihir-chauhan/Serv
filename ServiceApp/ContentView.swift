@@ -28,7 +28,7 @@ struct ContentView: View {
                 case .signedIn: CustomTabBar()
                 case .verificationPending: VerificationPending()
                 case .error: AccountLoginView()
-                
+                    
                 }
             }
         }
@@ -42,21 +42,27 @@ struct ContentView: View {
             self.signInState = newValue
         }
         .onAppear {
-            results.queryAllCategories()
+            print("Not1stLaunch?", UserDefaults.standard.bool(forKey: "1stLaunch"))
+            if(!UserDefaults.standard.bool(forKey: "1stLaunch")) {
+                UserDefaults.standard.setValue(true, forKey: "1stLaunch")
+                results.queryAllCategories(resetAllToTrue: true)
+            } else {
+                results.queryAllCategories(resetAllToTrue: false)
+            }
         }
     }
 }
 
 
 extension Date {
-
+    
     // Convert local time to UTC (or GMT)
     func toGlobalTime() -> Date {
         let timezone = TimeZone.current
         let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
         return Date(timeInterval: seconds, since: self)
     }
-
+    
     // Convert UTC (or GMT) to local time
     func toLocalTime() -> Date {
         let timezone = TimeZone.current
@@ -65,15 +71,15 @@ extension Date {
     }
     
     var startOfDay: Date {
-            return Calendar.current.startOfDay(for: self)
-        }
-
-        var endOfDay: Date {
-            var components = DateComponents()
-            components.day = 1
-            components.second = -1
-            return Calendar.current.date(byAdding: components, to: startOfDay)!
-        }
+        return Calendar.current.startOfDay(for: self)
+    }
+    
+    var endOfDay: Date {
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        return Calendar.current.date(byAdding: components, to: startOfDay)!
+    }
 }
 
 
