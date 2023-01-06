@@ -42,7 +42,9 @@ struct ScheduleCardDetailView: View {
                     if let imageLoaded = self.placeHolderUIImage {
                         Image(uiImage: imageLoaded)
                             .resizable()
-                            .frame(height: 300)
+                            .scaledToFill()
+                            .clipped()
+                            .frame(width: UIScreen.main.bounds.size.width, height: 300)
                             .matchedGeometryEffect(id: "id", in: namespace, properties: .size)
                             .onTapGesture {
                                 withAnimation(.spring()) {
@@ -53,6 +55,8 @@ struct ScheduleCardDetailView: View {
                     
                     HStack {
                         Button {
+                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                            hapticResponse.impactOccurred()
                             withAnimation(.spring()) {
                                 show.toggle()
                             }
@@ -66,6 +70,8 @@ struct ScheduleCardDetailView: View {
                         
                         Spacer()
                         Button {
+                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                            hapticResponse.impactOccurred()
                             let url = URL(string: "maps://?saddr=&daddr=\(data.coordinate.latitude),\(data.coordinate.longitude)")
                             if UIApplication.shared.canOpenURL(url!) {
                                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)
@@ -80,6 +86,8 @@ struct ScheduleCardDetailView: View {
                                 .clipShape(Circle())
                         }
                         Button(action: {
+                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                            hapticResponse.impactOccurred()
                             showingAlert = true
                         }) {
                             Image(systemName: "trash.fill")
@@ -160,6 +168,8 @@ struct ScheduleCardDetailView: View {
                     .transition(.move(edge: .bottom))
                     .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
                     .onTapGesture {
+                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                        hapticResponse.impactOccurred()
                         withAnimation(.spring()) {
                             expandUpdates.toggle()
                         }

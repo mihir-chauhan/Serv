@@ -29,7 +29,7 @@ struct MapListElements: View {
                     HStack {
                         HStack {
                             TextField("Event Name", text: $searchTerm)
-                                
+                            
                             if !searchTerm.isEmpty {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(Color(.systemGray2))
@@ -113,16 +113,16 @@ struct MapListElements: View {
                     HStack {
                         DatePicker("Start", selection: $viewModel.startRangeDate, in: Date()...viewModel.endRangeDate.addingTimeInterval(-86400), displayedComponents: [.date])
                             .labelsHidden()
-                            //.id(UUID().uuidString)
+                        //.id(UUID().uuidString)
                         
                         Spacer()
                             .frame(width: 7)
                         Text("to")
                         Spacer()
                             .frame(width: 7)
-                        DatePicker("End", selection: $viewModel.endRangeDate, in: viewModel.startRangeDate.addingTimeInterval(86400)..., displayedComponents: [.date])
+                        DatePicker("End", selection: $viewModel.endRangeDate, in: viewModel.startRangeDate.addingTimeInterval(86400*2)..., displayedComponents: [.date])
                             .labelsHidden()
-                            //.id(UUID().uuidString)
+                        //.id(UUID().uuidString)
                     }
                 }
                 
@@ -143,6 +143,8 @@ struct MapListElements: View {
                     List(viewModel.filteredEventsList.filter({$0.name.localizedCaseInsensitiveContains(searchTerm)})) { event in
                         
                         Button(action: {
+                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                            hapticResponse.impactOccurred()
                             withAnimation(.spring()) {
                                 self.sheetObserver.eventDetailData = event
                                 self.sheetObserver.sheetMode = .half
@@ -156,7 +158,7 @@ struct MapListElements: View {
             }
             CloseButton(sheetMode: $sheetObserver.sheetMode)
         }
-
+        
         .onChange(of: viewModel.startRangeDate) { _ in
             updateDateFilter()
         }
@@ -186,12 +188,12 @@ struct MapListElements: View {
         
         viewModel.applyDateRangeFilters(startRange: (dateFormatter.date(from: dateFormatter.string(from: viewModel.startRangeDate)))!, endRange: (dateFormatter.date(from: dateFormatter.string(from: viewModel.endRangeDate)))!)
     }
-
+    
     
     func queryBasedOnSearchParams() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-                
+        
         viewModel.updateQueriedEventsList(latitude: (viewModel.locationManager?.location?.coordinate.latitude)!, longitude: (viewModel.locationManager?.location?.coordinate.longitude)!, radiusInMi: viewModel.searchRadius, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: viewModel.endRangeDate)))!, limitResults: false)
     }
 }
@@ -233,6 +235,9 @@ struct CloseButton: View {
                 Button(action: {
                     UIApplication.shared.endEditing()
                     self.sheetMode = .quarter
+                    
+                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                    hapticResponse.impactOccurred()
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()

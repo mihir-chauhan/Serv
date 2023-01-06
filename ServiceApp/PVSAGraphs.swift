@@ -192,7 +192,7 @@ struct LineGraph: View {
                     })
             )
                 } else {
-                    Text("Start volunteering to see PVSA progress")
+                    Text("Start volunteering to see progress")
                         .padding(.horizontal, 10)
                         .frame(width: UIScreen.main.bounds.width - 35, height: 250)
                 }

@@ -39,6 +39,8 @@ struct ScheduleCard: View {
     var body: some View {
         
             Button {
+                let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                hapticResponse.impactOccurred()
                 self.currentlyPresentedScheduleCard.currentlyShowing = data
                 withAnimation(.spring()) {
                     show.toggle()
@@ -119,6 +121,8 @@ struct ScheduleCard: View {
                                     .foregroundColor(.secondary)
                                 Spacer(minLength: 20)
                                 Button(action: {
+                                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                    hapticResponse.impactOccurred()
                                     let url = URL(string: "maps://?saddr=&daddr=\(data.coordinate.latitude),\(data.coordinate.longitude)")
                                     if UIApplication.shared.canOpenURL(url!) {
                                         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
@@ -138,11 +142,13 @@ struct ScheduleCard: View {
                                     .foregroundColor(Color(.red))
                                     .frame(width: 25, height: 25)
                                     .onTapGesture {
+                                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                        hapticResponse.impactOccurred()
                                         showingAlert = true
                                     }
-                                    .alert("Are you sure you want to delete the event?", isPresented: $showingAlert) {
-                                        Button("cancel", role: .cancel) { }
-                                        Button("delete", role: .destructive) {
+                                    .alert("Are you sure you want to remove the event?", isPresented: $showingAlert) {
+                                        Button("Cancel", role: .cancel) { }
+                                        Button("Remoe", role: .destructive) {
                                             FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                         }
                                     }

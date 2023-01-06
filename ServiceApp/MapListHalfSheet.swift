@@ -40,12 +40,15 @@ struct HalfSheetModalView: View {
                                     .foregroundColor(.blue)
                             }
                         }.padding()
-                        .contentShape(Rectangle())
-                        .gesture(TapGesture().onEnded { value in
-                            if self.sheetObserver.sheetMode == .quarter {
-                                self.sheetObserver.toFullSheet()
-                            }
-                        })
+                            .contentShape(Rectangle())
+                            .gesture(TapGesture().onEnded { value in
+                                
+                                let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                hapticResponse.impactOccurred()
+                                if self.sheetObserver.sheetMode == .quarter {
+                                    self.sheetObserver.toFullSheet()
+                                }
+                            })
                         Spacer()
                     }
                     if self.sheetObserver.sheetMode == .half {
@@ -57,12 +60,12 @@ struct HalfSheetModalView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                 .offset(y: self.dragOffset)
                 
-
+                
             }
             .gesture(DragGesture()
                 .onEnded { value in
                     self.currentPosition = CGSize(width: .zero, height: value.translation.height + self.newPosition.height)
-
+                    
                     if self.sheetObserver.sheetMode == .quarter && value.translation.height < -90 {
                         self.dragOffset = 0
                         self.sheetObserver.toFullSheet()
@@ -75,7 +78,7 @@ struct HalfSheetModalView: View {
                         self.dragOffset = 0
                         self.sheetObserver.toQuarterSheet()
                     }
-
+                    
                 }
             )
         }

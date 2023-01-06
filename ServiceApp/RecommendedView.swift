@@ -83,13 +83,13 @@ struct RecommendedView: View {
             }
             .frame(width: 290, height: 250)
             .onTapGesture {
+                let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                hapticResponse.impactOccurred()
                 self.viewModel.recommendedEventFromHomePage = data
                 self.sheetObserver.sheetMode = .half
                 self.sheetObserver.eventDetailData = data
                 self.viewModel.region = MKCoordinateRegion(center: data.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
                 tabBarController.selectedIndex = .map
-                let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                hapticResponse.impactOccurred()
             }
         }
     }

@@ -61,6 +61,8 @@ struct EventDetailView: View {
                     .fontWeight(.bold)
                 Spacer()
                 Button(action: {
+                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                    hapticResponse.impactOccurred()
                     self.sheetMode = .quarter
                 }) {
                     Image(systemName: "xmark.circle.fill")
@@ -70,7 +72,7 @@ struct EventDetailView: View {
                         .padding(12)
                 }
             }
-            ScrollView {
+            ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack(alignment: .leading) {
                     Text(data.category)
@@ -100,6 +102,8 @@ struct EventDetailView: View {
                         .bold()
                     Text(data.specialRequirements)
                         .font(.caption)
+                        .padding(.bottom, 5)
+                    
                 }
                 
                 HStack {
