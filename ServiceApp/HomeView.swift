@@ -128,13 +128,16 @@ struct HomeView: View {
                                                 .overlay(Text(results.allCategories[index].icon).font(.system(size: 30)))
                                                 .onTapGesture() {
                                                     results.allCategories[index].savedCategory!.toggle()
-                                                    DispatchQueue.main.async {
-                                                        UserDefaults.standard.setValue(results.allCategories[index].savedCategory!, forKey: "\(results.allCategories[index].name)")
-                                                    }
+                                                    UserDefaults.standard.setValue(results.allCategories[index].savedCategory!, forKey: "\(results.allCategories[index].name)")
+                                                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                                    hapticResponse.impactOccurred()
+                                                    
                                                 }
                                                 .onLongPressGesture() {
                                                     alertInfoIndex = index
                                                     showingCategoryDetailAlert.toggle()
+                                                    let hapticResponse = UIImpactFeedbackGenerator(style: .heavy)
+                                                    hapticResponse.impactOccurred()
                                                 }
                                         }.padding(.trailing, 30)
                                     }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))

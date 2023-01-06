@@ -67,7 +67,7 @@ struct EventCategoryModel: Hashable {
     var name: String
     var icon: String
     var description: String
-    var savedCategory: Bool? = true
+    var savedCategory: Bool? = false
     
     mutating func setState() {
         print("boolean before ", savedCategory)

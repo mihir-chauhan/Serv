@@ -30,6 +30,8 @@ struct HalfSheetModalView: View {
                             Spacer()
                             Button(action: {
                                 self.sheetObserver.toFullSheet()
+                                let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                hapticResponse.impactOccurred()
                             }) {
                                 Image(systemName: "magnifyingglass")
                                     .resizable()

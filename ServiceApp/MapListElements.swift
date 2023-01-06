@@ -36,6 +36,9 @@ struct MapListElements: View {
                                     .padding(.horizontal, 3)
                                     .onTapGesture {
                                         self.searchTerm = ""
+                                        
+                                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                        hapticResponse.impactOccurred()
                                     }
                                 
                             }
