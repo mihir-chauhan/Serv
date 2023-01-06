@@ -65,6 +65,8 @@ struct Account: View {
 
                 VStack(spacing: 15) {
                     Button(action: {
+                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                        hapticResponse.impactOccurred()
                         toggleFullScreenQR.toggle()
                     }) {
                     RoundedRectangle(cornerRadius: 20)
@@ -87,6 +89,8 @@ struct Account: View {
                     
                     
                     Button(action: {
+                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                        hapticResponse.impactOccurred()
                         toggleEventHistory.toggle()
                     }) {
                     RoundedRectangle(cornerRadius: 20)
@@ -125,10 +129,12 @@ struct Account: View {
                         
                     
                     Button(action: {
+                        let hapticResponse = UIImpactFeedbackGenerator(style: .heavy)
+                        hapticResponse.impactOccurred()
                         toggleAccountChange.toggle()
                     }) {
                     RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(colorScheme == .dark ? .red.opacity(0.4) : .red.opacity(0.10))
+                            .foregroundColor(colorScheme == .dark ? .red.opacity(0.2) : .red.opacity(0.10))
                         .frame(height: 65)
                         .padding(.horizontal)
                         .overlay(
@@ -136,12 +142,14 @@ struct Account: View {
                             Text("Delete Account")
                                     .bold()
                                     .padding()
+                                    .foregroundColor(.red)
                             Spacer(minLength: 10)
                                 Image(systemName: "person.crop.circle.fill.badge.xmark")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20, height: 20)
                                     .padding()
+                                    .foregroundColor(.red)
                             }.padding(.horizontal)
                         )
                     }.alert(isPresented: $toggleAccountChange) {
@@ -246,6 +254,8 @@ struct Account: View {
                 HStack {
                     Spacer()
                     Button(action: {
+                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                        hapticResponse.impactOccurred()
                         toggleFullScreenQR.toggle()
                     }) {
                         Image(systemName: "xmark.circle")
@@ -263,6 +273,8 @@ struct Account: View {
                 HStack {
                     Spacer()
                     Button(action: {
+                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                        hapticResponse.impactOccurred()
                         toggleEventHistory.toggle()
                     }) {
                         Image(systemName: "xmark.circle")
@@ -358,6 +370,8 @@ struct TopBar: View {
                     .font(.largeTitle.bold())
                 
                 Button(action: {
+                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                    hapticResponse.impactOccurred()
                     withAnimation {
                         toggleEditInfoSheet.toggle()
                     }

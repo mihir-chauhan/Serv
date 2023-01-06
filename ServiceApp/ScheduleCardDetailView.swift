@@ -85,30 +85,31 @@ struct ScheduleCardDetailView: View {
                                 .background(Color.white.opacity(0.85))
                                 .clipShape(Circle())
                         }
-                        Button(action: {
-                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                            hapticResponse.impactOccurred()
-                            showingAlert = true
-                        }) {
-                            Image(systemName: "trash.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
-                                .padding()
-                                .foregroundColor(Color(.red))
-                                .background(Color.white.opacity(0.7))
-                                .clipShape(Circle())
-                            
-                            
-                        }.alert("Are you sure you want to remove event?", isPresented: $showingAlert) {
-                            Button("Cancel", role: .cancel) { }
-                            Button("Remove", role: .destructive) {
-                                FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                                self.show = false
-                                self.toggleHeroAnimation = false
-                                
-                            }
-                        }
+//                        Button(action: {
+//                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+//                            hapticResponse.impactOccurred()
+//                            showingAlert = true
+//                        }) {
+//                            Image(systemName: "trash.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 20, height: 20)
+//                                .padding()
+//                                .foregroundColor(Color(.red))
+//                                .background(Color.white.opacity(0.7))
+//                                .clipShape(Circle())
+//
+//
+//                        }.alert("Are you sure you want to remove event?", isPresented: $showingAlert) {
+//                            Button("Cancel", role: .cancel) { }
+//                            Button("Remove", role: .destructive) {
+//                                FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
+//                                FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+//                                withAnimation(.spring()) {
+//                                    self.show = false
+//                                }
+//                            }
+//                        }
                     }
                     .padding(.top, 55)
                     .padding(.horizontal)

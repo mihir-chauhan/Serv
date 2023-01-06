@@ -10,8 +10,8 @@ import SDWebImageSwiftUI
 
 struct ScheduleCard: View {
     var animation: Namespace.ID
-
     var data: EventInformationModel
+    var onDelete: () -> ()
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var currentlyPresentedScheduleCard: CurrentlyPresentedScheduleCard
     @State var showingAlert = false
@@ -105,6 +105,7 @@ struct ScheduleCard: View {
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(action: {
+                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
                             FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                         }) {
                             Image(systemName: "trash")
@@ -148,7 +149,9 @@ struct ScheduleCard: View {
                                     }
                                     .alert("Are you sure you want to remove the event?", isPresented: $showingAlert) {
                                         Button("Cancel", role: .cancel) { }
-                                        Button("Remoe", role: .destructive) {
+                                        Button("Remove", role: .destructive) {
+                                            self.onDelete()
+                                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
                                             FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                         }
                                     }

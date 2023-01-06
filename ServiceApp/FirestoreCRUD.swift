@@ -218,9 +218,8 @@ class FirestoreCRUD: ObservableObject {
     }
     
     func getSpecificEvent(eventID: String, completion: @escaping (_ data: EventInformationModel) -> ()) {
-        let categories = ["Educational", "Environmental", "Humanitarian", "Others"]
-        for i in categories {
-            db.collection("EventTypes/\(i)/Events").document(eventID)
+        for (index, category) in allCategories.enumerated() {
+            db.collection("EventTypes/\(category.name)/Events").document(eventID)
                 .getDocument { snap, err in
                     
                     if let err = err {
@@ -244,7 +243,7 @@ class FirestoreCRUD: ObservableObject {
                                 name: name,
                                 host: host,
                                 ein: ein,
-                                category: i,
+                                category: category.name,
                                 time: time?.dateValue() ?? Date(),
                                 images: imageURL,
                                 coordinate: CLLocationCoordinate2D(latitude: (location?.latitude)!, longitude: (location?.longitude)!),

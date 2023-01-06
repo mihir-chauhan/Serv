@@ -69,8 +69,16 @@ struct HomeScheduleDetailView: View {
                         
                         
                         
-                        ForEach(0..<eventDatas.count) { event in
-                            ScheduleCard(animation: animation, data: eventDatas[event], show: $show)
+                        ForEach(eventDatas, id: \.id) { event in
+                            ScheduleCard(animation: animation, data: event, onDelete: {
+                                print("dsaflasdfdafkjsadnfdfnsdalj")
+                                for (index, loopEvent) in eventDatas.enumerated() {
+                                    if(loopEvent.id == event.id) {
+                                        print("index", index)
+                                        eventDatas.remove(at: index)
+                                    }
+                                }
+                            }, show: $show)
                         }
                     }
                     
