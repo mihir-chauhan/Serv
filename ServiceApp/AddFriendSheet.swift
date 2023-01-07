@@ -19,10 +19,13 @@ struct AddFriendSheet: View {
     @State var showingAlert: Bool = false
     @State var showingAlreadyFriendAlert: Bool = false
     @State var showSuccess: Bool = false
+    
+    @State private var selectedItem = 0
+
     var body: some View {
         NavigationView {
             if #available(iOS 15.0, *) {
-                TabView {
+                TabView(selection: $selectedItem) {
                     Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid!)!)!)!)
                                             .resizable()
                                             .frame(width: 290, height: 290, alignment: .center)
@@ -44,7 +47,7 @@ struct AddFriendSheet: View {
                                                     
                                                     // getting friend's pfp, so that we could cache it in FileManager
 //                                                    FirebaseRealtimeDatabaseCRUD().getProfilePictureFromURL(uid: result.string) { url in
-//                                                        <#code#>
+//
 //                                                    }
                                                     
                                                     

@@ -224,7 +224,7 @@ struct EventDetailView: View {
                 }
                 .padding(.vertical, 30)
                 .padding(.horizontal, 15)
-                .padding(.bottom, 200)
+                .padding(.bottom, 175)
             }
             
         }

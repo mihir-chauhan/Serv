@@ -46,6 +46,8 @@ struct Socials: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
+                        let haptic = UIImpactFeedbackGenerator(style: .soft)
+                        haptic.impactOccurred()
                         showingSheet.toggle()
                     }) {
                         Image(systemName: "link.badge.plus")
@@ -58,6 +60,8 @@ struct Socials: View {
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
+                        let haptic = UIImpactFeedbackGenerator(style: .soft)
+                        haptic.impactOccurred()
                         FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { allFriends in
                             self.listOfFriends.removeAll()
                             for friend in allFriends {
