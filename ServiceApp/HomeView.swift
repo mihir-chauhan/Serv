@@ -217,6 +217,13 @@ struct HomeView: View {
             }
             .task {
                 viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
+                
+                print("Before: newAGUser?", UserDefaults.standard.bool(forKey: "newAppleGoogleUser"))
+                if UserDefaults.standard.bool(forKey: "newAppleGoogleUser") {
+                    UserDefaults.standard.set(false, forKey: "newAppleGoogleUser")
+                    self.selectBirthYearSheet.toggle()
+                }
+                print("After: newAGUser?", UserDefaults.standard.bool(forKey: "newAppleGoogleUser"))
                 if authViewModel.decodeUserInfo() != nil {
                     results.allTimeCompleted(for: authViewModel.decodeUserInfo()!.uid) { totalHours in
                         for i in totalHours {
@@ -250,11 +257,6 @@ struct HomeView: View {
                             }
                         }
                     }
-                }
-                
-                if UserDefaults.standard.bool(forKey: "newAppleGoogleUser") {
-                    UserDefaults.standard.set(false, forKey: "newAppleGoogleUser")
-                    self.selectBirthYearSheet.toggle()
                 }
             }
             

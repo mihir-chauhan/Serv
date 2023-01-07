@@ -39,7 +39,6 @@ class AuthViewModel: ObservableObject {
             }
         } else {
             guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-            self.loading = true
             let config = GIDConfiguration(clientID: clientID)
 
             guard
@@ -68,6 +67,7 @@ class AuthViewModel: ObservableObject {
     }
 
     private func authenticateUser(for user: GIDGoogleUser?, with err: Error?) {
+        self.loading = true
         if let err = err {
             print(err.localizedDescription)
             self.loading = false
@@ -98,6 +98,10 @@ class AuthViewModel: ObservableObject {
                             bio = value.bio ?? "No Bio"
                             self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: value.photoURL, email: user?.email, bio: bio, birthYear: 0))
                         }
+                        UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
+                        
+                        self.loading = false
+                        self.state = .signedIn
                     }
                     else {
                         // MARK: detecting new user
@@ -111,21 +115,20 @@ class AuthViewModel: ObservableObject {
                         print("Tell us about yourself")
                         
                         self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL, email: user?.email, birthYear: 0))
+                        
+                        UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
+                        
+                        self.loading = false
+                        self.state = .signedIn
                     }
                 }
-                
-                
-                
-                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
-                
-                self.loading = false
-                self.state = .signedIn
             }
         }
     }
     
     /* Apple Sign In */
     func transitionFromAppleViewController(result: AuthDataResult?, name: String) {
+        self.loading = true
         let user = result?.user
         
         var bio: String = "No Bio"
@@ -138,12 +141,18 @@ class AuthViewModel: ObservableObject {
                 FirebaseRealtimeDatabaseCRUD().retrieveUserBio(uid: user_uuid!) { value in
                     bio = value.bio ?? "No Bio"
                     self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: user?.displayName, photoURL: value.photoURL, email: user?.email, bio: bio, birthYear: 0))
+                    
+                    UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
+                    
+                    print("siasdfasdfgned in through Apple")
+                    self.state = .signedIn
+                    self.loading = false
                 }
             } else {
                 let changeRequest = user!.createProfileChangeRequest()
                 changeRequest.displayName = name
                 changeRequest.commitChanges { (error) in
-                  print("Error changing name: \(error)")
+                    print("Error changing name: \(error)")
                 }
                 UserDefaults.standard.set(true, forKey: "newAppleGoogleUser")
                 FirebaseRealtimeDatabaseCRUD().registerNewUser(for: UserInfoFromAuth(
@@ -154,17 +163,14 @@ class AuthViewModel: ObservableObject {
                     birthYear: 0
                 ))
                 self.encodeUserInfo(for: UserInfoFromAuth(uid: user?.uid, displayName: name, photoURL: user?.photoURL, email: user?.email, birthYear: 0))
+                
+                UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
+                
+                print("siasdfasdfgned in through Apple")
+                self.state = .signedIn
+                self.loading = false
             }
-            
-            UserDefaults.standard.set(user?.uid, forKey: "user_uuid")
-            
-            print("siasdfasdfgned in through Apple")
-            self.state = .signedIn
-            self.loading = false
         }
-        
-        print("signed in through Apple")
-        self.state = .signedIn
     }
 
     //MARK: Email & Password
@@ -172,6 +178,7 @@ class AuthViewModel: ObservableObject {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             self?.loading = true
             if let error = error as NSError? {
+                self?.loading = false
                 switch AuthErrorCode(rawValue: error.code) {
                 case .operationNotAllowed:
                     break

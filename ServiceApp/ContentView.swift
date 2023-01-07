@@ -23,12 +23,16 @@ struct ContentView: View {
             if(!hasOnboarded) {
                 OnboardingView(hasOnboarded: $hasOnboarded)
             } else {
-                switch self.signInState {
-                case .signedOut: AccountLoginView()
-                case .signedIn: CustomTabBar()
-                case .verificationPending: VerificationPending()
-                case .error: AccountLoginView()
-                    
+                if(self.viewModel.loading) {
+                    ProgressView()
+                } else {
+                    switch self.signInState {
+                    case .signedOut: AccountLoginView()
+                    case .signedIn: CustomTabBar()
+                    case .verificationPending: VerificationPending()
+                    case .error: AccountLoginView()
+                        
+                    }
                 }
             }
         }

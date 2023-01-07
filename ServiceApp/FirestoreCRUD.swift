@@ -310,10 +310,9 @@ class FirestoreCRUD: ObservableObject {
         }
     }
     
-    func getEventHistory(completion: @escaping (_ eventHistory: [EventHistoryInformationModel]) -> ()) {
+    func getEventHistory(uid: String, completion: @escaping (_ eventHistory: [EventHistoryInformationModel]) -> ()) {
         var eventHistory: [EventHistoryInformationModel] = []
-        db.collection("Volunteer Accounts").document(
-            "OsRBPZO2ScYik6P8By7YbxXLmwU2").collection("Attended Event Data")
+        db.collection("Volunteer Accounts").document(uid).collection("Attended Event Data")
             .order(by: "checkOutTime", descending: true)
             .limit(to: 10)
             .getDocuments { doc, err in

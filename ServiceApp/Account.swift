@@ -224,9 +224,9 @@ struct Account: View {
                         }
                     }
                 .task {
-                    FirestoreCRUD().getEventHistory { eventHistory in
+                    FirestoreCRUD().getEventHistory(uid: viewModel.decodeUserInfo()!.uid, completion: { eventHistory in
                         self.eventHistory = eventHistory
-                    }
+                    })
                 }
                 .navigationBarTitle("Event History")
                 .navigationBarItems(trailing: closeButtonHistory)

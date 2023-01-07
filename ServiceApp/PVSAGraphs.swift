@@ -286,7 +286,7 @@ struct BarGraph: View {
                     .frame(maxHeight: .infinity, alignment: .bottom)
             }
 //          prints out index
-            Text("Week \(String(Int(week) + 1))")
+            Text(week == 0 ? "This Week" : week == 1 ? "Last Week" : "Week \(String(Int(week) + 1))")
                 .font(.caption)
                 .foregroundColor(currentWeekID == data[week] ? Color.orange : Color.gray)
         }
