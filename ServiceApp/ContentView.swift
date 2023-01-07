@@ -41,13 +41,11 @@ struct ContentView: View {
         .onChange(of: viewModel.state) { newValue in
             self.signInState = newValue
         }
-        .onAppear {
+        .task {
             print("Not1stLaunch?", UserDefaults.standard.bool(forKey: "1stLaunch"))
             if(!UserDefaults.standard.bool(forKey: "1stLaunch")) {
                 UserDefaults.standard.setValue(true, forKey: "1stLaunch")
                 results.queryAllCategories(resetAllToTrue: true)
-            } else {
-                results.queryAllCategories(resetAllToTrue: false)
             }
         }
     }

@@ -216,20 +216,36 @@ struct HomeView: View {
             .task {
                 viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
                 if authViewModel.decodeUserInfo() != nil {
-                    FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
-                        if eventsArray != nil {
-                            for i in 0..<eventsArray!.count {
-                                results.getSpecificEvent(eventID: eventsArray![i]) { event in
-                                    self.eventDatas.append(event)
-                                    print("FFFF ", eventDatas[0].description)
-                                }
-                            }
-                        }
-                    }
-                    
                     results.allTimeCompleted(for: authViewModel.decodeUserInfo()!.uid) { totalHours in
                         for i in totalHours {
                             self.totalHours += i
+                        }
+                    }
+                    if(results.allCategories.count != 0) {
+                        FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
+                            if eventsArray != nil {
+                                for i in 0..<eventsArray!.count {
+                                    print("HIHDflds33", eventsArray![i])
+                                    results.getSpecificEvent(eventID: eventsArray![i]) { event in
+                                        self.eventDatas.append(event)
+                                        print("FFF33F ", eventDatas.count)
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        results.queryAllCategoriesClosure(resetAllToTrue: false) { result in
+                            FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
+                                if eventsArray != nil {
+                                    for i in 0..<eventsArray!.count {
+                                        print("HIHDflds77", eventsArray![i])
+                                        results.getSpecificEvent(eventID: eventsArray![i]) { event in
+                                            self.eventDatas.append(event)
+                                            print("FFF77F ", eventDatas.count)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

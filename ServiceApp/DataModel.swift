@@ -53,6 +53,8 @@ struct OrganizationInformationModel {
     var name: String
     var email: String
     var website: String
+    var address: String
+    var phone: String
 }
 
 struct EventHistoryInformationModel {

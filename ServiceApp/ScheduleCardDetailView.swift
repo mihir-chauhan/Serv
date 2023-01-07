@@ -13,10 +13,12 @@ struct ScheduleCardDetailView: View {
     //    var data: EventInformationModel
     @State var eventImages: [UIImage] = []
     @State var expandUpdates: Bool = false
+    @State var expandInfo: Bool = false
     @State var subviewHeight : CGFloat = 0
     @State var viewRendered = false
     @State var placeHolderUIImage: UIImage?
     @State var showingAlert = false
+    @State var organizationData: OrganizationInformationModel?
     
     @Namespace private var namespace
     @Binding var show: Bool
@@ -136,13 +138,15 @@ struct ScheduleCardDetailView: View {
                             .frame(height: 40)
                             .foregroundColor(.clear)
                             .overlay(
-                                Label {
-                                    Text("Specific Instructions and Updates").bold()
-                                } icon: {
-                                    Image(systemName: expandUpdates ? "chevron.down" : "chevron.right")
-                                        .foregroundColor(.blue)
+                                HStack {
+                                    Label {
+                                        Text("Specific Instructions and Updates").bold()
+                                    } icon: {
+                                        Image(systemName: expandUpdates ? "chevron.down" : "chevron.right")
+                                            .foregroundColor(.blue)
+                                    }
+                                    Spacer()
                                 }
-                                
                             )
                         VStack {
                             
@@ -176,6 +180,84 @@ struct ScheduleCardDetailView: View {
                         }
                     }
                     .cornerRadius(20)
+                    
+                    VStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(height: 40)
+                            .foregroundColor(.clear)
+                            .overlay(
+                                HStack {
+                                    Label {
+                                        Text("About Organization").bold()
+                                    } icon: {
+                                        Image(systemName: "info.circle")
+                                            .foregroundColor(.blue)
+                                    }
+                                    Spacer()
+                                }
+                            )
+                        VStack {
+                            HStack {
+                                Text("Name: ")
+                                    .bold()
+                                Text(organizationData?.name ?? "Loading")
+                                Spacer()
+                            }
+                            .padding(.vertical, 10)
+                            .fixedSize(horizontal: false, vertical: true)
+                            HStack {
+                                Text("Address: ")
+                                    .bold()
+                                Text(organizationData?.address ?? "Loading")
+                                Spacer()
+                            }
+                            .padding(.vertical, 10)
+                            .fixedSize(horizontal: false, vertical: true)
+                            HStack {
+                                Text("Email: ")
+                                    .bold()
+                                Text(organizationData?.email ?? "Loading")
+                                Spacer()
+                            }
+                            .padding(.vertical, 10)
+                            .fixedSize(horizontal: false, vertical: true)
+                            HStack {
+                                Text("Phone: ")
+                                    .bold()
+                                Text(organizationData?.phone ?? "Loading")
+                                Spacer()
+                            }
+                            .padding(.vertical, 10)
+                            .fixedSize(horizontal: false, vertical: true)
+                            HStack {
+                                Text("Website: ")
+                                    .bold()
+                                Text(organizationData?.website ?? "Loading")
+                                Spacer()
+                            }
+                            .padding(.vertical, 10)
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }.background(GeometryReader {
+                        Color.clear.preference(key: ViewHeightKey.self,
+                                               value: $0.frame(in: .local).size.height)
+                    })
+                    .onPreferenceChange(ViewHeightKey.self) { subviewHeight = $0 }
+                    .frame(height: expandInfo ? subviewHeight : 35, alignment: .top)
+                    .padding()
+                    .clipped()
+                    .transition(.move(edge: .bottom))
+                    .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
+                    .onTapGesture {
+                        print("organizationData: ", organizationData?.address ?? "Loading")
+                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                        hapticResponse.impactOccurred()
+                        withAnimation(.spring()) {
+                            expandInfo.toggle()
+                        }
+                    }
+                    .cornerRadius(20)
+
                     
                     
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -230,7 +312,9 @@ struct ScheduleCardDetailView: View {
                         
                     }
                 }
-                
+                FirestoreCRUD().getOrganizationDetail(ein: data.ein) { value in
+                    organizationData = value!
+                }
             }
         }
     }

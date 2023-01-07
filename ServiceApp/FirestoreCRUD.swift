@@ -211,13 +211,44 @@ class FirestoreCRUD: ObservableObject {
                 let name = snap?.get("name") as? String
                 let email = snap?.get("email") as? String
                 let website = snap?.get("website") as? String
-                completion(OrganizationInformationModel(name: name!, email: email!, website: website!))
-                //                model = OrganizationInformationModel(name: name!, email: email!, website: website!)
+                let address = snap?.get("address") as? String
+                let phone = snap?.get("phone") as? String
+                completion(OrganizationInformationModel(name: name!, email: email!, website: website!, address: address!, phone: phone!))
             }
         
     }
     
+    func queryAllCategoriesClosure(resetAllToTrue: Bool, completion: @escaping (_ data: Int) -> ())  {
+        self.allCategories = [EventCategoryModel]()
+        db.collection("EventTypes").getDocuments { snap, err in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                completion(0)
+            } else {
+                for document in snap!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let catName = document.documentID
+                    let emoji = document.get("emoji") as? String ?? "."
+                    let description = document.get("details") as! String
+                    
+                    var temp = EventCategoryModel(name: catName, icon: emoji, description: description)
+                    
+                    if(resetAllToTrue) {
+                        UserDefaults.standard.setValue(true, forKey: "\(catName)")
+                        temp.savedCategory = true
+                    } else if(UserDefaults.standard.bool(forKey: "\(catName)")) {
+                        temp.savedCategory = true
+                    }
+                    self.allCategories.append(temp)
+                }
+                completion(1)
+            }
+        }
+    }
+
+    
     func getSpecificEvent(eventID: String, completion: @escaping (_ data: EventInformationModel) -> ()) {
+        print("countcount", allCategories.count)
         for (index, category) in allCategories.enumerated() {
             db.collection("EventTypes/\(category.name)/Events").document(eventID)
                 .getDocument { snap, err in
