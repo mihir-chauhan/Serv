@@ -98,7 +98,8 @@ class FirebaseRealtimeDatabaseCRUD {
             "photoURL" : userInfo.photoURL?.absoluteString ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg",
             "email" : userInfo.email ?? "default@email.com",
             "bio" : "Add an informative bio!",
-            "verifiedEmail" : false
+            "verifiedEmail" : false,
+            "birthYear": userInfo.birthYear,
         ] as [String : Any]
         print("ajflajdfnasdjfnalsdfnlasfnjasdf \(userInfoAsDict)")
         ref.collection("Volunteer Accounts").document(userInfo.uid!).setData(["UserInfo": userInfoAsDict])
@@ -186,6 +187,19 @@ class FirebaseRealtimeDatabaseCRUD {
         }
     }
     
+    
+    func setBirthYear(uid: String, birthYear: Int) {
+        ref.collection("Volunteer Accounts").document(uid).getDocument { snap, err in
+            guard err == nil else {
+                print(err!.localizedDescription)
+                return;
+            }
+            var userInfo = snap?.get("UserInfo") as? [String : Any]
+            userInfo?["birthYear"] = birthYear
+            ref.collection("Volunteer Accounts").document(uid).updateData(["UserInfo": userInfo])
+        }
+    }
+    
     func retrieveUserBio(uid: String, completion: @escaping (UserInfoFromAuth) ->()) {
         ref.collection("Volunteer Accounts").document(uid).getDocument { snap, err in
             guard err == nil else {
@@ -197,7 +211,8 @@ class FirebaseRealtimeDatabaseCRUD {
             let bio = userInfo?["bio"] as? String ?? "No Bio"
             let name = userInfo?["name"] as? String ?? "Johnny Smithy"
             let photoURL = userInfo?["photoURL"] as? String ?? "no url"
-            completion(UserInfoFromAuth(displayName: name, photoURL: URL(string: photoURL), bio: bio))
+            let birthYear = userInfo?["birthYear"] as? Int ?? 0
+            completion(UserInfoFromAuth(displayName: name, photoURL: URL(string: photoURL), bio: bio, birthYear: birthYear))
         }
     }
 }

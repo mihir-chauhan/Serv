@@ -81,7 +81,7 @@ class FIRCloudImages {
             ])
             let oldStuff = viewModel.decodeUserInfo()!
             viewModel.encodeUserInfo(for: UserInfoFromAuth(
-                uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email, bio: oldStuff.bio
+                uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email, bio: oldStuff.bio, birthYear: oldStuff.birthYear
             ))
             //            TODO: must update userinfo user defaults
             print("HERE", downloadURL.absoluteString)

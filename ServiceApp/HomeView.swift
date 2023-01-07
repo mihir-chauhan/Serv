@@ -24,7 +24,9 @@ struct HomeView: View {
     @State var allowsTracking: Bool = false
     @State var alertInfoIndex = 0
     @State var totalHours: Double = 0
-    
+    @State var selectBirthYearSheet: Bool = false
+    @State var birthYear: Int = 0
+
     let defaults = UserDefaults.standard
     var animation: Namespace.ID
     
@@ -210,8 +212,8 @@ struct HomeView: View {
                 if viewModel.queriedEventsList.count >= 1 {
                     recommendedEvents = viewModel.queriedEventsList
                     print("228, ", recommendedEvents)
-                    
                 }
+                
             }
             .task {
                 viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
@@ -249,12 +251,27 @@ struct HomeView: View {
                         }
                     }
                 }
+                
+                if UserDefaults.standard.bool(forKey: "newAppleGoogleUser") {
+                    UserDefaults.standard.set(false, forKey: "newAppleGoogleUser")
+                    self.selectBirthYearSheet.toggle()
+                }
             }
             
             .alert(isPresented: $showingCategoryDetailAlert) {
                 Alert(title: Text(results.allCategories[alertInfoIndex].name), message: Text(results.allCategories[alertInfoIndex].description), dismissButton: .default(Text("Okay")))
             }
-            
+            .sheet(isPresented: $selectBirthYearSheet, onDismiss: {
+                if let data = authViewModel.decodeUserInfo() {
+                    FirebaseRealtimeDatabaseCRUD().setBirthYear(uid: data.uid, birthYear: birthYear)
+                    authViewModel.encodeUserInfo(for: UserInfoFromAuth(uid: data.uid, displayName: data.displayName, photoURL: data.photoURL, email: data.email, bio: data.bio, birthYear: birthYear))
+                    print("setBirthYear", birthYear)
+                } else {
+                    print("FAILED TO SET birthYear", birthYear)
+                }
+            }, content: {
+                AgeVerification(showView: $selectBirthYearSheet, code: $birthYear, dismissDisabled: true)
+            })
             if toggleHeroAnimation {
                 VStack {
                     HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation, eventDatas: eventDatas)

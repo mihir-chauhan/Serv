@@ -11,27 +11,30 @@ struct AgeVerification: View {
     @Binding var showView: Bool
     @State var allowSubmit = false
     @Binding var code: Int
+    var dismissDisabled: Bool
     var body: some View {
         
-        Text("Enter Birth Year").font(.title)
-        CheckInController(allowSubmit: $allowSubmit, code: $code)
-            .frame(width: 286, height: 50)
-        Text("Some events have a minimum age requirement. Entering your birth year helps us find suitable events for you")
-            .padding(.horizontal, 50)
-            .padding(.bottom, 20)
-            .font(.subheadline)
-            Button(action: {
-                print(code)
-                self.showView = false
-//                TODO: if code matches the one in Firebase, validate
-            }) {
-Capsule()
-                    .foregroundColor(allowSubmit ? Color.green : Color.green.opacity(0.3))
-                    .frame(width: 175, height: 45)
-                    .overlay(Text("Submit").foregroundColor(Color.black).bold())
-                    .padding()
-            }.disabled(!allowSubmit)
-//        }.padding(30)
+        VStack {
+            Text("Enter Birth Year").font(.title)
+            CheckInController(allowSubmit: $allowSubmit, code: $code)
+                .frame(width: 286, height: 50)
+            Text("Some events have a minimum age requirement. Entering your birth year helps us find suitable events for you")
+                .padding(.horizontal, 50)
+                .padding(.bottom, 20)
+                .font(.subheadline)
+                Button(action: {
+                    self.showView = false
+    //                TODO: if code matches the one in Firebase, validate
+                }) {
+    Capsule()
+                        .foregroundColor(allowSubmit ? Color.green : Color.green.opacity(0.3))
+                        .frame(width: 175, height: 45)
+                        .overlay(Text("Submit").foregroundColor(Color.black).bold())
+                        .padding()
+                }.disabled(!allowSubmit)
+    //        }.padding(30)
+        }
+        .interactiveDismissDisabled(dismissDisabled)
     }
 }
 struct CheckInController: UIViewRepresentable {
@@ -52,7 +55,6 @@ struct CheckInController: UIViewRepresentable {
         
         // Get entered Passcode
         codeTxt.didReceiveCode = { code in
-            print(code)
             if code.count == 4 {
                 self.code = Int(code)!
                 if self.code > 1900 && self.code < 2023 {

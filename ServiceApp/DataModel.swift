@@ -47,6 +47,7 @@ struct UserInfoFromAuth: Codable, Hashable {
     var bio: String? = "Add a personal bio"
     var hoursSpent: [CGFloat] = []
     var emailVerified: Bool = false
+    var birthYear: Int = 0
 }
 
 struct OrganizationInformationModel {

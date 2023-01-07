@@ -71,7 +71,7 @@ struct AccountSignUpView: View {
                             }
                         }
                     }.sheet(isPresented: $selectBirthYearSheet) {
-                        AgeVerification(showView: $selectBirthYearSheet, code: $birthYear)
+                        AgeVerification(showView: $selectBirthYearSheet, code: $birthYear, dismissDisabled: false)
 //                            .presentationDetents([.fraction(0.15)])
                     }
                 
@@ -79,7 +79,7 @@ struct AccountSignUpView: View {
                     if birthYear == 0 {
                         birthYearAlert = true
                     } else {
-                        viewModel.createUser(name: combineViewModel.username, username: "", email: combineViewModel.email, password: combineViewModel.password)
+                        viewModel.createUser(name: combineViewModel.username, username: "", email: combineViewModel.email, password: combineViewModel.password, birthYear: birthYear)
                     }
                 }) {
                     Capsule()
