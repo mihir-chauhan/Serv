@@ -15,6 +15,7 @@ struct ScheduleCardDetailView: View {
     @State var expandUpdates: Bool = false
     @State var expandInfo: Bool = false
     @State var subviewHeight : CGFloat = 0
+    @State var infoSubviewHeight : CGFloat = 0
     @State var viewRendered = false
     @State var placeHolderUIImage: UIImage?
     @State var showingAlert = false
@@ -242,8 +243,8 @@ struct ScheduleCardDetailView: View {
                         Color.clear.preference(key: ViewHeightKey.self,
                                                value: $0.frame(in: .local).size.height)
                     })
-                    .onPreferenceChange(ViewHeightKey.self) { subviewHeight = $0 }
-                    .frame(height: expandInfo ? subviewHeight : 35, alignment: .top)
+                    .onPreferenceChange(ViewHeightKey.self) { infoSubviewHeight = $0 }
+                    .frame(height: expandInfo ? infoSubviewHeight : 35, alignment: .top)
                     .padding()
                     .clipped()
                     .transition(.move(edge: .bottom))
@@ -329,7 +330,7 @@ struct ScheduleCardDetailView: View {
 
 
 
-struct ViewHeightKey: PreferenceKey {
+private struct ViewHeightKey: PreferenceKey {
     static var defaultValue: CGFloat { 0 }
     static func reduce(value: inout Value, nextValue: () -> Value) {
         value = value + nextValue()

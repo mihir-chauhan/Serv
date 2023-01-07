@@ -24,6 +24,11 @@ struct EventDetailView: View {
     @State var friendSignedUp: Bool = false
     @State var firstImage: [UIImage] = []
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
+    
+    @State var organizationData: OrganizationInformationModel?
+    @State var expandInfo: Bool = false
+    @State var infoSubviewHeight: CGFloat = 0
+    
     var dateToString: String {
         get {
             let dateFormatter = DateFormatter()
@@ -103,8 +108,85 @@ struct EventDetailView: View {
                     Text(data.specialRequirements)
                         .font(.caption)
                         .padding(.bottom, 5)
-                    
                 }
+                
+                VStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(height: 40)
+                        .foregroundColor(.clear)
+                        .overlay(
+                            HStack {
+                                Label {
+                                    Text("About Organization").bold()
+                                } icon: {
+                                    Image(systemName: "info.circle")
+                                        .foregroundColor(.blue)
+                                }
+                                Spacer()
+                            }
+                        )
+                    VStack {
+                        HStack {
+                            Text("Name: ")
+                                .bold()
+                            Text(organizationData?.name ?? "Loading")
+                            Spacer()
+                        }
+                        .padding(.vertical, 10)
+                        .fixedSize(horizontal: false, vertical: true)
+                        HStack {
+                            Text("Address: ")
+                                .bold()
+                            Text(organizationData?.address ?? "Loading")
+                            Spacer()
+                        }
+                        .padding(.vertical, 10)
+                        .fixedSize(horizontal: false, vertical: true)
+                        HStack {
+                            Text("Email: ")
+                                .bold()
+                            Text(organizationData?.email ?? "Loading")
+                            Spacer()
+                        }
+                        .padding(.vertical, 10)
+                        .fixedSize(horizontal: false, vertical: true)
+                        HStack {
+                            Text("Phone: ")
+                                .bold()
+                            Text(organizationData?.phone ?? "Loading")
+                            Spacer()
+                        }
+                        .padding(.vertical, 10)
+                        .fixedSize(horizontal: false, vertical: true)
+                        HStack {
+                            Text("Website: ")
+                                .bold()
+                            Text(organizationData?.website ?? "Loading")
+                            Spacer()
+                        }
+                        .padding(.vertical, 10)
+                        .fixedSize(horizontal: false, vertical: true)
+                    }
+                }.background(GeometryReader {
+                    Color.clear.preference(key: ViewHeightKey.self,
+                                           value: $0.frame(in: .local).size.height)
+                })
+                .onPreferenceChange(ViewHeightKey.self) { infoSubviewHeight = $0 }
+                .frame(height: expandInfo ? infoSubviewHeight : 35, alignment: .top)
+                .padding()
+                .clipped()
+                .transition(.move(edge: .bottom))
+                .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
+                .onTapGesture {
+                    print("organizationData: ", organizationData?.address ?? "Loading")
+                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                    hapticResponse.impactOccurred()
+                    withAnimation(.spring()) {
+                        expandInfo.toggle()
+                    }
+                }
+                .cornerRadius(20)
+
                 
                 HStack {
                     if friendSignedUp == true {
@@ -181,6 +263,9 @@ struct EventDetailView: View {
                     }
                 }
             }
+            FirestoreCRUD().getOrganizationDetail(ein: data.ein) { value in
+                organizationData = value!
+            }
         }
         .onChange(of: data) { value in
             self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: sheetObserver.eventDetailData.coordinate.latitude - 0.02, longitude: sheetObserver.eventDetailData.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
@@ -225,5 +310,12 @@ struct EventDetailView: View {
         dateFormatter.dateFormat = "MM/dd/yyyy"
         let stringDate = dateFormatter.string(from: date)
         return stringDate
+    }
+}
+
+private struct ViewHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat { 0 }
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value = value + nextValue()
     }
 }
