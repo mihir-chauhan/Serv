@@ -134,13 +134,14 @@ class FirebaseRealtimeDatabaseCRUD {
             let value = snap?.get("UserInfo") as? NSDictionary
             let displayName = value?["name"] as? String ?? "no name"
             let photoURL = value?["photoURL"] as? String ?? "no image"
-            
+            let bio = value?["bio"] as? String ?? "No Bio"
+
             ref.collection("Volunteer Accounts").document(uid!).collection("Attended Event Data").getDocuments { snap, err in
                 if let err = err {
                     print(err.localizedDescription)
                     return
                 }
-                if ((snap?.isEmpty) != nil) {
+                if (snap?.isEmpty ?? true) {
                     print("ENTERED AT 137")
                     let model = UserInfoFromAuth(uid: uid, displayName: displayName, photoURL: URL(string: photoURL), hoursSpent: [])
                     completion(model)
@@ -150,7 +151,7 @@ class FirebaseRealtimeDatabaseCRUD {
                         counter += 1
                         
                         if counter == snap!.documents.count {
-                            let model = UserInfoFromAuth(uid: uid, displayName: displayName, photoURL: URL(string: photoURL), hoursSpent: hoursSpentArray)
+                            let model = UserInfoFromAuth(uid: uid, displayName: displayName, photoURL: URL(string: photoURL), bio: bio, hoursSpent: hoursSpentArray)
                             print("RAH", model.hoursSpent)
                             completion(model)
                         }

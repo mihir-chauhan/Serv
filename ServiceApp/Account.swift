@@ -202,7 +202,7 @@ struct Account: View {
                                     VStack(alignment: .leading) {
                                         Text(eventHistory[i].eventName)
                                             .font(.headline).bold()
-                                            .padding()
+                                            .padding(10)
                                         HStack {
                                             Text("Hours rewarded: \(String(format: "%.1f", eventHistory[i].hoursSpent))")
                                                 .font(.caption)
