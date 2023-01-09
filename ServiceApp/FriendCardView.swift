@@ -21,12 +21,10 @@ struct FriendCardView: View {
                     img
                         .resizable()
                         .scaledToFill()
-                        .cornerRadius(20)
-        
                 } placeholder: {
                     Color.gray
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
                 .frame(width: 65, height: 65)
                 .clipped()
                 .padding(.leading, 6.5)
