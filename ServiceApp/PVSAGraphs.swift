@@ -9,22 +9,42 @@ import CoreGraphics
 struct PVSALineGraph: View {
     @State var hasData: Bool = false
     @State var data: [CGFloat] = [
-        0, 1.5, 0.75, 2, 6.5, 2, 2, 0, 0.85, 2.25, 2
+//        0, 1.5, 0.75, 2, 6.5, 2, 2, 0, 0.85, 2.25, 2
 //        989, 1200, 750, 790, 650, 25, 1200, 600, 500, 600, 890, 1203, 1400, 900, 1250, 1600, 1200
     ]
     var user: String
     var body: some View {
         LineGraph(hasData: $hasData, data: data)
-            .task {
-                FirestoreCRUD().allTimeCompleted(for: user) { totalHours in
-                    data = totalHours
-                    if !data.isEmpty && data.count > 1 {
-                        hasData = true
-                    } else {
-                        hasData = false
-                    }
+            .onAppear {
+                if !data.isEmpty {
+                    hasData = true
                 }
             }
+//            .task {
+//                hasData = true
+//            }
+//            .task {
+//                FirebaseRealtimeDatabaseCRUD().getUserFriendInfo(uid: user) { friendInfo in
+//                    if !friendInfo.hoursSpent.isEmpty && friendInfo.hoursSpent.count >= 1 {
+//                        hasData = true
+//                        data = friendInfo.hoursSpent
+//
+//                    }
+//                }
+//                FirestoreCRUD().allTimeCompleted(for: user) { totalHours in
+//                    data = totalHours
+//                    if !data.isEmpty && data.count >= 1 {
+//                        hasData = true
+//                    }
+//                }
+//            }
+        
+        
+////                    } else {
+////                        hasData = false
+////                    }
+//                }
+//            }
             .cornerRadius(10)
     }
 }
