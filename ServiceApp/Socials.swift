@@ -21,8 +21,13 @@ struct Socials: View {
     var body: some View {
         NavigationView {
             ScrollView {
+
                 if self.listOfFriends.isEmpty {
-                    
+                    LeaderboardView(listOfFriends: [])
+                        .padding(.bottom, 50)
+                        .overlay(
+                            haveFriends ? nil : CustomMaterialEffectBlur(blurStyle: .systemUltraThinMaterial).cornerRadius(25).offset(y: -10).overlay(Text("Leaderboard would appear after you add friends").font(.headline).bold().padding())
+                        )
                     Text("No friends to show!").font(.title).bold()
                         .offset(y: UIScreen.main.bounds.height / 5)
                     
