@@ -16,7 +16,7 @@ struct PVSALineGraph: View {
     var body: some View {
         LineGraph(hasData: $hasData, data: data)
             .onAppear {
-                if !data.isEmpty {
+                if !data.isEmpty && data.count > 1 {
                     hasData = true
                 }
             }

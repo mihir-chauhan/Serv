@@ -46,14 +46,14 @@ struct FriendDetailSheet: View {
                         )
                         
                     
-                    Text("Attending Upcoming Events").font(.headline).bold()
+                    Text("\(data.displayName ?? "no name")'s Upcoming Events").font(.headline).bold()
 
                         ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
                             Text("\t \(event.name)")
                                 .padding(5)
                         }
                 }.padding(20)
-            .navigationTitle(data.displayName ?? "SMITHY?")
+            .navigationTitle(data.displayName ?? "no name")
             
             .task {
                 FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: data.uid) { events in
