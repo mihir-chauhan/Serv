@@ -32,7 +32,13 @@ struct Socials: View {
                         .offset(y: UIScreen.main.bounds.height / 5)
                     
                 } else {
-                    ForEach(self.listOfFriends, id: \.self) { friend in
+                    let sorted = self.listOfFriends.sorted {
+                        let sum1 = $0.hoursSpent.reduce(0, +)
+                        let sum2 = $1.hoursSpent.reduce(0, +)
+                        return sum1 > sum2
+                    }
+                    let _ = print("ALL MY FRIENDS", sorted)
+                    ForEach(sorted, id: \.self) { friend in
                         
                         FriendCardView(data: friend)
                             .sheet(isPresented: $showingFriendDetailSheet) {
@@ -70,6 +76,12 @@ struct Socials: View {
                                     self.listOfFriends.append(friendInfo)
                                 }
                             }
+                            self.listOfFriends.sort {
+                                let sum1 = $0.hoursSpent.reduce(0, +)
+                                let sum2 = $1.hoursSpent.reduce(0, +)
+                                return sum1 > sum2
+                            }
+                            print(self.listOfFriends, "IS SORTED??!!")
                             
                         }
                     }) {
@@ -91,8 +103,8 @@ struct Socials: View {
                         self.listOfFriends.append(friendInfo)
                     }
                     
+                    
                 }
-                print("ALL MY FRIENDS", self.listOfFriends)
             }
         }
     }
