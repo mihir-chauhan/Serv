@@ -21,11 +21,6 @@ struct Socials: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LeaderboardView(listOfFriends: listOfFriends)
-                    .padding(.bottom, 50)
-                    .overlay(
-                        haveFriends ? nil : CustomMaterialEffectBlur(blurStyle: .systemUltraThinMaterial).cornerRadius(25).offset(y: -10).overlay(Text("Leaderboard would appear after you add friends").font(.headline).bold().padding())
-                    )
                 if self.listOfFriends.isEmpty {
                     
                     Text("No friends to show!").font(.title).bold()
@@ -38,6 +33,12 @@ struct Socials: View {
                         return sum1 > sum2
                     }
                     let _ = print("ALL MY FRIENDS", sorted)
+                    LeaderboardView(listOfFriends: sorted)
+                        .padding(.bottom, 50)
+                        .overlay(
+                            haveFriends ? nil : CustomMaterialEffectBlur(blurStyle: .systemUltraThinMaterial).cornerRadius(25).offset(y: -10).overlay(Text("Leaderboard would appear after you add friends").font(.headline).bold().padding())
+                        )
+                    
                     ForEach(sorted, id: \.self) { friend in
                         
                         FriendCardView(data: friend)
@@ -105,7 +106,17 @@ struct Socials: View {
                     
                     
                 }
+                self.listOfFriends.sort {
+                    let sum1 = $0.hoursSpent.reduce(0, +)
+                    let sum2 = $1.hoursSpent.reduce(0, +)
+                    print("sum1: ", sum1)
+                    print("sum2: ", sum2)
+
+                    return sum1 > sum2
+                }
+                
             }
+            print("ALL MY FRIENDS", self.listOfFriends)
         }
     }
 }
