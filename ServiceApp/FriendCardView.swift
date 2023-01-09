@@ -10,6 +10,7 @@ import SwiftUI
 struct FriendCardView: View {
     
     var data: UserInfoFromAuth
+    var listOfEventsFriendIsGoing: [EventInformationModel]
     @State var showingFriendDetailSheet: Bool = false
 
     var body: some View {
@@ -32,7 +33,7 @@ struct FriendCardView: View {
 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Last Service: " + "5" + " hrs ago")
+                        Text("Last Service: Loading")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Text(data.displayName!)
@@ -55,7 +56,7 @@ struct FriendCardView: View {
         }
 //        .buttonStyle(CardButtonStyle())
         .sheet(isPresented: $showingFriendDetailSheet) {
-            FriendDetailSheet(data: data)
+            FriendDetailSheet(data: data, listOfEventsFriendIsGoing: listOfEventsFriendIsGoing)
         }
     }
 }

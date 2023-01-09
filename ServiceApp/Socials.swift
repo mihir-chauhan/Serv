@@ -16,6 +16,7 @@ struct Socials: View {
     @State var sheetMode: SheetMode = .quarter
     
     @State var listOfFriends = [UserInfoFromAuth]()
+    @State var listOfEventsFriendIsGoing: [EventInformationModel] = []
     
     @State var haveFriends: Bool = false
     var body: some View {
@@ -46,11 +47,11 @@ struct Socials: View {
                     
                     ForEach(sorted, id: \.self) { friend in
                         
-                        FriendCardView(data: friend)
-                            .sheet(isPresented: $showingFriendDetailSheet) {
-                                let _ = print("FRIEND INFO SHOWING:", friend.displayName)
-                                FriendDetailSheet(data: friend)
-                            }
+                        FriendCardView(data: friend, listOfEventsFriendIsGoing: listOfEventsFriendIsGoing)
+//                            .sheet(isPresented: $showingFriendDetailSheet) {
+//                                let _ = print("FRIEND INFO SHOWING:", friend.displayName)
+//                                FriendDetailSheet(data: friend)
+//                            }
                     }.padding(.horizontal)
                 }
             }
@@ -106,11 +107,28 @@ struct Socials: View {
                 if !allFriends.isEmpty { haveFriends = true }
                 for friend in allFriends {
                     FirebaseRealtimeDatabaseCRUD().getUserFriendInfo(uid: friend) { friendInfo in
+                        
                         self.listOfFriends.append(friendInfo)
                     }
                     
                     
                 }
+                // problem is blockinggg
+                print("ALL MY FRIENDS", listOfFriends.count)
+                for friend in listOfFriends {
+                    print("!!!uuid:", friend.uid!)
+                    FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: friend.uid) { events in
+                        print("Events Count", events.count)
+                        for event in events {
+                            FirestoreCRUD().getSpecificEvent(eventID: event) { eventName in
+                                self.listOfEventsFriendIsGoing.append(eventName)
+                                print("Events", eventName)
+                            }
+                        }
+                    }
+
+                }
+                
                 self.listOfFriends.sort {
                     let sum1 = $0.hoursSpent.reduce(0, +)
                     let sum2 = $1.hoursSpent.reduce(0, +)
@@ -121,7 +139,7 @@ struct Socials: View {
                 }
                 
             }
-            print("ALL MY FRIENDS", self.listOfFriends)
+            
         }
     }
 }

@@ -12,7 +12,7 @@ struct FriendDetailSheet: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var sheetObserver: SheetObserver
     var data: UserInfoFromAuth
-    @State var listOfEventsFriendIsGoing: [EventInformationModel] = []
+    var listOfEventsFriendIsGoing: [EventInformationModel]
     @State var clickOnEvent: Bool = false
 
     var body: some View {
@@ -54,18 +54,6 @@ struct FriendDetailSheet: View {
                         }
                 }.padding(20)
             .navigationTitle(data.displayName ?? "no name")
-            
-            .task {
-                FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: data.uid) { events in
-                    for event in events {
-                        FirestoreCRUD().getSpecificEvent(eventID: event) { eventName in
-                            self.listOfEventsFriendIsGoing.append(eventName)
-                        }
-
-                        print("HEREt", event)
-                    }
-                }
-                }
             }
         }
     }
