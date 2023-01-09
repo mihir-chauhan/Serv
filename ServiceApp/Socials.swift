@@ -16,7 +16,6 @@ struct Socials: View {
     @State var sheetMode: SheetMode = .quarter
     
     @State var listOfFriends = [UserInfoFromAuth]()
-    @State var listOfEventsFriendIsGoing: [EventInformationModel] = []
     
     @State var haveFriends: Bool = false
     var body: some View {
@@ -47,7 +46,7 @@ struct Socials: View {
                     
                     ForEach(sorted, id: \.self) { friend in
                         
-                        FriendCardView(data: friend, listOfEventsFriendIsGoing: listOfEventsFriendIsGoing)
+                        FriendCardView(data: friend)
 //                            .sheet(isPresented: $showingFriendDetailSheet) {
 //                                let _ = print("FRIEND INFO SHOWING:", friend.displayName)
 //                                FriendDetailSheet(data: friend)
@@ -112,21 +111,6 @@ struct Socials: View {
                     }
                     
                     
-                }
-                // problem is blockinggg
-                print("ALL MY FRIENDS", listOfFriends.count)
-                for friend in listOfFriends {
-                    print("!!!uuid:", friend.uid!)
-                    FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: friend.uid) { events in
-                        print("Events Count", events.count)
-                        for event in events {
-                            FirestoreCRUD().getSpecificEvent(eventID: event) { eventName in
-                                self.listOfEventsFriendIsGoing.append(eventName)
-                                print("Events", eventName)
-                            }
-                        }
-                    }
-
                 }
                 
                 self.listOfFriends.sort {

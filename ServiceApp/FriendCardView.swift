@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct FriendCardView: View {
-    
+    @EnvironmentObject var authViewModel: AuthViewModel
     var data: UserInfoFromAuth
-    var listOfEventsFriendIsGoing: [EventInformationModel]
+    @State var listOfEventsFriendIsGoing: [EventInformationModel] = []
     @State var showingFriendDetailSheet: Bool = false
+    @State var totalHours: Int = 0
 
     var body: some View {
         Button {
@@ -33,7 +34,7 @@ struct FriendCardView: View {
 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Last Service: Loading")
+                        Text("Total Hours: \(totalHours)")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Text(data.displayName!)
@@ -57,6 +58,24 @@ struct FriendCardView: View {
 //        .buttonStyle(CardButtonStyle())
         .sheet(isPresented: $showingFriendDetailSheet) {
             FriendDetailSheet(data: data, listOfEventsFriendIsGoing: listOfEventsFriendIsGoing)
+        }
+        .task {
+            totalHours = 0
+            for hour in data.hoursSpent {
+                totalHours += Int(hour)
+            }
+            print("!!!uuid:", data.uid)
+            authViewModel.queryAllCategoriesClosure(resetAllToTrue: false) { result in
+                FriendEventsInCommon().singularFriendEventRecognizer(uidFriend: data.uid) { events in
+                    for event in events {
+                        print("Events Count", event)
+                        FirestoreCRUD().getSpecificEvent(eventID: event) { eventName in
+                            listOfEventsFriendIsGoing.append(eventName)
+                            print("Events", eventName)
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -55,6 +55,8 @@ struct FriendDetailSheet: View {
                 }.padding(20)
             .navigationTitle(data.displayName ?? "no name")
             }
+        }.task {
+            print("COUNT COUNT", listOfEventsFriendIsGoing.count)
         }
     }
 
