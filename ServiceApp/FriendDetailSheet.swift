@@ -46,7 +46,7 @@ struct FriendDetailSheet: View {
                         )
                         
                     
-                    Text("\(data.displayName ?? "no name")'s Upcoming Events").font(.headline).bold()
+                    Text("\(data.displayName ?? "no name")'s Events").font(.headline).bold()
 
                         ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
                             Text("\t \(event.name)")
