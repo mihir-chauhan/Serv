@@ -12,7 +12,7 @@ struct FriendDetailSheet: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var sheetObserver: SheetObserver
     var data: UserInfoFromAuth
-    var listOfEventsFriendIsGoing: [EventInformationModel]
+    @Binding var listOfEventsFriendIsGoing: [EventInformationModel]
     @State var clickOnEvent: Bool = false
 
     var body: some View {
@@ -55,7 +55,7 @@ struct FriendDetailSheet: View {
                 }.padding(20)
             .navigationTitle(data.displayName ?? "no name")
             }
-        }.task {
+        }.onAppear() {
             print("COUNT COUNT", listOfEventsFriendIsGoing.count)
         }
     }

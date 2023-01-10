@@ -12,7 +12,7 @@ import MapKit
 class FirestoreCRUD: ObservableObject {
     let db = Firestore.firestore()
     
-    @Published var allCategories = [EventCategoryModel]()
+    @Published var allCategories: [EventCategoryModel] = [EventCategoryModel]()
     @Published var allFIRResults = [EventInformationModel]()
     //
     //    init() {
@@ -219,7 +219,7 @@ class FirestoreCRUD: ObservableObject {
     }
     
     func queryAllCategoriesClosure(resetAllToTrue: Bool, completion: @escaping (_ data: Int) -> ())  {
-        self.allCategories = [EventCategoryModel]()
+        self.allCategories = []
         db.collection("EventTypes").getDocuments { snap, err in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -347,7 +347,7 @@ class FirestoreCRUD: ObservableObject {
     //
     //    }
     func queryAllCategories(resetAllToTrue: Bool)  {
-        self.allCategories = [EventCategoryModel]()
+        self.allCategories = []
         db.collection("EventTypes").getDocuments { snap, err in
             if let err = err {
                 print("Error getting documents: \(err)")
