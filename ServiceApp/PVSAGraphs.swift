@@ -136,7 +136,7 @@ struct LineGraph: View {
                 if hasData {
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: 0))
-                    path.addLines(points)
+                    path.addLines(calculatePoints(height, width))
                 }
                 .strokedPath(StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
                 .fill(
@@ -232,6 +232,19 @@ struct LineGraph: View {
             
         ]
                        , startPoint: .top, endPoint: .bottom)
+    }
+    
+    func calculatePoints(_ height: CGFloat, _ width: CGFloat) -> [CGPoint] {
+        var prevProgess = 0.0
+        let maxPoint = 5 + data.reduce(0, +)
+        let points = data.enumerated().compactMap { item -> CGPoint in
+            let progress = (item.element + prevProgess) / maxPoint
+            let pathHeight = (progress * height)
+            let pathWidth = width * CGFloat(item.offset)
+            prevProgess = (item.element + prevProgess)
+            return CGPoint(x: pathWidth, y: -pathHeight + height)
+        }
+        return points
     }
 }
 

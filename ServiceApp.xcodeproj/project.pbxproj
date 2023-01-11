@@ -48,6 +48,7 @@
 		BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */; };
 		BE5EEE24295E58A0003914E4 /* ScheduleCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */; };
 		BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */; };
+		BE8934FC296E8C9A001D0B5C /* NEWGRAPH.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8934FB296E8C9A001D0B5C /* NEWGRAPH.swift */; };
 		BE92CC2E2899D34300CD7264 /* PVSAGraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */; };
 		BEAA842B28AC1AF1007161DD /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA842A28AC1AF1007161DD /* AlertToast */; };
 		BEAF4C26295D0CCF00476462 /* AgeVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAF4C25295D0CCF00476462 /* AgeVerification.swift */; };
@@ -118,6 +119,7 @@
 		BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailView.swift; sourceTree = "<group>"; };
 		BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailView.swift; sourceTree = "<group>"; };
 		BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountDetails.swift; sourceTree = "<group>"; };
+		BE8934FB296E8C9A001D0B5C /* NEWGRAPH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEWGRAPH.swift; sourceTree = "<group>"; };
 		BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVSAGraphs.swift; sourceTree = "<group>"; };
 		BEAF4C25295D0CCF00476462 /* AgeVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeVerification.swift; sourceTree = "<group>"; };
 		BEB2933F27C1FE7C00D32BDE /* AuthSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignIn.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */,
 				BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */,
 				BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */,
+				BE8934FB296E8C9A001D0B5C /* NEWGRAPH.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 			);
 			name = "HelperClasses+Models";
@@ -434,6 +437,7 @@
 				F416C238278517290099FDD6 /* PhotoPickerForQRScan.swift in Sources */,
 				B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */,
 				BEE28C3A2894BD2C00D0B15A /* TabBarController.swift in Sources */,
+				BE8934FC296E8C9A001D0B5C /* NEWGRAPH.swift in Sources */,
 				BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */,
 				BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
