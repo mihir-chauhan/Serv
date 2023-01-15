@@ -31,7 +31,7 @@ struct LineGraph2: View {
     
     var body: some View {
         let data: [CGFloat] = addNewValueToPrevious()
-        if !data.isEmpty {
+        if !data.isEmpty && data.count > 1 {
         GeometryReader{proxy in
             
             let height = proxy.size.height
@@ -188,7 +188,7 @@ struct LineGraph2: View {
         }
 //        .frame(width: self.width)
         } else {
-            Text("Start volunteer to log hours")
+            Text("Not enough data to display graph")
                 .frame(width: UIScreen.main.bounds.width - 30)
         }
     }
