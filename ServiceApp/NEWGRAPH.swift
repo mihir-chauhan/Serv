@@ -13,6 +13,7 @@ struct LineGraph2: View {
     let data: [CGFloat] = [1.0, 3.0, 7.0, 5.5]
     @State var position: CGFloat = 0.5
     
+    @State var currentPlot = ""
     @State var offset: CGSize = .zero
     @State var showPlot = false
     @State var translation: CGFloat = 0
@@ -26,15 +27,17 @@ struct LineGraph2: View {
                     GeometryReader { geometry in
                         let width = geometry.size.width
                         let height = geometry.size.height
+                        
+                        let minValue = incrementedValData.min() ?? 0
+                        let maxValue = incrementedValData.max() ?? 1
+                        let points = incrementedValData.enumerated().map { x, y in
+                            CGPoint(x: CGFloat(x) * width / CGFloat(self.data.count - 1),
+                                    y: (height - ((y - minValue) * height) / (maxValue - minValue)) )
+                        }
                         ZStack {
                             Path { path in
                                 
-                                let minValue = incrementedValData.min() ?? 0
-                                let maxValue = incrementedValData.max() ?? 1
-                                let points = incrementedValData.enumerated().map { x, y in
-                                    CGPoint(x: CGFloat(x) * width / CGFloat(self.data.count - 1),
-                                            y: (height - ((y - minValue) * height) / (maxValue - minValue)) )
-                                }
+                                
                                 path.move(to: points[0])
                                 for point in points.dropFirst() {
                                     path.addLine(to: point)
@@ -42,35 +45,41 @@ struct LineGraph2: View {
                             }
                             .stroke(Color.green, lineWidth: 2)
                         }
-                        Circle()
-                            .frame(width: 20, height: 20)
-                            .position(x: width - 30, y: height - 30)
-                            .foregroundColor(.white)
-                        //                                            .background(Color.red)
-                            .offset(x: -10, y: -10)
-                            .opacity(0.7)
-                    }
+                        .frame(width: UIScreen.main.bounds.width - 30, height: 275)
+
+                        .overlay(
+                            
+                                buildIndicator()
+                                    .frame(width: UIScreen.main.bounds.width - 30, height: 275)
+                                    .offset(self.offset),
+                                alignment: .bottomLeading
+                        )
+                        .frame(width: UIScreen.main.bounds.width - 30, height: 275)
 
                         .gesture(DragGesture()
                             .onChanged({ value in
                                 withAnimation { showPlot = true }
-                                let translation = value.location.x - 40
+                                let translation = value.location.x - (width / 2)
+                                self.offset = CGSize(width: translation, height: 0)
                                 
                                 let index = max(min(Int((translation / UIScreen.main.bounds.width - 30).rounded() + 1), data.count - 1), 0)
                                 
-                                if !data.isEmpty {
+//                                if !data.isEmpty {
                                     print("AHHH", translation)
-                                    //                                   currentPlot = String(format: "%.2f", prevProgess + data[index])
-                                    //                                   self.translation = translation
+                                    currentPlot = String(format: "%.2f", data[index])
+                                    self.translation = translation
                                     
-                                    //                                   offset = CGSize(width: points[index].x - 40, height: points[index].y - height)
-                                }
+//                                    offset = CGSize(width: points[index].x - 40, height: points[index].y - height)
+//                                }
                                 
                             })
                                 .onEnded({ value in
                                     withAnimation { showPlot = false }
                                 })
                         )
+                    }
+
+                        
             )
         }
     }
@@ -97,9 +106,31 @@ struct LineGraph2: View {
     
     @ViewBuilder
     func buildIndicator() -> some View {
-        Capsule()
-            .frame(width: 20, height: 10)
-            .offset()
+        ZStack {
+        Text(currentPlot)
+            .font(.caption.bold())
+            .foregroundColor(Color.white)
+            .padding(.vertical, 6)
+            .padding(.horizontal, 10)
+            .background(Color.green, in: Capsule())
+        Rectangle()
+            .fill(Color.green)
+            .frame(width: 1, height: 45)
+        
+        Circle()
+            .fill(Color.green)
+            .frame(width: 22, height: 22)
+            .overlay(
+                Circle()
+                    .fill(.white)
+                    .frame(width: 10, height: 10)
+            )
+        
+        Rectangle()
+            .fill(Color.green)
+            .frame(width: 1, height: 55)
+        }
+        .frame(width: UIScreen.main.bounds.width - 200)
     }
 }
 
