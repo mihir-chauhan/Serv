@@ -16,8 +16,9 @@ struct ServiceAppApp: App {
     var body: some Scene {
         WindowGroup {
 //            NewGraph(data: [1,2,3])
-            LineGraph2()
-//            ContentView()
+//            LineGraph2().frame(height: 220)
+//                .padding()
+            ContentView()
         }
     }
 }

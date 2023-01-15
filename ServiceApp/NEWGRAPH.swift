@@ -10,7 +10,13 @@ import SwiftUI
 
 
 struct LineGraph2: View {
-    let data: [CGFloat] = [1.0, 3.0, 7.0, 5.5]
+//    let dataRaw: [CGFloat] = [
+        
+//        989,1200,750,790,650,950,1200,600,500,600,890,1203,1400,900,1250,
+//    1600,1200
+//    ]
+    var rawData: [CGFloat] = [1.0, 3.0, 7.0, 5.5, 7.0, 2.5]
+
     
     @State var currentPlot = ""
     
@@ -24,18 +30,28 @@ struct LineGraph2: View {
     @GestureState var isDrag: Bool = false
     
     var body: some View {
-        let incrementedValData: [CGFloat] = addNewValueToPrevious()
-
+        let data: [CGFloat] = addNewValueToPrevious()
+        if !data.isEmpty {
         GeometryReader{proxy in
             
-            let width = proxy.size.width
             let height = proxy.size.height
+            let width = (proxy.size.width) / CGFloat(data.count - 1)
             
-            let minValue = incrementedValData.min() ?? 0
-            let maxValue = incrementedValData.max() ?? 1
-            let points = incrementedValData.enumerated().map { x, y in
-                CGPoint(x: CGFloat(x) * width / CGFloat(self.data.count - 1),
-                        y: (height - ((y - minValue) * height) / (maxValue - minValue)) )
+//            let maxPoint = (data.max() ?? 0) + 100
+            
+            let points = data.enumerated().compactMap { item -> CGPoint in
+                
+                // getting progress and multiplyinh with height...
+                let maxValue = data.max() ?? 1
+                let progress = item.element / maxValue
+                
+                let pathHeight = progress * height
+                
+                // width..
+                let pathWidth = width * CGFloat(item.offset)
+                
+                // Since we need peak to top not bottom...
+                return CGPoint(x: pathWidth, y: -pathHeight + height)
             }
             
             ZStack{
@@ -46,10 +62,9 @@ struct LineGraph2: View {
                 Path{path in
                     
                     // drawing the points..
-                    path.move(to: points[0])
-                    for point in points.dropFirst() {
-                        path.addLine(to: point)
-                    }
+                    path.move(to: CGPoint(x: 0, y: 0))
+                    
+                    path.addLines(points)
                 }
                 .strokedPath(StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
                 .fill(
@@ -63,19 +78,23 @@ struct LineGraph2: View {
                 )
                 
                 // Path Bacground Coloring...
-//                FillBG()
-//                    .clipShape(
-//
-//                        Path{path in
-//
-//                            // drawing the points..
-//
-//                            path.move(to: points[0])
-//                            for point in points.dropFirst() {
-//                                path.addLine(to: point)
-//                            }
-//                        }
-//                    )
+                FillBG()
+                // Clipping the shape...
+                    .clipShape(
+                    
+                        Path{path in
+                            
+                            // drawing the points..
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            
+                            path.addLines(points)
+                            
+                            path.addLine(to: CGPoint(x: proxy.size.width, y: height))
+                            
+                            path.addLine(to: CGPoint(x: 0, y: height))
+                        }
+                    )
+                    .mask(Rectangle().cornerRadius(15, corners: [.bottomLeft, .bottomRight]))
                     //.padding(.top,15)
             }
             .overlay(
@@ -111,31 +130,30 @@ struct LineGraph2: View {
                         .fill(Color("Gradient1"))
                         .frame(width: 1,height: 50)
                 }
-                // For Gesture Calculation
+                // Fixed Frame..
+                // For Gesture Calculation...
                     .frame(width: 80,height: 170)
-                // 170 / 2 = 85 - 15 => circle ring size
+                // 170 / 2 = 85 - 15 => circle ring size...
                     .offset(y: 70)
                     .offset(offset)
                     .opacity(showPlot ? 1 : 0),
                 
                 alignment: .bottomLeading
             )
-            .contentShape(Rectangle())
+            .contentShape(RoundedRectangle(cornerRadius: 20))
             .gesture(DragGesture().onChanged({ value in
                 
                 withAnimation{showPlot = true}
                 
-                let translation = value.location.x
+                let translation = value.location.x - (width / CGFloat(data.count)) - 10
                 
-                // Getting index
-                #error("this line is what's causing the line graph drag indicator to not work as expected")
-                let index = max(min(Int((translation / width).rounded() + 1), incrementedValData.count - 1), 0)
-//                let index = (max(0 , 4))
-                print(incrementedValData[index])
-                currentPlot = "\(incrementedValData[index])"
+                // Getting index...
+                let index = max(min(Int((translation / width).rounded() + 1), data.count - 1), 0)
+                
+                currentPlot = "\(data[index])"
                 self.translation = translation
                 
-                // removing half width
+                // removing half width...
                 offset = CGSize(width: points[index].x - 40, height: points[index].y - height)
                 
             }).onEnded({ value in
@@ -150,7 +168,7 @@ struct LineGraph2: View {
         
             VStack(alignment: .leading){
                 
-                let max = incrementedValData.max() ?? 0
+                let max = data.max() ?? 0
                 
                 Text("\(Int(max)) hrs")
                     .font(.caption.bold())
@@ -158,7 +176,7 @@ struct LineGraph2: View {
                 
                 Spacer()
                 
-                Text("0 hr")
+                Text("0")
                     .font(.caption.bold())
                     .offset(y: 10)
             }
@@ -168,10 +186,11 @@ struct LineGraph2: View {
         .onChange(of: isDrag) { newValue in
             if !isDrag{showPlot = false}
         }
-        
-        
-        .frame(height: 220)
-        .padding(.top,25)
+//        .frame(width: self.width)
+        } else {
+            Text("Start volunteer to log hours")
+                .frame(width: UIScreen.main.bounds.width - 30)
+        }
     }
     
     @ViewBuilder
@@ -179,27 +198,30 @@ struct LineGraph2: View {
         LinearGradient(colors: [
         
             Color("Gradient2")
-                .opacity(0.3),
-            Color("Gradient2")
-                .opacity(0.2),
-            Color("Gradient2")
-                .opacity(0.1)]
-            + Array(repeating:                     Color("Gradient1")
-                .opacity(0.1), count: 4)
-            + Array(repeating:                     Color.clear, count: 2)
+                .opacity(0.5),
+            Color("Gradient1")
+                .opacity(0.5),
+            Color("Gradient1")
+                .opacity(0.3)
+            ]
+//            Color("Gradient2")
+//                .opacity(0.1)]
+//            + Array(repeating:                     Color("Gradient1")
+//                .opacity(0.1), count: 4)
+//                       + Array(repeating: Color("Gradient1").opacity(0.05), count: 2)
             , startPoint: .top, endPoint: .bottom)
     }
     
     func addNewValueToPrevious() -> [CGFloat] {
             var newArray: [CGFloat] = []
             
-            for (index, element) in data.enumerated() {
+            for (index, element) in rawData.enumerated() {
                 if index == 0 {
                     newArray.append(element)
                 }
                 if index > 0 {
                     let previousElement = newArray[index - 1]
-                    let thisElement = data[index]
+                    let thisElement = rawData[index]
                     let combined = previousElement + thisElement
                     
                     newArray.append(combined)
