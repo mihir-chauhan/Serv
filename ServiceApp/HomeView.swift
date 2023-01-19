@@ -127,51 +127,25 @@ struct HomeView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack {
                                         ForEach(0..<results.allCategories.count, id: \.self) { index in
-                                            
-                                            if self.defaults.bool(forKey: "\(results.allCategories[index].name)") {
-                                                Circle()
-                                                    .frame(width: 75, height: 75)
-                                                    .foregroundColor(Color("colorTertiary"))
-                                                
-                                                    .overlay(Text(results.allCategories[index].icon).font(.system(size: 30)))
-                                                    .onTapGesture() {
-                                                        results.allCategories[index].savedCategory!.toggle()
-                                                        UserDefaults.standard.setValue(results.allCategories[index].savedCategory!, forKey: "\(results.allCategories[index].name)")
-                                                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                                                        hapticResponse.impactOccurred()
-                                                        
-                                                    }
-                                                    .onLongPressGesture() {
-                                                        alertInfoIndex = index
-                                                        showingCategoryDetailAlert.toggle()
-                                                        let hapticResponse = UIImpactFeedbackGenerator(style: .heavy)
-                                                        hapticResponse.impactOccurred()
-                                                    }
-                                            }
-                                            
-                                            else {
-                                                Circle()
-                                                    .frame(width: 75, height: 75)
-                                                    .foregroundColor(colorScheme == .dark ? .systemGray4 : .systemGray6)
-                                                
-                                                    .overlay(Text(results.allCategories[index].icon).font(.system(size: 30)))
-                                                    .onTapGesture() {
-                                                        results.allCategories[index].savedCategory!.toggle()
-                                                        UserDefaults.standard.setValue(results.allCategories[index].savedCategory!, forKey: "\(results.allCategories[index].name)")
-                                                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                                                        hapticResponse.impactOccurred()
-                                                        
-                                                    }
-                                                    .onLongPressGesture() {
-                                                        alertInfoIndex = index
-                                                        showingCategoryDetailAlert.toggle()
-                                                        let hapticResponse = UIImpactFeedbackGenerator(style: .heavy)
-                                                        hapticResponse.impactOccurred()
-                                                    }
-                                            }
-                                            
-//                                                .foregroundColor(Color(self.defaults.bool(forKey: "\(results.allCategories[index].name)") ? "colorTertiary" : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
-                                               
+                                            Circle()
+                                                .frame(width: 75, height: 75)
+                                                .foregroundColor(Color(self.defaults.bool(forKey: "\(results.allCategories[index].name)") ? (#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4))
+                                                                       
+                                                                       : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
+                                                .overlay(Text(results.allCategories[index].icon).font(.system(size: 30)))
+                                                .onTapGesture() {
+                                                    results.allCategories[index].savedCategory!.toggle()
+                                                    UserDefaults.standard.setValue(results.allCategories[index].savedCategory!, forKey: "\(results.allCategories[index].name)")
+                                                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                                                    hapticResponse.impactOccurred()
+                                                    
+                                                }
+                                                .onLongPressGesture() {
+                                                    alertInfoIndex = index
+                                                    showingCategoryDetailAlert.toggle()
+                                                    let hapticResponse = UIImpactFeedbackGenerator(style: .heavy)
+                                                    hapticResponse.impactOccurred()
+                                                }
                                         }.padding(.trailing, 30)
                                     }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                                 }

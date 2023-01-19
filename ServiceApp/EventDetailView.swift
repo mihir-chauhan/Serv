@@ -120,7 +120,7 @@ struct EventDetailView: View {
                                     Text("About Organization").bold()
                                 } icon: {
                                     Image(systemName: "info.circle")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.primary)
                                 }
                                 Spacer()
                             }
