@@ -32,7 +32,7 @@ struct Account: View {
                             .padding()
                             .foregroundColor(.white)
                             .frame(width: display.width, height: getHeaderHeight(), alignment: .bottom)
-                            .background(Color("color10"), in: CustomCorner(corners: [.bottomRight], radius: getCornerRadius()))
+                            .background(Color("colorSecondary"), in: CustomCorner(corners: [.bottomRight], radius: getCornerRadius()))
                     } else {
                         // Fallback on earlier versions
                     }

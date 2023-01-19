@@ -172,7 +172,10 @@ struct ScheduleCardDetailView: View {
                     .padding()
                     .clipped()
                     .transition(.move(edge: .bottom))
-                    .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
+                    .background(Color(
+                        "colorPrimary")
+//                        #colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4))
+                    )
                     .onTapGesture {
                         let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                         hapticResponse.impactOccurred()

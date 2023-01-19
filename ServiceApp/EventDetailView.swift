@@ -218,7 +218,7 @@ struct EventDetailView: View {
                     }) {
                         Capsule()
                             .frame(width: 135, height: 45)
-                            .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .blue : .red) : .gray)
+                            .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? Color("colorTertiary") : .red) : .gray)
                             .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white))
                     }.disabled(reachedMaxSlotBool)
                 }
