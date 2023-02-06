@@ -22,14 +22,22 @@ struct FriendCardView: View {
                 AsyncImage(url: data.photoURL) { img in
                     img
                         .resizable()
+//                        .cornerRadius(20)
                         .scaledToFill()
+                        .frame(width: 65, height: 65)
+//                        .padding(.leading, 6.5)
+
+                        .cornerRadius(15)
                 } placeholder: {
                     Color.gray
+//                        .padding(.leading, 6.5)
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .frame(width: 65, height: 65)
-                .clipped()
-                .padding(.leading, 6.5)
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
+
+                .frame(width: 75, height: 75)
+//                .clipped()
+                
+                .cornerRadius(15)
                     
 
                 HStack {

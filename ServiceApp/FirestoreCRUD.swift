@@ -340,6 +340,30 @@ class FirestoreCRUD: ObservableObject {
         
     }
     
+    func getNumberOfHours(uid: String, completion: @escaping (_ rawData: [CGFloat]) -> ()) {
+        var rawData: [CGFloat] = []
+        db.collection("Volunteer Accounts")
+            .document(uid)
+            .collection("Attended Event Data")
+            .order(by: "checkOutTime", descending: false)
+            .getDocuments { doc, err in
+                if let err = err {
+                    print(err.localizedDescription)
+                    return
+                }
+                if !doc!.isEmpty {
+                    for i in doc!.documents {
+                        let hourSpentPerEvent = i.get("hoursSpent") as? Double
+                        
+                        rawData.append(CGFloat(hourSpentPerEvent!))
+                        print("BLAH", hourSpentPerEvent)
+                    }
+                    print("RAW DATA HERE", rawData)
+                    completion(rawData)
+                }
+            }
+    }
+    
     //    func updatePfpInFirestore(url: URL) {
     //        db.collection("Volunteer Accounts").document(user_uuid!).updateData([
     //            "UserInfo.photoURL" : url.absoluteString

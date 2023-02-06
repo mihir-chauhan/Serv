@@ -22,6 +22,7 @@ struct Account: View {
     @State var signOutConfirmation = false
 
     @State var eventHistory: [EventHistoryInformationModel] = []
+    @State var hoursSpent: [CGFloat] = [2, 3, 4]
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -120,13 +121,21 @@ struct Account: View {
 //                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
 //                        )
 //                        .padding(.horizontal)
-                    LineGraph2(rawData: [CGFloat](rawValue: (viewModel.decodeUserInfo()?.hoursSpent)!.rawValue) ?? [])
+                    LineGraph2(rawData: hoursSpent)
                         .frame(height: 220)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-                        )
+                        .padding(.bottom, 15)
+//                    LineGraph2(rawData: [CGFloat](rawValue: (viewModel.decodeUserInfo()?.hoursSpent)!.rawValue) ?? [])
+//                        .frame(height: 220)
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+//                        )
                         .padding(.horizontal)
+                        .task {
+                            FirestoreCRUD().getNumberOfHours(uid: viewModel.decodeUserInfo()!.uid, completion: { hoursSpent in
+                                self.hoursSpent = hoursSpent
+                            })
+                        }
                         
                     
                     Button(action: {
@@ -187,14 +196,14 @@ struct Account: View {
             }
             .padding(.bottom, 100)
             .modifier(OffsetModifier(offset: $offset))
-            }
+        }
         
         
-            .coordinateSpace(name: "SCROLL")
-            .fullScreenCover(isPresented: $toggleEditInfoSheet) {
-                EditAccountDetails(toggleEditInfoSheet: $toggleEditInfoSheet)
-            }
-            .fullScreenCover(isPresented: $toggleEventHistory) {
+        .coordinateSpace(name: "SCROLL")
+        .fullScreenCover(isPresented: $toggleEditInfoSheet) {
+            EditAccountDetails(toggleEditInfoSheet: $toggleEditInfoSheet)
+        }
+        .fullScreenCover(isPresented: $toggleEventHistory) {
                 NavigationView {
                     ScrollView(showsIndicators: false) {
                         VStack(alignment: .leading) {

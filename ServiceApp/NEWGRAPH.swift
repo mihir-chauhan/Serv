@@ -107,7 +107,7 @@ struct LineGraph2: View {
                         .foregroundColor(.white)
                         .padding(.vertical,6)
                         .padding(.horizontal,10)
-                        .background(Color("Gradient1"),in: Capsule())
+                        .background(Color("Gradient1"), in: Capsule())
                         .offset(x: translation < 10 ? 30 : 0)
                         .offset(x: translation > (proxy.size.width - 60) ? -30 : 0)
                     
