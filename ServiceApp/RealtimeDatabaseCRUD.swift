@@ -147,7 +147,7 @@ class FirebaseRealtimeDatabaseCRUD {
                     completion(model)
                 } else {
                     for i in snap!.documents {
-                        hoursSpentArray.append(i.get("hoursSpent") as! CGFloat)
+                        hoursSpentArray.append(i.get("hoursSpent") as? CGFloat ?? 0)
                         counter += 1
                         print("154", displayName, bio)
 
