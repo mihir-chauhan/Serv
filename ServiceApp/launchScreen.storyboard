@@ -44,6 +44,6 @@
     </scenes>
     <resources>
         <image name="appIconGradient" width="682.66668701171875" height="682.66668701171875"/>
-        <image name="appIconNoBg" width="682.66668701171875" height="682.66668701171875"/>
+        <image name="appIconNoBg" width="341.33334350585938" height="341.33334350585938"/>
     </resources>
 </document>
