@@ -25,8 +25,8 @@ struct HomeScheduleDetailView: View {
                         GeometryReader { geo in
                             ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
                                 LinearGradient(gradient: Gradient(colors: [
-                                    Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
-                                    Color.pink
+                                    Color("colorSecondary"),
+                                    Color("colorPrimary")
                                 ]), startPoint: .topLeading, endPoint: .bottomTrailing)
                                 .cornerRadius(20, corners: .allCorners)
                                 .matchedGeometryEffect(id: "hero", in: animation)

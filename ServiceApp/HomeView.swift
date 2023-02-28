@@ -241,7 +241,9 @@ struct HomeView: View {
                                 for i in 0..<eventsArray!.count {
                                     print("HIHDflds33", eventsArray![i])
                                     results.getSpecificEvent(eventID: eventsArray![i]) { event in
-                                        self.eventDatas.append(event)
+//                                        if event.time < Date.now {
+                                            self.eventDatas.append(event)
+//                                        }
                                         print("FFF33F ", eventDatas.count)
                                     }
                                 }
@@ -254,7 +256,9 @@ struct HomeView: View {
                                     for i in 0..<eventsArray!.count {
                                         print("HIHDflds77", eventsArray![i])
                                         results.getSpecificEvent(eventID: eventsArray![i]) { event in
-                                            self.eventDatas.append(event)
+//                                            if event.time < Date.now {
+                                                self.eventDatas.append(event)
+//                                            }
                                             print("FFF77F ", eventDatas.count)
                                         }
                                     }
