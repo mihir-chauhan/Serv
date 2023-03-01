@@ -46,9 +46,10 @@ struct ContentView: View {
             self.signInState = newValue
         }
         .task {
-            print("Not1stLaunch?", UserDefaults.standard.bool(forKey: "1stLaunch"))
-            if(!UserDefaults.standard.bool(forKey: "1stLaunch")) {
-                UserDefaults.standard.setValue(true, forKey: "1stLaunch")
+            print("Not1stLaunch?", UserDefaults.standard.bool(forKey: "First_Launch"))
+            if(!UserDefaults.standard.bool(forKey: "First_Launch")) {
+                viewModel.signOut()
+                UserDefaults.standard.setValue(true, forKey: "First_Launch")
                 results.queryAllCategories(resetAllToTrue: true)
             }
         }
