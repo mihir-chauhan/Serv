@@ -71,7 +71,7 @@ struct AccountSignUpView: View {
                             }
                         }
                     }.sheet(isPresented: $selectBirthYearSheet) {
-                        AgeVerification(showView: $selectBirthYearSheet, code: $birthYear, dismissDisabled: false)
+                        AgeVerification(showView: $selectBirthYearSheet, code: $birthYear, dismissDisabled: true)
 //                            .presentationDetents([.fraction(0.15)])
                     }
                 

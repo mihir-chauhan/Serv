@@ -36,7 +36,7 @@ struct HomeView: View {
             Group {
                 ZStack {
                     if !toggleHeroAnimation {
-                        ScrollView {
+                        ScrollView(showsIndicators: false) {
                             VStack(alignment: .leading) {
                                 Text("Home")
                                     .font(.largeTitle)
@@ -146,8 +146,8 @@ struct HomeView: View {
                                                     let hapticResponse = UIImpactFeedbackGenerator(style: .heavy)
                                                     hapticResponse.impactOccurred()
                                                 }
-                                        }.padding(.trailing, 30)
-                                    }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
+                                        }.padding(.trailing, 20)
+                                    }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
                                 }
                                 
                                 Spacer().frame(height: 15)
@@ -167,8 +167,8 @@ struct HomeView: View {
                                                     }
                                                 }
                                             }
-                                        }
-                                    }.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
+                                        }.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 0))
+                                    }//.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
                                     //
                                     //
                                     //                            }

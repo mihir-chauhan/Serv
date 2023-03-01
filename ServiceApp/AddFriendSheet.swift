@@ -107,13 +107,13 @@ struct AddFriendSheet: View {
                         }
                     }
                 }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: { showPhotoPicker.toggle() }) {
-                            Text("Choose Photo...")
-                        }
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .navigationBarTrailing) {
+//                        Button(action: { showPhotoPicker.toggle() }) {
+//                            Text("Choose Photo...")
+//                        }
+//                    }
+//                }
                 .toast(isPresenting: $showSuccess) {
                     AlertToast(type: .complete(.green), title: "Friend Added")
                 }

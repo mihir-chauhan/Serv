@@ -22,7 +22,7 @@ struct Account: View {
     @State var signOutConfirmation = false
 
     @State var eventHistory: [EventHistoryInformationModel] = []
-    @State var hoursSpent: [CGFloat] = [2, 3, 4]
+    @State var hoursSpent: [CGFloat] = []
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
