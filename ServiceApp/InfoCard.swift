@@ -25,8 +25,8 @@ struct OrganizationInfoCard: View {
                         Label {
                             Text("About Organization").bold()
                         } icon: {
-                            Image(systemName: "info.circle")
-                                .foregroundColor(.primary)
+                            Image(systemName: "info.circle.fill")
+                                .foregroundColor(.blue)
                         }
                         Spacer()
                     }
@@ -139,5 +139,60 @@ private struct ViewHeightKey: PreferenceKey {
     static var defaultValue: CGFloat { 0 }
     static func reduce(value: inout Value, nextValue: () -> Value) {
         value = value + nextValue()
+    }
+}
+
+struct SpecialRequirementsInfoCard: View {
+    var specialRequirements: String = "No special requirements. Anyone can volunteer!"
+    @Binding var expandInfo: Bool
+
+    @State var infoSubviewHeight: CGFloat = 0
+
+    var body: some View {
+        VStack {
+            RoundedRectangle(cornerRadius: 20)
+                .frame(height: 40)
+                .foregroundColor(.clear)
+                .overlay(
+                        HStack {
+                            Label {
+                                Text("Special Requirements").bold()
+                            } icon: {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(.yellow)
+                            }
+                            Spacer()
+                        }
+                )
+            VStack {
+                Text(specialRequirements)
+                    .font(.caption)
+                
+                    .padding(.top, 5)
+                    .padding(.vertical, 10)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+                    
+                
+        
+        
+        }.background(GeometryReader {
+            Color.clear.preference(key: ViewHeightKey.self,
+                                   value: $0.frame(in: .local).size.height)
+        })
+        .onPreferenceChange(ViewHeightKey.self) { infoSubviewHeight = $0 }
+        .frame(height: expandInfo ? infoSubviewHeight : 35, alignment: .top)
+        .padding()
+        .clipped()
+        .transition(.move(edge: .bottom))
+        .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
+        .onTapGesture {
+            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+            hapticResponse.impactOccurred()
+            withAnimation(.spring()) {
+                expandInfo.toggle()
+            }
+        }
+        .cornerRadius(20)
     }
 }

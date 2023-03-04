@@ -58,6 +58,18 @@ class FirebaseRealtimeDatabaseCRUD {
     
     func writeFriends(for uuidString: String, friendUUID: String) {
         ref.collection("Volunteer Accounts").document(uuidString).updateData(["Friends": FieldValue.arrayUnion([friendUUID])])
+        
+        // saving friend UUID's img file to local
+        ref.collection("Volunteer Accounts").document(friendUUID).getDocument { snap, err in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            }
+            let value = snap?.get("UserInfo") as? NSDictionary
+            let photoURL = value?["photoURL"] as? String ?? "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg"
+            
+            
+        }
     }
     
     func writeEvents(for uuidString: String, eventUUID: String) {
@@ -75,6 +87,7 @@ class FirebaseRealtimeDatabaseCRUD {
             } else {
                 completion(false)
             }
+            
         }
     }
     
@@ -101,7 +114,6 @@ class FirebaseRealtimeDatabaseCRUD {
             "verifiedEmail" : false,
             "birthYear": userInfo.birthYear,
         ] as [String : Any]
-        print("ajflajdfnasdjfnalsdfnlasfnjasdf \(userInfoAsDict)")
         ref.collection("Volunteer Accounts").document(userInfo.uid!).setData(["UserInfo": userInfoAsDict])
         
 //        will be set when user creates it

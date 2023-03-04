@@ -15,7 +15,6 @@ import AuthenticationServices
 
 class FIRCloudImages {
     static let storage = Storage.storage()
-    //    static let cache = NSCache<NSString, NSData>()
     
     private static func getRemoteImages(gsURL: String, eventID: String, eventDate: Date, completion: @escaping ((UIImage)?) -> ()) {
         let storageRef = storage.reference().child("EventImages")
@@ -68,7 +67,6 @@ class FIRCloudImages {
             }
             let size = metadata.size
             print("size", size)
-            //            }
         }
         profilePicRef.downloadURL { (url, error) in
             guard let downloadURL = url else {
@@ -83,9 +81,6 @@ class FIRCloudImages {
             viewModel.encodeUserInfo(for: UserInfoFromAuth(
                 uid: oldStuff.uid, displayName: oldStuff.displayName, username: "no username", photoURL: downloadURL, email: oldStuff.email, bio: oldStuff.bio, birthYear: oldStuff.birthYear
             ))
-            //            TODO: must update userinfo user defaults
-            print("HERE", downloadURL.absoluteString)
-            
         }
     }
 }

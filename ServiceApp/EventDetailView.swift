@@ -24,7 +24,9 @@ struct EventDetailView: View {
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
     
     @State var organizationData: OrganizationInformationModel?
-    @State var expandInfo: Bool = false
+    
+    @State var expandSpecialReqInfo: Bool = false
+    @State var expandOrganizationInfo: Bool = false
     
     private func checkForLiveEvents(date: Date) -> String {
         let dateFormatter = DateFormatter()
@@ -93,19 +95,21 @@ struct EventDetailView: View {
                             }
                         }
                     }
-                    
+                    Text("Description")
+                        .bold()
                     Text(data.description)
                         .font(.caption)
                         .padding(.bottom, 5)
-                    Text("Special requirements:")
-                        .bold()
-                    Text(data.specialRequirements)
-                        .font(.caption)
-                        .padding(.bottom, 5)
+//                    Text("Special requirements:")
+//                        .bold()
+//                    Text(data.specialRequirements)
+//                        .font(.caption)
+//                        .padding(.bottom, 5)
                 }
                 
+                SpecialRequirementsInfoCard(specialRequirements: data.specialRequirements, expandInfo: $expandSpecialReqInfo)
                 // Organization Card Collapsible View
-                OrganizationInfoCard(organizationData: $organizationData, expandInfo: $expandInfo)
+                OrganizationInfoCard(organizationData: $organizationData, expandInfo: $expandOrganizationInfo)
 
                 
                 HStack {

@@ -10,23 +10,16 @@ import SwiftUI
 
 
 struct LineGraph2: View {
-//    let dataRaw: [CGFloat] = [
-        
-//        989,1200,750,790,650,950,1200,600,500,600,890,1203,1400,900,1250,
-//    1600,1200
-//    ]
     var rawData: [CGFloat] = [1.0, 3.0, 7.0, 5.5, 7.0, 2.5]
 
-    
+    @State var showPlot = false
     @State var currentPlot = ""
     
     // Offset...
     @State var offset: CGSize = .zero
     
-    @State var showPlot = false
     
     @State var translation: CGFloat = 0
-    
     @GestureState var isDrag: Bool = false
     
     var body: some View {
@@ -95,21 +88,17 @@ struct LineGraph2: View {
                         }
                     )
                     .mask(Rectangle().cornerRadius(15, corners: [.bottomLeft, .bottomRight]))
-                    //.padding(.top,15)
             }
             .overlay(
             
                 // Drag Indiccator...
                 VStack(spacing: 0){
-                    
-                    Text(currentPlot)
+                    Text("\(currentPlot)")
                         .font(.caption.bold())
                         .foregroundColor(.white)
                         .padding(.vertical,6)
                         .padding(.horizontal,10)
                         .background(Color("Gradient1"), in: Capsule())
-                        .offset(x: translation < 10 ? 30 : 0)
-                        .offset(x: translation > (proxy.size.width - 60) ? -30 : 0)
                     
                     Rectangle()
                         .fill(Color("Gradient1"))
@@ -150,7 +139,8 @@ struct LineGraph2: View {
                 // Getting index...
                 let index = max(min(Int((translation / width).rounded() + 1), data.count - 1), 0)
                 
-                currentPlot = "\(data[index])"
+                let formatted = String(format: "%.1f", data[index])
+                currentPlot = formatted
                 self.translation = translation
                 
                 // removing half width...
@@ -180,13 +170,12 @@ struct LineGraph2: View {
                     .font(.caption.bold())
                     .offset(y: 10)
             }
-            .frame(maxWidth: .infinity,alignment: .leading)
+                .frame(maxWidth: .infinity,alignment: .leading)
         )
         .padding(.horizontal,10)
         .onChange(of: isDrag) { newValue in
             if !isDrag{showPlot = false}
         }
-//        .frame(width: self.width)
         } else {
             Text("Not enough data to display graph")
                 .frame(width: UIScreen.main.bounds.width - 30)
