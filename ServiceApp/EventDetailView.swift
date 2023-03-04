@@ -97,7 +97,7 @@ struct EventDetailView: View {
                     }
                     Text("Description")
                         .bold()
-                    Text(data.description)
+                    Text("\t \(data.description)")
                         .font(.caption)
                         .padding(.bottom, 5)
 //                    Text("Special requirements:")
