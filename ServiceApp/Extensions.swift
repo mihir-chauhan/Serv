@@ -34,6 +34,15 @@ struct CloseButton: View {
     }
 }
 
+// MARK: Phone # Formatter
+extension String {
+    func formattedPhoneNumber() -> String {
+        let areaCode = self.prefix(3)
+        let prefix = self.dropFirst(3).prefix(3)
+        let lineNumber = self.dropFirst(6)
+        return String(format: "(%@)-%@-%@", areaCode as CVarArg, prefix as CVarArg, lineNumber as CVarArg)
+    }
+}
 
 //MARK: MONTH DAY YEAR
 extension Date {

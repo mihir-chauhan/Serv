@@ -88,31 +88,6 @@ struct ScheduleCardDetailView: View {
                                 .background(Color.white.opacity(0.85))
                                 .clipShape(Circle())
                         }
-//                        Button(action: {
-//                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-//                            hapticResponse.impactOccurred()
-//                            showingAlert = true
-//                        }) {
-//                            Image(systemName: "trash.fill")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: 20, height: 20)
-//                                .padding()
-//                                .foregroundColor(Color(.red))
-//                                .background(Color.white.opacity(0.7))
-//                                .clipShape(Circle())
-//
-//
-//                        }.alert("Are you sure you want to remove event?", isPresented: $showingAlert) {
-//                            Button("Cancel", role: .cancel) { }
-//                            Button("Remove", role: .destructive) {
-//                                FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
-//                                FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-//                                withAnimation(.spring()) {
-//                                    self.show = false
-//                                }
-//                            }
-//                        }
                     }
                     .padding(.top, 55)
                     .padding(.horizontal)
@@ -131,7 +106,6 @@ struct ScheduleCardDetailView: View {
                             
                         }
                         Spacer()
-//                        Text(dateToString(date: data.time))
                         Text(data.time.dateToString())
                     }
                     
@@ -183,83 +157,8 @@ struct ScheduleCardDetailView: View {
                     }
                     .cornerRadius(20)
                     
-                    VStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .frame(height: 40)
-                            .foregroundColor(.clear)
-                            .overlay(
-                                HStack {
-                                    Label {
-                                        Text("About Organization").bold()
-                                    } icon: {
-                                        Image(systemName: "info.circle")
-                                            .foregroundColor(.blue)
-                                    }
-                                    Spacer()
-                                }
-                            )
-                        VStack {
-                            HStack {
-                                Text("Name: ")
-                                    .bold()
-                                Text(organizationData?.name ?? "Loading")
-                                Spacer()
-                            }
-                            .padding(.vertical, 10)
-                            .fixedSize(horizontal: false, vertical: true)
-                            HStack {
-                                Text("Address: ")
-                                    .bold()
-                                Text(organizationData?.address ?? "Loading")
-                                Spacer()
-                            }
-                            .padding(.vertical, 10)
-                            .fixedSize(horizontal: false, vertical: true)
-                            HStack {
-                                Text("Email: ")
-                                    .bold()
-                                Text(organizationData?.email ?? "Loading")
-                                Spacer()
-                            }
-                            .padding(.vertical, 10)
-                            .fixedSize(horizontal: false, vertical: true)
-                            HStack {
-                                Text("Phone: ")
-                                    .bold()
-                                Text(organizationData?.phone ?? "Loading")
-                                Spacer()
-                            }
-                            .padding(.vertical, 10)
-                            .fixedSize(horizontal: false, vertical: true)
-                            HStack {
-                                Text("Website: ")
-                                    .bold()
-                                Text(organizationData?.website ?? "Loading")
-                                Spacer()
-                            }
-                            .padding(.vertical, 10)
-                            .fixedSize(horizontal: false, vertical: true)
-                        }
-                    }.background(GeometryReader {
-                        Color.clear.preference(key: ViewHeightKey.self,
-                                               value: $0.frame(in: .local).size.height)
-                    })
-                    .onPreferenceChange(ViewHeightKey.self) { infoSubviewHeight = $0 }
-                    .frame(height: expandInfo ? infoSubviewHeight : 35, alignment: .top)
-                    .padding()
-                    .clipped()
-                    .transition(.move(edge: .bottom))
-                    .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
-                    .onTapGesture {
-                        print("organizationData: ", organizationData?.address ?? "Loading")
-                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                        hapticResponse.impactOccurred()
-                        withAnimation(.spring()) {
-                            expandInfo.toggle()
-                        }
-                    }
-                    .cornerRadius(20)
-
+                    
+                    OrganizationInfoCard(organizationData: $organizationData, expandInfo: $expandInfo)
                     
                     
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -290,8 +189,6 @@ struct ScheduleCardDetailView: View {
                 .padding()
                 
                 
-                //                }
-                
                 
             }.task {
                 eventImages = []
@@ -321,7 +218,6 @@ struct ScheduleCardDetailView: View {
         }
     }
 }
-
 
 
 private struct ViewHeightKey: PreferenceKey {

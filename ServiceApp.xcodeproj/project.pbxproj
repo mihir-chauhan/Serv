@@ -61,6 +61,7 @@
 		BEBE4DA52893A4AF003A0CE9 /* GeoFire in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA42893A4AF003A0CE9 /* GeoFire */; };
 		BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */; };
 		BEC2DAC329B2C7F4000D6A44 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC2DAC229B2C7F4000D6A44 /* Extensions.swift */; };
+		BEC2DAC529B331B5000D6A44 /* OrganizationInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC2DAC429B331B5000D6A44 /* OrganizationInfoCard.swift */; };
 		BEC7640F288FAECC00F90651 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC7640E288FAECC00F90651 /* OnboardingManager.swift */; };
 		BED38A7427A5E10B0080D5B9 /* PhotoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
@@ -119,6 +120,7 @@
 		BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidationSignUp.swift; sourceTree = "<group>"; };
 		BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImagesWithCache.swift; sourceTree = "<group>"; };
 		BEC2DAC229B2C7F4000D6A44 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		BEC2DAC429B331B5000D6A44 /* OrganizationInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationInfoCard.swift; sourceTree = "<group>"; };
 		BEC7640E288FAECC00F90651 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFileManager.swift; sourceTree = "<group>"; };
 		BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendEventsInCommon.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				B3E6FCD4277C59E2004DEE5B /* MapListElements.swift */,
 				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
 				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
+				BEC2DAC429B331B5000D6A44 /* OrganizationInfoCard.swift */,
 				B36C7DF628935F1D009FC23E /* GeohashBox.swift */,
 				B36C7DF828935F35009FC23E /* Geohash.swift */,
 			);
@@ -397,6 +400,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEC2DAC529B331B5000D6A44 /* OrganizationInfoCard.swift in Sources */,
 				B3E6FCD5277C59E2004DEE5B /* MapListElements.swift in Sources */,
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,
 				B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */,

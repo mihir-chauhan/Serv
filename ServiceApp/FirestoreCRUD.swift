@@ -195,7 +195,6 @@ class FirestoreCRUD: ObservableObject {
     
     
     func getSpecificEvent(eventID: String, completion: @escaping (_ data: EventInformationModel) -> ()) {
-        print("countcount", allCategories.count)
         for (index, category) in allCategories.enumerated() {
             db.collection("EventTypes/\(category.name)/Events").document(eventID)
                 .getDocument { snap, err in
