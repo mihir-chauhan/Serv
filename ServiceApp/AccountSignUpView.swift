@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct AccountSignUpView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    @ObservedObject private var combineViewModel = FormValidationSignUp()
+    @EnvironmentObject var authVM: AuthViewModel
+    @ObservedObject private var formSignUpVM = FormValidationSignUp()
     @Binding var goToRegistration: Bool
     @State var firstName: String = ""
     @State var lastName: String = ""
@@ -20,75 +20,72 @@ struct AccountSignUpView: View {
     
     @State var disableSubmitButton: Bool = false
     
-    //    init(combineViewModel: FormValidationUsingCombine = FormValidationUsingCombine()) {
-    //          self.combineViewModel = combineViewModel
-    //      }
+    
     var buttonOpacity: Double {
-        return combineViewModel.isValid ? 1 : 0.5
+        return formSignUpVM.isValid ? 1 : 0.5
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-                Text("Sign Up").font(.largeTitle).bold()
-                    .padding()
-
+            Text("Sign Up").font(.largeTitle).bold()
+                .padding()
+            
             VStack {
-                    Form {
-                        Section(header: Text("name"), footer: Text("Please use your full name, this is what event hosts will go by").fixedSize(horizontal: false, vertical: true)) {
-
-                            TextField("Name", text: $combineViewModel.username)
-                                .disableAutocorrection(true)
-
-                        }
-
-                        Section(header: Text("Email"), footer: Text(combineViewModel.inlineErrorForEmail).foregroundColor(.red)) {
-
-                            TextField("Email", text: $combineViewModel.email)
-                                .autocapitalization(.none)
-                                .keyboardType(.emailAddress)
-                                .disableAutocorrection(true)
-
-                        }
-                        Section(header: Text("password"), footer: Text(combineViewModel.inlineErrorForPassword).foregroundColor(.red)) {
-
-                            
-                            SecureField("Password", text: $combineViewModel.password)
-                            SecureField("Confirm Password", text: $combineViewModel.passwordAgain)
-
-                        }
+                Form {
+                    Section(header: Text("name"), footer: Text("Please use your full name, this is what event hosts will go by").fixedSize(horizontal: false, vertical: true)) {
                         
-                        Section(header: Text("Birth year")) {
-                            Button(action: {
-                                self.selectBirthYearSheet.toggle()
-                            }) {
-                                HStack {
-                                    Text("Select Birth Year")
-                                    Spacer()
-                                    Text(verbatim: birthYear == 0 ? "" : "\(birthYear)")
-//                                        .foregroundColor(.black)
-                                        .bold()
-                                }
+                        TextField("Name", text: $formSignUpVM.username)
+                            .disableAutocorrection(true)
+                        
+                    }
+                    
+                    Section(header: Text("Email"), footer: Text(formSignUpVM.inlineErrorForEmail).foregroundColor(.red)) {
+                        
+                        TextField("Email", text: $formSignUpVM.email)
+                            .autocapitalization(.none)
+                            .keyboardType(.emailAddress)
+                            .disableAutocorrection(true)
+                        
+                    }
+                    Section(header: Text("password"), footer: Text(formSignUpVM.inlineErrorForPassword).foregroundColor(.red)) {
+                        
+                        
+                        SecureField("Password", text: $formSignUpVM.password)
+                        SecureField("Confirm Password", text: $formSignUpVM.passwordAgain)
+                        
+                    }
+                    
+                    Section(header: Text("Birth year")) {
+                        Button(action: {
+                            self.selectBirthYearSheet.toggle()
+                        }) {
+                            HStack {
+                                Text("Select Birth Year")
+                                Spacer()
+                                Text(verbatim: birthYear == 0 ? "" : "\(birthYear)")
+                                //                                        .foregroundColor(.black)
+                                    .bold()
                             }
                         }
-                    }.sheet(isPresented: $selectBirthYearSheet) {
-                        AgeVerification(showView: $selectBirthYearSheet, code: $birthYear, dismissDisabled: true)
-//                            .presentationDetents([.fraction(0.15)])
                     }
+                }.sheet(isPresented: $selectBirthYearSheet) {
+                    AgeVerification(showView: $selectBirthYearSheet, code: $birthYear, dismissDisabled: true)
+                }
                 
                 Button(action: {
                     if birthYear == 0 {
                         birthYearAlert = true
                     } else {
-                        viewModel.createUser(name: combineViewModel.username, username: "", email: combineViewModel.email, password: combineViewModel.password, birthYear: birthYear)
+                        authVM.createUser(name: formSignUpVM.username, username: "", email: formSignUpVM.email, password: formSignUpVM.password, birthYear: birthYear)
                     }
                 }) {
                     Capsule()
-                        .foregroundColor(!combineViewModel.isValid ? Color.green.opacity(0.3) : Color.green)
+                        .foregroundColor(!formSignUpVM.isValid ? Color.green.opacity(0.3) : Color.green)
                         .frame(width: 175, height: 45)
                         .overlay(Text("Sign Up").foregroundColor(Color.black).bold())
                         .padding()
-                }.disabled(!combineViewModel.isValid)
-                Text(viewModel.inlineErrorDialog).foregroundColor(.red).bold().fixedSize()
+                }.disabled(!formSignUpVM.isValid)
+                Text(authVM.inlineErrorDialog).foregroundColor(.red).bold().fixedSize()
                 Button(action: {
                     withAnimation {
                         goToRegistration = false
@@ -99,12 +96,11 @@ struct AccountSignUpView: View {
                         .padding(.bottom, 30)
                 }
             }
-            }.padding(.horizontal, 15)
+        }.padding(.horizontal, 15)
             .ignoresSafeArea(.keyboard)
             .cornerRadius(20)
-//            .background(Color(.systemGray6))
             .background(Color("signUpBgColor"))
-        }
     }
+}
 
 

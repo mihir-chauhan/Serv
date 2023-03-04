@@ -11,19 +11,21 @@ import GoogleSignIn
 struct ContentView: View {
     @StateObject private var tabBarController = TabBarController()
     @StateObject private var sheetObserver = SheetObserver()
-    @StateObject private var mapViewModel = LocationTrackerViewModel()
-    @StateObject private var viewModel = AuthViewModel.shared
+    @StateObject private var locationVM = LocationTrackerViewModel()
+    @StateObject private var authVM = AuthViewModel.shared
     @StateObject private var results = FirestoreCRUD()
     @StateObject private var currentlyPresentedScheduleCard = CurrentlyPresentedScheduleCard()
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedOut
     @AppStorage("hasOnboarded") var hasOnboarded: Bool = false
+    
+    // dummy data for testing single views
     @State var data = EventInformationModel(id: UUID(), FIRDocID: "", name: "Trash Cleanup", host: "ABC Foundation", ein: "32-1263743", category: "Environmental", time: Date(), enterDetailView: true)
     var body: some View {
         VStack {
             if(!hasOnboarded) {
                 OnboardingView(hasOnboarded: $hasOnboarded)
             } else {
-                if(self.viewModel.loading) {
+                if (self.authVM.loading) {
                     ProgressView()
                 } else {
                     switch self.signInState {
@@ -38,54 +40,20 @@ struct ContentView: View {
         }
         .environmentObject(tabBarController)
         .environmentObject(sheetObserver)
-        .environmentObject(mapViewModel)
-        .environmentObject(viewModel)
+        .environmentObject(locationVM)
+        .environmentObject(authVM)
         .environmentObject(results)
         .environmentObject(currentlyPresentedScheduleCard)
-        .onChange(of: viewModel.state) { newValue in
+        .onChange(of: authVM.state) { newValue in
             self.signInState = newValue
         }
         .task {
             print("Not1stLaunch?", UserDefaults.standard.bool(forKey: "First_Launch"))
             if(!UserDefaults.standard.bool(forKey: "First_Launch")) {
-                viewModel.signOut()
+                authVM.signOut()
                 UserDefaults.standard.setValue(true, forKey: "First_Launch")
                 results.queryAllCategories(resetAllToTrue: true)
             }
         }
     }
 }
-
-
-extension Date {
-    
-    // Convert local time to UTC (or GMT)
-    func toGlobalTime() -> Date {
-        let timezone = TimeZone.current
-        let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
-        return Date(timeInterval: seconds, since: self)
-    }
-    
-    // Convert UTC (or GMT) to local time
-    func toLocalTime() -> Date {
-        let timezone = TimeZone.current
-        let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
-        return Date(timeInterval: seconds, since: self)
-    }
-    
-    var startOfDay: Date {
-        return Calendar.current.startOfDay(for: self)
-    }
-    
-    var endOfDay: Date {
-        var components = DateComponents()
-        components.day = 1
-        components.second = -1
-        return Calendar.current.date(byAdding: components, to: startOfDay)!
-    }
-}
-
-
-// Try it
-//let utcDate = Date().toGlobalTime()
-//let localDate = utcDate.toLocalTime()

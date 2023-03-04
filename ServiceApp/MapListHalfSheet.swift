@@ -107,15 +107,8 @@ struct MapListHalfSheet<Content: View>: View {
     var body: some View {
         content()
             .offset(y: calculateOffset())
-            .animation(.spring())
+            .animation(.spring(), value: calculateOffset())
             .edgesIgnoringSafeArea(.all)
     }
 }
 
-struct MapListHalfSheet_Previews: PreviewProvider {
-    static var previews: some View {
-        MapListHalfSheet(sheetMode: .constant(.quarter)) {
-            
-        }
-    }
-}

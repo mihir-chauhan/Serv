@@ -7,20 +7,17 @@
 
 import SwiftUI
 import MapKit
-import SDWebImageSwiftUI
 
 struct EventDetailView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
     @EnvironmentObject var viewModel: LocationTrackerViewModel
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     var data: EventInformationModel = EventInformationModel()
     @Binding var sheetMode: SheetMode
-    var connectionResult = ConnectionResult.failure("OK!")
-    @State var dragOffset: CGFloat = 0
     
     @State var reachedMaxSlotBool: Bool = false
     @State var buttonStateIsSignedUp: Bool = false
-        
+    
     @State var friendSignedUp: Bool = false
     @State var firstImage: [UIImage] = []
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
@@ -29,16 +26,14 @@ struct EventDetailView: View {
     @State var expandInfo: Bool = false
     @State var infoSubviewHeight: CGFloat = 0
     
-    var dateToString: String {
-        get {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/dd/yyy"
-            let stringDate = dateFormatter.string(from: data.time)
-            return stringDate
-        }
+    private func checkForLiveEvents(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let stringDate = dateFormatter.string(from: date)
+        return stringDate
     }
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
-        FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
+        FirebaseRealtimeDatabaseCRUD().readEvents(for: authVM.decodeUserInfo()!.uid) { eventsArray in
             if eventsArray == nil {
                 buttonStateIsSignedUp = false
                 handler(false);
@@ -55,7 +50,6 @@ struct EventDetailView: View {
                 buttonStateIsSignedUp = false
                 handler(false)
             }
-            
         }
     }
     var body: some View {
@@ -83,7 +77,7 @@ struct EventDetailView: View {
                     Text(data.category)
                         .font(.system(.headline))
                         .foregroundColor(.gray)
-                    Text(self.dateToString)
+                    Text(data.time.dateToString())
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(0..<(self.firstImage.count), id: \.self) { img in
@@ -186,7 +180,7 @@ struct EventDetailView: View {
                     }
                 }
                 .cornerRadius(20)
-
+                
                 
                 HStack {
                     if friendSignedUp == true {
@@ -197,15 +191,15 @@ struct EventDetailView: View {
                         let responseHaptic = UIImpactFeedbackGenerator(style: .light)
                         FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
                             if buttonStateIsSignedUp {
-                                FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
-                                FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authVM.decodeUserInfo()!.uid)
+                                FirebaseRealtimeDatabaseCRUD().removeEvent(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                 buttonStateIsSignedUp = false
                                 
                                 responseHaptic.impactOccurred()
                             }
                             else if !reachedMaxSlots && !buttonStateIsSignedUp {
                                 FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
-                                FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                FirebaseRealtimeDatabaseCRUD().writeEvents(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                 buttonStateIsSignedUp = true
                                 
                                 responseHaptic.impactOccurred()
@@ -214,7 +208,7 @@ struct EventDetailView: View {
                                 reachedMaxSlotBool = true
                             }
                         }
-
+                        
                     }) {
                         Capsule()
                             .frame(width: 135, height: 45)
@@ -237,18 +231,14 @@ struct EventDetailView: View {
                 buttonStateIsSignedUp = eventIs!
             }
             
-            if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
-//                self.eventIsLive.toggle()
-            }
             FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
                 for (friend, events) in result {
                     for i in events! {
                         if i == data.FIRDocID {
-                            //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
                             print(friend)
                             listOfFriendsWhoSignedUpForEvent.append(friend)
                             friendSignedUp = true
-                            //                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
+                            
                         }
                     }
                 }
@@ -277,23 +267,18 @@ struct EventDetailView: View {
                 buttonStateIsSignedUp = eventIs!
             }
             
-            if checkForLiveEvents(date: value.time) == checkForLiveEvents(date: Date.now) {
-//                self.eventIsLive.toggle()
-            }
             FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
                 for (friend, events) in result {
                     for i in events! {
                         if i == value.FIRDocID {
-                            //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
                             print(friend)
                             listOfFriendsWhoSignedUpForEvent.append(friend)
                             friendSignedUp = true
-                            //                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
                         }
                     }
                 }
             }
-
+            
             
             firstImage = []
             for imageURL in value.images! {
@@ -305,12 +290,7 @@ struct EventDetailView: View {
             }
         }
     }
-    func checkForLiveEvents(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-        let stringDate = dateFormatter.string(from: date)
-        return stringDate
-    }
+    
 }
 
 private struct ViewHeightKey: PreferenceKey {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Settings: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     
     @State var darkMode = false
     @State private var shareActivityWithFriends = true
@@ -16,8 +16,8 @@ struct Settings: View {
     @State private var signOutConfirmation = false
     var body: some View {
         VStack(spacing: 20) {
-//            Toggle("Share Activity with Friends", isOn: $shareActivityWithFriends)
-//            Toggle("See Friend Activity", isOn: $seeFriendActivity)
+            //            Toggle("Share Activity with Friends", isOn: $shareActivityWithFriends)
+            //            Toggle("See Friend Activity", isOn: $seeFriendActivity)
             
             Button(action: {
                 self.signOutConfirmation = true
@@ -28,10 +28,10 @@ struct Settings: View {
             Alert(
                 title: Text("Are you sure you want to sign out?"),
                 primaryButton: .destructive(Text("Sign out")) {
-                    viewModel.signOut()
+                    authVM.signOut()
                 },
                 secondaryButton: .cancel()
-                )
+            )
         }
     }
 }

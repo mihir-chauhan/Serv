@@ -204,11 +204,7 @@ struct LineGraph2: View {
             Color("Gradient1")
                 .opacity(0.3)
             ]
-//            Color("Gradient2")
-//                .opacity(0.1)]
-//            + Array(repeating:                     Color("Gradient1")
-//                .opacity(0.1), count: 4)
-//                       + Array(repeating: Color("Gradient1").opacity(0.05), count: 2)
+
             , startPoint: .top, endPoint: .bottom)
     }
     

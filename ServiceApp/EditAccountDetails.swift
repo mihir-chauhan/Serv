@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditAccountDetails: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var toggleEditInfoSheet: Bool
     @State var selectedImage: UIImage? = nil
@@ -71,33 +71,31 @@ struct EditAccountDetails: View {
                                         { Text("Cancel").foregroundColor(.primary) },
                                         trailing:
                                             Button(action: {
-                        let oldStuff = viewModel.decodeUserInfo()!
+                        let oldStuff = authVM.decodeUserInfo()!
                         
                         if !changeBio.isEmpty && selectedImage != nil {
                             saveJpg(selectedImage!)
-                            FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!)
+                            FIRCloudImages().uploadPfp(uid: (authVM.decodeUserInfo()?.uid)!, viewModel: authVM, for: selectedImage!)
                             FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
-                            viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio, birthYear: oldStuff.birthYear))
+                            authVM.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio, birthYear: oldStuff.birthYear))
                         }
                         else if !changeBio.isEmpty {
                             //                            this will also need to be saved to realtime database for friends to read the info
-                            viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio, birthYear: oldStuff.birthYear))
+                            authVM.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: changeBio, birthYear: oldStuff.birthYear))
                             FirebaseRealtimeDatabaseCRUD().updateUserBio(uid: oldStuff.uid, newBio: changeBio)
                         }
                         else if selectedImage != nil {
 //                            #error("Need to save image when first time signing in")
                             DispatchQueue.main.async {
                                 saveJpg(selectedImage!)
-                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: selectedImage!)
+                                FIRCloudImages().uploadPfp(uid: (authVM.decodeUserInfo()?.uid)!, viewModel: authVM, for: selectedImage!)
                                 // note that compression happens INSIDE
                                 
-                                viewModel.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: oldStuff.bio, birthYear: oldStuff.birthYear))
+                                authVM.encodeUserInfo(for: UserInfoFromAuth(uid: oldStuff.uid, displayName: oldStuff.displayName, photoURL: oldStuff.photoURL, email: oldStuff.email, bio: oldStuff.bio, birthYear: oldStuff.birthYear))
                                 
                             }
                             
-                            
-                            
-                            
+
                         }
                         withAnimation {
                             toggleEditInfoSheet.toggle()
@@ -115,15 +113,15 @@ struct EditAccountDetails: View {
                         if let images = imageOrNil {
                             selectedImage = images.first
                             if let imageData = selectedImage?.jpeg(.highest) {
-                                FIRCloudImages().uploadPfp(uid: (viewModel.decodeUserInfo()?.uid)!, viewModel: viewModel, for: UIImage(data: imageData) ?? UIImage())
+                                FIRCloudImages().uploadPfp(uid: (authVM.decodeUserInfo()?.uid)!, viewModel: authVM, for: UIImage(data: imageData) ?? UIImage())
                             }
                         }
                     }
                 }
             }
             .task {
-                changeName = (viewModel.decodeUserInfo()?.displayName ?? "")
-                changeBio = (viewModel.decodeUserInfo()?.bio ?? "")
+                changeName = (authVM.decodeUserInfo()?.displayName ?? "")
+                changeBio = (authVM.decodeUserInfo()?.bio ?? "")
             }
             
         }

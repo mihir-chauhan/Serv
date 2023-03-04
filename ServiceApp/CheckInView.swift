@@ -24,48 +24,6 @@ struct CheckInView: View {
                 .resizable()
                 .frame(width: 290, height: 290, alignment: .center)
         }
-//        HStack(spacing: 10) {
-//            Text("Check In").font(.title)
-//            self.showMessage?
-//                .resizable()
-//                .frame(width: 28, height: 28)
-//        }
-//        CheckInController(allowSubmit: $allowSubmit, code: $code, correctCode: $correctCode, data: data)
-//            .frame(width: 286, height: 50)
-//        HStack {
-//            Text("You will get the 5-digit code from the organizer upon arrival")
-//            Spacer(minLength: 30)
-//            Button(action: {
-//                print(code)
-//                FirestoreCRUD().validateOneTimeCode(data: data, inputtedValue: self.code) { dbCode in
-//                    switch dbCode {
-//                    case true:
-//                        self.correctCode = true
-//                        FirestoreCRUD().addCheckInTime(eventID: data.FIRDocID!, eventCategory: data.category, checkInTime: Date())
-//
-//                        withAnimation {
-//                            self.showMessage = Image(systemName: "checkmark.circle.fill").symbolRenderingMode(.multicolor)
-//                        }
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                            presentationMode.wrappedValue.dismiss()
-//                        }
-//                    case false:
-//                        self.correctCode = false
-//                        withAnimation {
-//                            self.showMessage = Image(systemName: "xmark.octagon.fill").symbolRenderingMode(.multicolor)
-//                        }
-//                    case .none:
-//                        break
-//                    case .some(_):
-//                        break
-//                    }
-//                }
-//            }) {
-//                Text("Submit")
-//                    .foregroundColor(allowSubmit ? .blue : .darkGray)
-//                    .bold()
-//            }.disabled(!allowSubmit)
-//        }.padding(30)
     }
     private func generateQRCode(from string: String) -> Data? {
         let data = string.data(using: String.Encoding.ascii)

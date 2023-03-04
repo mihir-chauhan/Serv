@@ -14,47 +14,6 @@ class FirestoreCRUD: ObservableObject {
     
     @Published var allCategories: [EventCategoryModel] = [EventCategoryModel]()
     @Published var allFIRResults = [EventInformationModel]()
-    //
-    //    init() {
-    //        //getAllEvents()
-    //    }
-    //
-    //    func getAllEvents() {
-    //        for i in allCategories {
-    //            db.collection("EventTypes/\(i)/Events")
-    //                .addSnapshotListener { (snap, err) in
-    //                    if let error = err {
-    //                        print(error.localizedDescription)
-    //                        return
-    //                    } else {
-    //                        for j in snap!.documentChanges {
-    //                            let id = j.document.documentID
-    //                            let host = j.document.get("host") as? String ?? "Host unavailable"
-    //                            let ein = j.document.get("ein") as? String ?? "No valid ein"
-    //                            let name = j.document.get("name") as? String ?? "no name"
-    //                            let description = j.document.get("description") as? String ?? "No description!"
-    //                            _ = j.document.get("attendees") as? [String] ?? [String]()
-    //                            let time = j.document.get("time") as? Timestamp
-    //                            let imageURL = j.document.get("images") as? [String] ?? [String]()
-    //                            let location = j.document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
-    //
-    //                            self.allFIRResults.append(EventInformationModel(
-    //                                FIRDocID: id,
-    //                                name: name,
-    //                                host: host,
-    //                                ein: ein,
-    //                                category: i,
-    //                                time: time?.dateValue() ?? Date(),
-    //                                images: imageURL,
-    //                                coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
-    //                                description: description
-    //
-    //                            ))
-    //                        }
-    //                    }
-    //                }
-    //        }
-    //    }
     
     func AddToAttendeesList(eventID: String, eventCategory: String) {
         var mapValues: [String : Any] {
@@ -73,14 +32,12 @@ class FirestoreCRUD: ObservableObject {
                 "attendees.\(user_uuid!).checkInTime" : nil,
                 "attendees.\(user_uuid!).checkOutTime" : nil
             ])
-        //            .document(eventID).updateData(["attendees" : mapValues])
     }
     
     func checkForMaxSlot(eventID: String, eventCategory: String
                          ,
                          completion: @escaping (_ maxSlotReached: Bool) -> ()
     ) {
-        //        var currentAttendees: Int = 0
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID)
             .getDocument { doc, err in
@@ -91,14 +48,7 @@ class FirestoreCRUD: ObservableObject {
                 let data = doc?.data()
                 let maxSlots = data?["maxSlots"] as? Int
                 let attendees = data?["attendees"] as? Dictionary<String, Any?>
-                print(attendees?.count)
                 
-                //                for (key, valuezzz) in attendees! {
-                //                    guard valuezzz != nil else {
-                //                        return
-                //                    }
-                //                    currentAttendees += 1
-                //                }
                 
                 if attendees?.count ?? 0 == maxSlots! {
                     completion(true)
@@ -143,8 +93,6 @@ class FirestoreCRUD: ObservableObject {
                 let checkOutTime = i.get("hoursSpent") as? Double
                 
                 totalHours += checkOutTime!
-                print("Got data!")
-                
             }
             g.leave()
             
@@ -190,7 +138,6 @@ class FirestoreCRUD: ObservableObject {
                 let _dbCode = snap?.get("checkInCode") as? Int ?? -1
                 
                 if (_dbCode == inputtedValue) {
-                    print("ENTERED")
                     completion(true)
                 } else {
                     completion(false)
@@ -245,7 +192,7 @@ class FirestoreCRUD: ObservableObject {
             }
         }
     }
-
+    
     
     func getSpecificEvent(eventID: String, completion: @escaping (_ data: EventInformationModel) -> ()) {
         print("countcount", allCategories.count)
@@ -356,7 +303,6 @@ class FirestoreCRUD: ObservableObject {
                         let hourSpentPerEvent = i.get("hoursSpent") as? Double
                         
                         rawData.append(CGFloat(hourSpentPerEvent!))
-                        print("BLAH", hourSpentPerEvent)
                     }
                     print("RAW DATA HERE", rawData)
                     completion(rawData)
@@ -364,12 +310,7 @@ class FirestoreCRUD: ObservableObject {
             }
     }
     
-    //    func updatePfpInFirestore(url: URL) {
-    //        db.collection("Volunteer Accounts").document(user_uuid!).updateData([
-    //            "UserInfo.photoURL" : url.absoluteString
-    //        ])
-    //
-    //    }
+    
     func queryAllCategories(resetAllToTrue: Bool)  {
         self.allCategories = []
         db.collection("EventTypes").getDocuments { snap, err in
@@ -396,8 +337,8 @@ class FirestoreCRUD: ObservableObject {
         }
     }
     
-    func getBroadcast(eventID: String, eventCategory: String, completion: @escaping (_ broadcasts: [BroadCastMessageModel]?) -> ()) {
-        var temp = [BroadCastMessageModel]()
+    func getBroadcast(eventID: String, eventCategory: String, completion: @escaping (_ broadcasts: [BroadcastMessageModel]?) -> ()) {
+        var temp = [BroadcastMessageModel]()
         db.collection("EventTypes")
             .document(eventCategory)
             .collection("Events")
@@ -411,8 +352,7 @@ class FirestoreCRUD: ObservableObject {
                     let msg = doc.get("message") as! String
                     let time = doc.get("timestamp") as! Timestamp
                     
-                    temp.append(BroadCastMessageModel(message: msg, date: time.dateValue()))
-                    print("354", temp)
+                    temp.append(BroadcastMessageModel(message: msg, date: time.dateValue()))
                 }
                 completion(temp)
             }

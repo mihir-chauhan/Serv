@@ -11,13 +11,11 @@
 		399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */; };
 		39B5A9C52786ABEA0003E23F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */; };
 		B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D155277EE7550045F06D /* PVSAProgressBar.swift */; };
-		B319D158277EE7880045F06D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D157277EE7880045F06D /* Schedule.swift */; };
 		B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D159277EE7A90045F06D /* SheetObserver.swift */; };
 		B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B319D15D277EF7030045F06D /* ScheduleCardView.swift */; };
 		B31F1AF128AC458A00C703AE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = B31F1AF028AC458A00C703AE /* FirebaseMessaging */; };
 		B333369E27819C59007E9482 /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369D27819C59007E9482 /* FriendCardView.swift */; };
 		B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B333369F27819E19007E9482 /* AddFriendSheet.swift */; };
-		B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33336A32782E5DD007E9482 /* ScheduleModel.swift */; };
 		B339FBB6278F53D200545F0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B339FBB5278F53D200545F0E /* CloudKit.framework */; };
 		B359DBFA27973C3700B5486A /* RealtimeDatabaseCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */; };
 		B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359DBFB2797428B00B5486A /* FirestoreCRUD.swift */; };
@@ -25,7 +23,6 @@
 		B36C7DF728935F1D009FC23E /* GeohashBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36C7DF628935F1D009FC23E /* GeohashBox.swift */; };
 		B36C7DF928935F35009FC23E /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36C7DF828935F35009FC23E /* Geohash.swift */; };
 		B38CECCE277E4EDE00A98D3E /* ServiceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */; };
-		B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */; };
 		B3DE1AD6278433B000E06378 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1AD5278433B000E06378 /* CodeScanner */; };
 		B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */; };
 		B3DE1ADB27843C8200E06378 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = B3DE1ADA27843C8200E06378 /* SwiftUICharts */; };
@@ -45,7 +42,6 @@
 		B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E6FCE0277C5A53004DEE5B /* Socials.swift */; };
 		BE196EFB279CDA2800DA0217 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE196EFA279CDA2800DA0217 /* Settings.swift */; };
 		BE4FDCC02896450700136E6F /* launchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE4FDCBF2896450700136E6F /* launchScreen.storyboard */; };
-		BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */; };
 		BE5EEE24295E58A0003914E4 /* ScheduleCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */; };
 		BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */; };
 		BE8934FC296E8C9A001D0B5C /* NEWGRAPH.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8934FB296E8C9A001D0B5C /* NEWGRAPH.swift */; };
@@ -62,9 +58,9 @@
 		BEB91CCC28AB7EDE00FB9917 /* VerificationPending.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB91CCB28AB7EDE00FB9917 /* VerificationPending.swift */; };
 		BEBAB0BD288E72330049F689 /* FormValidationSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */; };
 		BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */; };
-		BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */; };
 		BEBE4DA52893A4AF003A0CE9 /* GeoFire in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA42893A4AF003A0CE9 /* GeoFire */; };
 		BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */; };
+		BEC2DAC329B2C7F4000D6A44 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC2DAC229B2C7F4000D6A44 /* Extensions.swift */; };
 		BEC7640F288FAECC00F90651 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC7640E288FAECC00F90651 /* OnboardingManager.swift */; };
 		BED38A7427A5E10B0080D5B9 /* PhotoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
@@ -75,7 +71,6 @@
 		F4496577280151490068A497 /* AccountLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4496576280151490068A497 /* AccountLoginView.swift */; };
 		F449657928026E300068A497 /* AccountSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449657828026E300068A497 /* AccountSignUpView.swift */; };
 		F45E234027A9B263007AF9D4 /* RecommendedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E233F27A9B263007AF9D4 /* RecommendedView.swift */; };
-		F4903AB227E97BE7004FE5B7 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4903AB127E97BE7004FE5B7 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,12 +78,10 @@
 		399BF1832782742E00C06C42 /* HomeScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScheduleDetailView.swift; sourceTree = "<group>"; };
 		39B5A9C42786ABEA0003E23F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B319D155277EE7550045F06D /* PVSAProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVSAProgressBar.swift; sourceTree = "<group>"; };
-		B319D157277EE7880045F06D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		B319D159277EE7A90045F06D /* SheetObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetObserver.swift; sourceTree = "<group>"; };
 		B319D15D277EF7030045F06D /* ScheduleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardView.swift; sourceTree = "<group>"; };
 		B333369D27819C59007E9482 /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
 		B333369F27819E19007E9482 /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
-		B33336A32782E5DD007E9482 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		B339FBB3278F53C200545F0E /* ServiceApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ServiceApp.entitlements; sourceTree = "<group>"; };
 		B339FBB5278F53D200545F0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseCRUD.swift; sourceTree = "<group>"; };
@@ -97,7 +90,6 @@
 		B36C7DF628935F1D009FC23E /* GeohashBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeohashBox.swift; sourceTree = "<group>"; };
 		B36C7DF828935F35009FC23E /* Geohash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
 		B38CECCD277E4EDE00A98D3E /* ServiceApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceApp.xcdatamodel; sourceTree = "<group>"; };
-		B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailModal.swift; sourceTree = "<group>"; };
 		B3DE1AD727843ABF00E06378 /* FriendDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailSheet.swift; sourceTree = "<group>"; };
 		B3DE1ADC278443AE00E06378 /* FriendsCommonEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCommonEvent.swift; sourceTree = "<group>"; };
 		B3E6FCB7277C5870004DEE5B /* ServiceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,7 +108,6 @@
 		B3E6FCE0277C5A53004DEE5B /* Socials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socials.swift; sourceTree = "<group>"; };
 		BE196EFA279CDA2800DA0217 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BE4FDCBF2896450700136E6F /* launchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = launchScreen.storyboard; sourceTree = "<group>"; };
-		BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailView.swift; sourceTree = "<group>"; };
 		BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCardDetailView.swift; sourceTree = "<group>"; };
 		BE7CCC3B2816669C0064BC80 /* EditAccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountDetails.swift; sourceTree = "<group>"; };
 		BE8934FB296E8C9A001D0B5C /* NEWGRAPH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEWGRAPH.swift; sourceTree = "<group>"; };
@@ -127,7 +118,7 @@
 		BEB91CCB28AB7EDE00FB9917 /* VerificationPending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPending.swift; sourceTree = "<group>"; };
 		BEBAB0BC288E72330049F689 /* FormValidationSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidationSignUp.swift; sourceTree = "<group>"; };
 		BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImagesWithCache.swift; sourceTree = "<group>"; };
-		BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBezierPaths.swift; sourceTree = "<group>"; };
+		BEC2DAC229B2C7F4000D6A44 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BEC7640E288FAECC00F90651 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFileManager.swift; sourceTree = "<group>"; };
 		BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendEventsInCommon.swift; sourceTree = "<group>"; };
@@ -137,7 +128,6 @@
 		F4496576280151490068A497 /* AccountLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLoginView.swift; sourceTree = "<group>"; };
 		F449657828026E300068A497 /* AccountSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSignUpView.swift; sourceTree = "<group>"; };
 		F45E233F27A9B263007AF9D4 /* RecommendedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedView.swift; sourceTree = "<group>"; };
-		F4903AB127E97BE7004FE5B7 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,7 +172,6 @@
 				BE4FDCBF2896450700136E6F /* launchScreen.storyboard */,
 				BEE28C392894BD2C00D0B15A /* TabBarController.swift */,
 				F416C237278517290099FDD6 /* PhotoPickerForQRScan.swift */,
-				B33336A32782E5DD007E9482 /* ScheduleModel.swift */,
 				B319D159277EE7A90045F06D /* SheetObserver.swift */,
 				B3E6FCDE277C5A43004DEE5B /* DataModel.swift */,
 				B38CECCC277E4EDE00A98D3E /* ServiceApp.xcdatamodeld */,
@@ -190,11 +179,10 @@
 				B359DBF927973C3700B5486A /* RealtimeDatabaseCRUD.swift */,
 				BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */,
 				BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */,
-				F4903AB127E97BE7004FE5B7 /* WebView.swift */,
-				BEBB393B27DD608500E5AA18 /* CustomBezierPaths.swift */,
 				BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */,
 				BE92CC2D2899D34300CD7264 /* PVSAGraphs.swift */,
 				BE8934FB296E8C9A001D0B5C /* NEWGRAPH.swift */,
+				BEC2DAC229B2C7F4000D6A44 /* Extensions.swift */,
 				B3E6FCBE277C5871004DEE5B /* Assets.xcassets */,
 			);
 			name = "HelperClasses+Models";
@@ -207,7 +195,6 @@
 				B3E6FCD4277C59E2004DEE5B /* MapListElements.swift */,
 				B3E6FCD8277C5A0B004DEE5B /* MapListHalfSheet.swift */,
 				B3E6FCCE277C5972004DEE5B /* EventDetailView.swift */,
-				BE53D651287A6C6200103DAF /* OrganizationDetailView.swift */,
 				B36C7DF628935F1D009FC23E /* GeohashBox.swift */,
 				B36C7DF828935F35009FC23E /* Geohash.swift */,
 			);
@@ -275,9 +262,7 @@
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
 				BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */,
 				BEB48449284B17DC00FB8469 /* CheckInView.swift */,
-				B38FD7D227AF77480059E41F /* ScheduleCardDetailModal.swift */,
 				BEE28C3B2894F0AB00D0B15A /* Auth */,
-				B319D157277EE7880045F06D /* Schedule.swift */,
 				BEE28C3C2894F16600D0B15A /* Account */,
 				397A63D827810DDB002443CF /* HelperClasses+Models */,
 				B3E6FCC0277C5871004DEE5B /* Preview Content */,
@@ -419,18 +404,14 @@
 				B359DBFC2797428B00B5486A /* FirestoreCRUD.swift in Sources */,
 				F449657928026E300068A497 /* AccountSignUpView.swift in Sources */,
 				BED38A7427A5E10B0080D5B9 /* PhotoFileManager.swift in Sources */,
-				B319D158277EE7880045F06D /* Schedule.swift in Sources */,
 				B3E6FCD1277C5991004DEE5B /* HomeView.swift in Sources */,
-				BE53D652287A6C6200103DAF /* OrganizationDetailView.swift in Sources */,
 				B319D15E277EF7030045F06D /* ScheduleCardView.swift in Sources */,
 				B3E6FCDB277C5A21004DEE5B /* MapView.swift in Sources */,
 				B33336A027819E19007E9482 /* AddFriendSheet.swift in Sources */,
 				BE5EEE24295E58A0003914E4 /* ScheduleCardDetailView.swift in Sources */,
 				B319D156277EE7550045F06D /* PVSAProgressBar.swift in Sources */,
-				F4903AB227E97BE7004FE5B7 /* WebView.swift in Sources */,
 				399BF1842782742E00C06C42 /* HomeScheduleDetailView.swift in Sources */,
 				B333369E27819C59007E9482 /* FriendCardView.swift in Sources */,
-				B33336A42782E5DD007E9482 /* ScheduleModel.swift in Sources */,
 				B36C7DF728935F1D009FC23E /* GeohashBox.swift in Sources */,
 				F4496577280151490068A497 /* AccountLoginView.swift in Sources */,
 				BE7CCC3C2816669C0064BC80 /* EditAccountDetails.swift in Sources */,
@@ -439,9 +420,7 @@
 				BEE28C3A2894BD2C00D0B15A /* TabBarController.swift in Sources */,
 				BE8934FC296E8C9A001D0B5C /* NEWGRAPH.swift in Sources */,
 				BEBB061A27D41C1600CF0D23 /* FIRCloudImagesWithCache.swift in Sources */,
-				BEBB393C27DD608500E5AA18 /* CustomBezierPaths.swift in Sources */,
 				B319D15A277EE7A90045F06D /* SheetObserver.swift in Sources */,
-				B38FD7D327AF77480059E41F /* ScheduleCardDetailModal.swift in Sources */,
 				B3E6FCCD277C594A004DEE5B /* CustomTabBar.swift in Sources */,
 				B3DE1AD827843ABF00E06378 /* FriendDetailSheet.swift in Sources */,
 				39982F84278421AB002D0F5F /* LeaderboardView.swift in Sources */,
@@ -463,6 +442,7 @@
 				BEB91CCC28AB7EDE00FB9917 /* VerificationPending.swift in Sources */,
 				B3E6FCE1277C5A54004DEE5B /* Socials.swift in Sources */,
 				B3E6FCC9277C58D3004DEE5B /* Account.swift in Sources */,
+				BEC2DAC329B2C7F4000D6A44 /* Extensions.swift in Sources */,
 				BEB4844A284B17DC00FB8469 /* CheckInView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

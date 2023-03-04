@@ -14,82 +14,42 @@ struct FriendDetailSheet: View {
     var data: UserInfoFromAuth
     @Binding var listOfEventsFriendIsGoing: [EventInformationModel]
     @State var clickOnEvent: Bool = false
-
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
-                HStack {
-                    AsyncImage(url: data.photoURL) { img in
-                        img
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    } placeholder: {
-                        Color.gray
-                    }
-                        
+                    HStack {
+                        AsyncImage(url: data.photoURL) { img in
+                            img
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        } placeholder: {
+                            Color.gray
+                        }
                         .frame(width: display.width / 4)
                         .scaleEffect(1.1)
                         .clipShape(Circle())
                         .padding(.leading, 10)
-                    Text(data.bio ?? "No Bio").font(.system(.caption)).padding(5)
-                    Spacer(minLength: 15)
-                }.padding(.bottom, 15)
-//                BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true)
-                    let _ = print("39", data.hoursSpent)
-//                    PVSALineGraph(data: data.hoursSpent, user: data.uid!)
-//                    PVSALineGraph(data: data.hoursSpent, user: data.uid!)
+                        Text(data.bio ?? "No Bio").font(.system(.caption)).padding(5)
+                        Spacer(minLength: 15)
+                    }.padding(.bottom, 15)
                     
                     Text("\(data.displayName ?? "no name")'s Volunteered Hours (All-Time)").font(.headline).bold()
-                        
+                    
                     LineGraph2(rawData: data.hoursSpent)
                         .frame(height: 220)
                         .padding(.bottom, 15)
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-//                        )
-                        
                     
                     Text("\(data.displayName ?? "no name")'s Events").font(.headline).bold()
-
-                        ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
-                            Text("\t \(event.name)")
-                                .padding(5)
-                        }
+                    
+                    ForEach(self.listOfEventsFriendIsGoing, id: \.self) { event in
+                        Text("\t \(event.name)")
+                            .padding(5)
+                    }
                 }.padding(20)
-            .navigationTitle(data.displayName ?? "no name")
-            }
-        }.onAppear() {
-            print("COUNT COUNT", listOfEventsFriendIsGoing.count)
-        }
-    }
-
-}
-
-
-extension View {
-    /// Navigate to a new view.
-    /// - Parameters:
-    ///   - view: View to navigate to.
-    ///   - binding: Only navigates when this condition is `true`.
-    func navigate<NewView: View>(to view: NewView, when binding: Binding<Bool>) -> some View {
-        NavigationView {
-            ZStack {
-                self
-                    .navigationBarTitle("")
-                    .navigationBarHidden(true)
-
-                NavigationLink(
-                    destination: view
-                        .navigationBarTitle("")
-                        .navigationBarHidden(true),
-                    isActive: binding
-                ) {
-                    EmptyView()
-                }
+                    .navigationTitle(data.displayName ?? "no name")
             }
         }
-        .navigationViewStyle(.stack)
     }
 }

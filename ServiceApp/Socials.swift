@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct Socials: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @State private var showingSheet = false
-    @State private var showingFriendDetailSheet = false
-    @State private var nameForDetailSheet = ""
     @State private var imgForDetailSheet = URL(string: "https://icon-library.com/images/generic-profile-icon/generic-profile-icon-23.jpg")!
     @State var sheetMode: SheetMode = .quarter
     
@@ -21,7 +19,7 @@ struct Socials: View {
     var body: some View {
         NavigationView {
             ScrollView {
-
+                
                 if self.listOfFriends.isEmpty {
                     LeaderboardView(listOfFriends: [])
                         .padding(.bottom, 50)
@@ -47,10 +45,6 @@ struct Socials: View {
                     ForEach(sorted, id: \.self) { friend in
                         
                         FriendCardView(data: friend)
-//                            .sheet(isPresented: $showingFriendDetailSheet) {
-//                                let _ = print("FRIEND INFO SHOWING:", friend.displayName)
-//                                FriendDetailSheet(data: friend)
-//                            }
                     }.padding(.horizontal)
                 }
             }
@@ -74,7 +68,7 @@ struct Socials: View {
                     Button(action: {
                         let haptic = UIImpactFeedbackGenerator(style: .soft)
                         haptic.impactOccurred()
-                        FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { allFriends in
+                        FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (authVM.decodeUserInfo()?.uid)!) { allFriends in
                             self.listOfFriends.removeAll()
                             for friend in allFriends {
                                 if !allFriends.isEmpty { haveFriends = true }
@@ -87,8 +81,6 @@ struct Socials: View {
                                 let sum2 = $1.hoursSpent.reduce(0, +)
                                 return sum1 > sum2
                             }
-                            print(self.listOfFriends, "IS SORTED??!!")
-                            
                         }
                     }) {
                         Image(systemName: "arrow.clockwise")
@@ -100,8 +92,7 @@ struct Socials: View {
             
         }
         .task {
-            //        TODO: when querying from Firestore, make sure to sort based on PVSA hours (greatest to least)
-            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (viewModel.decodeUserInfo()?.uid)!) { allFriends in
+            FirebaseRealtimeDatabaseCRUD().getUserFriends(uid: (authVM.decodeUserInfo()?.uid)!) { allFriends in
                 self.listOfFriends.removeAll()
                 if !allFriends.isEmpty { haveFriends = true }
                 for friend in allFriends {
@@ -109,8 +100,6 @@ struct Socials: View {
                         
                         self.listOfFriends.append(friendInfo)
                     }
-                    
-                    
                 }
                 
                 self.listOfFriends.sort {
@@ -121,7 +110,6 @@ struct Socials: View {
 
                     return sum1 > sum2
                 }
-                
             }
             
         }

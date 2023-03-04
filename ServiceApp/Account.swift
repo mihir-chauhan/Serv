@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUICharts
 
 struct Account: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.colorScheme) var colorScheme
     let maxHeight = display.height / 3.1
     var topEdge: CGFloat
@@ -47,7 +47,7 @@ struct Account: View {
                             .clipShape(Circle())
                             .opacity(Double(topBarTitleOpacity()))
                         
-                        Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
+                        Text(authVM.decodeUserInfo()?.displayName ?? "John Smith")
                             .fontWeight(.bold)
                             .font(.headline)
                             .opacity(Double(topBarTitleOpacity()))
@@ -112,27 +112,14 @@ struct Account: View {
                             }.padding(.horizontal)
                         )
                     }
-//
 
-//                    BarChartView(data: ChartData(points: [8,13,20,12,14,17,7,13,16]), title: "Service Hours per Week", legend: "Hours", form: ChartForm.extraLarge, dropShadow: false, cornerImage: nil, animatedToBack: true).padding(10)
-//                    PVSABarGraph()
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-//                        )
-//                        .padding(.horizontal)
                     LineGraph2(rawData: hoursSpent)
                         .frame(height: 220)
                         .padding(.bottom, 15)
-//                    LineGraph2(rawData: [CGFloat](rawValue: (viewModel.decodeUserInfo()?.hoursSpent)!.rawValue) ?? [])
-//                        .frame(height: 220)
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-//                        )
+
                         .padding(.horizontal)
                         .task {
-                            FirestoreCRUD().getNumberOfHours(uid: viewModel.decodeUserInfo()!.uid, completion: { hoursSpent in
+                            FirestoreCRUD().getNumberOfHours(uid: authVM.decodeUserInfo()!.uid, completion: { hoursSpent in
                                 self.hoursSpent = hoursSpent
                             })
                         }
@@ -167,8 +154,8 @@ struct Account: View {
                                         title: Text("Are you sure you want to delete your account?"),
                                         message: Text("You will permanently lose your progress and data on this account"),
                                         primaryButton: .destructive(Text("Delete")) {
-                                            viewModel.deleteCurrentUser()
-                                            viewModel.signOut()
+                                            authVM.deleteCurrentUser()
+                                            authVM.signOut()
                                             // MARK: HERE
                                         },
                                         secondaryButton: .cancel()
@@ -183,7 +170,7 @@ struct Account: View {
                         Alert(
                             title: Text("Are you sure you want to sign out?"),
                             primaryButton: .destructive(Text("Sign out")) {
-                                viewModel.signOut()
+                                authVM.signOut()
                             },
                             secondaryButton: .cancel()
                             )
@@ -234,7 +221,7 @@ struct Account: View {
                         }
                     }
                 .task {
-                    FirestoreCRUD().getEventHistory(uid: viewModel.decodeUserInfo()!.uid, completion: { eventHistory in
+                    FirestoreCRUD().getEventHistory(uid: authVM.decodeUserInfo()!.uid, completion: { eventHistory in
                         self.eventHistory = eventHistory
                     })
                 }
@@ -244,7 +231,7 @@ struct Account: View {
             }
             .fullScreenCover(isPresented: $toggleFullScreenQR) {
                 NavigationView {
-                        Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid)!)!)!)
+                        Image(uiImage: UIImage(data: generateQRCode(from: (authVM.decodeUserInfo()?.uid)!)!)!)
                             .resizable()
                             .frame(width: 320, height: 320, alignment: .center)
                             .aspectRatio(contentMode: .fit)
@@ -361,7 +348,7 @@ struct Account: View {
 }
 
 struct TopBar: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     var topEdge: CGFloat
     @Binding var offset: CGFloat
     @Binding var toggleEditInfoSheet: Bool
@@ -376,7 +363,7 @@ struct TopBar: View {
                 .cornerRadius(10)
             
             HStack {
-                Text(viewModel.decodeUserInfo()?.displayName ?? "John Smith")
+                Text(authVM.decodeUserInfo()?.displayName ?? "John Smith")
                     .font(.largeTitle.bold())
                 
                 Button(action: {
@@ -395,8 +382,7 @@ struct TopBar: View {
                 }
             }
             HStack {
-            Text(viewModel.decodeUserInfo()?.bio ?? "No Bio")
-//            My name is John Smith and I am a high school junior. I love to volunteer at various food drives to help pass out food as well as cleaning up at local shorelines!
+            Text(authVM.decodeUserInfo()?.bio ?? "No Bio")
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.white.opacity(0.8))
@@ -406,7 +392,7 @@ struct TopBar: View {
         .opacity(Double(getOpacity()))
         .onChange(of: toggleEditInfoSheet) { value in
             if !value {
-                viewModel.decodeUserInfo()
+                authVM.decodeUserInfo()
                 documentDirectoryPath()
             }
         }

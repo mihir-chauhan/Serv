@@ -14,21 +14,21 @@ struct CustomTabBar: View {
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
             switch tabBarController.selectedIndex {
-                case .home:
-                    HomeView(animation: animation)
-                case .map:
-                    MapView()
-                case .socials:
-                    Socials()
-                case .account:
-                    GeometryReader {proxy in
-                        let topEdge = proxy.safeAreaInsets.top
-                        
-                        Account(topEdge: topEdge)
-                            .ignoresSafeArea(.all, edges: .top)
-                    }
+            case .home:
+                HomeView(animation: animation)
+            case .map:
+                MapView()
+            case .socials:
+                Socials()
+            case .account:
+                GeometryReader {proxy in
+                    let topEdge = proxy.safeAreaInsets.top
+                    
+                    Account(topEdge: topEdge)
+                        .ignoresSafeArea(.all, edges: .top)
                 }
-        
+            }
+            
             HStack() {
                 ForEach(TabBarItem.allCases, id: \.self) { icon in
                     Spacer()
@@ -40,10 +40,10 @@ struct CustomTabBar: View {
                         }
                     }) {
                         Image(systemName: self.tabBarController.selectedIndex == icon ? icon.icon + ".fill" : icon.icon)
-                                .font(.system(size: 25))
-                                .foregroundColor(self.tabBarController.selectedIndex == icon ? .blue : Color(UIColor.gray))
-                                                        .frame(width: 55, height: 55)
-                                                        .cornerRadius(30)
+                            .font(.system(size: 25))
+                            .foregroundColor(self.tabBarController.selectedIndex == icon ? .blue : Color(UIColor.gray))
+                            .frame(width: 55, height: 55)
+                            .cornerRadius(30)
                         
                     }
                     Spacer()
@@ -57,16 +57,6 @@ struct CustomTabBar: View {
     }
 }
 
-struct CustomMaterialEffectBlur: UIViewRepresentable {
-    var blurStyle: UIBlurEffect.Style = .systemUltraThinMaterial
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        return UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
-    }
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        uiView.effect = UIBlurEffect(style: blurStyle)
-    }
-}
-
 enum TabBarItem: Int, CaseIterable {
     case home = 0
     case map
@@ -75,20 +65,20 @@ enum TabBarItem: Int, CaseIterable {
     
     var icon: String {
         switch self {
-            case .home: return "house"
-            case .map: return "map"
-            case .socials: return "person.2.wave.2"
-            case .account: return "gearshape"
-        
+        case .home: return "house"
+        case .map: return "map"
+        case .socials: return "person.2.wave.2"
+        case .account: return "gearshape"
+            
         }
     }
     
     var title: String {
         switch self {
-            case .home: return "Home"
-            case .map: return "Discover"
-            case .socials: return "Social"
-            case .account: return "Account"
+        case .home: return "Home"
+        case .map: return "Discover"
+        case .socials: return "Social"
+        case .account: return "Account"
         }
     }
 }

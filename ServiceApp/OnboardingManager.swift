@@ -7,17 +7,24 @@
 
 import SwiftUI
 
+let onBoardingImages: [SingularOnboardingPage] = [
+    SingularOnboardingPage(placement: 0, color: .white, image: "onBoard-0", title: "Browse Opportunities", description: "Find service events from different categories posted by verified organizations near you"),
+    SingularOnboardingPage(placement: 1, color: .white, image: "onBoard-1", title: "Attend events", description: "Sign up and attend for upcoming events to earn service hours"),
+    SingularOnboardingPage(placement: 2, color: .white, image: "onBoard-2", title: "Connect with Friends", description: "See what events your friends are planning to attend"),
+    SingularOnboardingPage(placement: 3, color: .white, image: "onBoard-3", title: "Keeping track", description: "Keep track of your valid service hours and apply for the President's Volunteer Service Award!"),
+]
+
 struct OnboardingView: View {
     @EnvironmentObject var viewModel: LocationTrackerViewModel
     @Binding var hasOnboarded: Bool
     @State var pageIndex = 0
-    @State var numberOfPages = dummyOnboardingPages.count
+    @State var numberOfPages = onBoardingImages.count
     let passedOnboarding = UserDefaults.standard
     var body: some View {
         ZStack(alignment: .bottom) {
             ZStack(alignment: .bottomTrailing) {
                 TabView(selection: $pageIndex) {
-                    ForEach(dummyOnboardingPages, id: \.placement) { page in
+                    ForEach(onBoardingImages, id: \.placement) { page in
                         SingularOnboardingPageView(page: page)
                             .tag(page.placement)
                     }
@@ -74,7 +81,7 @@ struct OnboardingView: View {
                 .padding(.bottom, 40)
                 .id(pageIndex)
                 .allowsHitTesting(false)
-                
+            
             
         }.edgesIgnoringSafeArea(.all)
     }
@@ -92,17 +99,14 @@ struct SingularOnboardingPageView: View {
                 VStack(alignment: .leading) {
                     Text(page.title)
                         .font(.title).bold()
-//                        .foregroundColor(.black)
                     
                     Text(page.description)
                         .font(.subheadline).bold()
-//                        .foregroundColor(.black)
                 }.padding()
             }.padding()
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(page.color)
     }
 }
 
@@ -113,13 +117,6 @@ struct SingularOnboardingPage {
     var title: String
     var description: String
 }
-
-let dummyOnboardingPages: [SingularOnboardingPage] = [
-    SingularOnboardingPage(placement: 0, color: .white, image: "onBoard-0", title: "Browse Opportunities", description: "Find service events from different categories posted by verified organizations near you"),
-    SingularOnboardingPage(placement: 1, color: .white, image: "onBoard-1", title: "Attend events", description: "Sign up and attend for upcoming events to earn service hours"),
-    SingularOnboardingPage(placement: 2, color: .white, image: "onBoard-2", title: "Connect with Friends", description: "See what events your friends are planning to attend"),
-    SingularOnboardingPage(placement: 3, color: .white, image: "onBoard-3", title: "Keeping track", description: "Keep track of your valid service hours and apply for the President's Volunteer Service Award!"),
-]
 
 struct UIPageControlView: UIViewRepresentable {
     @Binding var currentPage: Int

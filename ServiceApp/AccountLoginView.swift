@@ -11,66 +11,35 @@ import Combine
 
 
 struct AccountLoginView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.colorScheme) var colorScheme
     @State var usernameEntered: String = ""
     @State var passwordEntered: String = ""
-//    @State var rememberUser: Bool = false
-//    @State var selection: Int = 0
+    
     @State var goIntoRegistration: Bool = false
-//    private let items: [String] = ["Attendee", "Host"]
     var body: some View {
         Group {
-//        if selection == 0 {
             if goIntoRegistration == false {
                 
                 VStack(alignment: .leading) {
                     Text("Welcome").font(.largeTitle).bold()
                         .padding(.bottom)
-//                    SegmentedPicker(items: self.items, selection: $selection)
                     
-                    Section(header: Text("Sign in").font(.headline).bold(), footer: Text(viewModel.signInDialogMessage).foregroundColor(.red).font(.caption).bold()) {
-                        //                        HStack (alignment: .center, spacing: 10) {
-                        //                            Image(systemName: "envelope.fill")
-                        //                                .resizable()
-                        //                                .frame(width: 25, height: 20)
-                        //                                .aspectRatio(contentMode: .fit)
-                        //                                .foregroundColor(Color.mint.opacity(0.5))
-                        //
+                    Section(header: Text("Sign in").font(.headline).bold(), footer: Text(authVM.signInDialogMessage).foregroundColor(.red).font(.caption).bold()) {
                         TextField ("Email", text: $usernameEntered)
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
-                        //                        }
                             .padding(12)
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(15)
-                        //                        HStack {
-                        //                            Spacer().frame(width:2.5)
-                        //                            Image(systemName: "lock.fill")
-                        //                                .resizable()
-                        //                                .frame(width: 20, height: 25)
-                        //                                .aspectRatio(contentMode: .fit)
-                        //                                .foregroundColor(Color.mint.opacity(0.5))
-                        //                            Spacer().frame(width:12.5)
+                        
                         SecureField("Password", text: $passwordEntered)
                             .padding(12)
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(15)
-                }
-                    
-                    
+                    }
                     
                     HStack {
-//                        Image(systemName: rememberUser ? "checkmark.square" : "square")
-//                            .resizable()
-//                            .frame(width: 20, height: 20)
-//                            .foregroundColor(rememberUser ? Color.mint : Color.black)
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    rememberUser.toggle()
-//                                }
-//                            }
-//                        Text("Remember me")
                         Spacer(minLength: 20)
                         Text("Sign Up")
                             .underline()
@@ -90,7 +59,7 @@ struct AccountLoginView: View {
                     .frame(width: 175, height: 45)
                     .overlay(Text("Login"))
                     .onTapGesture(perform: {
-                        viewModel.emailPwdSignIn(email: usernameEntered, password: passwordEntered)
+                        authVM.emailPwdSignIn(email: usernameEntered, password: passwordEntered)
                     })
                 Text("————————— or —————————")
                     .font(.subheadline)
@@ -99,7 +68,7 @@ struct AccountLoginView: View {
                 VStack {
                     Button(action: {
                         
-                        viewModel.gAuthSignIn()
+                        authVM.gAuthSignIn()
                     }) {
                         HStack {
                             Image("google")
@@ -132,10 +101,6 @@ struct AccountLoginView: View {
             else {
                 AccountSignUpView(goToRegistration: $goIntoRegistration)
             }
-//        }
-//        else {
-//            WebView()
-//        }
         }.ignoresSafeArea(.keyboard)
     }
 }
@@ -214,7 +179,7 @@ struct SegmentedPicker: View {
             .shadow(color: SegmentedPicker.ShadowColor, radius: SegmentedPicker.ShadowRadius)
             .frame(width: self.segmentSize.width, height: self.segmentSize.height)
             .offset(x: self.computeActiveSegmentHorizontalOffset(), y: 0)
-            .animation(Animation.spring(blendDuration: SegmentedPicker.AnimationDuration))
+            .animation(.spring(blendDuration: SegmentedPicker.AnimationDuration), value: self.computeActiveSegmentHorizontalOffset())
             .eraseToAnyView()
     }
     

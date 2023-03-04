@@ -14,11 +14,11 @@ struct HomeScheduleDetailView: View {
     
     var currentlyPresenting: EventInformationModel = EventInformationModel()
     
-    @State var show = false
+    @State var showDetailView = false
     var body: some View {
         if toggleHeroAnimation {
-            if show {
-                ScheduleCardDetailView(show: $show, toggleHeroAnimation: $toggleHeroAnimation)
+            if showDetailView {
+                ScheduleCardDetailView(show: $showDetailView, toggleHeroAnimation: $toggleHeroAnimation)
             } else {
                 ScrollView {
                     VStack {
@@ -71,23 +71,18 @@ struct HomeScheduleDetailView: View {
                         
                         ForEach(eventDatas, id: \.id) { event in
                             ScheduleCard(animation: animation, data: event, onDelete: {
-                                print("dsaflasdfdafkjsadnfdfnsdalj")
                                 for (index, loopEvent) in eventDatas.enumerated() {
                                     if(loopEvent.id == event.id) {
                                         print("index", index)
                                         eventDatas.remove(at: index)
                                     }
                                 }
-                            }, show: $show)
+                            }, show: $showDetailView)
                         }
                     }
-                    
-                    
                 }
             }
             Spacer()
-            
-            
         }
     }
 }

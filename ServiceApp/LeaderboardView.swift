@@ -11,114 +11,113 @@ struct LeaderboardView: View {
     var listOfFriends: [UserInfoFromAuth?]
     
     var body: some View {
-        
-            HStack {
-                VStack {
-                    ZStack {
-                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.4745098039, green: 0.4745098039, blue: 0.4745098039, alpha: 1)), Color(#colorLiteral(red: 0.7725490196, green: 0.7725490196, blue: 0.7725490196, alpha: 1)), Color(#colorLiteral(red: 0.8078431373, green: 0.8078431373, blue: 0.8078431373, alpha: 1))]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                            .mask(Circle()
-                                .strokeBorder(lineWidth: 3)
-                                .frame(width: display.width / 4)
-                            )
-                        if listOfFriends.count < 2 {
-                            Image("person")
+        HStack {
+            VStack {
+                ZStack {
+                    LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.4745098039, green: 0.4745098039, blue: 0.4745098039, alpha: 1)), Color(#colorLiteral(red: 0.7725490196, green: 0.7725490196, blue: 0.7725490196, alpha: 1)), Color(#colorLiteral(red: 0.8078431373, green: 0.8078431373, blue: 0.8078431373, alpha: 1))]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                        .mask(Circle()
+                            .strokeBorder(lineWidth: 3)
+                            .frame(width: display.width / 4)
+                        )
+                    if listOfFriends.count < 2 {
+                        Image("person")
+                            .resizable()
+                            .opacity(0.1)
+                            .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                    } else {
+                        //
+                        AsyncImage(url: listOfFriends[1]?.photoURL) { img in
+                            img
                                 .resizable()
-                                .opacity(0.1)
                                 .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                        } else {
-                            //
-                            AsyncImage(url: listOfFriends[1]?.photoURL) { img in
-                                img
-                                    .resizable()
+                        } placeholder: {
+                            ZStack {
+                                Color.gray
                                     .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                            } placeholder: {
-                                ZStack {
-                                    Color.gray
-                                        .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                                    ProgressView()
-                                }
+                                ProgressView()
                             }
                         }
                     }
-                    Text((listOfFriends.count < 2 ? "Friend" : listOfFriends[1]?.displayName)!)
-                        .font(.system(.caption)).bold()
-                    
                 }
-                .offset(y: display.height / 30)
+                Text((listOfFriends.count < 2 ? "Friend" : listOfFriends[1]?.displayName)!)
+                    .font(.system(.caption)).bold()
                 
-                VStack {
-                    ZStack {
-                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 0.7058823529, blue: 0.01568627451, alpha: 1)), Color(#colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0.003921568627, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.968627451, blue: 0.4784313725, alpha: 1))]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                            .mask(Circle()
-                                .strokeBorder(lineWidth: 3)
-                                .frame(width: display.width / 3.5, height: display.height / 3.5)
-                            )
-                        if listOfFriends.isEmpty {
-                            Image("person")
-                                .resizable()
-                                .opacity(0.5)
-                                .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                        } else {
-                            AsyncImage(url: listOfFriends[0]?.photoURL) { img in
-                                img
-                                    .resizable()
-                                    .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                                
-                                    .scaleEffect(1.05)
-                                    .clipShape(Circle())
-                                    .shadow(color: Color.black.opacity(0.2), radius: 10, x: -5, y: -5)
-                                    .shadow(color: Color.white.opacity(0.7), radius: 10, x: 5, y: 5)
-                            } placeholder: {
-                                ZStack {
-                                    Color.gray
-                                        .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                                    ProgressView()
-                                }
-                            }
-                        }
-                        
-                    }
-                    Text((listOfFriends.isEmpty ? "Friend" : listOfFriends[0]?.displayName)!)
-                        .font(.system(.caption)).bold()
-                        .padding(.top, 20)
-                }
-                
-                
-                VStack {
-                    ZStack {
-                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.5019607843, green: 0.2901960784, blue: 0, alpha: 1)), Color(#colorLiteral(red: 0.537254902, green: 0.368627451, blue: 0.1019607843, alpha: 1)), Color(#colorLiteral(red: 0.6901960784, green: 0.5529411765, blue: 0.3411764706, alpha: 1))]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                            .mask(Circle()
-                                .strokeBorder(lineWidth: 3)
-                                .frame(width: display.width / 4)
-                            )
-                        if listOfFriends.count < 3 {
-                            Image("person")
+            }
+            .offset(y: display.height / 30)
+            
+            VStack {
+                ZStack {
+                    LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 0.7058823529, blue: 0.01568627451, alpha: 1)), Color(#colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0.003921568627, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.968627451, blue: 0.4784313725, alpha: 1))]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                        .mask(Circle()
+                            .strokeBorder(lineWidth: 3)
+                            .frame(width: display.width / 3.5, height: display.height / 3.5)
+                        )
+                    if listOfFriends.isEmpty {
+                        Image("person")
+                            .resizable()
+                            .opacity(0.5)
+                            .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                    } else {
+                        AsyncImage(url: listOfFriends[0]?.photoURL) { img in
+                            img
                                 .resizable()
                                 .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                                .opacity(0.1)
-                        } else {
-                            AsyncImage(url: listOfFriends[2]?.photoURL) { img in
-                                img
-                                    .resizable()
+                            
+                                .scaleEffect(1.05)
+                                .clipShape(Circle())
+                                .shadow(color: Color.black.opacity(0.2), radius: 10, x: -5, y: -5)
+                                .shadow(color: Color.white.opacity(0.7), radius: 10, x: 5, y: 5)
+                        } placeholder: {
+                            ZStack {
+                                Color.gray
                                     .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                            } placeholder: {
-                                ZStack {
-                                    Color.gray
-                                        .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
-                                    ProgressView()
-                                }
+                                ProgressView()
                             }
                         }
                     }
                     
-                    Text((listOfFriends.count < 3 ? "Friend" : listOfFriends[2]?.displayName)!)
-                        .font(.system(.caption)).bold()
-                    
                 }
-                .offset(y: display.height / 30)
-            }.padding(.vertical, 10)
-        }
+                Text((listOfFriends.isEmpty ? "Friend" : listOfFriends[0]?.displayName)!)
+                    .font(.system(.caption)).bold()
+                    .padding(.top, 20)
+            }
+            
+            
+            VStack {
+                ZStack {
+                    LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.5019607843, green: 0.2901960784, blue: 0, alpha: 1)), Color(#colorLiteral(red: 0.537254902, green: 0.368627451, blue: 0.1019607843, alpha: 1)), Color(#colorLiteral(red: 0.6901960784, green: 0.5529411765, blue: 0.3411764706, alpha: 1))]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                        .mask(Circle()
+                            .strokeBorder(lineWidth: 3)
+                            .frame(width: display.width / 4)
+                        )
+                    if listOfFriends.count < 3 {
+                        Image("person")
+                            .resizable()
+                            .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                            .opacity(0.1)
+                    } else {
+                        AsyncImage(url: listOfFriends[2]?.photoURL) { img in
+                            img
+                                .resizable()
+                                .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                        } placeholder: {
+                            ZStack {
+                                Color.gray
+                                    .modifier(LeaderboardIconModifier(frameDivdedBy: 5))
+                                ProgressView()
+                            }
+                        }
+                    }
+                }
+                
+                Text((listOfFriends.count < 3 ? "Friend" : listOfFriends[2]?.displayName)!)
+                    .font(.system(.caption)).bold()
+                
+            }
+            .offset(y: display.height / 30)
+        }.padding(.vertical, 10)
     }
+}
 
 
 

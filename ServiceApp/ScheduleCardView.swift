@@ -25,7 +25,7 @@ struct ScheduleCard: View {
         return formatter
     }()
     
-//    var onTapCallback : (EventInformationModel) -> ()
+    //    var onTapCallback : (EventInformationModel) -> ()
     
     @State var eventIsLive: Bool = false
     @State var eventExistsInUser: Bool = false
@@ -35,45 +35,45 @@ struct ScheduleCard: View {
     @State var listOfFriendsWhoSignedUpForEvent: [String] = []
     
     @Binding var show: Bool
-
+    
     var body: some View {
         
-            Button {
-                let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                hapticResponse.impactOccurred()
-                self.currentlyPresentedScheduleCard.currentlyShowing = data
-                withAnimation(.spring()) {
-                    show.toggle()
-                }
-            } label: {
-                if !self.viewRendered {
-                    ProgressView().frame(width: 290, height: 250)
-                        .task {
-                            FIRCloudImages.getImage(gsURL: data.images![0], eventID: data.FIRDocID!, eventDate: data.time) { image in
-                                self.placeHolderUIImage = image!
-                                self.viewRendered = true
-                            }
-                            
-                            print("cache size", URLCache.shared.memoryCapacity / 1024)
+        Button {
+            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+            hapticResponse.impactOccurred()
+            self.currentlyPresentedScheduleCard.currentlyShowing = data
+            withAnimation(.spring()) {
+                show.toggle()
+            }
+        } label: {
+            if !self.viewRendered {
+                ProgressView().frame(width: 290, height: 250)
+                    .task {
+                        FIRCloudImages.getImage(gsURL: data.images![0], eventID: data.FIRDocID!, eventDate: data.time) { image in
+                            self.placeHolderUIImage = image!
+                            self.viewRendered = true
                         }
-                } else {
+                        
+                        print("cache size", URLCache.shared.memoryCapacity / 1024)
+                    }
+            } else {
                 VStack {
                     // image can be removed later on if we dont want to have the host of the event add it
                     ZStack(alignment: .top) {
                         if let imageLoaded = self.placeHolderUIImage {
                             Image(uiImage: imageLoaded)
-//                            Image("leaderboardPic-1")
+                            //                            Image("leaderboardPic-1")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .matchedGeometryEffect(id: "id", in: animation, properties: .size)
-//                                .matchedGeometryEffect(id: "Shape", in: animation)
+                            //                                .matchedGeometryEffect(id: "Shape", in: animation)
                         }
-
-//
+                        
+                        //
                         HStack {
                             Spacer()
                             HStack(alignment: .top, spacing: 15) {
-                            //TODO: check if an event exists in a user's list for realtime db
+                                //TODO: check if an event exists in a user's list for realtime db
                                 if ( (eventExistsInUser) && (checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now)) ) {
                                     Button(action: {
                                         self.toggleCheckInSheet.toggle()
@@ -85,11 +85,6 @@ struct ScheduleCard: View {
                                             .padding(5)
                                     }
                                 }
-//                                RoundedRectangle(cornerRadius: 50)
-//                                    .frame(width: 65, height: 65)
-//                                    .foregroundColor(Color(.systemGray4).opacity(0.95))
-//                                    .overlay(Text(data.category == "Humanitarian" ? "🤝🏿" : "🌲").font(.system(size: 40))).padding([.top, .trailing], 5)
-                                
                             }
                         }
                     }
@@ -135,7 +130,7 @@ struct ScheduleCard: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 25, height: 25)
                                 }
-
+                                
                                 Image(systemName: "trash.circle.fill")
                                     .renderingMode(.original)
                                     .resizable()
@@ -178,26 +173,25 @@ struct ScheduleCard: View {
                                         Spacer()
                                     }
                                     
-                                        .task {
-                                            if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
-                                                self.eventIsLive.toggle()
-                                                //                                            data.FIRDocID #error() //TODO: AHA
-                                                
-                                            }
-                                            FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
-                                                for (friend, events) in result {
-                                                    for i in events! {
-                                                        if i == data.FIRDocID {
-                                                            //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
-                                                            print(friend)
-                                                            listOfFriendsWhoSignedUpForEvent.append(friend)
-                                                            friendSignedUp = true
-                                                            //                                                        FriendsCommonEvent().friendsWhoSignedUp = self.listOfFriendsWhoSignedUpForEvent!
-                                                        }
+                                    .task {
+                                        if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
+                                            self.eventIsLive.toggle()
+                                            //                                            data.FIRDocID #error() //TODO: AHA
+                                            
+                                        }
+                                        FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
+                                            for (friend, events) in result {
+                                                for i in events! {
+                                                    if i == data.FIRDocID {
+                                                        //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
+                                                        print(friend)
+                                                        listOfFriendsWhoSignedUpForEvent.append(friend)
+                                                        friendSignedUp = true
                                                     }
                                                 }
                                             }
                                         }
+                                    }
                                 }
                                 
                                 
@@ -205,34 +199,26 @@ struct ScheduleCard: View {
                                     FriendsCommonEvent(listOfFriendsWhoSignedUpForEvent: $listOfFriendsWhoSignedUpForEvent)
                                 }
                             }
-                            
                         }
-                        
                     }
                     .padding()
                 }
-                
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 10)
-//                        .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
-//                )
                 .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.25)))
                 .cornerRadius(15)
                 .padding([.top, .horizontal])
             }
+        }
+        .buttonStyle(CardButtonStyle())
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(action: {
+                
+            }) {
+                Image(systemName: "trash")
             }
-            .buttonStyle(CardButtonStyle())
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button(action: {
-                    
-                }) {
-                    Image(systemName: "trash")
-                }
-            }
-            .sheet(isPresented: $toggleCheckInSheet) {
-                CheckInView(data: data)
-            }
-        
+        }
+        .sheet(isPresented: $toggleCheckInSheet) {
+            CheckInView(data: data)
+        }
         
     }
     
@@ -248,7 +234,7 @@ struct ScheduleCard: View {
 struct CardButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         return configuration.label
-            .scaleEffect(configuration.isPressed ? 0.96 : 1)
-            .animation(.easeIn, value: configuration.isPressed)
+            .scaleEffect(configuration.isPressed ? 0.93 : 1)
+            .animation(.spring(), value: configuration.isPressed)
     }
 }

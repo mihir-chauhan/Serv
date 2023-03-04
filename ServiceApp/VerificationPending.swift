@@ -11,7 +11,7 @@ import AuthenticationServices
 import AlertToast
 
 struct VerificationPending: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @AppStorage("signInState", store: .standard) var signInState: AuthViewModel.SignInState = .signedIn
     @State var showAlertIsVerified: Bool = false
     @State var showAlertIsNotVerified: Bool = false
@@ -21,7 +21,6 @@ struct VerificationPending: View {
         NavigationView {
             VStack {
                 Image(systemName: "envelope.badge.fill")
-                
                     .symbolRenderingMode(.multicolor)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -35,7 +34,7 @@ struct VerificationPending: View {
                         .padding(.bottom, 5)
                     Text("We sent a confirmation email to: ")
                         .font(.headline)
-                    Text(viewModel.decodeUserInfo()?.email ?? "example@ex.com")
+                    Text(authVM.decodeUserInfo()?.email ?? "example@ex.com")
                         .font(.headline)
                         .bold()
                         .padding(.bottom, 10)
@@ -114,7 +113,7 @@ struct VerificationPending: View {
                     Alert(
                         title: Text("Are you sure you want to sign out?"),
                         primaryButton: .destructive(Text("Sign out")) {
-                            viewModel.signOut()
+                            authVM.signOut()
                         },
                         secondaryButton: .cancel()
                     )
@@ -131,8 +130,3 @@ struct VerificationPending: View {
     }
 }
 
-struct VerificationPending_Previews: PreviewProvider {
-    static var previews: some View {
-        VerificationPending()
-    }
-}

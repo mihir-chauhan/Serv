@@ -7,26 +7,24 @@
 
 import SwiftUI
 
-import MapKit
-import SDWebImageSwiftUI
-
 struct HomeView: View {
-    @EnvironmentObject var viewModel: LocationTrackerViewModel
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var locationVM: LocationTrackerViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var results: FirestoreCRUD
     @Environment(\.colorScheme) var colorScheme
     
     @State var toggleHeroAnimation: Bool = false
     @State var showingCategoryDetailAlert = false
     @State var eventDatas = [EventInformationModel]()
-    
     @State var recommendedEvents = [EventInformationModel]()
     @State var allowsTracking: Bool = false
     @State var alertInfoIndex = 0
     @State var totalHours: Double = 0
+    
+    
     @State var selectBirthYearSheet: Bool = false
     @State var birthYear: Int = 0
-
+    
     let defaults = UserDefaults.standard
     var animation: Namespace.ID
     
@@ -41,10 +39,8 @@ struct HomeView: View {
                                 Text("Home")
                                     .font(.largeTitle)
                                     .bold()
-                                //                Your upcoming events
+                                // Your upcoming events
                                 LinearGradient(gradient: Gradient(colors: [
-//                                    Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 1)),
-//                                    Color.pink
                                     Color("colorSecondary"),
                                     Color("colorPrimary")
                                     
@@ -95,11 +91,6 @@ struct HomeView: View {
                                     }.padding(15)
                                 )
                             }
-                            //                    VStack(alignment: .trailing) {
-                            //                        PVSAProgressBar()
-                            //                        Text("16 more hours to go...")
-                            //                            .font(.caption)
-                            //                    }
                             
                             RoundedRectangle(cornerRadius: 20)
                                 .frame(width: display.width - 40, height: 50)
@@ -134,7 +125,9 @@ struct HomeView: View {
                                                                        : (colorScheme == .dark ?.systemGray4 : .systemGray6)))
                                                 .overlay(Text(results.allCategories[index].icon).font(.system(size: 30)))
                                                 .onTapGesture() {
-                                                    results.allCategories[index].savedCategory!.toggle()
+                                                    withAnimation {
+                                                        results.allCategories[index].savedCategory!.toggle()
+                                                    }
                                                     UserDefaults.standard.setValue(results.allCategories[index].savedCategory!, forKey: "\(results.allCategories[index].name)")
                                                     let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                                                     hapticResponse.impactOccurred()
@@ -151,32 +144,22 @@ struct HomeView: View {
                                 }
                                 
                                 Spacer().frame(height: 15)
-                                if viewModel.allowingLocationTracker {
-                                    //                        if(savedCategories.filter{$0}.count != 0) {
-                                    //
+                                if locationVM.allowingLocationTracker {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack {
                                             if !recommendedEvents.isEmpty {
                                                 ForEach(recommendedEvents, id: \.self) { event in
                                                     ForEach(results.allCategories, id: \.self) { i in
                                                         if event.category == i.name {
-                                                            if self.defaults.bool(forKey: "\(i.name)") && event.time > Date() {
-                                                                RecommendedView(data: event, emoji: "\(i.icon)")
+                                                            if self.defaults.bool(forKey: i.name) && event.time > Date() {
+                                                                RecommendedView(data: event, emoji: i.icon)
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
                                         }.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 0))
-                                    }//.padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 0))
-                                    //
-                                    //
-                                    //                            }
-                                    //
-                                    //                            }
-                                    //                            else {
-                                    //                                Spacer().frame(width: 290, height: 250)
-                                    //                            }
+                                    }
                                 }
                                 else {
                                     VStack {
@@ -198,30 +181,25 @@ struct HomeView: View {
                                 .padding(.bottom, 90)
                         }
                         
-                        
                         Spacer()
                             .padding(.bottom, 30)
                         
                     }
-                    
                 }
                 .padding(.vertical)
             }
-            .onChange(of: viewModel.queriedEventsList) { value in
+            .onChange(of: locationVM.queriedEventsList) { value in
                 if value.count >= 1 {
                     recommendedEvents = value
-                    print("221, ", recommendedEvents)
                 }
             }
             .onAppear {
-                if viewModel.queriedEventsList.count >= 1 {
-                    recommendedEvents = viewModel.queriedEventsList
-                    print("228, ", recommendedEvents)
+                if locationVM.queriedEventsList.count >= 1 {
+                    recommendedEvents = locationVM.queriedEventsList
                 }
-                
             }
             .task {
-                viewModel.checkIfLocationServicesIsEnabled(limitResults: true)
+                locationVM.checkIfLocationServicesIsEnabled(limitResults: true)
                 
                 print("Before: newAGUser?", UserDefaults.standard.bool(forKey: "newAppleGoogleUser"))
                 if UserDefaults.standard.bool(forKey: "newAppleGoogleUser") {
@@ -229,37 +207,29 @@ struct HomeView: View {
                     self.selectBirthYearSheet.toggle()
                 }
                 print("After: newAGUser?", UserDefaults.standard.bool(forKey: "newAppleGoogleUser"))
-                if authViewModel.decodeUserInfo() != nil {
-                    results.allTimeCompleted(for: authViewModel.decodeUserInfo()!.uid) { totalHours in
+                if authVM.decodeUserInfo() != nil {
+                    results.allTimeCompleted(for: authVM.decodeUserInfo()!.uid) { totalHours in
                         for i in totalHours {
                             self.totalHours += i
                         }
                     }
                     if(results.allCategories.count != 0) {
-                        FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
+                        FirebaseRealtimeDatabaseCRUD().readEvents(for: authVM.decodeUserInfo()!.uid) { eventsArray in
                             if eventsArray != nil {
                                 for i in 0..<eventsArray!.count {
-                                    print("HIHDflds33", eventsArray![i])
                                     results.getSpecificEvent(eventID: eventsArray![i]) { event in
-//                                        if event.time < Date.now {
-                                            self.eventDatas.append(event)
-//                                        }
-                                        print("FFF33F ", eventDatas.count)
+                                        self.eventDatas.append(event)
                                     }
                                 }
                             }
                         }
                     } else {
                         results.queryAllCategoriesClosure(resetAllToTrue: false) { result in
-                            FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
+                            FirebaseRealtimeDatabaseCRUD().readEvents(for: authVM.decodeUserInfo()!.uid) { eventsArray in
                                 if eventsArray != nil {
                                     for i in 0..<eventsArray!.count {
-                                        print("HIHDflds77", eventsArray![i])
                                         results.getSpecificEvent(eventID: eventsArray![i]) { event in
-//                                            if event.time < Date.now {
-                                                self.eventDatas.append(event)
-//                                            }
-                                            print("FFF77F ", eventDatas.count)
+                                            self.eventDatas.append(event)
                                         }
                                     }
                                 }
@@ -273,9 +243,9 @@ struct HomeView: View {
                 Alert(title: Text(results.allCategories[alertInfoIndex].name), message: Text(results.allCategories[alertInfoIndex].description), dismissButton: .default(Text("Okay")))
             }
             .sheet(isPresented: $selectBirthYearSheet, onDismiss: {
-                if let data = authViewModel.decodeUserInfo() {
+                if let data = authVM.decodeUserInfo() {
                     FirebaseRealtimeDatabaseCRUD().setBirthYear(uid: data.uid, birthYear: birthYear)
-                    authViewModel.encodeUserInfo(for: UserInfoFromAuth(uid: data.uid, displayName: data.displayName, photoURL: data.photoURL, email: data.email, bio: data.bio, birthYear: birthYear))
+                    authVM.encodeUserInfo(for: UserInfoFromAuth(uid: data.uid, displayName: data.displayName, photoURL: data.photoURL, email: data.email, bio: data.bio, birthYear: birthYear))
                     print("setBirthYear", birthYear)
                 } else {
                     print("FAILED TO SET birthYear", birthYear)
@@ -283,6 +253,8 @@ struct HomeView: View {
             }, content: {
                 AgeVerification(showView: $selectBirthYearSheet, code: $birthYear, dismissDisabled: true)
             })
+            
+            
             if toggleHeroAnimation {
                 VStack {
                     HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation, eventDatas: eventDatas)
@@ -294,22 +266,3 @@ struct HomeView: View {
     }
 }
 
-extension Array: RawRepresentable where Element: Codable {
-    public init?(rawValue: String) {
-        guard let data = rawValue.data(using: .utf8),
-              let result = try? JSONDecoder().decode([Element].self, from: data)
-        else {
-            return nil
-        }
-        self = result
-    }
-    
-    public var rawValue: String {
-        guard let data = try? JSONEncoder().encode(self),
-              let result = String(data: data, encoding: .utf8)
-        else {
-            return "[]"
-        }
-        return result
-    }
-}

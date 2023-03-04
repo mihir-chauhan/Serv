@@ -15,9 +15,6 @@ struct ServiceAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-//            NewGraph(data: [1,2,3])
-//            LineGraph2().frame(height: 220)
-//                .padding()
             ContentView()
         }
     }

@@ -12,7 +12,7 @@ import AlertToast
 
 
 struct AddFriendSheet: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @State var showPhotoPicker = false
     @State var selectedImage: UIImage? = nil
     
@@ -26,7 +26,7 @@ struct AddFriendSheet: View {
         NavigationView {
             if #available(iOS 15.0, *) {
                 TabView(selection: $selectedItem) {
-                    Image(uiImage: UIImage(data: generateQRCode(from: (viewModel.decodeUserInfo()?.uid!)!)!)!)
+                    Image(uiImage: UIImage(data: generateQRCode(from: (authVM.decodeUserInfo()?.uid!)!)!)!)
                                             .resizable()
                                             .frame(width: 290, height: 290, alignment: .center)
                                             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -42,16 +42,12 @@ struct AddFriendSheet: View {
                                     case .success(let result):
                                         FirebaseRealtimeDatabaseCRUD().checkIfUserExists(uuidString: result.string) { value in
                                             if value == true {
-                                                FirebaseRealtimeDatabaseCRUD().readFriends(for: (viewModel.decodeUserInfo()?.uid)!) { friendsArray in
-                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: (viewModel.decodeUserInfo()?.uid)!, friendUUID: result.string)
+                                                FirebaseRealtimeDatabaseCRUD().readFriends(for: (authVM.decodeUserInfo()?.uid)!) { friendsArray in
+                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: (authVM.decodeUserInfo()?.uid)!, friendUUID: result.string)
                                                     
-                                                    // getting friend's pfp, so that we could cache it in FileManager
-//                                                    FirebaseRealtimeDatabaseCRUD().getProfilePictureFromURL(uid: result.string) { url in
-//
-//                                                    }
+
                                                     
-                                                    
-                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: result.string, friendUUID: (viewModel.decodeUserInfo()?.uid)!)
+                                                    FirebaseRealtimeDatabaseCRUD().writeFriends(for: result.string, friendUUID: (authVM.decodeUserInfo()?.uid)!)
                                                     
                                                     showSuccess = true
                                                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
@@ -72,9 +68,7 @@ struct AddFriendSheet: View {
                                     .padding()
                             }
                         }
-//                        if showSuccess {
-//                            ConfirmNewFriendView(show: $showSuccess)
-//                        }
+
                     }.tabItem {
                         Image(systemName: "qrcode.viewfinder")
                     }
@@ -107,13 +101,6 @@ struct AddFriendSheet: View {
                         }
                     }
                 }
-//                .toolbar {
-//                    ToolbarItem(placement: .navigationBarTrailing) {
-//                        Button(action: { showPhotoPicker.toggle() }) {
-//                            Text("Choose Photo...")
-//                        }
-//                    }
-//                }
                 .toast(isPresenting: $showSuccess) {
                     AlertToast(type: .complete(.green), title: "Friend Added")
                 }

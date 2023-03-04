@@ -26,7 +26,7 @@ struct ScheduleCardDetailView: View {
     @Binding var toggleHeroAnimation: Bool
     
     
-    @State var broadCasts = [BroadCastMessageModel]()
+    @State var broadcasts = [BroadcastMessageModel]()
     var body: some View {
         let data = currentlyPresentedScheduleCard.currentlyShowing
         if !self.viewRendered {
@@ -131,7 +131,8 @@ struct ScheduleCardDetailView: View {
                             
                         }
                         Spacer()
-                        Text(dateToString(date: data.time))
+//                        Text(dateToString(date: data.time))
+                        Text(data.time.dateToString())
                     }
                     
                     VStack {
@@ -151,17 +152,16 @@ struct ScheduleCardDetailView: View {
                             )
                         VStack {
                             
-                            ForEach(broadCasts, id: \.self) { msg in
+                            ForEach(broadcasts, id: \.self) { msg in
                                 HStack {
                                     Text(msg.message)
                                     Spacer()
-                                    Text(dateToString(date: msg.date))
+                                    Text(msg.date.dateToString())
                                         .font(.caption)
                                 }
                                 .padding(.vertical, 10)
                                 .fixedSize(horizontal: false, vertical: true)
                             }
-                            //                            .frame(width: UIScreen.main.bounds.width - 50)
                         }
                     }.background(GeometryReader {
                         Color.clear.preference(key: ViewHeightKey.self,
@@ -173,7 +173,6 @@ struct ScheduleCardDetailView: View {
                     .clipped()
                     .transition(.move(edge: .bottom))
                     .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
-//                        #colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4))
                     
                     .onTapGesture {
                         let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
@@ -307,10 +306,10 @@ struct ScheduleCardDetailView: View {
                 FirestoreCRUD().getBroadcast(eventID: data.FIRDocID!, eventCategory: data.category) { broadcasts in
                     if broadcasts != nil {
                         if broadcasts!.count != 0 {
-                            self.broadCasts = broadcasts!
+                            self.broadcasts = broadcasts!
                         }
                         else {
-                            self.broadCasts = [BroadCastMessageModel(message: "No new updates! Last checked:", date: Date())]
+                            self.broadcasts = [BroadcastMessageModel(message: "No new updates! Last checked:", date: Date())]
                         }
                         
                     }
@@ -320,13 +319,6 @@ struct ScheduleCardDetailView: View {
                 }
             }
         }
-    }
-    func dateToString(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd' 'HH:mm"
-        let stringDate = dateFormatter.string(from: date)
-        return stringDate
-        
     }
 }
 

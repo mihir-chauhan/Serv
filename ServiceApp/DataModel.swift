@@ -9,7 +9,6 @@ import MapKit
 import SwiftUI
 
 
-
 var display: (width: CGFloat, height: CGFloat) = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
 
 var user_device_uuid: String = UIDevice.current.identifierForVendor!.uuidString
@@ -71,23 +70,19 @@ struct EventCategoryModel: Hashable {
     var icon: String
     var description: String
     var savedCategory: Bool? = false
-    
-    mutating func setState() {
-        print("boolean before ", savedCategory)
-//        let val = !self.savedCategory!
-//        UserDefaults.standard.set(val, forKey: "\(self.name)")
-        print("boolean is set to ", savedCategory)
-    }
-    
 }
 
-struct BroadCastMessageModel: Hashable {
+struct BroadcastMessageModel: Hashable {
     var message: String
     var date: Date
 }
 
 class CurrentlyPresentedScheduleCard: ObservableObject {
     @Published var currentlyShowing: EventInformationModel = EventInformationModel()
+}
+
+final class TabBarController: ObservableObject {
+    @Published var selectedIndex: TabBarItem = .home
 }
 
 

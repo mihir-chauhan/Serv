@@ -32,7 +32,6 @@ struct AgeVerification: View {
                         .overlay(Text("Submit").foregroundColor(Color.black).bold())
                         .padding()
                 }.disabled(!allowSubmit)
-    //        }.padding(30)
         }
         .interactiveDismissDisabled(dismissDisabled)
     }
