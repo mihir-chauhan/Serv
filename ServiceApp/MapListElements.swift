@@ -151,7 +151,7 @@ struct MapListElements: View {
                     }.padding(.bottom, 130)
                 }
             }
-            CloseButton(sheetMode: $sheetObserver.sheetMode)
+            CloseButtonSheetMode(sheetMode: $sheetObserver.sheetMode)
         }
         
         .onChange(of: locationVM.startRangeDate) { _ in

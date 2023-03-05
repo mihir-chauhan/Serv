@@ -28,12 +28,6 @@ struct EventDetailView: View {
     @State var expandSpecialReqInfo: Bool = false
     @State var expandOrganizationInfo: Bool = false
     
-    private func checkForLiveEvents(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-        let stringDate = dateFormatter.string(from: date)
-        return stringDate
-    }
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
         FirebaseRealtimeDatabaseCRUD().readEvents(for: authVM.decodeUserInfo()!.uid) { eventsArray in
             if eventsArray == nil {
@@ -100,11 +94,6 @@ struct EventDetailView: View {
                     Text("\t \(data.description)")
                         .font(.caption)
                         .padding(.bottom, 5)
-//                    Text("Special requirements:")
-//                        .bold()
-//                    Text(data.specialRequirements)
-//                        .font(.caption)
-//                        .padding(.bottom, 5)
                 }
                 
                 SpecialRequirementsInfoCard(specialRequirements: data.specialRequirements, expandInfo: $expandSpecialReqInfo)

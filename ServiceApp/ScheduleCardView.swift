@@ -74,7 +74,7 @@ struct ScheduleCard: View {
                             Spacer()
                             HStack(alignment: .top, spacing: 15) {
                                 //TODO: check if an event exists in a user's list for realtime db
-                                if ( (eventExistsInUser) && (checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now)) ) {
+                                if ( (eventExistsInUser) && (data.time.dateToString(style: "MM/dd/yyyy") == Date.now.dateToString(style: "MM/dd/yyyy")) ) {
                                     Button(action: {
                                         self.toggleCheckInSheet.toggle()
                                     }) {
@@ -174,9 +174,8 @@ struct ScheduleCard: View {
                                     }
                                     
                                     .task {
-                                        if checkForLiveEvents(date: data.time) == checkForLiveEvents(date: Date.now) {
+                                        if data.time.dateToString(style: "MM/dd/yyyy") == Date.now.dateToString(style: "MM/dd/yyyy") {
                                             self.eventIsLive.toggle()
-                                            //                                            data.FIRDocID #error() //TODO: AHA
                                             
                                         }
                                         FriendEventsInCommon().multipleFriendsEventRecognizer() { result in
@@ -219,14 +218,6 @@ struct ScheduleCard: View {
         .sheet(isPresented: $toggleCheckInSheet) {
             CheckInView(data: data)
         }
-        
-    }
-    
-    func checkForLiveEvents(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-        let stringDate = dateFormatter.string(from: date)
-        return stringDate
     }
 }
 

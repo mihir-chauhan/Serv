@@ -204,7 +204,7 @@ struct Account: View {
                                             Text("Hours rewarded: \(String(format: "%.1f", eventHistory[i].hoursSpent))")
                                                 .font(.caption)
                                             Spacer()
-                                            Text("\(dateToString(from: eventHistory[i].dateOfService))")
+                                            Text("\(eventHistory[i].dateOfService.dateToString(style: "MM/dd/YY"))")
                                                 .font(.caption)
                                         }
                                         .padding(10)
@@ -226,7 +226,7 @@ struct Account: View {
                     })
                 }
                 .navigationBarTitle("Event History")
-                .navigationBarItems(trailing: closeButtonHistory)
+                .navigationBarItems(trailing: CloseButton())
             }
             }
             .fullScreenCover(isPresented: $toggleFullScreenQR) {
@@ -239,51 +239,51 @@ struct Account: View {
                         
                     
                     .navigationBarTitle("Your QR Code")
-                    .navigationBarItems(trailing: closeButtonQR)
+                    .navigationBarItems(trailing: CloseButton())
                 }
             }
         
         
     }
     
-    var closeButtonQR: some View {
-            VStack {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                        hapticResponse.impactOccurred()
-                        toggleFullScreenQR.toggle()
-                    }) {
-                        Image(systemName: "xmark.circle")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .padding(10)
-                    }
-                }
-                .padding(.top, 5)
-                Spacer()
-            }
-        }
-    var closeButtonHistory: some View {
-            VStack {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                        hapticResponse.impactOccurred()
-                        toggleEventHistory.toggle()
-                    }) {
-                        Image(systemName: "xmark.circle")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .padding(10)
-                    }
-                }
-                .padding(.top, 5)
-                Spacer()
-            }
-        }
+//    var closeButtonQR: some View {
+//            VStack {
+//                HStack {
+//                    Spacer()
+//                    Button(action: {
+//                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+//                        hapticResponse.impactOccurred()
+//                        toggleFullScreenQR.toggle()
+//                    }) {
+//                        Image(systemName: "xmark.circle")
+//                            .resizable()
+//                            .frame(width: 25, height: 25)
+//                            .padding(10)
+//                    }
+//                }
+//                .padding(.top, 5)
+//                Spacer()
+//            }
+//        }
+//    var closeButtonHistory: some View {
+//            VStack {
+//                HStack {
+//                    Spacer()
+//                    Button(action: {
+//                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+//                        hapticResponse.impactOccurred()
+//                        toggleEventHistory.toggle()
+//                    }) {
+//                        Image(systemName: "xmark.circle")
+//                            .resizable()
+//                            .frame(width: 25, height: 25)
+//                            .padding(10)
+//                    }
+//                }
+//                .padding(.top, 5)
+//                Spacer()
+//            }
+//        }
     
     func getHeaderHeight() -> CGFloat {
         let topHeight = maxHeight + offset
@@ -324,12 +324,6 @@ struct Account: View {
         return nil
     }
     
-    func dateToString(from date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/YY"
-        
-        return dateFormatter.string(from: date)
-    }
     public func documentDirectoryPath() -> URL? {
         let path = FileManager.default.urls(for: .documentDirectory,
                                             in: .userDomainMask)

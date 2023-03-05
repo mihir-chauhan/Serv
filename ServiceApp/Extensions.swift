@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // MARK: close button for custom sheetMode
-struct CloseButton: View {
+struct CloseButtonSheetMode: View {
     @Binding var sheetMode: SheetMode
     var body: some View {
         VStack {
@@ -17,6 +17,33 @@ struct CloseButton: View {
                 Spacer()
                 Button(action: {
                     self.sheetMode = .quarter
+                    
+                    let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                    hapticResponse.impactOccurred()
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(Color(.systemGray2))
+                        .padding(12)
+                }
+            }
+            .padding(.top, 5)
+            Spacer()
+        }
+    }
+}
+
+//MARK: close button for general use
+struct CloseButton: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
                     
                     let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                     hapticResponse.impactOccurred()
@@ -55,9 +82,9 @@ extension Date {
 
 extension Date {
     // converting date to String
-    func dateToString() -> String {
+    func dateToString(style: String = "MM/dd' 'HH:mm") -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd' 'HH:mm"
+        dateFormatter.dateFormat = style
         let stringDate = dateFormatter.string(from: self)
         return stringDate
     }
