@@ -36,15 +36,14 @@ struct CloseButtonSheetMode: View {
 
 //MARK: close button for general use
 struct CloseButton: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Binding var isOpen: Bool
 
     var body: some View {
         VStack {
             HStack {
                 Spacer()
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                    
+                    isOpen.toggle()
                     let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                     hapticResponse.impactOccurred()
                 }) {

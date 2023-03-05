@@ -226,64 +226,23 @@ struct Account: View {
                     })
                 }
                 .navigationBarTitle("Event History")
-                .navigationBarItems(trailing: CloseButton())
+                .navigationBarItems(trailing: CloseButton(isOpen: $toggleEventHistory))
             }
-            }
-            .fullScreenCover(isPresented: $toggleFullScreenQR) {
-                NavigationView {
-                        Image(uiImage: UIImage(data: generateQRCode(from: (authVM.decodeUserInfo()?.uid)!)!)!)
-                            .resizable()
-                            .frame(width: 320, height: 320, alignment: .center)
-                            .aspectRatio(contentMode: .fit)
-                            .font(.system(size: 30, weight: .bold, design: .rounded))
-                        
-                    
+        }
+        .fullScreenCover(isPresented: $toggleFullScreenQR) {
+            NavigationView {
+                Image(uiImage: UIImage(data: generateQRCode(from: (authVM.decodeUserInfo()?.uid)!)!)!)
+                    .resizable()
+                    .frame(width: 320, height: 320, alignment: .center)
+                    .aspectRatio(contentMode: .fit)
+                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                
+                
                     .navigationBarTitle("Your QR Code")
-                    .navigationBarItems(trailing: CloseButton())
-                }
+                    .navigationBarItems(trailing: CloseButton(isOpen: $toggleFullScreenQR))
             }
-        
-        
+        }
     }
-    
-//    var closeButtonQR: some View {
-//            VStack {
-//                HStack {
-//                    Spacer()
-//                    Button(action: {
-//                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-//                        hapticResponse.impactOccurred()
-//                        toggleFullScreenQR.toggle()
-//                    }) {
-//                        Image(systemName: "xmark.circle")
-//                            .resizable()
-//                            .frame(width: 25, height: 25)
-//                            .padding(10)
-//                    }
-//                }
-//                .padding(.top, 5)
-//                Spacer()
-//            }
-//        }
-//    var closeButtonHistory: some View {
-//            VStack {
-//                HStack {
-//                    Spacer()
-//                    Button(action: {
-//                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-//                        hapticResponse.impactOccurred()
-//                        toggleEventHistory.toggle()
-//                    }) {
-//                        Image(systemName: "xmark.circle")
-//                            .resizable()
-//                            .frame(width: 25, height: 25)
-//                            .padding(10)
-//                    }
-//                }
-//                .padding(.top, 5)
-//                Spacer()
-//            }
-//        }
     
     func getHeaderHeight() -> CGFloat {
         let topHeight = maxHeight + offset
