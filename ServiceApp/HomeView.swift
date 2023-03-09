@@ -108,11 +108,11 @@ struct HomeView: View {
                                 .padding(.bottom, 5)
                             
                             VStack(alignment: .leading) {
-                                Text("Category Filters")
+                                Text("Browse events")
                                     .font(.system(.headline))
                                     .bold()
                                     .padding(.leading, 15)
-                                Text("Long press to learn more about a category")
+                                Text("Tap to toggle | Long press to learn more about a category")
                                     .font(.system(.caption))
                                     .padding(.leading, 15)
                                 ScrollView(.horizontal, showsIndicators: false) {
