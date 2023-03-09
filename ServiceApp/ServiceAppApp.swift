@@ -89,6 +89,7 @@ extension AppDelegate: MessagingDelegate {
     ) {
         let tokenDict = ["token": fcmToken ?? ""]
         print("tocken: " + (fcmToken ?? ""))
+        // TODO: save to firebase
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
             object: nil,
