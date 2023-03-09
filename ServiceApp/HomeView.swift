@@ -218,7 +218,9 @@ struct HomeView: View {
                             if eventsArray != nil {
                                 for i in 0..<eventsArray!.count {
                                     results.getSpecificEvent(eventID: eventsArray![i]) { event in
-                                        self.eventDatas.append(event)
+                                        if event.time > Date().startOfDay {
+                                            self.eventDatas.append(event)
+                                        }
                                     }
                                 }
                             }
@@ -229,7 +231,9 @@ struct HomeView: View {
                                 if eventsArray != nil {
                                     for i in 0..<eventsArray!.count {
                                         results.getSpecificEvent(eventID: eventsArray![i]) { event in
-                                            self.eventDatas.append(event)
+                                            if event.time > Date().startOfDay {
+                                                self.eventDatas.append(event)
+                                            }
                                         }
                                     }
                                 }
