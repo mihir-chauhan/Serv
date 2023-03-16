@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import FirebaseMessaging
 import GoogleSignIn
+import FirebaseAnalytics
 
 @main
 struct ServiceAppApp: App {
