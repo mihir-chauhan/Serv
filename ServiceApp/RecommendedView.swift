@@ -19,6 +19,8 @@ struct RecommendedView: View {
     var data: EventInformationModel
     var emoji: String
     
+    @State var distance = CLLocationDistance()
+    
     var body: some View {
         if !self.viewRendered {
             ProgressView().frame(width: 290, height: 250)
@@ -57,7 +59,13 @@ struct RecommendedView: View {
                     }
                     
                     Spacer()
-                    
+                    HStack {
+                        Text("")
+                        Spacer()
+                        Text(String(format: "%.2f", distance) + " mi.")
+                            .font(.system(size: 10))
+                            .font(.caption2)
+                    }.padding(.horizontal, 15)
                     HStack {
                         Text(data.category)
                             .font(.caption)
@@ -66,7 +74,7 @@ struct RecommendedView: View {
                         Text(data.time.dateToString())
                             .font(.system(size: 10))
                             .font(.caption2)
-                    }.padding(15)
+                    }.padding([.horizontal, .bottom], 15)
                 }
                 
             }
@@ -80,6 +88,14 @@ struct RecommendedView: View {
                 self.sheetObserver.eventDetailData = data
                 self.locationVM.region = MKCoordinateRegion(center: data.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
                 self.tabBarController.selectedIndex = .map
+            }
+            .onAppear {
+                var distance: CLLocationDistance {
+                    get {
+                        return (CLLocation(latitude: data.coordinate.latitude, longitude: data.coordinate.longitude).distance(from: CLLocation(latitude: (locationVM.locationManager?.location?.coordinate.latitude)!, longitude: (locationVM.locationManager?.location?.coordinate.longitude)!))/1609.344)
+                    }
+                }
+                self.distance = distance
             }
         }
     }
