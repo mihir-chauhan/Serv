@@ -24,6 +24,7 @@ struct ServiceAppApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        Analytics.logEvent("app opened", parameters: nil)
         
         FirebaseConfiguration.shared.setLoggerLevel(.min)
 

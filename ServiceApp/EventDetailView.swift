@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import MessageUI
+import FirebaseAnalytics
 
 struct EventDetailView: View {
     @EnvironmentObject var sheetObserver: SheetObserver
@@ -117,9 +118,16 @@ struct EventDetailView: View {
                                 responseHaptic.impactOccurred()
                             }
                             else if !reachedMaxSlots && !buttonStateIsSignedUp {
+                                
                                 FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category)
                                 FirebaseRealtimeDatabaseCRUD().writeEvents(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                 buttonStateIsSignedUp = true
+                                
+                                let parameters: [String : String] = [
+                                    "event" : data.FIRDocID!,
+                                    "user" : authVM.decodeUserInfo()!.uid
+                                ]
+                                Analytics.logEvent("event signed up", parameters: parameters)
                                 
                                 responseHaptic.impactOccurred()
                             }
