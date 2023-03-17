@@ -207,17 +207,17 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
         self.filteredEventsList = queriedEventsList.filter({ range.contains($0.time) })
         
         
-        self.mapAnnotationsList.insert(EventInformationModel(
-            FIRDocID: "USER_LOCATION",
-            name: "",
-            host: "",
-            ein: "",
-            category: "",
-            time: Date(),
-            images: [""],
-            coordinate: (locationManager?.location?.coordinate) ?? CLLocationCoordinate2D(latitude: 39.8283, longitude: -98.5795),
-            description: "description"
-        ), at: 0)
+//        self.mapAnnotationsList.insert(EventInformationModel(
+//            FIRDocID: "USER_LOCATION",
+//            name: "",
+//            host: "",
+//            ein: "",
+//            category: "",
+//            time: Date(),
+//            images: [""],
+//            coordinate: (locationManager?.location?.coordinate) ?? CLLocationCoordinate2D(latitude: 39.8283, longitude: -98.5795),
+//            description: "description"
+//        ), at: 0)
         
         if recommendedEventFromHomePage != nil {
             for event in filteredEventsList {

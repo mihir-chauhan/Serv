@@ -91,7 +91,7 @@ struct EventDetailView: View {
                     }
                     Text("Description")
                         .bold()
-                    Text("\t \(data.description)")
+                    Text(data.description)
                         .font(.caption)
                         .padding(.bottom, 5)
                 }
@@ -131,7 +131,7 @@ struct EventDetailView: View {
                     }) {
                         Capsule()
                             .frame(width: 135, height: 45)
-                            .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? Color("colorTertiary") : .red) : .gray)
+                            .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .green : .red) : .gray)
                             .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white))
                     }.disabled(reachedMaxSlotBool)
                 }

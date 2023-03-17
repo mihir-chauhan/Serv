@@ -26,7 +26,6 @@ struct OrganizationInfoCard: View {
                             Text("About Organization").bold()
                         } icon: {
                             Image(systemName: "info.circle.fill")
-                                .foregroundColor(.blue)
                         }
                         Spacer()
                     }
@@ -52,7 +51,7 @@ struct OrganizationInfoCard: View {
                     Text("Email: ")
                         .bold()
                     Text(organizationData?.email ?? "Loading")
-                        .foregroundColor(.blue)
+//                        .foregroundColor(.blue)
                         .underline()
                         .onTapGesture {
                             sendEmail(to: organizationData!.email)
@@ -66,7 +65,7 @@ struct OrganizationInfoCard: View {
                         .bold()
                     Text(organizationData?.phone.formattedPhoneNumber() ?? "Loading")
                     Image(systemName: "phone.fill.arrow.up.right")
-                        .foregroundColor(.blue)
+//                        .foregroundColor(.blue)
                         .onTapGesture {
                             showingCallAlert = true
                         }
@@ -89,7 +88,7 @@ struct OrganizationInfoCard: View {
                     Text("Website: ")
                         .bold()
                     Text(organizationData?.website ?? "Loading")
-                        .foregroundColor(.blue)
+//                        .foregroundColor(.blue)
                         .underline()
                         .onTapGesture {
                             if organizationData?.website != nil {
