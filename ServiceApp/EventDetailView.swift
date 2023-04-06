@@ -11,6 +11,7 @@ import MessageUI
 import FirebaseAnalytics
 
 struct EventDetailView: View {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @EnvironmentObject var sheetObserver: SheetObserver
     @EnvironmentObject var viewModel: LocationTrackerViewModel
     @EnvironmentObject var authVM: AuthViewModel
@@ -109,6 +110,7 @@ struct EventDetailView: View {
                     Spacer()
                     Button(action: {
                         let responseHaptic = UIImpactFeedbackGenerator(style: .light)
+                        FirebaseRealtimeDatabaseCRUD().updateApnsToken(uid: authVM.decodeUserInfo()!.uid, token: delegate.apnsToken)
                         FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
                             if buttonStateIsSignedUp {
                                 FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authVM.decodeUserInfo()!.uid)

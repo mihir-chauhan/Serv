@@ -203,6 +203,16 @@ class FirebaseRealtimeDatabaseCRUD {
         }
     }
     
+    func updateApnsToken(uid: String, token: String) {
+        ref.collection("Volunteer Accounts").document(uid).getDocument { snap, err in
+            guard err == nil else {
+                print(err!.localizedDescription)
+                return;
+            }
+            ref.collection("Volunteer Accounts").document(uid).updateData(["apnsToken": token])
+        }
+    }
+    
     
     func setBirthYear(uid: String, birthYear: Int) {
         ref.collection("Volunteer Accounts").document(uid).getDocument { snap, err in

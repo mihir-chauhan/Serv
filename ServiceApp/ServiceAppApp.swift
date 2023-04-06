@@ -85,12 +85,26 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 }
 
 extension AppDelegate: MessagingDelegate {
+    private struct TokenHolder {
+        static var _apnsToken = ""
+    }
+    
+    var apnsToken:String {
+        get {
+            return TokenHolder._apnsToken
+        }
+        set(newValue) {
+            TokenHolder._apnsToken = newValue
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshToken"), object: "")
+        }
+    }
+
     func messaging(
         _ messaging: Messaging,
         didReceiveRegistrationToken fcmToken: String?
     ) {
         let tokenDict = ["token": fcmToken ?? ""]
-        print("tocken: " + (fcmToken ?? ""))
+        apnsToken = fcmToken ?? ""
         // TODO: save to firebase
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
