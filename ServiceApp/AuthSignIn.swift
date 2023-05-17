@@ -28,6 +28,7 @@ class AuthViewModel: ObservableObject {
     @Published var showAgeVerification = false
     @Published var inlineErrorDialog = ""
     @Published var userInfoFromAuth: UserInfoFromAuth?
+    @Published var apnsToken = ""
 //    @Published var uidStoredInfo: String = ContentView().uidStoredInfo
     @State var currentNonce: String?
     /* Google Sign In */

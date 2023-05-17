@@ -15,7 +15,7 @@ class FirestoreCRUD: ObservableObject {
     @Published var allCategories: [EventCategoryModel] = [EventCategoryModel]()
     @Published var allFIRResults = [EventInformationModel]()
     
-    func AddToAttendeesList(eventID: String, eventCategory: String) {
+    func AddToAttendeesList(eventID: String, eventCategory: String, apnsToken: String) {
         var mapValues: [String : Any] {
             return [ user_uuid! :
                         [
@@ -30,7 +30,8 @@ class FirestoreCRUD: ObservableObject {
             .document(eventID).updateData([
                 "attendees.\(user_uuid!).name" : (AuthViewModel.shared.decodeUserInfo()?.displayName!)! as Any,
                 "attendees.\(user_uuid!).checkInTime" : nil,
-                "attendees.\(user_uuid!).checkOutTime" : nil
+                "attendees.\(user_uuid!).checkOutTime" : nil,
+                "apnsTokens.\(user_uuid!)" : apnsToken
             ])
     }
     
@@ -126,6 +127,10 @@ class FirestoreCRUD: ObservableObject {
         db.collection("EventTypes/\(eventCategory)/Events")
             .document(eventID)
             .updateData(["attendees.\(user_uuid)" : FieldValue.delete()])
+        
+        db.collection("EventTypes/\(eventCategory)/Events")
+            .document(eventID)
+            .updateData(["apnsTokens.\(user_uuid)" : FieldValue.delete()])
         
     }
     
