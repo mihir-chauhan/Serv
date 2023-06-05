@@ -33,7 +33,8 @@ struct EventInformationModel: Identifiable, Equatable, Hashable {
     var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     var specialRequirements: String = "No special requirements"
-    
+    var usesCheckInOut: Bool = false
+
     var enterDetailView: Bool = false
 }
 

@@ -108,43 +108,60 @@ struct EventDetailView: View {
                         FriendsCommonEvent(listOfFriendsWhoSignedUpForEvent: $listOfFriendsWhoSignedUpForEvent)
                     }
                     Spacer()
-                    Button(action: {
-                        let responseHaptic = UIImpactFeedbackGenerator(style: .light)
-                        authVM.apnsToken = delegate.apnsToken
-                        FirebaseRealtimeDatabaseCRUD().updateApnsToken(uid: authVM.decodeUserInfo()!.uid, token: authVM.apnsToken)
-                        FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
-                            if buttonStateIsSignedUp {
-                                FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authVM.decodeUserInfo()!.uid)
-                                FirebaseRealtimeDatabaseCRUD().removeEvent(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                                buttonStateIsSignedUp = false
-                                
-                                responseHaptic.impactOccurred()
+                    
+                    if data.usesCheckInOut {
+                        Button(action: {
+                            let responseHaptic = UIImpactFeedbackGenerator(style: .light)
+                            authVM.apnsToken = delegate.apnsToken
+                            FirebaseRealtimeDatabaseCRUD().updateApnsToken(uid: authVM.decodeUserInfo()!.uid, token: authVM.apnsToken)
+                            FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
+                                if buttonStateIsSignedUp {
+                                    FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authVM.decodeUserInfo()!.uid)
+                                    FirebaseRealtimeDatabaseCRUD().removeEvent(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                    buttonStateIsSignedUp = false
+                                    
+                                    responseHaptic.impactOccurred()
+                                }
+                                else if !reachedMaxSlots && !buttonStateIsSignedUp {
+                                    
+                                    FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, apnsToken: authVM.apnsToken)
+                                    FirebaseRealtimeDatabaseCRUD().writeEvents(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                    buttonStateIsSignedUp = true
+                                    
+                                    let parameters: [String : String] = [
+                                        "event" : data.FIRDocID!,
+                                        "user" : authVM.decodeUserInfo()!.uid
+                                    ]
+                                    Analytics.logEvent("event signed up", parameters: parameters)
+                                    
+                                    responseHaptic.impactOccurred()
+                                }
+                                else if reachedMaxSlots {
+                                    reachedMaxSlotBool = true
+                                }
                             }
-                            else if !reachedMaxSlots && !buttonStateIsSignedUp {
-                                
-                                FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, apnsToken: authVM.apnsToken)
-                                FirebaseRealtimeDatabaseCRUD().writeEvents(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                                buttonStateIsSignedUp = true
-                                
-                                let parameters: [String : String] = [
-                                    "event" : data.FIRDocID!,
-                                    "user" : authVM.decodeUserInfo()!.uid
-                                ]
-                                Analytics.logEvent("event signed up", parameters: parameters)
-                                
-                                responseHaptic.impactOccurred()
-                            }
-                            else if reachedMaxSlots {
-                                reachedMaxSlotBool = true
-                            }
+                            
+                        }) {
+                            Capsule()
+                                .frame(width: 135, height: 45)
+                                .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .green : .red) : .gray)
+                                .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white))
+                        }.disabled(reachedMaxSlotBool)
+                    }
+                    else {
+                        Button(action: {
+                            //TODO: takes them to external link
+                            if let url = URL(string: "https://www.google.com") {
+                                   UIApplication.shared.open(url)
+                                }
+                        }) {
+                            Capsule()
+                                .frame(width: 135, height: 45)
+                                .foregroundColor(.blue)
+                                .overlay(Text("Register").foregroundColor(.white))
                         }
-                        
-                    }) {
-                        Capsule()
-                            .frame(width: 135, height: 45)
-                            .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .green : .red) : .gray)
-                            .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white))
-                    }.disabled(reachedMaxSlotBool)
+                    }
+                    
                 }
                 .padding(.vertical, 30)
                 .padding(.horizontal, 15)
