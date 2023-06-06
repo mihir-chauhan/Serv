@@ -80,6 +80,26 @@ class FirebaseRealtimeDatabaseCRUD {
         ref.collection("Volunteer Accounts").document(uuidString).updateData(["Events": FieldValue.arrayRemove([eventUUID])])
     }
     
+    func writeToBookmarks(for uuidString: String, eventUUID: String) {
+        ref.collection("Volunteer Accounts").document(uuidString).updateData(["Bookmarks": FieldValue.arrayUnion([eventUUID])])
+    }
+    func removeBookmark(for uuidString: String, eventUUID: String) {
+        ref.collection("Volunteer Accounts").document(uuidString).updateData(["Bookmarks": FieldValue.arrayRemove([eventUUID])])
+    }
+    
+    
+    func readBookmarks(for uuidString: String, handler: @escaping (Array<String>?) -> ()) {
+        ref.collection("Volunteer Accounts").document(uuidString).getDocument { snap, err in
+            guard err == nil else {
+                print(err!.localizedDescription)
+                handler(nil);
+                return;
+            }
+            let friendsArray = snap?.get("Bookmarks") as? Array<String>
+            handler(friendsArray)
+        }
+    }
+    
     func checkIfUserExists(uuidString: String, completion: @escaping (Bool) -> ()) {
         ref.collection("Volunteer Accounts").document(uuidString).getDocument { (document, error) in
             if document!.exists {

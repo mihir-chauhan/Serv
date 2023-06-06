@@ -57,6 +57,7 @@
 		BEBE4DA72893A4AF003A0CE9 /* GeoFireUtils in Frameworks */ = {isa = PBXBuildFile; productRef = BEBE4DA62893A4AF003A0CE9 /* GeoFireUtils */; };
 		BEC2DAC329B2C7F4000D6A44 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC2DAC229B2C7F4000D6A44 /* Extensions.swift */; };
 		BEC2DAC529B331B5000D6A44 /* InfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC2DAC429B331B5000D6A44 /* InfoCard.swift */; };
+		BEC716512A2E8BDA001F75F0 /* BookmarkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC716502A2E8BDA001F75F0 /* BookmarkCardView.swift */; };
 		BEC7640F288FAECC00F90651 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC7640E288FAECC00F90651 /* OnboardingManager.swift */; };
 		BED38A7427A5E10B0080D5B9 /* PhotoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */; };
 		BED38A7A27A61D180080D5B9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BED38A7927A61D180080D5B9 /* SDWebImageSwiftUI */; };
@@ -122,6 +123,7 @@
 		BEBB061927D41C1600CF0D23 /* FIRCloudImagesWithCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRCloudImagesWithCache.swift; sourceTree = "<group>"; };
 		BEC2DAC229B2C7F4000D6A44 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BEC2DAC429B331B5000D6A44 /* InfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCard.swift; sourceTree = "<group>"; };
+		BEC716502A2E8BDA001F75F0 /* BookmarkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCardView.swift; sourceTree = "<group>"; };
 		BEC7640E288FAECC00F90651 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		BED38A7327A5E10B0080D5B9 /* PhotoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFileManager.swift; sourceTree = "<group>"; };
 		BEDEE6F428768122003B6857 /* FriendEventsInCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendEventsInCommon.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				397A63D927810E24002443CF /* Map */,
 				39B5A9C62786AE7B0003E23F /* Socials */,
 				B319D15D277EF7030045F06D /* ScheduleCardView.swift */,
+				BEC716502A2E8BDA001F75F0 /* BookmarkCardView.swift */,
 				BE5EEE23295E58A0003914E4 /* ScheduleCardDetailView.swift */,
 				BEB48449284B17DC00FB8469 /* CheckInView.swift */,
 				BEE28C3B2894F0AB00D0B15A /* Auth */,
@@ -403,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEC716512A2E8BDA001F75F0 /* BookmarkCardView.swift in Sources */,
 				BEC2DAC529B331B5000D6A44 /* InfoCard.swift in Sources */,
 				B3E6FCD5277C59E2004DEE5B /* MapListElements.swift in Sources */,
 				B3E6FCBD277C5870004DEE5B /* ContentView.swift in Sources */,

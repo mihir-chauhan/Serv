@@ -37,20 +37,22 @@ struct CloseButtonSheetMode: View {
 //MARK: close button for general use
 struct CloseButton: View {
     @Binding var isOpen: Bool
-
+    var color: Color = Color(.systemGray2)
     var body: some View {
         VStack {
             HStack {
                 Spacer()
                 Button(action: {
-                    isOpen.toggle()
+                    withAnimation(.spring()) {
+                        isOpen.toggle()
+                    }
                     let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                     hapticResponse.impactOccurred()
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .foregroundColor(Color(.systemGray2))
+                        .foregroundColor(color)
                         .padding(12)
                 }
             }

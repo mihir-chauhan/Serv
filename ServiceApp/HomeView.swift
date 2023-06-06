@@ -16,6 +16,7 @@ struct HomeView: View {
     @State var toggleHeroAnimation: Bool = false
     @State var showingCategoryDetailAlert = false
     @State var eventDatas = [EventInformationModel]()
+    @State var bookmarkDatas = [EventInformationModel]()
     @State var recommendedEvents = [EventInformationModel]()
     @State var allowsTracking: Bool = false
     @State var alertInfoIndex = 0
@@ -41,8 +42,8 @@ struct HomeView: View {
                                     .bold()
                                 // Your upcoming events
                                 LinearGradient(gradient: Gradient(colors: [
+                                    Color("colorPrimary"),
                                     Color("colorSecondary"),
-                                    Color("colorPrimary")
                                     
                                 ]), startPoint: .topLeading, endPoint: .bottomTrailing)
                                 .matchedGeometryEffect(id: "hero", in: animation)
@@ -57,9 +58,11 @@ struct HomeView: View {
                                 )
                                 .overlay(
                                     VStack(alignment: .leading) {
-                                        Text("Your Upcoming Events")
+                                        Text("Event Library")
                                             .font(.title2)
                                             .bold()
+                                        Text("your upcoming events & bookmarks")
+                                            .font(.caption2)
                                         Spacer()
                                         HStack {
                                             Spacer()
@@ -225,6 +228,18 @@ struct HomeView: View {
                                 }
                             }
                         }
+                        
+                        FirebaseRealtimeDatabaseCRUD().readBookmarks(for: authVM.decodeUserInfo()!.uid) { bookmarkArray in
+                            if bookmarkArray != nil {
+                                for i in 0..<bookmarkArray!.count {
+                                    results.getSpecificEvent(eventID: bookmarkArray![i]) { event in
+                                        if event.time > Date().startOfDay {
+                                            self.bookmarkDatas.append(event)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     } else {
                         results.queryAllCategoriesClosure(resetAllToTrue: false) { result in
                             FirebaseRealtimeDatabaseCRUD().readEvents(for: authVM.decodeUserInfo()!.uid) { eventsArray in
@@ -233,6 +248,18 @@ struct HomeView: View {
                                         results.getSpecificEvent(eventID: eventsArray![i]) { event in
                                             if event.time > Date().startOfDay {
                                                 self.eventDatas.append(event)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            FirebaseRealtimeDatabaseCRUD().readBookmarks(for: authVM.decodeUserInfo()!.uid) { bookmarkArray in
+                                if bookmarkArray != nil {
+                                    for i in 0..<bookmarkArray!.count {
+                                        results.getSpecificEvent(eventID: bookmarkArray![i]) { event in
+                                            if event.time > Date().startOfDay {
+                                                self.bookmarkDatas.append(event)
                                             }
                                         }
                                     }
@@ -260,8 +287,9 @@ struct HomeView: View {
             
             
             if toggleHeroAnimation {
-                VStack {
-                    HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation, eventDatas: eventDatas)
+                GeometryReader { proxy in
+                    let topEdge = proxy.safeAreaInsets.top
+                    HomeScheduleDetailView(animation: animation, toggleHeroAnimation: $toggleHeroAnimation, eventDatas: eventDatas, bookmarkDatas: bookmarkDatas, topEdge: topEdge)
                 }
                 .edgesIgnoringSafeArea(.top)
                 .padding(.bottom, 100)

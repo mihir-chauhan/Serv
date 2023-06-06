@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 import MessageUI
 import FirebaseAnalytics
+import AlertToast
 
 struct EventDetailView: View {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -29,6 +30,8 @@ struct EventDetailView: View {
     
     @State var expandSpecialReqInfo: Bool = false
     @State var expandOrganizationInfo: Bool = false
+    
+    @State var showingAlert: Bool = false
     
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
         FirebaseRealtimeDatabaseCRUD().readEvents(for: authVM.decodeUserInfo()!.uid) { eventsArray in
@@ -72,10 +75,27 @@ struct EventDetailView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack(alignment: .leading) {
-                    Text(data.category)
-                        .font(.system(.headline))
-                        .foregroundColor(.gray)
-                    Text(data.time.dateToString())
+                    HStack {
+                        VStack {
+                            Text(data.category)
+                                .font(.system(.headline))
+                                .foregroundColor(.gray)
+                            Text(data.time.dateToString())
+                        }
+                        Spacer()
+                        Button(action: {
+                            FirebaseRealtimeDatabaseCRUD().writeToBookmarks(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                            showingAlert.toggle()
+                        }) {
+                            Image(systemName: "bookmark.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(.blue)
+
+                        }
+                    }
+                    
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(0..<(self.firstImage.count), id: \.self) { img in
@@ -168,6 +188,9 @@ struct EventDetailView: View {
                 .padding(.bottom, 175)
             }
             
+        }
+        .toast(isPresenting: $showingAlert) {
+            AlertToast(type: .complete(.green), title: "Bookmarked")
         }
         .padding([.top, .trailing, .leading])
         .padding(.bottom, 200)

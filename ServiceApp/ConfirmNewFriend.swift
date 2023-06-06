@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct ConfirmNewFriendView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var show: Bool

@@ -10,6 +10,8 @@ import SwiftUICharts
 
 struct Account: View {
     @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var results: FirestoreCRUD
+
     @Environment(\.colorScheme) var colorScheme
     let maxHeight = display.height / 3.1
     var topEdge: CGFloat
@@ -20,6 +22,8 @@ struct Account: View {
     @State var toggleEventHistory: Bool = false
     @State var toggleAccountChange: Bool = false
     @State var signOutConfirmation = false
+    @State var totalHours: Double = 0
+
 
     @State var eventHistory: [EventHistoryInformationModel] = []
     @State var hoursSpent: [CGFloat] = []
@@ -65,6 +69,20 @@ struct Account: View {
                 .zIndex(1)
 
                 VStack(spacing: 15) {
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(width: display.width - 40, height: 50)
+                        .foregroundColor(.primary.opacity(0.05))
+                        .overlay(
+                            HStack {
+                                Text("Total hours served")
+                                    .bold()
+                                Spacer()
+                                Text(String(format: "%.2f", totalHours))
+                                    .font(.system(size: 25, design: .rounded))
+                                    .bold()
+                            }.padding(.horizontal)
+                        )
+                        .padding(.bottom, 5)
                     Button(action: {
                         let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                         hapticResponse.impactOccurred()
@@ -122,6 +140,14 @@ struct Account: View {
                             FirestoreCRUD().getNumberOfHours(uid: authVM.decodeUserInfo()!.uid, completion: { hoursSpent in
                                 self.hoursSpent = hoursSpent
                             })
+                            
+                            if authVM.decodeUserInfo() != nil {
+                                results.allTimeCompleted(for: authVM.decodeUserInfo()!.uid) { totalHours in
+                                    for i in totalHours {
+                                        self.totalHours += i
+                                    }
+                                }
+                            }
                         }
                         
                     
