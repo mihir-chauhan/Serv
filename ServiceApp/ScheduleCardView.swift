@@ -182,7 +182,6 @@ struct ScheduleCard: View {
                                             for (friend, events) in result {
                                                 for i in events! {
                                                     if i == data.FIRDocID {
-                                                        //                                                        listOfFriendsWhoSignedUpForEvent?.append(friend)
                                                         print(friend)
                                                         listOfFriendsWhoSignedUpForEvent.append(friend)
                                                         friendSignedUp = true

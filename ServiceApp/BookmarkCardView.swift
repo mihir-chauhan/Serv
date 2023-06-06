@@ -64,11 +64,9 @@ struct BookmarkCard: View {
                     ZStack(alignment: .top) {
                         if let imageLoaded = self.placeHolderUIImage {
                             Image(uiImage: imageLoaded)
-                            //                            Image("leaderboardPic-1")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .matchedGeometryEffect(id: "id", in: animation, properties: .size)
-                            //                                .matchedGeometryEffect(id: "Shape", in: animation)
                         }
                         
                         //
@@ -137,15 +135,6 @@ struct BookmarkCard: View {
                                         FirebaseRealtimeDatabaseCRUD().removeBookmark(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                         showingAlert = true
                                     }
-                                    
-//                                    .alert("Are you sure you want to remove the event?", isPresented: $showingAlert) {
-//                                        Button("Cancel", role: .cancel) { }
-//                                        Button("Remove", role: .destructive) {
-//                                            self.onDelete()
-//                                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
-//                                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-//                                        }
-//                                    }
                             }
                             Text(data.name)
                                 .font(.title)

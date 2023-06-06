@@ -55,8 +55,6 @@ struct HomeScheduleDetailView: View {
                                 }
                                 .pickerStyle(.segmented)
                                 .opacity(Double(topBarTitleOpacity()))
-                                .zIndex(2)
-                                
                             }
                                 .padding()
                                 .frame(height: 60)
@@ -98,8 +96,6 @@ struct HomeScheduleDetailView: View {
                                     Text("No events signed up yet!").bold().font(.title3).padding()
                                 }
                             }
-                                
-                            
                         }
                     }
                     .modifier(OffsetModifier(offset: $offset))
@@ -108,7 +104,6 @@ struct HomeScheduleDetailView: View {
                 
                 Spacer()
             }
-            
         }
     }
     
