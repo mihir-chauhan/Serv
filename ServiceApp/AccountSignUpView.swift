@@ -80,7 +80,7 @@ struct AccountSignUpView: View {
                     }
                 }) {
                     Capsule()
-                        .foregroundColor(!formSignUpVM.isValid ? Color.green.opacity(0.3) : Color.green)
+                        .foregroundColor(!formSignUpVM.isValid ? Color("colorPrimary").opacity(0.3) : Color("colorPrimary"))
                         .frame(width: 175, height: 45)
                         .overlay(Text("Sign Up").foregroundColor(Color.black).bold())
                         .padding()

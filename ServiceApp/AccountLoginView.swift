@@ -55,7 +55,7 @@ struct AccountLoginView: View {
                 .padding(.horizontal, 40)
                 
                 Capsule()
-                    .foregroundColor(Color.green)
+                    .foregroundColor(Color("colorPrimary"))
                     .frame(width: 175, height: 45)
                     .overlay(Text("Login"))
                     .onTapGesture(perform: {
