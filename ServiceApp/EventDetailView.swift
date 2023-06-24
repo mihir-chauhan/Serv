@@ -129,7 +129,8 @@ struct EventDetailView: View {
                     }
                     Spacer()
                     
-                    if data.usesCheckInOut {
+                    let _ = print("132", data.eventWebpage)
+                    if data.eventWebpage == nil {
                         Button(action: {
                             let responseHaptic = UIImpactFeedbackGenerator(style: .light)
                             authVM.apnsToken = delegate.apnsToken
@@ -165,20 +166,21 @@ struct EventDetailView: View {
                             Capsule()
                                 .frame(width: 135, height: 45)
                                 .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .green : .red) : .gray)
-                                .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white))
+                                .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white).bold())
                         }.disabled(reachedMaxSlotBool)
                     }
                     else {
                         Button(action: {
                             //TODO: takes them to external link
-                            if let url = URL(string: "https://www.google.com") {
+                            if let url = URL(string: data.eventWebpage!) {
                                    UIApplication.shared.open(url)
                                 }
                         }) {
                             Capsule()
                                 .frame(width: 135, height: 45)
                                 .foregroundColor(.blue)
-                                .overlay(Text("Register").foregroundColor(.white))
+//                            double asterisks is used to bold because .bold() doesn't work on labels
+                                .overlay(Label("**Register**", systemImage: "arrow.up.forward.app.fill").foregroundColor(.white).labelStyle(.titleAndIcon))
                         }
                     }
                     

@@ -161,6 +161,8 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                             let time = document.get("time") as? Timestamp
                             let imageURL = document.get("images") as? [String] ?? [String]()
                             let location = document.get("location") as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0)
+                            let eventWebpage = document.get("website") as? String
+                            #warning("main fetching is here")
                             
                             //                            deleting image from FileManager once event date has passed
                             if (time?.dateValue())! < Date().endOfDay {
@@ -177,6 +179,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
                                 time: time?.dateValue() ?? Date(),
                                 images: imageURL,
                                 coordinate: CLLocationCoordinate2D(latitude: (location.latitude), longitude: (location.longitude)),
+                                eventWebpage: eventWebpage,
                                 description: description,
                                 specialRequirements: specialRequirement
                             ))
