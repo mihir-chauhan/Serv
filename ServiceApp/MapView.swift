@@ -105,9 +105,9 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
     }
     @Published var filteredEventsList = [EventInformationModel]()
     @Published var mapAnnotationsList = [EventInformationModel]()
-    @Published var searchRadius = 10.0
+    @Published var searchRadius = 40.0
     @Published var startRangeDate = Date()
-    @Published var endRangeDate = Date().addingTimeInterval(86400 * 7)
+    @Published var endRangeDate = Date().addingTimeInterval(86400 * 30)
     
     func updateQueriedEventsList(latitude: Double, longitude: Double, radiusInMi: Double, startEventDate: Date, endEventDate: Date, limitResults: Bool) {
         searchRadius = radiusInMi
@@ -245,7 +245,7 @@ final class LocationTrackerViewModel: NSObject, ObservableObject {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude) ?? 39.8283, longitude: (locationManager.location?.coordinate.longitude) ?? -98.5795, radiusInMi: 10, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!, limitResults: limitResults)
+            updateQueriedEventsList(latitude: (locationManager.location?.coordinate.latitude) ?? 39.8283, longitude: (locationManager.location?.coordinate.longitude) ?? -98.5795, radiusInMi: 40, startEventDate: (dateFormatter.date(from: dateFormatter.string(from: startRangeDate)))!, endEventDate: (dateFormatter.date(from: dateFormatter.string(from: endRangeDate)))!, limitResults: limitResults)
         }
     }
     

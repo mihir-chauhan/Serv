@@ -35,6 +35,7 @@ struct EventDetailView: View {
     @State var showingAlert: Bool = false
     @State private var showSheet = false
     @State var bookmarked = false
+    @Environment (\.colorScheme) var colorScheme: ColorScheme
 
     
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
@@ -72,7 +73,7 @@ struct EventDetailView: View {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .foregroundColor(Color(.systemGray2))
+                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.7) : Color(.systemGray2))
                         .padding(12)
                 }
             }

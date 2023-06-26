@@ -14,7 +14,8 @@ struct MapListElements: View {
     @State var searchTerm = ""
     @Binding var eventPresented: EventInformationModel
     @EnvironmentObject var locationVM: LocationTrackerViewModel
-    
+    @Environment (\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
@@ -29,7 +30,7 @@ struct MapListElements: View {
                             
                             if !searchTerm.isEmpty {
                                 Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(Color(.systemGray2))
+                                    .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.7) : Color(.systemGray2))
                                     .padding(.horizontal, 3)
                                     .onTapGesture {
                                         self.searchTerm = ""
@@ -37,12 +38,10 @@ struct MapListElements: View {
                                         let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                                         hapticResponse.impactOccurred()
                                     }
-                                
                             }
-                            
                         }.padding(10)
                             .foregroundColor(Color.primary)
-                            .background(Color.white.opacity(0.5))
+                            .background(colorScheme == .dark ? Color.white.opacity(0.25) : Color.white.opacity(0.5))
                             .cornerRadius(12)
                         
                         
@@ -93,13 +92,13 @@ struct MapListElements: View {
                         } label: {
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(Color.white.opacity(0.5))
+                                .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.25) : Color.white.opacity(0.5))
                                 .overlay(
                                     Image(systemName: "arrow.left.and.right.circle")
                                         .renderingMode(.original)
                                         .resizable()
                                         .frame(width: 20, height: 20)
-                                        .foregroundColor(Color.primary.opacity(0.7))
+                                        .foregroundColor(Color.primary.opacity(0.9))
                                 )
                         }
                         

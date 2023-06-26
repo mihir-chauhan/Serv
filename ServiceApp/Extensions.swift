@@ -11,6 +11,7 @@ import SwiftUI
 // MARK: close button for custom sheetMode
 struct CloseButtonSheetMode: View {
     @Binding var sheetMode: SheetMode
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         VStack {
             HStack {
@@ -24,7 +25,7 @@ struct CloseButtonSheetMode: View {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .foregroundColor(Color(.systemGray2))
+                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.7) : Color(.systemGray2))
                         .padding(12)
                 }
             }
