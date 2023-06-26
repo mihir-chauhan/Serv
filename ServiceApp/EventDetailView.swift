@@ -10,6 +10,7 @@ import MapKit
 import MessageUI
 import FirebaseAnalytics
 import AlertToast
+import SafariServices
 
 struct EventDetailView: View {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -32,6 +33,9 @@ struct EventDetailView: View {
     @State var expandOrganizationInfo: Bool = false
     
     @State var showingAlert: Bool = false
+    @State private var showSheet = false
+    @State var bookmarked = false
+
     
     func checkForEventAdded(itemName: String, handler: @escaping (Bool?) -> ()) {
         FirebaseRealtimeDatabaseCRUD().readEvents(for: authVM.decodeUserInfo()!.uid) { eventsArray in
@@ -80,19 +84,26 @@ struct EventDetailView: View {
                             Text(data.category)
                                 .font(.system(.headline))
                                 .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             Text(data.time.dateToString())
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         Spacer()
                         Button(action: {
-                            FirebaseRealtimeDatabaseCRUD().writeToBookmarks(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-                            showingAlert.toggle()
+                            bookmarked.toggle()
+                            if(bookmarked) {
+                                showingAlert.toggle()
+                                FirebaseRealtimeDatabaseCRUD().writeToBookmarks(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                            } else {
+                                FirebaseRealtimeDatabaseCRUD().removeBookmark(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                            }
                         }) {
-                            Image(systemName: "bookmark.circle.fill")
+                            Image(systemName: !bookmarked ? "bookmark.circle" : "bookmark.circle.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 25, height: 25)
                                 .foregroundColor(.blue)
-
+                            
                         }
                     }
                     
@@ -121,7 +132,7 @@ struct EventDetailView: View {
                 SpecialRequirementsInfoCard(specialRequirements: data.specialRequirements, expandInfo: $expandSpecialReqInfo)
                 // Organization Card Collapsible View
                 OrganizationInfoCard(organizationData: $organizationData, expandInfo: $expandOrganizationInfo)
-
+                
                 
                 HStack {
                     if friendSignedUp == true {
@@ -172,14 +183,16 @@ struct EventDetailView: View {
                     else {
                         Button(action: {
                             //TODO: takes them to external link
-                            if let url = URL(string: data.eventWebpage!) {
-                                   UIApplication.shared.open(url)
-                                }
+                            showSheet.toggle()
+                            
+                            //                            if let url = URL(string: data.eventWebpage!) {
+                            //                                   UIApplication.shared.open(url)
+                            //                                }
                         }) {
                             Capsule()
                                 .frame(width: 135, height: 45)
                                 .foregroundColor(.blue)
-//                            double asterisks is used to bold because .bold() doesn't work on labels
+                            //                            double asterisks is used to bold because .bold() doesn't work on labels
                                 .overlay(Label("**Register**", systemImage: "arrow.up.forward.app.fill").foregroundColor(.white).labelStyle(.titleAndIcon))
                         }
                     }
@@ -192,10 +205,25 @@ struct EventDetailView: View {
             
         }
         .toast(isPresenting: $showingAlert) {
-            AlertToast(type: .complete(.green), title: "Bookmarked")
+            AlertToast(type: .complete(.green), title: ("Bookmarked"))
+        }
+        .sheet(isPresented: $showSheet) {
+            SheetView(webpage: data.eventWebpage!)
         }
         .padding([.top, .trailing, .leading])
         .padding(.bottom, 200)
+        .task {
+            FirebaseRealtimeDatabaseCRUD().readBookmarks(for: authVM.decodeUserInfo()!.uid) { bookmarkArray in
+                if bookmarkArray != nil {
+                    for i in 0..<bookmarkArray!.count {
+                        if(bookmarkArray![i] == data.FIRDocID!) {
+                            bookmarked = true
+                            return
+                        }
+                    }
+                }
+            }
+        }
         .task {
             self.viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: sheetObserver.eventDetailData.coordinate.latitude - 0.02, longitude: sheetObserver.eventDetailData.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
             
@@ -264,3 +292,25 @@ struct EventDetailView: View {
     }
 }
 
+//Keep for later, we can open link in modal instead
+struct SheetView: View {
+    @Environment(\.dismiss) var dismiss
+    var webpage = ""
+
+    var body: some View {
+        SFSafariViewWrapper(url: URL(string: webpage)!)
+            .edgesIgnoringSafeArea([.all])
+    }
+}
+
+struct SFSafariViewWrapper: UIViewControllerRepresentable {
+    let url: URL
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
+        return SFSafariViewController(url: url)
+    }
+
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SFSafariViewWrapper>) {
+        return
+    }
+}

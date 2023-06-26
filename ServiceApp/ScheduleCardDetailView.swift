@@ -24,6 +24,7 @@ struct ScheduleCardDetailView: View {
     @Namespace private var namespace
     @Binding var show: Bool
     @Binding var toggleHeroAnimation: Bool
+    @Environment (\.colorScheme) var colorScheme: ColorScheme
     
     
     @State var broadcasts = [BroadcastMessageModel]()
@@ -93,101 +94,159 @@ struct ScheduleCardDetailView: View {
                     .padding(.horizontal)
                 }
                 
-                ScrollView(.vertical, showsIndicators: false) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(data.name)
-                                .font(.title)
-                                .fontWeight(.black)
-                                .foregroundColor(.primary)
-                            Text(data.category)
-                                .font(.headline)
-                                .foregroundColor(.secondary)
-                            
-                        }
-                        Spacer()
-                        Text(data.time.dateToString())
-                    }
-                    
-                    VStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .frame(height: 40)
-                            .foregroundColor(.clear)
-                            .overlay(
-                                HStack {
-                                    Label {
-                                        Text("Specific Instructions and Updates").bold()
-                                    } icon: {
-                                        Image(systemName: expandUpdates ? "chevron.down" : "chevron.right")
-                                            .foregroundColor(.blue)
-                                    }
-                                    Spacer()
-                                }
-                            )
-                        VStack {
-                            
-                            ForEach(broadcasts, id: \.self) { msg in
-                                HStack {
-                                    Text(msg.message)
-                                    Spacer()
-                                    Text(msg.date.dateToString())
-                                        .font(.caption)
-                                }
-                                .padding(.vertical, 10)
-                                .fixedSize(horizontal: false, vertical: true)
-                            }
-                        }
-                    }.background(GeometryReader {
-                        Color.clear.preference(key: ViewHeightKey.self,
-                                               value: $0.frame(in: .local).size.height)
-                    })
-                    .onPreferenceChange(ViewHeightKey.self) { subviewHeight = $0 }
-                    .frame(height: expandUpdates ? subviewHeight : 35, alignment: .top)
-                    .padding()
-                    .clipped()
-                    .transition(.move(edge: .bottom))
-                    .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
-                    
-                    .onTapGesture {
-                        let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
-                        hapticResponse.impactOccurred()
-                        withAnimation(.spring()) {
-                            expandUpdates.toggle()
-                        }
-                    }
-                    .cornerRadius(20)
-                    
-                    
-                    OrganizationInfoCard(organizationData: $organizationData, expandInfo: $expandInfo)
-                    
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
+                ZStack {
+                    (colorScheme == .dark ? Color.black : Color.white)
+                    ScrollView(.vertical, showsIndicators: false) {
                         HStack {
-                            ForEach(0..<(self.eventImages.count), id: \.self) { img in
-                                Group {
-                                    if eventImages.count != 0 {
-                                        Image(uiImage: eventImages[img])
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 150, height: 150)
-                                            .cornerRadius(10)
-                                            .clipped()
+                            VStack(alignment: .leading) {
+                                Text(data.name)
+                                    .font(.title)
+                                    .fontWeight(.black)
+                                    .foregroundColor(.primary)
+                                Text(data.category)
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                                
+                            }
+                            Spacer()
+                            Text(data.time.dateToString())
+                        }
+                        
+                        VStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(height: 40)
+                                .foregroundColor(.clear)
+                                .overlay(
+                                    HStack {
+                                        Label {
+                                            Text("Specific Instructions and Updates").bold()
+                                        } icon: {
+                                            Image(systemName: expandUpdates ? "chevron.down" : "chevron.right")
+                                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                        }
+                                        Spacer()
+                                    }
+                                )
+                            VStack {
+                                
+                                ForEach(broadcasts, id: \.self) { msg in
+                                    HStack {
+                                        Text(msg.message)
+                                        Spacer()
+                                        Text(msg.date.dateToString())
+                                            .font(.caption)
+                                    }
+                                    .padding(.vertical, 10)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                }
+                            }
+                        }.background(GeometryReader {
+                            Color.clear.preference(key: ViewHeightKey.self,
+                                                   value: $0.frame(in: .local).size.height)
+                        })
+                        .onPreferenceChange(ViewHeightKey.self) { subviewHeight = $0 }
+                        .frame(height: expandUpdates ? subviewHeight : 35, alignment: .top)
+                        .padding()
+                        .clipped()
+                        .transition(.move(edge: .bottom))
+                        .background(Color(#colorLiteral(red: 0.5294117647, green: 0.6705882353, blue: 0.9843137255, alpha: 0.4)))
+                        
+                        .onTapGesture {
+                            let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
+                            hapticResponse.impactOccurred()
+                            withAnimation(.spring()) {
+                                expandUpdates.toggle()
+                            }
+                        }
+                        .cornerRadius(20)
+                        
+                        
+                        OrganizationInfoCard(organizationData: $organizationData, expandInfo: $expandInfo)
+                        
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(0..<(self.eventImages.count), id: \.self) { img in
+                                    Group {
+                                        if eventImages.count != 0 {
+                                            Image(uiImage: eventImages[img])
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 150, height: 150)
+                                                .cornerRadius(10)
+                                                .clipped()
+                                        }
                                     }
                                 }
                             }
                         }
+                        
+                        
+                        Text(data.description)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.subheadline)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                        
+                        
+//                        let _ = print("132", data.eventWebpage)
+//                        if data.eventWebpage == nil {
+//                            Button(action: {
+//                                let responseHaptic = UIImpactFeedbackGenerator(style: .light)
+//                                authVM.apnsToken = delegate.apnsToken
+//                                FirebaseRealtimeDatabaseCRUD().updateApnsToken(uid: authVM.decodeUserInfo()!.uid, token: authVM.apnsToken)
+//                                FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
+//                                    if buttonStateIsSignedUp {
+//                                        FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authVM.decodeUserInfo()!.uid)
+//                                        FirebaseRealtimeDatabaseCRUD().removeEvent(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+//                                        buttonStateIsSignedUp = false
+//
+//                                        responseHaptic.impactOccurred()
+//                                    }
+//                                    else if !reachedMaxSlots && !buttonStateIsSignedUp {
+//
+//                                        FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, apnsToken: authVM.apnsToken)
+//                                        FirebaseRealtimeDatabaseCRUD().writeEvents(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+//                                        buttonStateIsSignedUp = true
+//
+//                                        let parameters: [String : String] = [
+//                                            "event" : data.FIRDocID!,
+//                                            "user" : authVM.decodeUserInfo()!.uid
+//                                        ]
+//                                        Analytics.logEvent("event signed up", parameters: parameters)
+//
+//                                        responseHaptic.impactOccurred()
+//                                    }
+//                                    else if reachedMaxSlots {
+//                                        reachedMaxSlotBool = true
+//                                    }
+//                                }
+//
+//                            }) {
+//                                Capsule()
+//                                    .frame(width: 135, height: 45)
+//                                    .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .green : .red) : .gray)
+//                                    .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white).bold())
+//                            }.disabled(reachedMaxSlotBool)
+//                        }
+//                        else {
+//                            Button(action: {
+//                                //TODO: takes them to external link
+//                                if let url = URL(string: data.eventWebpage!) {
+//                                       UIApplication.shared.open(url)
+//                                    }
+//                            }) {
+//                                Capsule()
+//                                    .frame(width: 135, height: 45)
+//                                    .foregroundColor(.blue)
+//    //                            double asterisks is used to bold because .bold() doesn't work on labels
+//                                    .overlay(Label("**Register**", systemImage: "arrow.up.forward.app.fill").foregroundColor(.white).labelStyle(.titleAndIcon))
+//                            }
+//                        }
                     }
-                    
-                    
-                    Text(data.description)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.subheadline)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 20)
+                    .padding()
                     
                 }
-                .padding()
-                
                 
                 
             }.task {

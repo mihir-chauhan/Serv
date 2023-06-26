@@ -65,7 +65,9 @@ struct BookmarkCard: View {
                         if let imageLoaded = self.placeHolderUIImage {
                             Image(uiImage: imageLoaded)
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
+                                .scaledToFill()
+                                .frame(width: UIScreen.main.bounds.size.width-30, height: 200)
+                                .clipped()
                                 .matchedGeometryEffect(id: "id", in: animation, properties: .size)
                         }
                         
@@ -131,9 +133,15 @@ struct BookmarkCard: View {
                                     .onTapGesture {
                                         let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
                                         hapticResponse.impactOccurred()
-
-                                        FirebaseRealtimeDatabaseCRUD().removeBookmark(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                                         showingAlert = true
+                                    }
+                                    .alert("Are you sure you want to remove the event from bookmarked?", isPresented: $showingAlert) {
+                                        Button("Cancel", role: .cancel) { }
+                                        Button("Remove", role: .destructive) {
+                                            FirebaseRealtimeDatabaseCRUD().removeBookmark(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                            showingAlert = true
+                                            onDelete()
+                                        }
                                     }
                             }
                             Text(data.name)
@@ -149,9 +157,9 @@ struct BookmarkCard: View {
                 .padding([.top, .horizontal])
             }
         }
-        .toast(isPresenting: $showingAlert) {
-            AlertToast(type: .regular, title: "removed bookmark", subTitle: "It may take a moment to update")
-        }
+//        .toast(isPresenting: $showingAlert) {
+//            AlertToast(type: .regular, title: "Removed Bookmark", subTitle: "It may take a moment to update")
+//        }
         .buttonStyle(CardButtonStyle())
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(action: {

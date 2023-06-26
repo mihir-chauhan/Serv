@@ -62,9 +62,10 @@ struct ScheduleCard: View {
                     ZStack(alignment: .top) {
                         if let imageLoaded = self.placeHolderUIImage {
                             Image(uiImage: imageLoaded)
-                            //                            Image("leaderboardPic-1")
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
+                                .scaledToFill()
+                                .frame(width: UIScreen.main.bounds.size.width-30, height: 200)
+                                .clipped()
                                 .matchedGeometryEffect(id: "id", in: animation, properties: .size)
                             //                                .matchedGeometryEffect(id: "Shape", in: animation)
                         }
@@ -112,9 +113,15 @@ struct ScheduleCard: View {
                         VStack(alignment: .leading) {
                             HStack {
                                 
-                                Text(data.category)
-                                    .font(.headline)
-                                    .foregroundColor(.secondary)
+                                VStack(alignment: .leading) {
+                                    Text(data.category)
+                                        .font(.headline)
+                                        .foregroundColor(.secondary)
+                                    
+                                    Text(data.time, formatter: dateFormatter)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                                 Spacer(minLength: 20)
                                 Button(action: {
                                     let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
@@ -142,7 +149,7 @@ struct ScheduleCard: View {
                                         hapticResponse.impactOccurred()
                                         showingAlert = true
                                     }
-                                    .alert("Are you sure you want to remove the event?", isPresented: $showingAlert) {
+                                    .alert("Are you sure you want to unregister from the event?", isPresented: $showingAlert) {
                                         Button("Cancel", role: .cancel) { }
                                         Button("Remove", role: .destructive) {
                                             self.onDelete()
@@ -159,17 +166,16 @@ struct ScheduleCard: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     HStack {
-                                        Text(data.time, formatter: dateFormatter)
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                        ZStack {
-                                            Circle().foregroundColor(.red.opacity(0.25)).frame(width: 35, height: 35).scaleEffect(eventIsLive ? 1 : 0)
-                                            Circle().foregroundColor(.red.opacity(0.35)).frame(width: 25, height: 25).scaleEffect(eventIsLive ? 1 : 0)
-                                            Circle().foregroundColor(.red.opacity(0.45)).frame(width: 15, height: 15).scaleEffect(eventIsLive ? 1 : 0)
-                                            Circle().foregroundColor(eventIsLive ? .red : .clear).frame(width: 9, height: 9)
+                                        if eventIsLive {
+                                            ZStack {
+                                                Circle().foregroundColor(.red.opacity(0.25)).frame(width: 35, height: 35).scaleEffect(eventIsLive ? 1 : 0)
+                                                Circle().foregroundColor(.red.opacity(0.35)).frame(width: 25, height: 25).scaleEffect(eventIsLive ? 1 : 0)
+                                                Circle().foregroundColor(.red.opacity(0.45)).frame(width: 15, height: 15).scaleEffect(eventIsLive ? 1 : 0)
+                                                Circle().foregroundColor(eventIsLive ? .red : .clear).frame(width: 9, height: 9)
+                                            }
+                                            .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
+                                            Text("LIVE").foregroundColor(self.eventIsLive ? .red : .clear).bold().font(.system(.subheadline))
                                         }
-                                        .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
-                                        Text("LIVE").foregroundColor(self.eventIsLive ? .red : .clear).bold().font(.system(.subheadline))
                                         Spacer()
                                     }
                                     

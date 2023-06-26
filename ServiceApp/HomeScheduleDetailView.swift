@@ -50,7 +50,7 @@ struct HomeScheduleDetailView: View {
                         .overlay(
                             HStack {
                                 Picker("Picker", selection: $pickerSelection) {
-                                    Text("Signed up events").bold().tag(0)
+                                    Text("Upcoming").bold().tag(0)
                                     Text("Bookmarked").bold().tag(1)
                                 }
                                 .pickerStyle(.segmented)
@@ -148,7 +148,7 @@ struct Sticky: View {
             .padding(.top, topEdge + 35)
             Spacer()
             Picker("Picker", selection: $pickerSelection) {
-                Text("Signed up events").bold().tag(0)
+                Text("Upcoming").bold().tag(0)
                 Text("Bookmarked").bold().tag(1)
             }
             .pickerStyle(.segmented)
