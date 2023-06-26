@@ -34,8 +34,10 @@ struct ScheduleCardDetailView: View {
     @State var reachedMaxSlotBool: Bool = false
     @State var buttonStateIsSignedUp: Bool = false
 
-    
     @State var broadcasts = [BroadcastMessageModel]()
+    
+    var onRegister: (EventInformationModel) -> ()
+    var onUnregister: (EventInformationModel) -> ()
     
     func checkForEventAdded(itemName: String) {
         FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
@@ -241,6 +243,7 @@ struct ScheduleCardDetailView: View {
                                             responseHaptic.impactOccurred()
                                             alertTitle = "Unregistered"
                                             showingAlert.toggle()
+                                            onUnregister(data)
                                         }
                                         else if !reachedMaxSlots && !buttonStateIsSignedUp {
                                             
@@ -256,6 +259,7 @@ struct ScheduleCardDetailView: View {
                                             alertTitle = "Registered"
                                             showingAlert.toggle()
                                             responseHaptic.impactOccurred()
+                                            onRegister(data)
                                         }
                                         else if reachedMaxSlots {
                                             reachedMaxSlotBool = true

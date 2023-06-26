@@ -18,7 +18,7 @@ struct HomeScheduleDetailView: View {
     
     @State var showDetailView = false
     
-    let maxHeight = display.height / 3.1
+    let maxHeight = display.height / 3.5
     var topEdge: CGFloat
     
     @State var offset: CGFloat = 0
@@ -26,7 +26,12 @@ struct HomeScheduleDetailView: View {
     var body: some View {
         if toggleHeroAnimation {
             if showDetailView {
-                ScheduleCardDetailView(show: $showDetailView, toggleHeroAnimation: $toggleHeroAnimation)
+                ScheduleCardDetailView(show: $showDetailView, toggleHeroAnimation: $toggleHeroAnimation, onRegister: { event in
+                    eventDatas.append(event)
+                }, onUnregister: { event in
+                    eventDatas = eventDatas.filter { $0.FIRDocID != event.FIRDocID }
+
+                })
             } else {
                 ScrollView {
                     VStack {
