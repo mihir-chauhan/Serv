@@ -90,6 +90,8 @@ struct EventDetailView: View {
                         }
                         Spacer()
                         Button(action: {
+                            let responseHaptic = UIImpactFeedbackGenerator(style: .light)
+                            responseHaptic.impactOccurred()
                             bookmarked.toggle()
                             if(bookmarked) {
                                 showingAlert.toggle()
@@ -98,12 +100,12 @@ struct EventDetailView: View {
                                 FirebaseRealtimeDatabaseCRUD().removeBookmark(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
                             }
                         }) {
-                            Image(systemName: !bookmarked ? "bookmark.circle" : "bookmark.circle.fill")
+                            Image(systemName: !bookmarked ? "bookmark.square" : "bookmark.square.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 25)
+                                .frame(width: 35, height: 35)
+                                .contentShape(Rectangle())
                                 .foregroundColor(.blue)
-                            
                         }
                     }
                     
@@ -140,7 +142,6 @@ struct EventDetailView: View {
                     }
                     Spacer()
                     
-                    let _ = print("132", data.eventWebpage)
                     if data.eventWebpage == nil {
                         Button(action: {
                             let responseHaptic = UIImpactFeedbackGenerator(style: .light)
