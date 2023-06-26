@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
+import AlertToast
 
 struct ScheduleCardDetailView: View {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var currentlyPresentedScheduleCard: CurrentlyPresentedScheduleCard
     //    var data: EventInformationModel
@@ -19,6 +22,7 @@ struct ScheduleCardDetailView: View {
     @State var viewRendered = false
     @State var placeHolderUIImage: UIImage?
     @State var showingAlert = false
+    @State var alertTitle = ""
     @State var organizationData: OrganizationInformationModel?
     
     @Namespace private var namespace
@@ -26,10 +30,35 @@ struct ScheduleCardDetailView: View {
     @Binding var toggleHeroAnimation: Bool
     @Environment (\.colorScheme) var colorScheme: ColorScheme
     
+    @State private var showSheet = false
+    @State var reachedMaxSlotBool: Bool = false
+    @State var buttonStateIsSignedUp: Bool = false
+
     
     @State var broadcasts = [BroadcastMessageModel]()
+    
+    func checkForEventAdded(itemName: String) {
+        FirebaseRealtimeDatabaseCRUD().readEvents(for: authViewModel.decodeUserInfo()!.uid) { eventsArray in
+            if eventsArray == nil {
+                buttonStateIsSignedUp = false
+            } else {
+                var i = 0
+                while i < eventsArray!.count {
+                    if eventsArray![i] == itemName {
+                        buttonStateIsSignedUp = true
+                        return
+                    }
+                    i += 1
+                }
+                buttonStateIsSignedUp = false
+            }
+        }
+    }
+
+
     var body: some View {
         let data = currentlyPresentedScheduleCard.currentlyShowing
+        let bookmark = currentlyPresentedScheduleCard.currentlyShowingBookmark
         if !self.viewRendered {
             ProgressView().frame(width: 290, height: 250)
                 .task {
@@ -188,68 +217,74 @@ struct ScheduleCardDetailView: View {
                             .padding(.vertical, 10)
                             .padding(.horizontal, 20)
                         
-                        
-//                        let _ = print("132", data.eventWebpage)
-//                        if data.eventWebpage == nil {
-//                            Button(action: {
-//                                let responseHaptic = UIImpactFeedbackGenerator(style: .light)
-//                                authVM.apnsToken = delegate.apnsToken
-//                                FirebaseRealtimeDatabaseCRUD().updateApnsToken(uid: authVM.decodeUserInfo()!.uid, token: authVM.apnsToken)
-//                                FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
-//                                    if buttonStateIsSignedUp {
-//                                        FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authVM.decodeUserInfo()!.uid)
-//                                        FirebaseRealtimeDatabaseCRUD().removeEvent(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-//                                        buttonStateIsSignedUp = false
-//
-//                                        responseHaptic.impactOccurred()
-//                                    }
-//                                    else if !reachedMaxSlots && !buttonStateIsSignedUp {
-//
-//                                        FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, apnsToken: authVM.apnsToken)
-//                                        FirebaseRealtimeDatabaseCRUD().writeEvents(for: authVM.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
-//                                        buttonStateIsSignedUp = true
-//
-//                                        let parameters: [String : String] = [
-//                                            "event" : data.FIRDocID!,
-//                                            "user" : authVM.decodeUserInfo()!.uid
-//                                        ]
-//                                        Analytics.logEvent("event signed up", parameters: parameters)
-//
-//                                        responseHaptic.impactOccurred()
-//                                    }
-//                                    else if reachedMaxSlots {
-//                                        reachedMaxSlotBool = true
-//                                    }
-//                                }
-//
-//                            }) {
-//                                Capsule()
-//                                    .frame(width: 135, height: 45)
-//                                    .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .green : .red) : .gray)
-//                                    .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white).bold())
-//                            }.disabled(reachedMaxSlotBool)
-//                        }
-//                        else {
-//                            Button(action: {
-//                                //TODO: takes them to external link
-//                                if let url = URL(string: data.eventWebpage!) {
-//                                       UIApplication.shared.open(url)
-//                                    }
-//                            }) {
-//                                Capsule()
-//                                    .frame(width: 135, height: 45)
-//                                    .foregroundColor(.blue)
-//    //                            double asterisks is used to bold because .bold() doesn't work on labels
-//                                    .overlay(Label("**Register**", systemImage: "arrow.up.forward.app.fill").foregroundColor(.white).labelStyle(.titleAndIcon))
-//                            }
-//                        }
+                        if bookmark {
+                            if data.eventWebpage != nil {
+                                Button(action: {
+                                    showSheet.toggle()
+                                }) {
+                                    Capsule()
+                                        .frame(width: 135, height: 45)
+                                        .foregroundColor(.blue)
+                                        .overlay(Label("**Register**", systemImage: "arrow.up.forward.app.fill").foregroundColor(.white).labelStyle(.titleAndIcon))
+                                }
+                            } else {
+                                Button(action: {
+                                    let responseHaptic = UIImpactFeedbackGenerator(style: .light)
+                                    authViewModel.apnsToken = delegate.apnsToken
+                                    FirebaseRealtimeDatabaseCRUD().updateApnsToken(uid: authViewModel.decodeUserInfo()!.uid, token: authViewModel.apnsToken)
+                                    FirestoreCRUD().checkForMaxSlot(eventID: data.FIRDocID!, eventCategory: data.category) { reachedMaxSlots in
+                                        if buttonStateIsSignedUp {
+                                            FirestoreCRUD().RemoveFromAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, user_uuid: authViewModel.decodeUserInfo()!.uid)
+                                            FirebaseRealtimeDatabaseCRUD().removeEvent(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                            buttonStateIsSignedUp = false
+                                            
+                                            responseHaptic.impactOccurred()
+                                            alertTitle = "Unregistered"
+                                            showingAlert.toggle()
+                                        }
+                                        else if !reachedMaxSlots && !buttonStateIsSignedUp {
+                                            
+                                            FirestoreCRUD().AddToAttendeesList(eventID: data.FIRDocID!, eventCategory: data.category, apnsToken: authViewModel.apnsToken)
+                                            FirebaseRealtimeDatabaseCRUD().writeEvents(for: authViewModel.decodeUserInfo()!.uid, eventUUID: data.FIRDocID!)
+                                            buttonStateIsSignedUp = true
+                                            
+                                            let parameters: [String : String] = [
+                                                "event" : data.FIRDocID!,
+                                                "user" : authViewModel.decodeUserInfo()!.uid
+                                            ]
+                                            Analytics.logEvent("event signed up", parameters: parameters)
+                                            alertTitle = "Registered"
+                                            showingAlert.toggle()
+                                            responseHaptic.impactOccurred()
+                                        }
+                                        else if reachedMaxSlots {
+                                            reachedMaxSlotBool = true
+                                        }
+                                    }
+                                    
+                                }) {
+                                    Capsule()
+                                        .frame(width: 135, height: 45)
+                                        .foregroundColor(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? .green : .red) : .gray)
+                                        .overlay(Text(!reachedMaxSlotBool ? (!buttonStateIsSignedUp ? "Sign up" : "Remove Event") : "Reached Cap").foregroundColor(.white).bold())
+                                }.disabled(reachedMaxSlotBool)
+                            }
+                        }
                     }
                     .padding()
                     
                 }
                 
                 
-            }.task {
+            }
+            .toast(isPresenting: $showingAlert) {
+                AlertToast(type: .regular, title: alertTitle, subTitle: "It may take a moment to update")
+            }
+            .sheet(isPresented: $showSheet) {
+                SheetView(webpage: data.eventWebpage!)
+            }
+            .task {
+                checkForEventAdded(itemName: data.FIRDocID!)
                 eventImages = []
                 for imageURL in data.images! {
                     FIRCloudImages.getImage(gsURL: imageURL, eventID: data.FIRDocID!, eventDate: data.time) { image in

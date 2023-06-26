@@ -80,6 +80,7 @@ struct BroadcastMessageModel: Hashable {
 
 class CurrentlyPresentedScheduleCard: ObservableObject {
     @Published var currentlyShowing: EventInformationModel = EventInformationModel()
+    @Published var currentlyShowingBookmark: Bool = false
 }
 
 final class TabBarController: ObservableObject {

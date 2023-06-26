@@ -47,21 +47,6 @@ struct HomeScheduleDetailView: View {
                                     ]), startPoint: .topLeading, endPoint: .bottomTrailing),
                                     in: CustomCorner(corners: [.bottomLeft, .bottomRight], radius: getCornerRadius()))
                         }
-                        .overlay(
-                            HStack {
-                                Picker("Picker", selection: $pickerSelection) {
-                                    Text("Upcoming").bold().tag(0)
-                                    Text("Bookmarked").bold().tag(1)
-                                }
-                                .pickerStyle(.segmented)
-                                .opacity(Double(topBarTitleOpacity()))
-                            }
-                                .padding()
-                                .frame(height: 60)
-                                .foregroundColor(.white)
-                                .padding(.top, topEdge + 35)
-                            , alignment: .top
-                        )
                         .frame(height: maxHeight)
                         .offset(y: -offset)
                         .zIndex(1)
@@ -109,7 +94,10 @@ struct HomeScheduleDetailView: View {
     
     func getHeaderHeight() -> CGFloat {
         let topHeight = maxHeight + offset
-        return topHeight > (80 + topEdge)  ? topHeight : (100 + topEdge)
+        if topHeight < 0 {
+            return 0
+        }
+        return topHeight// > (80 + topEdge)  ? topHeight : (80 + topEdge)
     }
     func getCornerRadius() -> CGFloat {
         let progress = -offset / (maxHeight - (100 + topEdge))
@@ -127,7 +115,6 @@ struct HomeScheduleDetailView: View {
         
         return 1 - opacity
     }
-    
 }
 
 struct Sticky: View {
@@ -139,7 +126,7 @@ struct Sticky: View {
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             HStack {
-                Text("Your Event Library")
+                Text("Event Library")
                     .font(.title.bold())
                 CloseButton(isOpen: $toggleHeroAnimation, color: Color(#colorLiteral(red: 0.6823841333, green: 0.6823301315, blue: 0.6980193257, alpha: 1)))
                 

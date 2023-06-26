@@ -44,6 +44,7 @@ struct BookmarkCard: View {
             let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
             hapticResponse.impactOccurred()
             self.currentlyPresentedScheduleCard.currentlyShowing = data
+            self.currentlyPresentedScheduleCard.currentlyShowingBookmark = true
             withAnimation(.spring()) {
                 show.toggle()
             }
@@ -104,10 +105,15 @@ struct BookmarkCard: View {
                     ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
                         VStack(alignment: .leading) {
                             HStack {
-                                
-                                Text(data.category)
-                                    .font(.headline)
-                                    .foregroundColor(.secondary)
+                                VStack(alignment: .leading) {
+                                    Text(data.category)
+                                        .font(.headline)
+                                        .foregroundColor(.secondary)
+                                    
+                                    Text(data.time, formatter: dateFormatter)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                                 Spacer(minLength: 20)
                                 Button(action: {
                                     let hapticResponse = UIImpactFeedbackGenerator(style: .soft)

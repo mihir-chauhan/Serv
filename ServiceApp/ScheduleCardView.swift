@@ -42,6 +42,7 @@ struct ScheduleCard: View {
             let hapticResponse = UIImpactFeedbackGenerator(style: .soft)
             hapticResponse.impactOccurred()
             self.currentlyPresentedScheduleCard.currentlyShowing = data
+            self.currentlyPresentedScheduleCard.currentlyShowingBookmark = false
             withAnimation(.spring()) {
                 show.toggle()
             }
@@ -112,7 +113,6 @@ struct ScheduleCard: View {
                     ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
                         VStack(alignment: .leading) {
                             HStack {
-                                
                                 VStack(alignment: .leading) {
                                     Text(data.category)
                                         .font(.headline)
@@ -138,7 +138,7 @@ struct ScheduleCard: View {
                                         .frame(width: 25, height: 25)
                                 }
                                 
-                                Image(systemName: "trash.circle.fill")
+                                Image(systemName: "minus.circle.fill")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -176,7 +176,6 @@ struct ScheduleCard: View {
                                             .animation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false))
                                             Text("LIVE").foregroundColor(self.eventIsLive ? .red : .clear).bold().font(.system(.subheadline))
                                         }
-                                        Spacer()
                                     }
                                     
                                     .task {
