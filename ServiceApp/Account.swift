@@ -131,10 +131,11 @@ struct Account: View {
                         )
                     }
 
+                    
                     LineGraph2(rawData: hoursSpent)
                         .frame(height: 220)
-                        .padding(.bottom, 15)
-
+                        .background(!hoursSpent.isEmpty && hoursSpent.count > 1 ? nil : RoundedRectangle(cornerRadius: 20).fill(.primary.opacity(0.05)))
+                        .padding([.bottom, .top], 15)
                         .padding(.horizontal)
                         .task {
                             FirestoreCRUD().getNumberOfHours(uid: authVM.decodeUserInfo()!.uid, completion: { hoursSpent in

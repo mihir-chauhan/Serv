@@ -589,7 +589,7 @@
 				CODE_SIGN_ENTITLEMENTS = ServiceApp/ServiceApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
 				DEVELOPMENT_TEAM = B2278J6LL2;
 				ENABLE_PREVIEWS = YES;
@@ -598,8 +598,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Serv;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to Scan QR Codes";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = hey;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Serv needs to find events near you";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Serv uses your location to find events near you on the interactive map. Location is also used for determining distances to events.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Serv uses your location to find events near you on the interactive map. Location is also used for determining distances to events.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = launchScreen.storyboard;
@@ -612,7 +612,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.goserv.Serv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -635,7 +635,7 @@
 				CODE_SIGN_ENTITLEMENTS = ServiceApp/ServiceApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceApp/Preview Content\"";
 				DEVELOPMENT_TEAM = B2278J6LL2;
 				ENABLE_PREVIEWS = YES;
@@ -644,8 +644,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Serv;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to Scan QR Codes";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = hey;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Serv needs to find events near you";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Serv uses your location to find events near you on the interactive map. Location is also used for determining distances to events.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Serv uses your location to find events near you on the interactive map. Location is also used for determining distances to events.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = launchScreen.storyboard;
@@ -658,7 +658,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.goserv.Serv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
