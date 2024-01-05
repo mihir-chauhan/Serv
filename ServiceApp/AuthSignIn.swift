@@ -227,6 +227,36 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    func authenticateGithub() {
+        print("Entered")
+        let provider = OAuthProvider(providerID: "github.com")
+//        provider.scopes = ["user:email"]
+        provider.getCredentialWith(nil) { credential, error in
+            print("Entered 2 \(credential)")
+            if let error = error {
+                print("Error in getting credential: \(error)")
+                return
+            }
+
+            guard let credential = credential else {
+                print("No credential received")
+                return
+            }
+
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print("Error in signing in with credential: \(error)")
+                    return
+                }
+
+                // User is signed in
+                if let authResult = authResult {
+                    print("Signed in user: \(authResult.user.email ?? "Unknown Email")")
+                }
+            }
+        }
+    }
+    
     func createUser(name: String, username: String, email: String, password: String, birthYear: Int) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             self.loading = true

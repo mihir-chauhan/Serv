@@ -95,8 +95,29 @@ struct AccountLoginView: View {
                         )
                         .clipShape(Capsule())
                         .padding(.bottom, 20)
+                    
+                    Button(action: {
+                        
+                        authVM.authenticateGithub()
+                    }) {
+                        HStack {
+                            Image("google")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .aspectRatio(contentMode: .fit)
+                            
+                            Text("Continue with GitHub")
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                        }
+                        .frame(width: 280, height: 45, alignment: .center)
+                        .overlay(
+                            Capsule()
+                                .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 2)
+                                .foregroundColor(Color(.sRGB, red: 241/255, green: 246/255, blue: 247/255))
+                        )
+                        .clipShape(Capsule())
+                    }
                 }
-                
             }
             else {
                 AccountSignUpView(goToRegistration: $goIntoRegistration)

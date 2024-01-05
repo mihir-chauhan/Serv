@@ -20,6 +20,14 @@
 				<string>com.googleusercontent.apps.827337112175-2197rkskvcprch748r7trm36e4d6nroo</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app-1-827337112175-ios-27ac3171ce216a8e08ab9a</string>
+			</array>
+		</dict>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
